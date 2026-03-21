@@ -48,5 +48,16 @@
     "submit": "Search",
     "no_results_html": "No results found for {{ terms }}",
     "results_for_html": "{{ count }} results found for {{ terms }}"
+  },
+  "header": {
+    "menu": "Menu",
+    "search": "Search",
+    "account": "Account",
+    "cart": "Cart",
+    "close_menu": "Close",
+    "back": "Back",
+    "navigation": "Navigation",
+    "country": "Country",
+    "language": "Language"
   }
 }

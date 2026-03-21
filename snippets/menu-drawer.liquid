@@ -1,0 +1,165 @@
+{%- liquid
+  assign has_tab_2 = false
+  if tab_2_menu != blank and tab_2_label != blank
+    assign has_tab_2 = true
+  endif
+  assign nav_menu = menu | default: tab_1_menu
+-%}
+
+<div class="drawer-backdrop" data-backdrop aria-hidden="true"></div>
+
+<nav class="drawer" data-drawer data-level="1" aria-label="{{ 'header.navigation' | t }}">
+  <div class="drawer__inner">
+
+    <div class="drawer__panel drawer__panel--l1">
+      <button class="drawer__close" data-action="close" aria-label="{{ 'header.close_menu' | t }}">
+        {%- render 'icon', name: 'close' -%}
+        <span class="drawer__close-text">{{ 'header.close_menu' | t }}</span>
+      </button>
+
+      <ul class="drawer__l1-list" data-tab-content="1" data-tab-active role="list">
+        {%- for link in nav_menu.links -%}
+          <li>
+            {%- if link.links.size > 0 -%}
+              <button class="drawer__l1-link" data-action="show-l2" data-target="t1-{{ forloop.index0 }}" aria-expanded="false" aria-controls="drawer-l2-t1-{{ forloop.index0 }}">
+                <span class="drawer__l1-text">{{ link.title }}</span>
+                {%- render 'icon', name: 'chevron-right' -%}
+              </button>
+            {%- else -%}
+              <a href="{{ link.url }}" class="drawer__l1-link">
+                <span class="drawer__l1-text">{{ link.title }}</span>
+              </a>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+
+      {%- if has_tab_2 -%}
+        <ul class="drawer__l1-list" data-tab-content="2" role="list">
+          {%- for link in tab_2_menu.links -%}
+            <li>
+              {%- if link.links.size > 0 -%}
+                <button class="drawer__l1-link" data-action="show-l2" data-target="t2-{{ forloop.index0 }}" aria-expanded="false" aria-controls="drawer-l2-t2-{{ forloop.index0 }}">
+                  <span class="drawer__l1-text">{{ link.title }}</span>
+                  {%- render 'icon', name: 'chevron-right' -%}
+                </button>
+              {%- else -%}
+                <a href="{{ link.url }}" class="drawer__l1-link">
+                  <span class="drawer__l1-text">{{ link.title }}</span>
+                </a>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+
+        <div class="drawer__tabs">
+          <button class="drawer__tab drawer__tab--active" data-action="switch-tab" data-tab="1">{{ tab_1_label }}</button>
+          <button class="drawer__tab" data-action="switch-tab" data-tab="2">{{ tab_2_label }}</button>
+        </div>
+      {%- endif -%}
+
+      {%- if show_country_selector or show_language_selector -%}
+        <div class="drawer__localization">
+          {%- form 'localization', id: 'DrawerLocalizationForm' -%}
+            {%- if show_country_selector -%}
+              <div class="drawer__localization-item">
+                <label class="drawer__localization-label" for="DrawerCountry">{{ 'header.country' | t }}</label>
+                <select class="drawer__localization-select" id="DrawerCountry" name="country_code" onchange="this.form.submit()">
+                  {%- for country in form.available_countries -%}
+                    <option value="{{ country.iso_code }}"{% if country.iso_code == form.current_country.iso_code %} selected{% endif %}>
+                      {{ country.name }} ({{ country.currency.iso_code }} {{ country.currency.symbol }})
+                    </option>
+                  {%- endfor -%}
+                </select>
+              </div>
+            {%- endif -%}
+            {%- if show_language_selector -%}
+              <div class="drawer__localization-item">
+                <label class="drawer__localization-label" for="DrawerLanguage">{{ 'header.language' | t }}</label>
+                <select class="drawer__localization-select" id="DrawerLanguage" name="locale_code" onchange="this.form.submit()">
+                  {%- for locale in form.available_locales -%}
+                    <option value="{{ locale.iso_code }}"{% if locale.iso_code == form.current_locale.iso_code %} selected{% endif %}>
+                      {{ locale.endonym_name | capitalize }}
+                    </option>
+                  {%- endfor -%}
+                </select>
+              </div>
+            {%- endif -%}
+          {%- endform -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="drawer__panel drawer__panel--l2">
+      <div class="drawer__breadcrumb" data-breadcrumb="l2">
+        <button data-action="back-l1" aria-label="{{ 'header.back' | t }}">
+          {%- render 'icon', name: 'chevron-left' -%}
+          <span data-breadcrumb-text aria-live="polite"></span>
+        </button>
+      </div>
+
+      {%- for link in nav_menu.links -%}
+        {%- if link.links.size > 0 -%}
+          {%- assign l1_idx = forloop.index0 -%}
+          <div id="drawer-l2-t1-{{ l1_idx }}" data-l2-id="t1-{{ l1_idx }}" hidden>
+            <ul class="drawer__l2-list" role="list">
+              {%- for child in link.links -%}
+                <li>
+                  {%- if child.links.size > 0 -%}
+                    <button class="drawer__l2-link" data-action="show-l3" data-target="t1-{{ l1_idx }}-{{ forloop.index0 }}">
+                      <span>{{ child.title }}</span>
+                      {%- render 'icon', name: 'chevron-right' -%}
+                    </button>
+                  {%- else -%}
+                    <a href="{{ child.url }}" class="drawer__l2-link"><span>{{ child.title }}</span></a>
+                  {%- endif -%}
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- if has_tab_2 -%}
+        {%- for link in tab_2_menu.links -%}
+          {%- if link.links.size > 0 -%}
+            {%- assign l1_idx = forloop.index0 -%}
+            <div id="drawer-l2-t2-{{ l1_idx }}" data-l2-id="t2-{{ l1_idx }}" hidden>
+              <ul class="drawer__l2-list" role="list">
+                {%- for child in link.links -%}
+                  <li><a href="{{ child.url }}" class="drawer__l2-link"><span>{{ child.title }}</span></a></li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+    <div class="drawer__panel drawer__panel--l3">
+      <div class="drawer__breadcrumb" data-breadcrumb="l3">
+        <button data-action="back-l2" aria-label="{{ 'header.back' | t }}">
+          {%- render 'icon', name: 'chevron-left' -%}
+          <span data-breadcrumb-text aria-live="polite"></span>
+        </button>
+      </div>
+
+      {%- for link in nav_menu.links -%}
+        {%- if link.links.size > 0 -%}
+          {%- assign l1_idx = forloop.index0 -%}
+          {%- for child in link.links -%}
+            {%- if child.links.size > 0 -%}
+              {%- assign l2_idx = forloop.index0 -%}
+              <ul class="drawer__l3-list" data-l3-id="t1-{{ l1_idx }}-{{ l2_idx }}" hidden role="list">
+                {%- for grandchild in child.links -%}
+                  <li><a href="{{ grandchild.url }}" class="drawer__l3-link">{{ grandchild.title }}</a></li>
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+  </div>
+</nav>

@@ -1,1 +1,5 @@
 extends: theme-check:recommended
+ignore:
+  - references/**/*
+  - References/**/*
+  - _qa/**/*

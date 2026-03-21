@@ -1,0 +1,39 @@
+{%- case name -%}
+  {%- when 'menu' -%}
+    <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <line x1="0" y1="6.5" x2="18" y2="6.5" stroke="currentColor" stroke-width="1"/>
+      <line x1="0" y1="11.5" x2="18" y2="11.5" stroke="currentColor" stroke-width="1"/>
+    </svg>
+  {%- when 'close' -%}
+    <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <line x1="4" y1="4" x2="14" y2="14" stroke="currentColor" stroke-width="1"/>
+      <line x1="14" y1="4" x2="4" y2="14" stroke="currentColor" stroke-width="1"/>
+    </svg>
+  {%- when 'search' -%}
+    <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <circle cx="7.5" cy="7.5" r="5" stroke="currentColor" stroke-width="1"/>
+      <line x1="11.5" y1="11.5" x2="16" y2="16" stroke="currentColor" stroke-width="1"/>
+    </svg>
+  {%- when 'account' -%}
+    <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <circle cx="9" cy="6" r="3" stroke="currentColor" stroke-width="1"/>
+      <path d="M3 17c0-3 2.5-5.5 6-5.5s6 2.5 6 5.5" stroke="currentColor" stroke-width="1" fill="none"/>
+    </svg>
+  {%- when 'bag' -%}
+    <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <path d="M3.5 6h11l-.8 10H4.3L3.5 6z" stroke="currentColor" stroke-width="1" fill="none"/>
+      <path d="M6.5 6V4.5a2.5 2.5 0 0 1 5 0V6" stroke="currentColor" stroke-width="1" fill="none"/>
+    </svg>
+  {%- when 'chevron-right' -%}
+    <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <path d="M4.5 2l4 4-4 4" stroke="currentColor" stroke-width="1" fill="none"/>
+    </svg>
+  {%- when 'chevron-left' -%}
+    <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <path d="M7.5 2l-4 4 4 4" stroke="currentColor" stroke-width="1" fill="none"/>
+    </svg>
+  {%- when 'chevron-down' -%}
+    <svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <path d="M2 3.5l3 3 3-3" stroke="currentColor" stroke-width="1" fill="none"/>
+    </svg>
+{%- endcase -%}
