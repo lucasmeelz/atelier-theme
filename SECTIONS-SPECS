@@ -1,0 +1,291 @@
+# SECTIONS_SPEC.md — Atelier Theme
+**Meelz Agency — Document de référence complet**
+**Version :** 1.0 — 2026-03-21
+
+---
+
+## RÈGLES FONDATRICES
+
+### Shopify Theme Store — Conformité obligatoire
+- Base : Skeleton Theme uniquement (Dawn/Horizon = rejet automatique)
+- OS 2.0 : Sections Everywhere sur tous les templates
+- Lighthouse : Performance ≥ 80, Accessibility ≥ 95
+- Browsers : Chrome, Firefox, Safari, Edge — 2 dernières versions
+- Mobile first — breakpoints : 375px / 750px / 1000px / 1440px
+
+### Features obligatoires Shopify
+- Discounts (cart + checkout + order)
+- Accelerated checkout buttons (product + cart)
+- Faceted search filtering (collection + search)
+- Gift card template
+- Image focal points sur tous les image_picker
+- Social sharing (page_image)
+- Country + language selector
+- Multi-level menus (3 niveaux)
+- Newsletter signup (email consent)
+- Pickup availability (product page)
+- Related products + complementary products
+- Rich product media (video, 3D model, Vimeo/YouTube)
+- Predictive search
+- Selling plans / subscriptions
+- Shop Pay Installments banner
+
+### Design system — Tokens immuables
+```
+--ease-dior: cubic-bezier(0.31, 0, 0.13, 1)
+--duration-fast: 200ms / --duration-base: 350ms / --duration-slow: 600ms
+--color-background: #FFFFFF / --color-text: #0A0A0A
+--color-text-subdued: #6B6B6B / --color-accent: #B8946A
+--color-border: #E2E0DB
+--color-button-bg: #0A0A0A / --color-button-text: #FFFFFF
+--section-padding-mobile: 60px / --section-padding-desktop: 120px
+--container-max: 1440px
+Fonts : cormorant_n4 (heading), jost_n4 (body/subheading)
+```
+
+### Règles CSS absolues
+- Slide-up bouton : position absolute inset 0 — JAMAIS display:block
+- Reduced-motion : .motion-auto { animation:none !important } — JAMAIS * { animation:none }
+- @media (hover:hover) sur TOUS les hover states
+- Images : image_url: width:X | image_tag avec widths: et loading:'lazy'
+- Focal point : | image_tag: style:'object-position:{{ image.presentation.focal_point }}'
+- JAMAIS de couleur hardcodée — utiliser CSS variables
+- JAMAIS de texte en dur — tout dans locales/en.default.json
+- JAMAIS de référence agence dans le code livré
+
+---
+
+## BACKLOG ORDONNÉ
+
+### Phase 1 — Fondations
+- [x] F-01 Design tokens + base CSS
+- [x] F-02 Composant bouton
+- [~] F-03 Header (en cours)
+- [ ] F-04 Footer + country/lang selector
+- [ ] F-05 Announcement bar
+- [ ] F-06 Snippets globaux (image.liquid, price.liquid, global.js)
+
+### Phase 2 — Homepage
+- [ ] H-01 Hero (image + vidéo + slideshow)
+- [ ] H-02 Featured collection + card-product
+- [ ] H-03 Editorial banner
+- [ ] H-04 Marquee
+- [ ] H-05 Lookbook / Shop the look
+- [ ] H-06 Testimonials
+- [ ] H-07 Newsletter
+- [ ] H-08 Press / Logos
+- [ ] H-09 Countdown
+- [ ] H-10 Before / After
+- [ ] H-11 Instagram feed placeholder
+- [ ] H-12 Rich text
+- [ ] H-13 Image with text
+- [ ] H-14 Multicolumn
+- [ ] H-15 Collection list
+- [ ] H-16 Video
+- [ ] H-17 Map
+- [ ] H-18 Contact form
+
+### Phase 3 — Templates core
+- [ ] C-01 Collection + faceted filters
+- [ ] P-01 Product + galerie + ATC sticky + variants
+- [ ] CT-01 Cart drawer + page cart
+- [ ] S-01 Search + predictive
+
+### Phase 4 — Templates secondaires
+- [ ] B-01 Blog / B-02 Article
+- [ ] Account pages (login, register, account, orders, addresses)
+- [ ] Gift card template / Password page
+
+### Phase 5 — Finitions
+- [ ] 3 presets visuels
+- [ ] Demo store
+- [ ] Lighthouse ≥ 80/95
+- [ ] Cross-browser QA / WCAG 2.1 AA
+- [ ] Submission Shopify Theme Store
+
+---
+
+## SPECS SECTIONS
+
+### F-04 · Footer
+Fichiers : sections/footer.liquid, assets/section-footer.css, snippets/country-selector.liquid
+Settings :
+- logo (image_picker) + logo_width (range 60-200, default 100)
+- color_scheme (default scheme-3 dark)
+- show_payment_icons (checkbox, default true)
+- show_country_selector + show_language_selector (checkboxes)
+- footer_text (richtext)
+Blocks (max 4) : menu (heading+link_list), text (heading+richtext), newsletter (heading+subtext)
+Requirements : country selector via {% form 'localization' %}, payment icons via {{ shop.enabled_payment_types }}
+Social links settings : instagram_url, facebook_url, tiktok_url, pinterest_url, youtube_url
+Layout : 4 col desktop / 2 col tablette / 1 col mobile
+
+### F-05 · Announcement bar
+Fichier : sections/announcement-bar.liquid
+Settings : color_scheme, auto_rotate (default true), rotation_speed (3-10s, default 5), show_close_button
+Blocks (max 5) : announcement : text + link (url)
+Comportement : rotation auto, transition slide ou fade, cookie si fermeture
+
+### F-06 · Snippets globaux
+image.liquid : params image/widths/sizes/class/alt/loading/fetchpriority — focal point + srcset + lazy default
+price.liquid : product/use_variant/show_badges — prix barré + actuel + SALE/SOLD OUT + selling plans + Shop Pay Installments
+global.js : trapFocus/removeTrapFocus, onKeyUpEscape, debounce/throttle, fetchConfig, PubSub, QuantityInput custom element, aria-live regions
+
+### H-01 · Hero
+Fichier : sections/hero.liquid
+Settings :
+- media_type : image | video | slideshow (default image)
+- image + image_mobile (image_picker, focal point)
+- video_url (url Vimeo/YouTube) + video_file (video Shopify)
+- overlay_opacity (range 0-80 step 5, default 20)
+- color_scheme (default scheme-3)
+- height : full(100vh) | large(80vh) | medium(60vh) | small(40vh)
+- text_position : top-left/center/right | center | bottom-left/center/right (default bottom-center)
+- subheading (11px uppercase, AU-DESSUS heading) + heading + button_label/url/style
+- autoplay (video, default true) + show_scroll_indicator
+Blocks : slide (si slideshow) — image+heading+subheading+button, max 5, crossfade ou slide, duration 3-8s
+Comportement : vidéo autoplay muted loop playsinline — reduced-motion = poster image
+Scroll indicator : chevron animé, disparaît au scroll
+
+### H-02 · Featured collection + card-product
+Fichier : sections/featured-collection.liquid + snippets/card-product.liquid
+Settings :
+- heading + subheading, collection, products_to_show (4-12, default 8)
+- columns_desktop (3|4|5, default 4), columns_mobile (1|2, default 2)
+- show_view_all + view_all_label
+- card_style : standard | minimal | editorial (default standard)
+- color_scheme, image_ratio : portrait|square|landscape (default portrait)
+- show_secondary_image (hover swap, default true)
+- show_vendor, show_rating
+card-product.liquid requis : image principale + secondaire hover swap, focal point, badges SALE/SOLD OUT/NEW, price barré, quick add (+/variant picker), wishlist localStorage, lazy loading sauf 1ère card
+
+### H-03 · Editorial banner
+Settings : layout (image-right|image-left|image-full), image+focal, image_ratio, color_scheme
+subheading+heading+text(richtext)+button, image_overlay_opacity
+Blocks : feature : icon(select)+text
+
+### H-04 · Marquee
+Settings : color_scheme, speed (20-120s, default 40), pause_on_hover, separator (bullet|dash|star|diamond)
+Blocks : text (text) — répété en boucle infinie
+CSS animation marquee linear infinite — reduced-motion: animation-play-state:paused
+
+### H-05 · Lookbook / Shop the look
+Settings : heading+subheading, color_scheme, layout (single|split)
+Blocks (max 3) : look : image+focal, jusqu'à 4 produits, hotspot_x/y_1..4 (range 0-100)
+Comportement : bouton + positionné via left:X% top:Y%, click = popover image+titre+prix+ATC
+Mobile : scroll horizontal
+
+### H-06 · Testimonials
+Settings : heading+subheading, color_scheme, layout (grid|carousel), columns_desktop (2|3), show_rating
+Blocks : testimonial : rating(1-5)+text(richtext)+author+author_title+author_image
+
+### H-07 · Newsletter
+Settings : color_scheme (default scheme-3), heading+subtext, button_label, show_name_field, disclaimer
+Form : {% form 'customer' %} avec contact[tags]:'newsletter'
+Success state inline (pas de reload), validation email inline
+
+### H-08 · Press / Logos
+Settings : heading, color_scheme, layout (logos|quotes)
+Blocks (max 8) : logo : image+url+quote
+logos = grille niveaux de gris hover couleur / quotes = carousel
+
+### H-09 · Countdown
+Settings : heading, target_date (ISO 8601), color_scheme, show_labels, after_end (hide|show_message), end_message
+JS vanilla setInterval 1s, JJ:HH:MM:SS, s'arrête à 0
+
+### H-10 · Before / After
+Settings : heading+subheading, color_scheme
+Blocks (max 3) : comparison : image_before+image_after+label_before+label_after
+Comportement : slider drag horizontal via input[type=range] custom
+
+### H-11 · Instagram feed
+Settings : heading, color_scheme, username, columns (4|6|8, default 6)
+Note : placeholder + lien app si non connectée (pas d'API directe)
+
+### H-12 à H-18 : Rich text, Image with text, Multicolumn, Collection list, Video, Map, Contact form
+Specs standard — se référer aux noms pour déduire les settings logiques.
+Contact form : {% form 'contact' %}, validation HTML5, success state inline.
+
+### C-01 · Collection (template)
+Requirements Shopify obligatoires : faceted filtering (availability/price/type/vendor/options), tri 8 options, pagination cursor-based (paginate by 24)
+Settings : products_per_page (12|24|36), columns_desktop (3|4), columns_mobile (1|2), filters_position (sidebar|top), show_filter_count, enable_sticky_filters, image_ratio, show_secondary_image
+Layout sidebar : 260px desktop, drawer mobile via bouton "Filtrer"
+Active filters : pills effaçables au-dessus de la grille
+
+### P-01 · Product (template)
+Requirements Shopify obligatoires : accelerated checkout, rich media (image/video/3D/YouTube/Vimeo), pickup availability, related+complementary products, selling plans, Shop Pay Installments
+Blocks : title+vendor, price+badges+selling plan pricing, variant_picker (color swatches+size buttons), quantity_input (+/-), buy_buttons (ATC+dynamic checkout+pickup), description, collapsible_tab (×N), share, complementary_products
+Sticky ATC : apparaît quand ATC principal hors viewport, affiche image+titre+prix+variant+bouton
+Galerie : thumbnails verticaux desktop, carousel mobile, zoom inline ou lightbox, vidéo + 3D model-viewer
+
+### CT-01 · Cart
+Settings : cart_type (drawer|page, default drawer), show_order_note, show_shipping_calculator
+Drawer : event cart:open via PubSub, trap focus, Escape ferme, scroll-lock
+Line items : image+titre+variant+price+qty+remove
+Free shipping progress bar (threshold configurable)
+Subtotal + checkout + dynamic checkout buttons + cross-sell 1-3 produits
+
+### S-01 · Search
+Predictive : API /search/suggest.json, debounce 300ms
+Affiche : produits (image+titre+prix) + collections + articles + pages
+Template : résultats paginés, faceted filtering comme collection
+
+---
+
+## SETTINGS GLOBAUX DIFFÉRENCIANTS
+
+Dans config/settings_schema.json — groupes additionnels :
+
+Social media : instagram_url, facebook_url, tiktok_url, pinterest_url, youtube_url, twitter_url
+Favicon : favicon (image_picker)
+Cart : cart_type (drawer|page), enable_cart_notification
+
+Cursor :
+- cursor_style : default | dot | circle (default default)
+- cursor_color (color, default #0A0A0A)
+- CSS .cursor-dot + .cursor-circle animés via JS mousemove
+
+Page transitions :
+- page_transition : none | fade | slide-up (default fade)
+- View Transitions API + fallback CSS
+
+Scroll animations :
+- scroll_animations : none | fade-up | fade-in (default fade-up)
+- animation_threshold (range 0-100, default 20)
+- IntersectionObserver sur .animate-on-scroll
+
+Product cards :
+- card_hover_effect : none | image-swap | scale | overlay (default image-swap)
+- card_border_radius (range 0-16, default 0)
+- quick_add_style : none | icon | button (default icon)
+
+Color schemes : minimum 3 presets
+- Scheme 1 (default) : bg #FFFFFF text #0A0A0A
+- Scheme 2 (soft) : bg #F5F4F0 text #0A0A0A
+- Scheme 3 (dark) : bg #0A0A0A text #FFFFFF
+- Jusqu'à 10 schemes configurables par le marchand
+
+---
+
+## PROCESS QUALITÉ
+
+### Checklist avant chaque commit (Claude Code)
+1. shopify theme check → 0 errors
+2. curl http://127.0.0.1:9292 → 200
+3. Console browser → 0 erreurs JS
+4. Responsive : 375px + 768px + 1440px
+5. 0 texte en dur → locales/en.default.json
+6. 0 couleur hardcodée → CSS variables
+7. 0 référence agence dans le code
+
+### Convention commits
+feat(section): description
+fix(component): description
+chore(config): description
+JAMAIS de Co-Authored-By.
+
+### Cycle par tâche
+1. Claude Code code → theme check 0 errors → push feature branch → donne URLs raw
+2. Cette session fetch les URLs raw → valide le code
+3. Lucas screenshot → valide visuellement
+4. Validation explicite → BACKLOG.md + PROJECT_STATE.md mis à jour

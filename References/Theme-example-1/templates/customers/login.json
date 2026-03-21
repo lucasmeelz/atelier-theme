@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-login",
+      "settings": {
+        "section_width": "max-w-full"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
