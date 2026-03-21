@@ -1,5 +1,14 @@
 /* ==========================================================================
    Section — Header (Dior-style)
+
+   Typography scale (body font throughout, except logo):
+   - 0.6875rem (11px) — micro labels: tabs, mega links, col headings, editorial subtitle
+   - 0.8125rem (13px) — secondary: close text, editorial title, mega image subtitle
+   - 0.9375rem (15px) — tertiary: breadcrumb, mega sublinks, mega image title
+   - 1.0625rem (17px) — primary: L1/L2/L3 nav links
+
+   Uppercase rule: only micro labels get uppercase + letter-spacing: 0.1em
+   Weight: 400 everywhere (500 only on cart count badge)
    ========================================================================== */
 
 /* ---------------------------------------------------------------------------
@@ -29,16 +38,6 @@ html[scroll-lock] {
   transform: translateY(-100%);
 }
 
-/* Sentinel for IntersectionObserver */
-.header__sentinel {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 1px;
-  height: 1px;
-  pointer-events: none;
-}
-
 /* ---------------------------------------------------------------------------
    Header bar
    --------------------------------------------------------------------------- */
@@ -50,7 +49,8 @@ html[scroll-lock] {
   height: 60px;
   padding-inline: var(--page-margin, 20px);
   background-color: transparent;
-  transition: background-color var(--duration-base, 350ms) var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
+  transition: background-color var(--duration-base, 350ms) var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1)),
+              color var(--duration-base, 350ms) var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
 }
 
 .header-wrapper--scrolled .header {
@@ -116,7 +116,7 @@ html[scroll-lock] {
   font-family: var(--font-heading--family, serif);
   font-size: 1.5rem;
   font-weight: 400;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
@@ -248,7 +248,7 @@ html[scroll-lock] {
 }
 
 /* ---------------------------------------------------------------------------
-   Panels — Desktop (≥1000px) : expand right
+   Panels — Desktop (>=1000px) : expand right
    --------------------------------------------------------------------------- */
 
 @media (min-width: 1000px) {
@@ -273,13 +273,11 @@ html[scroll-lock] {
                 min-width 350ms var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
   }
 
-  /* L1 (300) + L2 (450) = 750 */
   .drawer[data-level="2"] .drawer__panel--l2 {
     width: 450px;
     min-width: 450px;
   }
 
-  /* L1 (300) + L2 (450) + L3 (200) = 950 */
   .drawer[data-level="3"] .drawer__panel--l2 {
     width: 450px;
     min-width: 450px;
@@ -348,14 +346,13 @@ html[scroll-lock] {
 }
 
 /* ---------------------------------------------------------------------------
-   Close button
+   Close button — "X Close" like Dior
    --------------------------------------------------------------------------- */
 
 .drawer__close {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 0;
   background: none;
   border: none;
   border-bottom: 1px solid var(--color-border, #E2E0DB);
@@ -380,7 +377,7 @@ html[scroll-lock] {
 .drawer__close-text {
   font-size: 0.8125rem;
   font-weight: 400;
-  letter-spacing: 0.02em;
+  letter-spacing: 0;
 }
 
 /* ---------------------------------------------------------------------------
@@ -395,13 +392,10 @@ html[scroll-lock] {
 }
 
 @media (max-width: 374px) {
-  .drawer__l1-list {
-    padding: 16px;
-  }
-
+  .drawer__l1-list,
   .drawer__l2-list,
   .drawer__l3-list {
-    padding: 16px;
+    padding: 24px 16px;
   }
 
   .drawer__breadcrumb {
@@ -421,7 +415,7 @@ html[scroll-lock] {
   font-family: var(--font-body--family, sans-serif);
   font-size: 1.0625rem;
   font-weight: 400;
-  letter-spacing: 0.01em;
+  letter-spacing: 0;
   text-decoration: none;
   cursor: pointer;
   transition: opacity 250ms var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
@@ -434,7 +428,7 @@ html[scroll-lock] {
 }
 
 /* ---------------------------------------------------------------------------
-   Breadcrumb
+   Breadcrumb — "< Parent name"
    --------------------------------------------------------------------------- */
 
 .drawer__breadcrumb {
@@ -454,7 +448,7 @@ html[scroll-lock] {
   font-family: var(--font-body--family, sans-serif);
   font-size: 0.9375rem;
   font-weight: 400;
-  letter-spacing: 0.01em;
+  letter-spacing: 0;
   text-transform: none;
   cursor: pointer;
   transition: opacity var(--duration-fast, 200ms) var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
@@ -472,7 +466,7 @@ html[scroll-lock] {
 }
 
 /* ---------------------------------------------------------------------------
-   L2 / L3 links
+   L2 / L3 links — same size as L1 for consistency
    --------------------------------------------------------------------------- */
 
 .drawer__l2-list,
@@ -495,7 +489,7 @@ html[scroll-lock] {
   font-family: var(--font-body--family, sans-serif);
   font-size: 1.0625rem;
   font-weight: 400;
-  letter-spacing: 0.01em;
+  letter-spacing: 0;
   text-decoration: none;
   cursor: pointer;
 }
@@ -504,7 +498,7 @@ html[scroll-lock] {
 .drawer__l3-link svg {
   width: 12px;
   height: 12px;
-  opacity: 0.3;
+  opacity: 0.25;
 }
 
 /* Fade-in for L2/L3 content */
@@ -525,7 +519,7 @@ html[scroll-lock] {
 }
 
 /* ---------------------------------------------------------------------------
-   Universe tabs
+   Universe tabs — micro label style
    --------------------------------------------------------------------------- */
 
 .drawer__tabs {
@@ -540,9 +534,9 @@ html[scroll-lock] {
   background: none;
   border: none;
   color: var(--color-text-subdued, #6B6B6B);
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.15em;
+  font-size: 0.6875rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   cursor: pointer;
   position: relative;
@@ -564,7 +558,7 @@ html[scroll-lock] {
 }
 
 /* ---------------------------------------------------------------------------
-   Editorial images (drawer)
+   Editorial images (drawer) — overlay captions like Dior
    --------------------------------------------------------------------------- */
 
 .drawer__editorial-images {
@@ -599,6 +593,7 @@ html[scroll-lock] {
   font-family: var(--font-body--family, sans-serif);
   font-size: 0.8125rem;
   font-weight: 400;
+  letter-spacing: 0;
   color: #fff;
   margin: 0;
   text-decoration: underline;
@@ -611,26 +606,11 @@ html[scroll-lock] {
   left: 12px;
   right: 12px;
   font-size: 0.6875rem;
-  color: rgba(255, 255, 255, 0.7);
-  margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-/* Legacy overlay caption — kept for backwards compat */
-.drawer__editorial-caption {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 8px 10px;
-  font-size: 11px;
+  font-weight: 400;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #fff;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.4) 0%, transparent 100%);
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
 }
 
 /* ==========================================================================
@@ -662,8 +642,9 @@ html[scroll-lock] {
   align-items: center;
   gap: 6px;
   padding: 14px 20px;
-  font-size: 12px;
-  letter-spacing: 0.12em;
+  font-size: 0.6875rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: inherit;
   text-decoration: none;
@@ -723,8 +704,9 @@ html[scroll-lock] {
 }
 
 .header__mega-col-heading {
-  font-size: 10px;
-  letter-spacing: 0.15em;
+  font-size: 0.6875rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--color-text-subdued, #6B6B6B);
   margin-bottom: 16px;
@@ -741,8 +723,9 @@ html[scroll-lock] {
 .header__mega-sublink {
   display: block;
   padding: 7px 0;
-  font-size: 13px;
-  font-weight: 300;
+  font-size: 0.9375rem;
+  font-weight: 400;
+  letter-spacing: 0;
   color: inherit;
   text-decoration: none;
   transition: opacity 200ms var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
@@ -785,14 +768,17 @@ html[scroll-lock] {
 }
 
 .header__mega-image-title {
-  font-family: var(--font-heading--family, serif);
-  font-size: 1rem;
+  font-family: var(--font-body--family, sans-serif);
+  font-size: 0.9375rem;
   font-weight: 400;
+  letter-spacing: 0;
   margin: 0;
 }
 
 .header__mega-image-subtitle {
   font-size: 0.8125rem;
+  font-weight: 400;
+  letter-spacing: 0;
   color: var(--color-text-subdued, #6B6B6B);
   margin: 0;
 }
