@@ -8,9 +8,11 @@
   <header class="header">
     <!-- Left: hamburger -->
     <div class="header__left">
-      <button class="header__menu-toggle" data-drawer-open aria-label="{{ 'header.menu' | t }}">
-        {%- render 'icon', name: 'menu' -%}
-      </button>
+      {%- if section.settings.nav_style == 'drawer' -%}
+        <button class="header__menu-toggle" data-drawer-open aria-label="{{ 'header.menu' | t }}">
+          {%- render 'icon', name: 'menu' -%}
+        </button>
+      {%- endif -%}
     </div>
 
     <!-- Center: logo -->
@@ -56,18 +58,76 @@
       </a>
     </div>
   </header>
+
+  {%- if section.settings.nav_style == 'mega' -%}
+    <nav class="header__mega-nav">
+      <ul class="header__mega-list">
+        {%- for link in linklists[section.settings.menu].links -%}
+          <li class="header__mega-item{% if link.links.size > 0 %} header__mega-item--has-children{% endif %}">
+            <a href="{{ link.url }}" class="header__mega-link">
+              {{ link.title }}
+              {%- if link.links.size > 0 -%}
+                {%- render 'icon', name: 'chevron-down' -%}
+              {%- endif -%}
+            </a>
+            {%- if link.links.size > 0 -%}
+              <div class="header__mega-dropdown">
+                <div class="header__mega-dropdown-inner">
+                  <ul class="header__mega-sublist">
+                    {%- for child in link.links -%}
+                      <li>
+                        <a href="{{ child.url }}" class="header__mega-sublink">{{ child.title }}</a>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                  {%- for block in section.blocks -%}
+                    {%- if block.type == 'mega_menu' -%}
+                      {%- assign bh = block.settings.menu_item | downcase | strip -%}
+                      {%- assign lh = link.title | downcase | strip -%}
+                      {%- if bh == lh -%}
+                        <div class="header__mega-images">
+                          {%- if block.settings.image_1 -%}
+                            <div class="header__mega-image-item">
+                              {{ block.settings.image_1 | image_url: width: 300 | image_tag: alt: block.settings.image_1_label, loading: 'lazy' }}
+                              {%- if block.settings.image_1_label != blank -%}
+                                <p class="header__mega-image-caption">{{ block.settings.image_1_label }}</p>
+                              {%- endif -%}
+                            </div>
+                          {%- endif -%}
+                          {%- if block.settings.image_2 -%}
+                            <div class="header__mega-image-item">
+                              {{ block.settings.image_2 | image_url: width: 300 | image_tag: alt: block.settings.image_2_label, loading: 'lazy' }}
+                              {%- if block.settings.image_2_label != blank -%}
+                                <p class="header__mega-image-caption">{{ block.settings.image_2_label }}</p>
+                              {%- endif -%}
+                            </div>
+                          {%- endif -%}
+                        </div>
+                      {%- endif -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+                </div>
+              </div>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    </nav>
+  {%- endif -%}
 </sticky-header>
 
-<menu-drawer>
-  {%- render 'menu-drawer',
-    menu: linklists[section.settings.menu],
-    blocks: section.blocks,
-    tab_1_menu: linklists[section.settings.tab_1_menu],
-    tab_1_label: section.settings.tab_1_label,
-    tab_2_menu: linklists[section.settings.tab_2_menu],
-    tab_2_label: section.settings.tab_2_label
-  -%}
-</menu-drawer>
+{%- if section.settings.nav_style == 'drawer' -%}
+  <menu-drawer>
+    {%- render 'menu-drawer',
+      menu: linklists[section.settings.menu],
+      blocks: section.blocks,
+      tab_1_menu: linklists[section.settings.tab_1_menu],
+      tab_1_label: section.settings.tab_1_label,
+      tab_2_menu: linklists[section.settings.tab_2_menu],
+      tab_2_label: section.settings.tab_2_label
+    -%}
+  </menu-drawer>
+{%- endif -%}
 
 {% schema %}
 {
@@ -78,7 +138,8 @@
       "type": "link_list",
       "id": "menu",
       "label": "Main menu",
-      "default": "main-menu"
+      "default": "main-menu",
+      "info": "Main navigation menu. Edit menus in Online Store > Navigation"
     },
     {
       "type": "header",
@@ -92,7 +153,8 @@
         { "value": "drawer", "label": "Drawer" },
         { "value": "mega", "label": "Mega menu" }
       ],
-      "default": "drawer"
+      "default": "drawer",
+      "info": "Drawer: Dior-style side panel. Mega menu: horizontal dropdown below header"
     },
     {
       "type": "checkbox",
@@ -113,7 +175,8 @@
     {
       "type": "image_picker",
       "id": "logo",
-      "label": "Logo"
+      "label": "Logo",
+      "info": "Upload your logo. If empty, store name is displayed as text"
     },
     {
       "type": "range",
@@ -123,7 +186,8 @@
       "step": 10,
       "unit": "px",
       "label": "Logo width",
-      "default": 120
+      "default": 120,
+      "info": "Pixel width of the logo on desktop. Logo scales proportionally"
     },
     {
       "type": "header",
@@ -155,7 +219,8 @@
       "type": "text",
       "id": "tab_1_label",
       "label": "Tab 1 label",
-      "default": "Fashion"
+      "default": "Fashion",
+      "info": "Leave empty to hide the universe tabs at the bottom of the drawer"
     },
     {
       "type": "link_list",
@@ -184,12 +249,13 @@
           "type": "text",
           "id": "menu_item",
           "label": "Menu item handle",
-          "info": "Exact title of the L1 link that triggers this mega panel"
+          "info": "Must match exactly the title of the L1 menu link (case insensitive). Ex: if link is 'Women', type 'Women'"
         },
         {
           "type": "image_picker",
           "id": "image_1",
-          "label": "Editorial image 1"
+          "label": "Editorial image 1",
+          "info": "Editorial image shown in the dropdown panel (portrait format recommended, 3:4 ratio)"
         },
         {
           "type": "image_picker",

@@ -86,35 +86,12 @@
       {%- for link in nav_menu.links -%}
         {%- if link.links.size > 0 -%}
           {%- assign l1_idx = forloop.index0 -%}
-          <ul class="drawer__l2-list" data-l2-id="t1-{{ l1_idx }}" hidden role="list">
-            {%- for child in link.links -%}
-              <li>
-                {%- if child.links.size > 0 -%}
-                  <button class="drawer__l2-link" data-action="show-l3" data-target="t1-{{ l1_idx }}-{{ forloop.index0 }}">
-                    <span>{{ child.title }}</span>
-                    {%- render 'icon', name: 'chevron-right' -%}
-                  </button>
-                {%- else -%}
-                  <a href="{{ child.url }}" class="drawer__l2-link">
-                    <span>{{ child.title }}</span>
-                  </a>
-                {%- endif -%}
-              </li>
-            {%- endfor -%}
-          </ul>
-        {%- endif -%}
-      {%- endfor -%}
-
-      {%- if has_tab_2 -%}
-        <!-- L2 groups — Tab 2 -->
-        {%- for link in tab_2_menu.links -%}
-          {%- if link.links.size > 0 -%}
-            {%- assign l1_idx = forloop.index0 -%}
-            <ul class="drawer__l2-list" data-l2-id="t2-{{ l1_idx }}" hidden role="list">
+          <div class="drawer__l2-group" data-l2-id="t1-{{ l1_idx }}" hidden>
+            <ul class="drawer__l2-list" role="list">
               {%- for child in link.links -%}
                 <li>
                   {%- if child.links.size > 0 -%}
-                    <button class="drawer__l2-link" data-action="show-l3" data-target="t2-{{ l1_idx }}-{{ forloop.index0 }}">
+                    <button class="drawer__l2-link" data-action="show-l3" data-target="t1-{{ l1_idx }}-{{ forloop.index0 }}">
                       <span>{{ child.title }}</span>
                       {%- render 'icon', name: 'chevron-right' -%}
                     </button>
@@ -126,6 +103,71 @@
                 </li>
               {%- endfor -%}
             </ul>
+
+            {%- comment -%} Editorial images from mega_menu blocks {%- endcomment -%}
+            {%- for block in blocks -%}
+              {%- if block.type == 'mega_menu' -%}
+                {%- assign block_handle = block.settings.menu_item | downcase | strip -%}
+                {%- assign link_handle = link.title | downcase | strip -%}
+                {%- if block_handle == link_handle -%}
+                  <div class="drawer__editorial-images">
+                    {%- if block.settings.image_1 -%}
+                      <div class="drawer__editorial-item">
+                        {{ block.settings.image_1 | image_url: width: 400 | image_tag: alt: block.settings.image_1_label, loading: 'lazy', widths: '200, 300, 400' }}
+                        {%- if block.settings.image_1_label != blank -%}
+                          <p class="drawer__editorial-caption">{{ block.settings.image_1_label }}</p>
+                        {%- endif -%}
+                      </div>
+                    {%- endif -%}
+                    {%- if block.settings.image_2 -%}
+                      <div class="drawer__editorial-item">
+                        {{ block.settings.image_2 | image_url: width: 400 | image_tag: alt: block.settings.image_2_label, loading: 'lazy', widths: '200, 300, 400' }}
+                        {%- if block.settings.image_2_label != blank -%}
+                          <p class="drawer__editorial-caption">{{ block.settings.image_2_label }}</p>
+                        {%- endif -%}
+                      </div>
+                    {%- endif -%}
+                    {%- if block.settings.image_3 -%}
+                      <div class="drawer__editorial-item">
+                        {{ block.settings.image_3 | image_url: width: 400 | image_tag: alt: '', loading: 'lazy', widths: '200, 300, 400' }}
+                      </div>
+                    {%- endif -%}
+                    {%- if block.settings.image_4 -%}
+                      <div class="drawer__editorial-item">
+                        {{ block.settings.image_4 | image_url: width: 400 | image_tag: alt: '', loading: 'lazy', widths: '200, 300, 400' }}
+                      </div>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- if has_tab_2 -%}
+        <!-- L2 groups — Tab 2 -->
+        {%- for link in tab_2_menu.links -%}
+          {%- if link.links.size > 0 -%}
+            {%- assign l1_idx = forloop.index0 -%}
+            <div class="drawer__l2-group" data-l2-id="t2-{{ l1_idx }}" hidden>
+              <ul class="drawer__l2-list" role="list">
+                {%- for child in link.links -%}
+                  <li>
+                    {%- if child.links.size > 0 -%}
+                      <button class="drawer__l2-link" data-action="show-l3" data-target="t2-{{ l1_idx }}-{{ forloop.index0 }}">
+                        <span>{{ child.title }}</span>
+                        {%- render 'icon', name: 'chevron-right' -%}
+                      </button>
+                    {%- else -%}
+                      <a href="{{ child.url }}" class="drawer__l2-link">
+                        <span>{{ child.title }}</span>
+                      </a>
+                    {%- endif -%}
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </div>
           {%- endif -%}
         {%- endfor -%}
       {%- endif -%}
