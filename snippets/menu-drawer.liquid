@@ -72,6 +72,42 @@
           </button>
         </div>
       {%- endif -%}
+
+      {%- if show_country_selector or show_language_selector -%}
+        <div class="drawer__localization">
+          {%- form 'localization', id: 'DrawerLocalizationForm' -%}
+            {%- if show_country_selector -%}
+              <div class="drawer__localization-item">
+                <label class="drawer__localization-label" for="DrawerCountrySelector">{{ 'header.country' | t }}</label>
+                <select class="drawer__localization-select" id="DrawerCountrySelector" name="country_code">
+                  {%- for country in form.available_countries -%}
+                    <option value="{{ country.iso_code }}"{% if country.iso_code == form.current_country.iso_code %} selected{% endif %}>
+                      {{ country.name }} ({{ country.currency.iso_code }} {{ country.currency.symbol }})
+                    </option>
+                  {%- endfor -%}
+                </select>
+              </div>
+            {%- endif -%}
+
+            {%- if show_language_selector -%}
+              <div class="drawer__localization-item">
+                <label class="drawer__localization-label" for="DrawerLanguageSelector">{{ 'header.language' | t }}</label>
+                <select class="drawer__localization-select" id="DrawerLanguageSelector" name="locale_code">
+                  {%- for locale in form.available_locales -%}
+                    <option value="{{ locale.iso_code }}"{% if locale.iso_code == form.current_locale.iso_code %} selected{% endif %}>
+                      {{ locale.endonym_name | capitalize }}
+                    </option>
+                  {%- endfor -%}
+                </select>
+              </div>
+            {%- endif -%}
+
+            <noscript>
+              <button type="submit" class="drawer__localization-submit">{{ 'header.update' | t }}</button>
+            </noscript>
+          {%- endform -%}
+        </div>
+      {%- endif -%}
     </div>
 
     <!-- ============ L2 Panel ============ -->

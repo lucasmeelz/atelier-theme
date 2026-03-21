@@ -334,6 +334,19 @@ class MenuDrawer extends HTMLElement {
 customElements.define('menu-drawer', MenuDrawer);
 
 /* ---------------------------------------------------------------------------
+   Localization auto-submit
+   --------------------------------------------------------------------------- */
+
+document.addEventListener('DOMContentLoaded', function () {
+  var localizationSelects = document.querySelectorAll('.drawer__localization-select');
+  localizationSelects.forEach(function (select) {
+    select.addEventListener('change', function () {
+      this.closest('form').submit();
+    });
+  });
+});
+
+/* ---------------------------------------------------------------------------
    Mega menu click trigger
    --------------------------------------------------------------------------- */
 

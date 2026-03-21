@@ -55,8 +55,11 @@
     "wishlist": "Wishlist",
     "account": "Account",
     "cart": "Cart",
-    "close_menu": "Close menu",
+    "close_menu": "Close",
     "back": "Back",
-    "navigation": "Navigation"
+    "navigation": "Navigation",
+    "country": "Country",
+    "language": "Language",
+    "update": "Update"
   }
 }
