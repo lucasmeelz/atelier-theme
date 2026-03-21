@@ -12,8 +12,8 @@ class StickyHeader extends HTMLElement {
     this.header = this.querySelector('.header');
     if (!this.classList.contains('header-wrapper--sticky')) return;
 
-    /* Scroll detection via IntersectionObserver on sentinel */
-    const sentinel = this.querySelector('[data-sentinel]');
+    /* Scroll detection via IntersectionObserver on external sentinel */
+    const sentinel = document.getElementById('header-sentinel');
     if (sentinel) {
       this.observer = new IntersectionObserver(([entry]) => {
         this.classList.toggle('header-wrapper--scrolled', !entry.isIntersecting);
