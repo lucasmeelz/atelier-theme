@@ -69,41 +69,112 @@
               {%- endif -%}
             </a>
             {%- if link.links.size > 0 -%}
+              {%- liquid
+                assign mega_block = nil
+                for block in section.blocks
+                  if block.type == 'mega_menu'
+                    assign bh = block.settings.menu_item | downcase | strip
+                    assign lh = link.title | downcase | strip
+                    if bh == lh
+                      assign mega_block = block
+                      break
+                    endif
+                  endif
+                endfor
+                assign has_image_3 = false
+                if mega_block and mega_block.settings.image_3
+                  assign has_image_3 = true
+                endif
+              -%}
               <div class="header__mega-dropdown">
                 <div class="header__mega-dropdown-inner">
-                  <ul class="header__mega-sublist">
-                    {%- for child in link.links -%}
-                      <li>
-                        <a href="{{ child.url }}" class="header__mega-sublink">{{ child.title }}</a>
-                      </li>
-                    {%- endfor -%}
-                  </ul>
-                  {%- for block in section.blocks -%}
-                    {%- if block.type == 'mega_menu' -%}
-                      {%- assign bh = block.settings.menu_item | downcase | strip -%}
-                      {%- assign lh = link.title | downcase | strip -%}
-                      {%- if bh == lh -%}
-                        <div class="header__mega-images">
-                          {%- if block.settings.image_1 -%}
-                            <div class="header__mega-image-item">
-                              {{ block.settings.image_1 | image_url: width: 300 | image_tag: alt: block.settings.image_1_label, loading: 'lazy' }}
-                              {%- if block.settings.image_1_label != blank -%}
-                                <p class="header__mega-image-caption">{{ block.settings.image_1_label }}</p>
+                  <div class="header__mega-links-area">
+                    {%- if mega_block and mega_block.settings.col_1_heading != blank -%}
+                      {%- assign half = link.links.size | divided_by: 2 | plus: 1 -%}
+                      <div>
+                        <p class="header__mega-col-heading">{{ mega_block.settings.col_1_heading }}</p>
+                        <ul class="header__mega-sublist">
+                          {%- for child in link.links -%}
+                            {%- if forloop.index <= half -%}
+                              <li><a href="{{ child.url }}" class="header__mega-sublink">{{ child.title }}</a></li>
+                            {%- endif -%}
+                          {%- endfor -%}
+                        </ul>
+                      </div>
+                      {%- if mega_block.settings.col_2_heading != blank -%}
+                        <div>
+                          <p class="header__mega-col-heading">{{ mega_block.settings.col_2_heading }}</p>
+                          <ul class="header__mega-sublist">
+                            {%- for child in link.links -%}
+                              {%- if forloop.index > half -%}
+                                <li><a href="{{ child.url }}" class="header__mega-sublink">{{ child.title }}</a></li>
                               {%- endif -%}
-                            </div>
+                            {%- endfor -%}
+                          </ul>
+                        </div>
+                      {%- endif -%}
+                    {%- else -%}
+                      <div>
+                        <ul class="header__mega-sublist">
+                          {%- for child in link.links -%}
+                            <li><a href="{{ child.url }}" class="header__mega-sublink">{{ child.title }}</a></li>
+                          {%- endfor -%}
+                        </ul>
+                      </div>
+                    {%- endif -%}
+                  </div>
+                  {%- if mega_block -%}
+                    <div class="header__mega-images-area{% unless has_image_3 %} header__mega-images-area--2col{% endunless %}">
+                      {%- if mega_block.settings.image_1 -%}
+                        <div class="header__mega-image-item">
+                          {%- if mega_block.settings.image_1_url -%}
+                            <a href="{{ mega_block.settings.image_1_url }}">
+                              {{ mega_block.settings.image_1 | image_url: width: 400 | image_tag: alt: mega_block.settings.image_1_label, loading: 'lazy', widths: '200,300,400' }}
+                            </a>
+                          {%- else -%}
+                            {{ mega_block.settings.image_1 | image_url: width: 400 | image_tag: alt: mega_block.settings.image_1_label, loading: 'lazy', widths: '200,300,400' }}
                           {%- endif -%}
-                          {%- if block.settings.image_2 -%}
-                            <div class="header__mega-image-item">
-                              {{ block.settings.image_2 | image_url: width: 300 | image_tag: alt: block.settings.image_2_label, loading: 'lazy' }}
-                              {%- if block.settings.image_2_label != blank -%}
-                                <p class="header__mega-image-caption">{{ block.settings.image_2_label }}</p>
-                              {%- endif -%}
-                            </div>
+                          {%- if mega_block.settings.image_1_label != blank -%}
+                            <p class="header__mega-image-title">{{ mega_block.settings.image_1_label }}</p>
+                          {%- endif -%}
+                          {%- if mega_block.settings.image_1_subtitle != blank -%}
+                            <p class="header__mega-image-subtitle">{{ mega_block.settings.image_1_subtitle }}</p>
                           {%- endif -%}
                         </div>
                       {%- endif -%}
-                    {%- endif -%}
-                  {%- endfor -%}
+                      {%- if mega_block.settings.image_2 -%}
+                        <div class="header__mega-image-item">
+                          {%- if mega_block.settings.image_2_url -%}
+                            <a href="{{ mega_block.settings.image_2_url }}">
+                              {{ mega_block.settings.image_2 | image_url: width: 400 | image_tag: alt: mega_block.settings.image_2_label, loading: 'lazy', widths: '200,300,400' }}
+                            </a>
+                          {%- else -%}
+                            {{ mega_block.settings.image_2 | image_url: width: 400 | image_tag: alt: mega_block.settings.image_2_label, loading: 'lazy', widths: '200,300,400' }}
+                          {%- endif -%}
+                          {%- if mega_block.settings.image_2_label != blank -%}
+                            <p class="header__mega-image-title">{{ mega_block.settings.image_2_label }}</p>
+                          {%- endif -%}
+                          {%- if mega_block.settings.image_2_subtitle != blank -%}
+                            <p class="header__mega-image-subtitle">{{ mega_block.settings.image_2_subtitle }}</p>
+                          {%- endif -%}
+                        </div>
+                      {%- endif -%}
+                      {%- if mega_block.settings.image_3 -%}
+                        <div class="header__mega-image-item">
+                          {%- if mega_block.settings.image_3_url -%}
+                            <a href="{{ mega_block.settings.image_3_url }}">
+                              {{ mega_block.settings.image_3 | image_url: width: 400 | image_tag: alt: '', loading: 'lazy', widths: '200,300,400' }}
+                            </a>
+                          {%- else -%}
+                            {{ mega_block.settings.image_3 | image_url: width: 400 | image_tag: alt: '', loading: 'lazy', widths: '200,300,400' }}
+                          {%- endif -%}
+                          {%- if mega_block.settings.image_3_subtitle != blank -%}
+                            <p class="header__mega-image-subtitle">{{ mega_block.settings.image_3_subtitle }}</p>
+                          {%- endif -%}
+                        </div>
+                      {%- endif -%}
+                    </div>
+                  {%- endif -%}
                 </div>
               </div>
             {%- endif -%}
@@ -266,35 +337,88 @@
           "info": "Must match exactly the title of the L1 menu link (case insensitive). Ex: if link is 'Women', type 'Women'"
         },
         {
+          "type": "header",
+          "content": "Columns"
+        },
+        {
+          "type": "text",
+          "id": "col_1_heading",
+          "label": "Column 1 heading"
+        },
+        {
+          "type": "text",
+          "id": "col_2_heading",
+          "label": "Column 2 heading"
+        },
+        {
+          "type": "text",
+          "id": "col_3_heading",
+          "label": "Column 3 heading"
+        },
+        {
+          "type": "header",
+          "content": "Editorial images"
+        },
+        {
           "type": "image_picker",
           "id": "image_1",
-          "label": "Editorial image 1",
-          "info": "Editorial image shown in the dropdown panel (portrait format recommended, 3:4 ratio)"
-        },
-        {
-          "type": "image_picker",
-          "id": "image_2",
-          "label": "Editorial image 2"
-        },
-        {
-          "type": "image_picker",
-          "id": "image_3",
-          "label": "Editorial image 3"
-        },
-        {
-          "type": "image_picker",
-          "id": "image_4",
-          "label": "Editorial image 4"
+          "label": "Image 1",
+          "info": "Portrait format recommended (3:4 ratio)"
         },
         {
           "type": "text",
           "id": "image_1_label",
-          "label": "Image 1 caption"
+          "label": "Image 1 title"
+        },
+        {
+          "type": "text",
+          "id": "image_1_subtitle",
+          "label": "Image 1 subtitle"
+        },
+        {
+          "type": "url",
+          "id": "image_1_url",
+          "label": "Image 1 link"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_2",
+          "label": "Image 2"
         },
         {
           "type": "text",
           "id": "image_2_label",
-          "label": "Image 2 caption"
+          "label": "Image 2 title"
+        },
+        {
+          "type": "text",
+          "id": "image_2_subtitle",
+          "label": "Image 2 subtitle"
+        },
+        {
+          "type": "url",
+          "id": "image_2_url",
+          "label": "Image 2 link"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_3",
+          "label": "Image 3"
+        },
+        {
+          "type": "text",
+          "id": "image_3_subtitle",
+          "label": "Image 3 subtitle"
+        },
+        {
+          "type": "url",
+          "id": "image_3_url",
+          "label": "Image 3 link"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_4",
+          "label": "Image 4"
         }
       ]
     }
