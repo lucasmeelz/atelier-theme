@@ -52,6 +52,16 @@
   </div>
 </div>
 
+<div class="button-test" style="padding: 40px 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 24px;">
+  <h3 style="width: 100%;">Button variants</h3>
+  {% render 'button', variant: 'primary', content: 'Add to cart' %}
+  {% render 'button', variant: 'secondary', content: 'View details' %}
+  <span style="background: #0A0A0A; padding: 16px; border-radius: 4px;">
+    {% render 'button', variant: 'outline-white', content: 'Hero CTA' %}
+  </span>
+  {% render 'button', variant: 'text-link', content: 'Discover the collection', url: routes.all_products_collection_url %}
+</div>
+
 {% stylesheet %}
   .welcome {
     display: grid;
