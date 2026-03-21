@@ -87,19 +87,19 @@
       {
         "type": "font_picker",
         "id": "type_heading_font",
-        "default": "cormorant_garamond_n3",
+        "default": "cormorant_n4",
         "label": "Heading font"
       },
       {
         "type": "font_picker",
         "id": "type_body_font",
-        "default": "jost_n3",
+        "default": "jost_n4",
         "label": "Body font"
       },
       {
         "type": "font_picker",
         "id": "type_subheading_font",
-        "default": "jost_n3",
+        "default": "jost_n4",
         "label": "Subheading font"
       }
     ]
