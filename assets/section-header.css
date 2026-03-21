@@ -1,0 +1,512 @@
+/* ==========================================================================
+   Section — Header (Dior-style)
+   ========================================================================== */
+
+/* ---------------------------------------------------------------------------
+   Scroll lock
+   --------------------------------------------------------------------------- */
+
+html[scroll-lock] {
+  overflow: hidden;
+}
+
+/* ---------------------------------------------------------------------------
+   Header wrapper
+   --------------------------------------------------------------------------- */
+
+.header-wrapper {
+  position: relative;
+  z-index: 100;
+}
+
+.header-wrapper--sticky {
+  position: sticky;
+  top: 0;
+  transition: transform var(--duration-base, 350ms) var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
+}
+
+.header-wrapper--hidden {
+  transform: translateY(-100%);
+}
+
+/* Sentinel for IntersectionObserver */
+.header__sentinel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+/* ---------------------------------------------------------------------------
+   Header bar
+   --------------------------------------------------------------------------- */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  padding-inline: var(--page-margin, 20px);
+  background-color: transparent;
+  transition: background-color var(--duration-base, 350ms) var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
+}
+
+.header-wrapper--scrolled .header {
+  background-color: var(--color-background, #FFFFFF);
+}
+
+/* Sections */
+.header__left,
+.header__right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.header__right {
+  justify-content: flex-end;
+}
+
+.header__center {
+  flex: 0 0 auto;
+}
+
+/* ---------------------------------------------------------------------------
+   Logo
+   --------------------------------------------------------------------------- */
+
+.header__logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.header__logo-image {
+  height: auto;
+}
+
+.header__logo-text {
+  font-family: var(--font-heading--family, serif);
+  font-size: 1.5rem;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* ---------------------------------------------------------------------------
+   Header icons
+   --------------------------------------------------------------------------- */
+
+.header__icon,
+.header__menu-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  transition: opacity var(--duration-fast, 200ms) var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
+}
+
+@media (hover: hover) {
+  .header__icon:hover,
+  .header__menu-toggle:hover {
+    opacity: 0.6;
+  }
+}
+
+.header__icon svg,
+.header__menu-toggle svg {
+  width: 20px;
+  height: 20px;
+}
+
+.header__icon--cart {
+  position: relative;
+}
+
+.header__cart-count {
+  position: absolute;
+  top: 4px;
+  right: 2px;
+  min-width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6rem;
+  font-weight: 500;
+  background-color: var(--color-text, #0A0A0A);
+  color: var(--color-background, #FFFFFF);
+  border-radius: 50%;
+  line-height: 1;
+}
+
+/* ==========================================================================
+   Drawer
+   ========================================================================== */
+
+/* ---------------------------------------------------------------------------
+   Backdrop
+   --------------------------------------------------------------------------- */
+
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background-color: rgba(0, 0, 0, 0);
+  backdrop-filter: blur(0);
+  -webkit-backdrop-filter: blur(0);
+  pointer-events: none;
+  transition:
+    background-color 400ms var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1)),
+    backdrop-filter 400ms var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1)),
+    -webkit-backdrop-filter 400ms var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
+}
+
+.drawer-backdrop[open] {
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  pointer-events: auto;
+}
+
+/* ---------------------------------------------------------------------------
+   Drawer container
+   --------------------------------------------------------------------------- */
+
+.drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 201;
+  display: flex;
+  transform: translateX(-100%);
+  transition: transform 400ms var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
+}
+
+.drawer[open] {
+  transform: translateX(0);
+}
+
+.drawer__inner {
+  display: flex;
+  height: 100%;
+}
+
+/* ---------------------------------------------------------------------------
+   Panels — shared
+   --------------------------------------------------------------------------- */
+
+.drawer__panel {
+  height: 100%;
+  overflow-y: auto;
+  background-color: var(--color-background, #FFFFFF);
+  display: flex;
+  flex-direction: column;
+}
+
+.drawer__panel--l1 {
+  border-right: 1px solid var(--color-border, #E2E0DB);
+}
+
+.drawer__panel--l2,
+.drawer__panel--l3 {
+  border-right: 1px solid var(--color-border, #E2E0DB);
+}
+
+/* ---------------------------------------------------------------------------
+   Panels — Desktop (≥1000px) : expand right
+   --------------------------------------------------------------------------- */
+
+@media (min-width: 1000px) {
+  .drawer__panel--l1 {
+    width: 300px;
+    min-width: 300px;
+  }
+
+  .drawer__panel--l2 {
+    width: 0;
+    min-width: 0;
+    overflow: hidden;
+    transition: width 350ms var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1)),
+                min-width 350ms var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
+  }
+
+  .drawer__panel--l3 {
+    width: 0;
+    min-width: 0;
+    overflow: hidden;
+    transition: width 350ms var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1)),
+                min-width 350ms var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
+  }
+
+  /* L1 (300) + L2 (450) = 750 */
+  .drawer[data-level="2"] .drawer__panel--l2 {
+    width: 450px;
+    min-width: 450px;
+  }
+
+  /* L1 (300) + L2 (450) + L3 (200) = 950 */
+  .drawer[data-level="3"] .drawer__panel--l2 {
+    width: 450px;
+    min-width: 450px;
+  }
+
+  .drawer[data-level="3"] .drawer__panel--l3 {
+    width: 200px;
+    min-width: 200px;
+  }
+
+  /* L1 dim when L2/L3 active */
+  .drawer[data-level="2"] .drawer__l1-link,
+  .drawer[data-level="3"] .drawer__l1-link {
+    opacity: 0.3;
+    transition: opacity 250ms var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
+  }
+
+  .drawer__l1-link[aria-expanded="true"] {
+    opacity: 1 !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Panels — Mobile (<1000px) : slide horizontal
+   --------------------------------------------------------------------------- */
+
+@media (max-width: 999px) {
+  .drawer {
+    width: min(85vw, 440px);
+    overflow: hidden;
+  }
+
+  .drawer__inner {
+    transition: transform 400ms var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
+  }
+
+  .drawer__panel {
+    min-width: 100%;
+    width: 100%;
+  }
+
+  .drawer[data-level="2"] .drawer__inner {
+    transform: translateX(-100%);
+  }
+
+  .drawer[data-level="3"] .drawer__inner {
+    transform: translateX(-200%);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Close button
+   --------------------------------------------------------------------------- */
+
+.drawer__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  align-self: flex-end;
+  margin: 16px 16px 0;
+  transition: opacity var(--duration-fast, 200ms) var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
+}
+
+@media (hover: hover) {
+  .drawer__close:hover {
+    opacity: 0.5;
+  }
+}
+
+.drawer__close svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ---------------------------------------------------------------------------
+   L1 links
+   --------------------------------------------------------------------------- */
+
+.drawer__l1-list {
+  list-style: none;
+  padding: 24px;
+  margin: 0;
+  flex: 1;
+}
+
+.drawer__l1-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 12px 0;
+  background: none;
+  border: none;
+  color: inherit;
+  font-family: var(--font-heading--family, serif);
+  font-size: 1.125rem;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 250ms var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
+}
+
+.drawer__l1-link svg {
+  width: 14px;
+  height: 14px;
+  opacity: 0.3;
+}
+
+/* ---------------------------------------------------------------------------
+   Breadcrumb
+   --------------------------------------------------------------------------- */
+
+.drawer__breadcrumb {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--color-border, #E2E0DB);
+}
+
+.drawer__breadcrumb button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  background: none;
+  border: none;
+  color: var(--color-text-subdued, #6B6B6B);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color var(--duration-fast, 200ms) var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
+}
+
+@media (hover: hover) {
+  .drawer__breadcrumb button:hover {
+    color: var(--color-text, #0A0A0A);
+  }
+}
+
+.drawer__breadcrumb svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* ---------------------------------------------------------------------------
+   L2 / L3 links
+   --------------------------------------------------------------------------- */
+
+.drawer__l2-list,
+.drawer__l3-list {
+  list-style: none;
+  padding: 24px;
+  margin: 0;
+}
+
+.drawer__l2-link,
+.drawer__l3-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 0;
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.drawer__l2-link svg,
+.drawer__l3-link svg {
+  width: 12px;
+  height: 12px;
+  opacity: 0.3;
+}
+
+/* Fade-in for L2/L3 content */
+.drawer__l2-list.is-active,
+.drawer__l3-list.is-active {
+  animation: drawerFadeIn 250ms var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1)) 100ms both;
+}
+
+@keyframes drawerFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Universe tabs
+   --------------------------------------------------------------------------- */
+
+.drawer__tabs {
+  display: flex;
+  border-top: 1px solid var(--color-border, #E2E0DB);
+  margin-top: auto;
+}
+
+.drawer__tab {
+  flex: 1;
+  padding: 16px;
+  background: none;
+  border: none;
+  color: var(--color-text-subdued, #6B6B6B);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  position: relative;
+  transition: color 250ms var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
+}
+
+.drawer__tab--active {
+  color: var(--color-text, #0A0A0A);
+}
+
+.drawer__tab--active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 24px;
+  right: 24px;
+  height: 1px;
+  background-color: currentColor;
+}
+
+/* ---------------------------------------------------------------------------
+   Reduced motion — autonomous animations only
+   --------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .drawer.motion-auto,
+  .drawer-backdrop.motion-auto {
+    animation: none !important;
+  }
+}

@@ -1,0 +1,188 @@
+{%- comment -%}
+  Menu Drawer — Dior-style 3-level navigation
+  Parameters: tab_1_menu, tab_1_label, tab_2_menu, tab_2_label
+{%- endcomment -%}
+
+{%- liquid
+  assign has_tab_2 = false
+  if tab_2_menu != blank and tab_2_label != blank
+    assign has_tab_2 = true
+  endif
+-%}
+
+<!-- Backdrop -->
+<div class="drawer-backdrop" data-backdrop aria-hidden="true"></div>
+
+<!-- Drawer -->
+<nav class="drawer" data-drawer data-level="1" aria-label="{{ 'header.navigation' | t }}">
+  <div class="drawer__inner">
+
+    <!-- ============ L1 Panel ============ -->
+    <div class="drawer__panel drawer__panel--l1">
+      <button class="drawer__close" data-action="close" aria-label="{{ 'header.close_menu' | t }}">
+        {%- render 'icon', name: 'close' -%}
+      </button>
+
+      <!-- Tab 1 links -->
+      <ul class="drawer__l1-list" data-tab-content="1" role="list">
+        {%- for link in tab_1_menu.links -%}
+          <li>
+            {%- if link.links.size > 0 -%}
+              <button class="drawer__l1-link" data-action="show-l2" data-target="t1-{{ forloop.index0 }}" aria-expanded="false">
+                <span class="drawer__l1-text">{{ link.title }}</span>
+                {%- render 'icon', name: 'chevron-right' -%}
+              </button>
+            {%- else -%}
+              <a href="{{ link.url }}" class="drawer__l1-link">
+                <span class="drawer__l1-text">{{ link.title }}</span>
+              </a>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+
+      {%- if has_tab_2 -%}
+        <!-- Tab 2 links -->
+        <ul class="drawer__l1-list" data-tab-content="2" hidden role="list">
+          {%- for link in tab_2_menu.links -%}
+            <li>
+              {%- if link.links.size > 0 -%}
+                <button class="drawer__l1-link" data-action="show-l2" data-target="t2-{{ forloop.index0 }}" aria-expanded="false">
+                  <span class="drawer__l1-text">{{ link.title }}</span>
+                  {%- render 'icon', name: 'chevron-right' -%}
+                </button>
+              {%- else -%}
+                <a href="{{ link.url }}" class="drawer__l1-link">
+                  <span class="drawer__l1-text">{{ link.title }}</span>
+                </a>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+
+        <!-- Universe tabs -->
+        <div class="drawer__tabs">
+          <button class="drawer__tab drawer__tab--active" data-action="switch-tab" data-tab="1">
+            {{ tab_1_label }}
+          </button>
+          <button class="drawer__tab" data-action="switch-tab" data-tab="2">
+            {{ tab_2_label }}
+          </button>
+        </div>
+      {%- endif -%}
+    </div>
+
+    <!-- ============ L2 Panel ============ -->
+    <div class="drawer__panel drawer__panel--l2">
+      <div class="drawer__breadcrumb" data-breadcrumb="l2">
+        <button data-action="back-l1" aria-label="{{ 'header.back' | t }}">
+          {%- render 'icon', name: 'chevron-left' -%}
+          <span data-breadcrumb-text></span>
+        </button>
+      </div>
+
+      <!-- L2 groups — Tab 1 -->
+      {%- for link in tab_1_menu.links -%}
+        {%- if link.links.size > 0 -%}
+          {%- assign l1_idx = forloop.index0 -%}
+          <ul class="drawer__l2-list" data-l2-id="t1-{{ l1_idx }}" hidden role="list">
+            {%- for child in link.links -%}
+              <li>
+                {%- if child.links.size > 0 -%}
+                  <button class="drawer__l2-link" data-action="show-l3" data-target="t1-{{ l1_idx }}-{{ forloop.index0 }}">
+                    <span>{{ child.title }}</span>
+                    {%- render 'icon', name: 'chevron-right' -%}
+                  </button>
+                {%- else -%}
+                  <a href="{{ child.url }}" class="drawer__l2-link">
+                    <span>{{ child.title }}</span>
+                  </a>
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- if has_tab_2 -%}
+        <!-- L2 groups — Tab 2 -->
+        {%- for link in tab_2_menu.links -%}
+          {%- if link.links.size > 0 -%}
+            {%- assign l1_idx = forloop.index0 -%}
+            <ul class="drawer__l2-list" data-l2-id="t2-{{ l1_idx }}" hidden role="list">
+              {%- for child in link.links -%}
+                <li>
+                  {%- if child.links.size > 0 -%}
+                    <button class="drawer__l2-link" data-action="show-l3" data-target="t2-{{ l1_idx }}-{{ forloop.index0 }}">
+                      <span>{{ child.title }}</span>
+                      {%- render 'icon', name: 'chevron-right' -%}
+                    </button>
+                  {%- else -%}
+                    <a href="{{ child.url }}" class="drawer__l2-link">
+                      <span>{{ child.title }}</span>
+                    </a>
+                  {%- endif -%}
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+    <!-- ============ L3 Panel ============ -->
+    <div class="drawer__panel drawer__panel--l3">
+      <div class="drawer__breadcrumb" data-breadcrumb="l3">
+        <button data-action="back-l2" aria-label="{{ 'header.back' | t }}">
+          {%- render 'icon', name: 'chevron-left' -%}
+          <span data-breadcrumb-text></span>
+        </button>
+      </div>
+
+      <!-- L3 groups — Tab 1 -->
+      {%- for link in tab_1_menu.links -%}
+        {%- if link.links.size > 0 -%}
+          {%- assign l1_idx = forloop.index0 -%}
+          {%- for child in link.links -%}
+            {%- if child.links.size > 0 -%}
+              {%- assign l2_idx = forloop.index0 -%}
+              <ul class="drawer__l3-list" data-l3-id="t1-{{ l1_idx }}-{{ l2_idx }}" hidden role="list">
+                {%- for grandchild in child.links -%}
+                  <li>
+                    <a href="{{ grandchild.url }}" class="drawer__l3-link">
+                      {{ grandchild.title }}
+                    </a>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- if has_tab_2 -%}
+        <!-- L3 groups — Tab 2 -->
+        {%- for link in tab_2_menu.links -%}
+          {%- if link.links.size > 0 -%}
+            {%- assign l1_idx = forloop.index0 -%}
+            {%- for child in link.links -%}
+              {%- if child.links.size > 0 -%}
+                {%- assign l2_idx = forloop.index0 -%}
+                <ul class="drawer__l3-list" data-l3-id="t2-{{ l1_idx }}-{{ l2_idx }}" hidden role="list">
+                  {%- for grandchild in child.links -%}
+                    <li>
+                      <a href="{{ grandchild.url }}" class="drawer__l3-link">
+                        {{ grandchild.title }}
+                      </a>
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+  </div>
+</nav>
