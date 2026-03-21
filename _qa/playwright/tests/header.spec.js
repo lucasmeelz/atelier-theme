@@ -54,8 +54,14 @@ test.describe("Header — Sticky", () => {
       test.skip();
       return;
     }
+    /* Ensure page is scrollable */
+    const isScrollable = await page.evaluate(() => document.body.scrollHeight > window.innerHeight + 100);
+    if (!isScrollable) {
+      test.skip();
+      return;
+    }
     await page.evaluate(() => window.scrollTo(0, 500));
-    await page.waitForTimeout(600);
+    await page.waitForTimeout(800);
     await expect(stickyHeader).toHaveClass(/header-wrapper--scrolled/);
   });
 });

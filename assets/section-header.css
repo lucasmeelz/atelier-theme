@@ -61,7 +61,6 @@ html[scroll-lock] {
 /* Transparent header on hero */
 .header-wrapper--transparent .header {
   background-color: transparent;
-  color: var(--color-header-transparent, #FFFFFF);
 }
 
 .header-wrapper--transparent.header-wrapper--scrolled .header {
@@ -564,13 +563,18 @@ html[scroll-lock] {
 .drawer__editorial-images {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 4px;
-  padding: 24px 16px;
+  gap: 12px;
+  padding: 24px;
 }
 
 .drawer__editorial-item {
-  position: relative;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.drawer__editorial-item a {
+  display: block;
 }
 
 .drawer__editorial-item img {
@@ -580,6 +584,20 @@ html[scroll-lock] {
   display: block;
 }
 
+.drawer__editorial-title {
+  font-family: var(--font-heading--family, serif);
+  font-size: 0.875rem;
+  font-weight: 300;
+  margin: 0;
+}
+
+.drawer__editorial-subtitle {
+  font-size: 0.75rem;
+  color: var(--color-text-subdued, #6B6B6B);
+  margin: 0;
+}
+
+/* Legacy overlay caption — kept for backwards compat */
 .drawer__editorial-caption {
   position: absolute;
   bottom: 0;
@@ -744,13 +762,13 @@ html[scroll-lock] {
 
 .header__mega-image-title {
   font-family: var(--font-heading--family, serif);
-  font-size: 15px;
-  font-weight: 300;
+  font-size: 1rem;
+  font-weight: 400;
   margin: 0;
 }
 
 .header__mega-image-subtitle {
-  font-size: 11px;
+  font-size: 0.8125rem;
   color: var(--color-text-subdued, #6B6B6B);
   margin: 0;
 }

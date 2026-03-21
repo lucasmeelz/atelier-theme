@@ -113,23 +113,50 @@
                   <div class="drawer__editorial-images">
                     {%- if block.settings.image_1 -%}
                       <div class="drawer__editorial-item">
-                        {{ block.settings.image_1 | image_url: width: 400 | image_tag: alt: block.settings.image_1_label, loading: 'lazy', widths: '200, 300, 400' }}
+                        {%- if block.settings.image_1_url -%}
+                          <a href="{{ block.settings.image_1_url }}">
+                            {{ block.settings.image_1 | image_url: width: 400 | image_tag: alt: block.settings.image_1_label, loading: 'lazy', widths: '200, 300, 400' }}
+                          </a>
+                        {%- else -%}
+                          {{ block.settings.image_1 | image_url: width: 400 | image_tag: alt: block.settings.image_1_label, loading: 'lazy', widths: '200, 300, 400' }}
+                        {%- endif -%}
                         {%- if block.settings.image_1_label != blank -%}
-                          <p class="drawer__editorial-caption">{{ block.settings.image_1_label }}</p>
+                          <p class="drawer__editorial-title">{{ block.settings.image_1_label }}</p>
+                        {%- endif -%}
+                        {%- if block.settings.image_1_subtitle != blank -%}
+                          <p class="drawer__editorial-subtitle">{{ block.settings.image_1_subtitle }}</p>
                         {%- endif -%}
                       </div>
                     {%- endif -%}
                     {%- if block.settings.image_2 -%}
                       <div class="drawer__editorial-item">
-                        {{ block.settings.image_2 | image_url: width: 400 | image_tag: alt: block.settings.image_2_label, loading: 'lazy', widths: '200, 300, 400' }}
+                        {%- if block.settings.image_2_url -%}
+                          <a href="{{ block.settings.image_2_url }}">
+                            {{ block.settings.image_2 | image_url: width: 400 | image_tag: alt: block.settings.image_2_label, loading: 'lazy', widths: '200, 300, 400' }}
+                          </a>
+                        {%- else -%}
+                          {{ block.settings.image_2 | image_url: width: 400 | image_tag: alt: block.settings.image_2_label, loading: 'lazy', widths: '200, 300, 400' }}
+                        {%- endif -%}
                         {%- if block.settings.image_2_label != blank -%}
-                          <p class="drawer__editorial-caption">{{ block.settings.image_2_label }}</p>
+                          <p class="drawer__editorial-title">{{ block.settings.image_2_label }}</p>
+                        {%- endif -%}
+                        {%- if block.settings.image_2_subtitle != blank -%}
+                          <p class="drawer__editorial-subtitle">{{ block.settings.image_2_subtitle }}</p>
                         {%- endif -%}
                       </div>
                     {%- endif -%}
                     {%- if block.settings.image_3 -%}
                       <div class="drawer__editorial-item">
-                        {{ block.settings.image_3 | image_url: width: 400 | image_tag: alt: '', loading: 'lazy', widths: '200, 300, 400' }}
+                        {%- if block.settings.image_3_url -%}
+                          <a href="{{ block.settings.image_3_url }}">
+                            {{ block.settings.image_3 | image_url: width: 400 | image_tag: alt: '', loading: 'lazy', widths: '200, 300, 400' }}
+                          </a>
+                        {%- else -%}
+                          {{ block.settings.image_3 | image_url: width: 400 | image_tag: alt: '', loading: 'lazy', widths: '200, 300, 400' }}
+                        {%- endif -%}
+                        {%- if block.settings.image_3_subtitle != blank -%}
+                          <p class="drawer__editorial-subtitle">{{ block.settings.image_3_subtitle }}</p>
+                        {%- endif -%}
                       </div>
                     {%- endif -%}
                     {%- if block.settings.image_4 -%}

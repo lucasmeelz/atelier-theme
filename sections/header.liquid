@@ -1,6 +1,14 @@
 {{ 'section-header.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'section-header.js' | asset_url }}" defer="defer"></script>
 
+{%- if section.settings.transparent_header -%}
+  <style>
+    .header-wrapper--transparent:not(.header-wrapper--scrolled) .header {
+      color: {{ section.settings.transparent_text_color }};
+    }
+  </style>
+{%- endif -%}
+
 <sticky-header
   class="header-wrapper color-{{ section.settings.color_scheme }}{% if section.settings.enable_sticky %} header-wrapper--sticky{% endif %}{% if section.settings.transparent_header %} header-wrapper--transparent{% endif %}"
   {% if section.settings.hide_on_scroll %}data-hide-on-scroll="true"{% endif %}
@@ -229,9 +237,16 @@
     {
       "type": "checkbox",
       "id": "transparent_header",
-      "label": "Transparent header on hero",
-      "default": true,
-      "info": "Header becomes transparent when at the top of the page over a hero section"
+      "label": "Transparent header on home page",
+      "default": false,
+      "info": "Header becomes transparent at the top of the page. Use only when the first section is a full-bleed hero image"
+    },
+    {
+      "type": "color",
+      "id": "transparent_text_color",
+      "label": "Transparent header text color",
+      "default": "#FFFFFF",
+      "info": "Text and icon color when header is transparent"
     },
     {
       "type": "header",
@@ -279,13 +294,22 @@
     {
       "type": "range",
       "id": "logo_width",
-      "min": 80,
+      "min": 60,
       "max": 300,
       "step": 10,
       "unit": "px",
-      "label": "Logo width",
-      "default": 120,
-      "info": "Pixel width of the logo on desktop. Logo scales proportionally"
+      "label": "Logo width on desktop",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "logo_width_mobile",
+      "min": 40,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Logo width on mobile",
+      "default": 90
     },
     {
       "type": "header",
@@ -294,20 +318,30 @@
     {
       "type": "checkbox",
       "id": "show_search",
-      "label": "Show search",
+      "label": "Show search icon",
       "default": true
     },
     {
       "type": "checkbox",
       "id": "show_wishlist",
-      "label": "Show wishlist",
+      "label": "Show wishlist icon",
       "default": false
     },
     {
       "type": "checkbox",
       "id": "show_account",
-      "label": "Show account",
+      "label": "Show account icon",
       "default": true
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "min": 16,
+      "max": 28,
+      "step": 2,
+      "unit": "px",
+      "label": "Icon size",
+      "default": 20
     },
     {
       "type": "header",
