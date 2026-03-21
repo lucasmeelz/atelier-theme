@@ -30,7 +30,7 @@
       ],
       "settings": {
         "menu": "menu-2",
-        "nav_style": "drawer",
+        "nav_style": "mega",
         "enable_sticky": true,
         "hide_on_scroll": false,
         "logo_width": 120,
