@@ -13,10 +13,27 @@
   "sections": {
     "header": {
       "type": "header",
-      "settings": {}
+      "settings": {
+        "menu": "menu-2",
+        "desktop_layout": "logo_center",
+        "color_scheme": "",
+        "transparent_header": false,
+        "transparent_text_color": "#ffffff",
+        "logo_width": 120,
+        "nav_style": "drawer",
+        "enable_sticky": true,
+        "show_search": true,
+        "show_account": true,
+        "show_country_selector": true,
+        "show_language_selector": false,
+        "tab_1_label": "Fashion",
+        "tab_1_menu": "main-menu",
+        "tab_2_label": "",
+        "tab_2_menu": ""
+      }
     }
   },
   "order": [
     "header"
-  ],
+  ]
 }
