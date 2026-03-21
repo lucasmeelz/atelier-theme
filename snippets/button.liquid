@@ -1,0 +1,43 @@
+{% comment %}
+  Button component — 4 variants
+
+  Usage:
+    {% render 'button', variant: 'primary', content: 'Shop now', url: routes.all_products_collection_url %}
+    {% render 'button', variant: 'text-link', content: 'Discover', url: '#' %}
+
+  Parameters:
+    - variant  {String}  primary | secondary | outline-white | text-link (default: primary)
+    - content  {String}  Button label text
+    - url      {String}  Optional — renders <a> if present, <button> otherwise
+    - type     {String}  Optional — button type attribute (default: button)
+    - class    {String}  Optional — additional CSS classes
+{% endcomment %}
+
+{%- liquid
+  assign variant = variant | default: 'primary'
+  assign type = type | default: 'button'
+-%}
+
+{%- capture btn_classes -%}btn btn--{{ variant }}{% if class %} {{ class }}{% endif %}{%- endcapture -%}
+
+{%- if variant == 'text-link' -%}
+  {%- if url -%}
+    <a href="{{ url }}" class="{{ btn_classes }}">{{ content }}</a>
+  {%- else -%}
+    <button type="{{ type }}" class="{{ btn_classes }}">{{ content }}</button>
+  {%- endif -%}
+{%- else -%}
+  {%- if url -%}
+    <a href="{{ url }}" class="{{ btn_classes }}">
+      <span class="btn__spacer">{{ content }}</span>
+      <span class="btn__text">{{ content }}</span>
+      <span class="btn__text-hover">{{ content }}</span>
+    </a>
+  {%- else -%}
+    <button type="{{ type }}" class="{{ btn_classes }}">
+      <span class="btn__spacer">{{ content }}</span>
+      <span class="btn__text">{{ content }}</span>
+      <span class="btn__text-hover">{{ content }}</span>
+    </button>
+  {%- endif -%}
+{%- endif -%}

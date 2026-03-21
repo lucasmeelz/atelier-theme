@@ -1,0 +1,126 @@
+/* ==========================================================================
+   Component — Button
+   4 variants : primary, secondary, outline-white, text-link
+   ========================================================================== */
+
+.btn {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.875rem 2rem;
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid transparent;
+  border-radius: var(--border-radius, 0);
+  cursor: pointer;
+  background: none;
+  color: inherit;
+}
+
+/* ---------------------------------------------------------------------------
+   Slide-up inner structure
+   --------------------------------------------------------------------------- */
+
+.btn__spacer {
+  visibility: hidden;
+}
+
+.btn__text,
+.btn__text-hover {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--duration-base, 350ms) var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
+}
+
+.btn__text-hover {
+  transform: translateY(100%);
+}
+
+@media (hover: hover) {
+  .btn:hover .btn__text {
+    transform: translateY(-100%);
+  }
+
+  .btn:hover .btn__text-hover {
+    transform: translateY(0);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Variant — primary
+   --------------------------------------------------------------------------- */
+
+.btn--primary {
+  background-color: var(--color-button-bg, #0A0A0A);
+  color: var(--color-button-text, #FFFFFF);
+  border-color: var(--color-button-bg, #0A0A0A);
+}
+
+/* ---------------------------------------------------------------------------
+   Variant — secondary
+   --------------------------------------------------------------------------- */
+
+.btn--secondary {
+  background-color: transparent;
+  color: var(--color-text, #0A0A0A);
+  border-color: var(--color-text, #0A0A0A);
+}
+
+/* ---------------------------------------------------------------------------
+   Variant — outline-white
+   --------------------------------------------------------------------------- */
+
+.btn--outline-white {
+  background-color: transparent;
+  color: #FFFFFF;
+  border-color: #FFFFFF;
+}
+
+.btn--outline-white .btn__text,
+.btn--outline-white .btn__text-hover {
+  color: #FFFFFF;
+}
+
+/* ---------------------------------------------------------------------------
+   Variant — text-link (Dior style)
+   --------------------------------------------------------------------------- */
+
+.btn--text-link {
+  position: relative;
+  overflow: visible;
+  padding: 0;
+  border: none;
+  background: none;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  text-transform: none;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  transition: opacity var(--duration-fast, 200ms) var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
+}
+
+@media (hover: hover) {
+  .btn--text-link:hover {
+    opacity: 0.7;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Reduced motion — autonomous animations only
+   --------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .btn.motion-auto {
+    animation: none !important;
+  }
+}
