@@ -354,16 +354,15 @@ html[scroll-lock] {
 .drawer__close {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
+  gap: 10px;
   padding: 0;
   background: none;
   border: none;
+  border-bottom: 1px solid var(--color-border, #E2E0DB);
   color: inherit;
   cursor: pointer;
-  align-self: flex-end;
-  margin: 16px 16px 0;
+  width: 100%;
+  padding: 20px 24px;
   transition: opacity var(--duration-fast, 200ms) var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
 }
 
@@ -374,8 +373,14 @@ html[scroll-lock] {
 }
 
 .drawer__close svg {
-  width: 18px;
-  height: 18px;
+  width: 14px;
+  height: 14px;
+}
+
+.drawer__close-text {
+  font-size: 0.8125rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
 }
 
 /* ---------------------------------------------------------------------------
@@ -384,7 +389,7 @@ html[scroll-lock] {
 
 .drawer__l1-list {
   list-style: none;
-  padding: 24px;
+  padding: 32px 24px;
   margin: 0;
   flex: 1;
 }
@@ -409,13 +414,13 @@ html[scroll-lock] {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 14px 0;
+  padding: 11px 0;
   background: none;
   border: none;
   color: inherit;
-  font-family: var(--font-heading--family, serif);
-  font-size: 1.25rem;
-  font-weight: 300;
+  font-family: var(--font-body--family, sans-serif);
+  font-size: 1.0625rem;
+  font-weight: 400;
   letter-spacing: 0.01em;
   text-decoration: none;
   cursor: pointer;
@@ -423,9 +428,9 @@ html[scroll-lock] {
 }
 
 .drawer__l1-link svg {
-  width: 14px;
-  height: 14px;
-  opacity: 0.3;
+  width: 12px;
+  height: 12px;
+  opacity: 0.25;
 }
 
 /* ---------------------------------------------------------------------------
@@ -441,21 +446,23 @@ html[scroll-lock] {
 .drawer__breadcrumb button {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   padding: 0;
   background: none;
   border: none;
-  color: var(--color-text-subdued, #6B6B6B);
-  font-size: 0.8125rem;
-  letter-spacing: 0.04em;
+  color: var(--color-text, #0A0A0A);
+  font-family: var(--font-body--family, sans-serif);
+  font-size: 0.9375rem;
+  font-weight: 400;
+  letter-spacing: 0.01em;
   text-transform: none;
   cursor: pointer;
-  transition: color var(--duration-fast, 200ms) var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
+  transition: opacity var(--duration-fast, 200ms) var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
 }
 
 @media (hover: hover) {
   .drawer__breadcrumb button:hover {
-    color: var(--color-text, #0A0A0A);
+    opacity: 0.5;
   }
 }
 
@@ -481,13 +488,13 @@ html[scroll-lock] {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 10px 0;
+  padding: 11px 0;
   background: none;
   border: none;
   color: inherit;
   font-family: var(--font-body--family, sans-serif);
-  font-size: 0.9375rem;
-  font-weight: 300;
+  font-size: 1.0625rem;
+  font-weight: 400;
   letter-spacing: 0.01em;
   text-decoration: none;
   cursor: pointer;
@@ -563,14 +570,14 @@ html[scroll-lock] {
 .drawer__editorial-images {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: 4px;
   padding: 24px;
+  margin-top: auto;
 }
 
 .drawer__editorial-item {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  position: relative;
+  overflow: hidden;
 }
 
 .drawer__editorial-item a {
@@ -585,16 +592,29 @@ html[scroll-lock] {
 }
 
 .drawer__editorial-title {
-  font-family: var(--font-heading--family, serif);
-  font-size: 0.875rem;
-  font-weight: 300;
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
+  font-family: var(--font-body--family, sans-serif);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: #fff;
   margin: 0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .drawer__editorial-subtitle {
-  font-size: 0.75rem;
-  color: var(--color-text-subdued, #6B6B6B);
+  position: absolute;
+  bottom: 30px;
+  left: 12px;
+  right: 12px;
+  font-size: 0.6875rem;
+  color: rgba(255, 255, 255, 0.7);
   margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 /* Legacy overlay caption — kept for backwards compat */
