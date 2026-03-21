@@ -124,7 +124,7 @@ html[scroll-lock] {
 
 .header__logo-text {
   font-family: var(--font-heading--family, serif);
-  font-size: 1.5rem;
+  font-size: var(--font-size-logo, 1.5rem);
   font-weight: 400;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -175,7 +175,7 @@ html[scroll-lock] {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.6rem;
+  font-size: var(--font-size-badge, 0.6rem);
   font-weight: 500;
   background-color: var(--color-text, #0A0A0A);
   color: var(--color-background, #FFFFFF);
@@ -385,7 +385,7 @@ html[scroll-lock] {
 }
 
 .drawer__close-text {
-  font-size: 0.8125rem;
+  font-size: var(--font-size-secondary, 0.8125rem);
   font-weight: 400;
   letter-spacing: 0;
 }
@@ -423,7 +423,7 @@ html[scroll-lock] {
   border: none;
   color: inherit;
   font-family: var(--font-body--family, sans-serif);
-  font-size: 1.0625rem;
+  font-size: var(--font-size-primary, 1.0625rem);
   font-weight: 400;
   letter-spacing: 0;
   text-decoration: none;
@@ -456,7 +456,7 @@ html[scroll-lock] {
   border: none;
   color: var(--color-text, #0A0A0A);
   font-family: var(--font-body--family, sans-serif);
-  font-size: 0.9375rem;
+  font-size: var(--font-size-tertiary, 0.9375rem);
   font-weight: 400;
   letter-spacing: 0;
   text-transform: none;
@@ -497,7 +497,7 @@ html[scroll-lock] {
   border: none;
   color: inherit;
   font-family: var(--font-body--family, sans-serif);
-  font-size: 1.0625rem;
+  font-size: var(--font-size-primary, 1.0625rem);
   font-weight: 400;
   letter-spacing: 0;
   text-decoration: none;
@@ -544,7 +544,7 @@ html[scroll-lock] {
   background: none;
   border: none;
   color: var(--color-text-subdued, #6B6B6B);
-  font-size: 0.6875rem;
+  font-size: var(--font-size-micro, 0.6875rem);
   font-weight: 400;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -601,7 +601,7 @@ html[scroll-lock] {
   left: 12px;
   right: 12px;
   font-family: var(--font-body--family, sans-serif);
-  font-size: 0.8125rem;
+  font-size: var(--font-size-secondary, 0.8125rem);
   font-weight: 400;
   letter-spacing: 0;
   color: #fff;
@@ -615,7 +615,7 @@ html[scroll-lock] {
   bottom: 30px;
   left: 12px;
   right: 12px;
-  font-size: 0.6875rem;
+  font-size: var(--font-size-micro, 0.6875rem);
   font-weight: 400;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -652,7 +652,7 @@ html[scroll-lock] {
   align-items: center;
   gap: 6px;
   padding: 14px 20px;
-  font-size: 0.6875rem;
+  font-size: var(--font-size-micro, 0.6875rem);
   font-weight: 400;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -714,7 +714,7 @@ html[scroll-lock] {
 }
 
 .header__mega-col-heading {
-  font-size: 0.6875rem;
+  font-size: var(--font-size-micro, 0.6875rem);
   font-weight: 400;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -733,7 +733,7 @@ html[scroll-lock] {
 .header__mega-sublink {
   display: block;
   padding: 7px 0;
-  font-size: 0.9375rem;
+  font-size: var(--font-size-tertiary, 0.9375rem);
   font-weight: 400;
   letter-spacing: 0;
   color: inherit;
@@ -779,14 +779,14 @@ html[scroll-lock] {
 
 .header__mega-image-title {
   font-family: var(--font-body--family, sans-serif);
-  font-size: 0.9375rem;
+  font-size: var(--font-size-tertiary, 0.9375rem);
   font-weight: 400;
   letter-spacing: 0;
   margin: 0;
 }
 
 .header__mega-image-subtitle {
-  font-size: 0.8125rem;
+  font-size: var(--font-size-secondary, 0.8125rem);
   font-weight: 400;
   letter-spacing: 0;
   color: var(--color-text-subdued, #6B6B6B);

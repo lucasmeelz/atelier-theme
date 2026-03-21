@@ -32,8 +32,8 @@
   </head>
 
   <body>
+    <div id="header-sentinel" aria-hidden="true" style="position:absolute;top:0;left:0;width:1px;height:1px;pointer-events:none;"></div>
     {% sections 'header-group' %}
-    <div id="header-sentinel" aria-hidden="true" style="height:1px;width:100%;pointer-events:none;margin-top:-1px;"></div>
 
     {{ content_for_layout }}
 

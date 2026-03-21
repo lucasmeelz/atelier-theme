@@ -23,38 +23,40 @@ class StickyHeader extends HTMLElement {
     this._resizeObserver = new ResizeObserver(this._updateHeight);
     this._resizeObserver.observe(this);
 
-    /* Scroll detection via IntersectionObserver on external sentinel */
-    var sentinel = document.getElementById('header-sentinel');
-    if (sentinel) {
-      this._observer = new IntersectionObserver(function (entries) {
-        this.classList.toggle('header-wrapper--scrolled', !entries[0].isIntersecting);
-      }.bind(this));
-      this._observer.observe(sentinel);
-    }
+    /* Scroll detection — scroll listener (reliable on all pages) */
+    var self = this;
+    var headerHeight = this.offsetHeight;
+    var lastY = 0;
+    var ticking = false;
 
-    /* Hide on scroll down (optional, RAF-throttled) */
-    if (this.dataset.hideOnScroll === 'true') {
-      var lastY = window.scrollY;
-      var ticking = false;
-      var self = this;
+    this._scrollHandler = function () {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () {
+        var y = window.scrollY;
 
-      this._scrollHandler = function () {
-        if (ticking) return;
-        ticking = true;
-        requestAnimationFrame(function () {
-          var y = window.scrollY;
-          self.classList.toggle('header-wrapper--hidden', y > lastY && y > 100);
-          lastY = y;
-          ticking = false;
-        });
-      };
+        /* Scrolled state: background switches from transparent to solid */
+        self.classList.toggle('header-wrapper--scrolled', y > 2);
 
-      window.addEventListener('scroll', this._scrollHandler, { passive: true });
+        /* Hide on scroll down (optional) */
+        if (self.dataset.hideOnScroll === 'true') {
+          self.classList.toggle('header-wrapper--hidden', y > lastY && y > headerHeight);
+        }
+
+        lastY = y;
+        ticking = false;
+      });
+    };
+
+    window.addEventListener('scroll', this._scrollHandler, { passive: true });
+
+    /* Set initial state in case page loads scrolled */
+    if (window.scrollY > 2) {
+      this.classList.add('header-wrapper--scrolled');
     }
   }
 
   disconnectedCallback() {
-    if (this._observer) this._observer.disconnect();
     if (this._resizeObserver) this._resizeObserver.disconnect();
     if (this._scrollHandler) window.removeEventListener('scroll', this._scrollHandler);
   }
