@@ -18,10 +18,19 @@
           "type": "mega_menu",
           "settings": {
             "menu_item": "Main 2",
+            "col_1_heading": "",
+            "col_2_heading": "",
+            "col_3_heading": "",
             "image_1": "shopify://shop_images/portrait_3to4.jpg",
-            "image_2": "shopify://shop_images/square_2.jpg",
             "image_1_label": "caption",
-            "image_2_label": ""
+            "image_1_subtitle": "",
+            "image_1_url": "",
+            "image_2": "shopify://shop_images/square_2.jpg",
+            "image_2_label": "",
+            "image_2_subtitle": "",
+            "image_2_url": "",
+            "image_3_subtitle": "",
+            "image_3_url": ""
           }
         }
       },
@@ -31,8 +40,8 @@
       "settings": {
         "menu": "menu-2",
         "color_scheme": "",
-        "transparent_header": false,
-        "nav_style": "drawer",
+        "transparent_header": true,
+        "nav_style": "mega",
         "enable_sticky": false,
         "hide_on_scroll": false,
         "logo_width": 120,
