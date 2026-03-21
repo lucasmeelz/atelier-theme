@@ -23,8 +23,8 @@
         "show_account": true,
         "tab_1_label": "Fashion",
         "tab_1_menu": "menu-2",
-        "tab_2_label": "",
-        "tab_2_menu": ""
+        "tab_2_label": "catalog",
+        "tab_2_menu": "menu-header"
       }
     }
   },
