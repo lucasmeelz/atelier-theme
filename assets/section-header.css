@@ -61,7 +61,7 @@ html[scroll-lock] {
 /* Transparent header on hero */
 .header-wrapper--transparent .header {
   background-color: transparent;
-  color: #FFFFFF;
+  color: var(--color-header-transparent, #FFFFFF);
 }
 
 .header-wrapper--transparent.header-wrapper--scrolled .header {
@@ -99,6 +99,18 @@ html[scroll-lock] {
 
 .header__logo-image {
   height: auto;
+}
+
+.header__logo-image--transparent {
+  display: none;
+}
+
+.header-wrapper--transparent:not(.header-wrapper--scrolled) .header__logo-image--default {
+  display: none;
+}
+
+.header-wrapper--transparent:not(.header-wrapper--scrolled) .header__logo-image--transparent {
+  display: block;
 }
 
 .header__logo-text {
@@ -376,6 +388,21 @@ html[scroll-lock] {
   padding: 24px;
   margin: 0;
   flex: 1;
+}
+
+@media (max-width: 374px) {
+  .drawer__l1-list {
+    padding: 16px;
+  }
+
+  .drawer__l2-list,
+  .drawer__l3-list {
+    padding: 16px;
+  }
+
+  .drawer__breadcrumb {
+    padding: 16px;
+  }
 }
 
 .drawer__l1-link {
@@ -788,5 +815,10 @@ html[scroll-lock] {
   .drawer.motion-auto,
   .drawer-backdrop.motion-auto {
     animation: none !important;
+  }
+
+  .drawer-backdrop[open] {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 }

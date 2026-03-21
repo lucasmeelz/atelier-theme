@@ -8,7 +8,7 @@
   <header class="header">
     <!-- Left: hamburger -->
     <div class="header__left">
-      <button class="header__menu-toggle{% if section.settings.nav_style == 'mega' %} header__toggle--mega-hidden{% endif %}" data-drawer-open aria-label="{{ 'header.menu' | t }}">
+      <button class="header__menu-toggle{% if section.settings.nav_style == 'mega' %} header__toggle--mega-hidden{% endif %}" data-drawer-open aria-label="{{ 'header.menu' | t }}" aria-expanded="false">
         {%- render 'icon', name: 'menu' -%}
       </button>
     </div>
@@ -20,8 +20,15 @@
           {{
             section.settings.logo
             | image_url: width: section.settings.logo_width
-            | image_tag: alt: shop.name, class: 'header__logo-image', widths: '80,120,160,200,240,300'
+            | image_tag: alt: shop.name, class: 'header__logo-image header__logo-image--default', widths: '80,120,160,200,240,300'
           }}
+          {%- if section.settings.transparent_logo -%}
+            {{
+              section.settings.transparent_logo
+              | image_url: width: section.settings.logo_width
+              | image_tag: alt: shop.name, class: 'header__logo-image header__logo-image--transparent', widths: '80,120,160,200,240,300'
+            }}
+          {%- endif -%}
         {%- else -%}
           <span class="header__logo-text">{{ shop.name }}</span>
         {%- endif -%}
@@ -262,6 +269,12 @@
       "id": "logo",
       "label": "Logo",
       "info": "Upload your logo. If empty, store name is displayed as text"
+    },
+    {
+      "type": "image_picker",
+      "id": "transparent_logo",
+      "label": "Transparent header logo",
+      "info": "Light logo for transparent header over dark hero images. If empty, default logo is used"
     },
     {
       "type": "range",

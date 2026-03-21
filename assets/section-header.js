@@ -136,6 +136,9 @@ class MenuDrawer extends HTMLElement {
     this.backdrop.setAttribute('open', '');
     this.drawer.dataset.level = '1';
     document.documentElement.setAttribute('scroll-lock', '');
+    document.querySelectorAll('[data-drawer-open]').forEach(function (btn) {
+      btn.setAttribute('aria-expanded', 'true');
+    });
     this.trapFocus();
   }
 
@@ -143,6 +146,9 @@ class MenuDrawer extends HTMLElement {
     this.drawer.removeAttribute('open');
     this.backdrop.removeAttribute('open');
     document.documentElement.removeAttribute('scroll-lock');
+    document.querySelectorAll('[data-drawer-open]').forEach(function (btn) {
+      btn.setAttribute('aria-expanded', 'false');
+    });
     this.releaseFocus();
 
     /* Reset panels after slide-out animation */

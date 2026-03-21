@@ -29,7 +29,7 @@
         {%- for link in nav_menu.links -%}
           <li>
             {%- if link.links.size > 0 -%}
-              <button class="drawer__l1-link" data-action="show-l2" data-target="t1-{{ forloop.index0 }}" aria-expanded="false">
+              <button class="drawer__l1-link" data-action="show-l2" data-target="t1-{{ forloop.index0 }}" aria-expanded="false" aria-controls="drawer-l2-t1-{{ forloop.index0 }}">
                 <span class="drawer__l1-text">{{ link.title }}</span>
                 {%- render 'icon', name: 'chevron-right' -%}
               </button>
@@ -48,7 +48,7 @@
           {%- for link in tab_2_menu.links -%}
             <li>
               {%- if link.links.size > 0 -%}
-                <button class="drawer__l1-link" data-action="show-l2" data-target="t2-{{ forloop.index0 }}" aria-expanded="false">
+                <button class="drawer__l1-link" data-action="show-l2" data-target="t2-{{ forloop.index0 }}" aria-expanded="false" aria-controls="drawer-l2-t2-{{ forloop.index0 }}">
                   <span class="drawer__l1-text">{{ link.title }}</span>
                   {%- render 'icon', name: 'chevron-right' -%}
                 </button>
@@ -78,7 +78,7 @@
       <div class="drawer__breadcrumb" data-breadcrumb="l2">
         <button data-action="back-l1" aria-label="{{ 'header.back' | t }}">
           {%- render 'icon', name: 'chevron-left' -%}
-          <span data-breadcrumb-text></span>
+          <span data-breadcrumb-text aria-live="polite"></span>
         </button>
       </div>
 
@@ -86,7 +86,7 @@
       {%- for link in nav_menu.links -%}
         {%- if link.links.size > 0 -%}
           {%- assign l1_idx = forloop.index0 -%}
-          <div class="drawer__l2-group" data-l2-id="t1-{{ l1_idx }}" hidden>
+          <div class="drawer__l2-group" id="drawer-l2-t1-{{ l1_idx }}" data-l2-id="t1-{{ l1_idx }}" hidden>
             <ul class="drawer__l2-list" role="list">
               {%- for child in link.links -%}
                 <li>
@@ -150,7 +150,7 @@
         {%- for link in tab_2_menu.links -%}
           {%- if link.links.size > 0 -%}
             {%- assign l1_idx = forloop.index0 -%}
-            <div class="drawer__l2-group" data-l2-id="t2-{{ l1_idx }}" hidden>
+            <div class="drawer__l2-group" id="drawer-l2-t2-{{ l1_idx }}" data-l2-id="t2-{{ l1_idx }}" hidden>
               <ul class="drawer__l2-list" role="list">
                 {%- for child in link.links -%}
                   <li>
@@ -178,7 +178,7 @@
       <div class="drawer__breadcrumb" data-breadcrumb="l3">
         <button data-action="back-l2" aria-label="{{ 'header.back' | t }}">
           {%- render 'icon', name: 'chevron-left' -%}
-          <span data-breadcrumb-text></span>
+          <span data-breadcrumb-text aria-live="polite"></span>
         </button>
       </div>
 
