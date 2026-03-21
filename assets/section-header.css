@@ -55,6 +55,18 @@ html[scroll-lock] {
 
 .header-wrapper--scrolled .header {
   background-color: var(--color-background, #FFFFFF);
+  color: var(--color-text, #0A0A0A);
+}
+
+/* Transparent header on hero */
+.header-wrapper--transparent .header {
+  background-color: transparent;
+  color: #FFFFFF;
+}
+
+.header-wrapper--transparent.header-wrapper--scrolled .header {
+  background-color: var(--color-background, #FFFFFF);
+  color: var(--color-text, #0A0A0A);
 }
 
 /* Sections */
@@ -736,6 +748,36 @@ html[scroll-lock] {
   .header__toggle--mega-hidden {
     display: none;
   }
+}
+
+/* ---------------------------------------------------------------------------
+   Focus visible (WCAG 2.4.7)
+   --------------------------------------------------------------------------- */
+
+.header__icon:focus-visible,
+.header__menu-toggle:focus-visible,
+.header__logo:focus-visible,
+.drawer__close:focus-visible,
+.drawer__l1-link:focus-visible,
+.drawer__l2-link:focus-visible,
+.drawer__l3-link:focus-visible,
+.drawer__tab:focus-visible,
+.header__mega-link:focus-visible,
+.header__mega-sublink:focus-visible,
+.drawer__breadcrumb button:focus-visible {
+  outline: 1px solid var(--color-text, #0A0A0A);
+  outline-offset: 2px;
+}
+
+/* ---------------------------------------------------------------------------
+   Breadcrumb overflow
+   --------------------------------------------------------------------------- */
+
+[data-breadcrumb-text] {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: calc(100% - 30px);
 }
 
 /* ---------------------------------------------------------------------------

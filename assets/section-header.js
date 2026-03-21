@@ -13,37 +13,50 @@ class StickyHeader extends HTMLElement {
     if (!this.classList.contains('header-wrapper--sticky')) return;
 
     /* Expose --header-height for mega dropdown positioning */
-    const updateHeight = () => {
+    this._updateHeight = () => {
       document.documentElement.style.setProperty(
         '--header-height',
         this.offsetHeight + 'px'
       );
     };
-    updateHeight();
-    new ResizeObserver(updateHeight).observe(this);
+    this._updateHeight();
+    this._resizeObserver = new ResizeObserver(this._updateHeight);
+    this._resizeObserver.observe(this);
 
     /* Scroll detection via IntersectionObserver on external sentinel */
-    const sentinel = document.getElementById('header-sentinel');
+    var sentinel = document.getElementById('header-sentinel');
     if (sentinel) {
-      this.observer = new IntersectionObserver(([entry]) => {
-        this.classList.toggle('header-wrapper--scrolled', !entry.isIntersecting);
-      });
-      this.observer.observe(sentinel);
+      this._observer = new IntersectionObserver(function (entries) {
+        this.classList.toggle('header-wrapper--scrolled', !entries[0].isIntersecting);
+      }.bind(this));
+      this._observer.observe(sentinel);
     }
 
-    /* Hide on scroll down (optional) */
+    /* Hide on scroll down (optional, RAF-throttled) */
     if (this.dataset.hideOnScroll === 'true') {
-      let lastY = window.scrollY;
-      window.addEventListener('scroll', () => {
-        const y = window.scrollY;
-        this.classList.toggle('header-wrapper--hidden', y > lastY && y > 100);
-        lastY = y;
-      }, { passive: true });
+      var lastY = window.scrollY;
+      var ticking = false;
+      var self = this;
+
+      this._scrollHandler = function () {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () {
+          var y = window.scrollY;
+          self.classList.toggle('header-wrapper--hidden', y > lastY && y > 100);
+          lastY = y;
+          ticking = false;
+        });
+      };
+
+      window.addEventListener('scroll', this._scrollHandler, { passive: true });
     }
   }
 
   disconnectedCallback() {
-    if (this.observer) this.observer.disconnect();
+    if (this._observer) this._observer.disconnect();
+    if (this._resizeObserver) this._resizeObserver.disconnect();
+    if (this._scrollHandler) window.removeEventListener('scroll', this._scrollHandler);
   }
 }
 
@@ -72,19 +85,19 @@ class MenuDrawer extends HTMLElement {
 
   bindEvents() {
     /* Open triggers (live outside this element) */
-    document.querySelectorAll('[data-drawer-open]').forEach((btn) => {
-      btn.addEventListener('click', () => this.open());
-    });
+    document.querySelectorAll('[data-drawer-open]').forEach(function (btn) {
+      btn.addEventListener('click', this.open.bind(this));
+    }.bind(this));
 
     /* Delegated click inside drawer + backdrop */
-    this.addEventListener('click', (e) => {
+    this.addEventListener('click', function (e) {
       /* Backdrop click → close */
       if (e.target.hasAttribute('data-backdrop')) {
         this.close();
         return;
       }
 
-      const trigger = e.target.closest('[data-action]');
+      var trigger = e.target.closest('[data-action]');
       if (!trigger) return;
 
       switch (trigger.dataset.action) {
@@ -107,12 +120,13 @@ class MenuDrawer extends HTMLElement {
           this.switchTab(trigger.dataset.tab);
           break;
       }
-    });
+    }.bind(this));
 
     /* Escape → close */
-    document.addEventListener('keydown', (e) => {
+    this._escHandler = function (e) {
       if (e.key === 'Escape' && this.isOpen) this.close();
-    });
+    }.bind(this);
+    document.addEventListener('keydown', this._escHandler);
   }
 
   /* ---- Open / Close ---- */
@@ -132,10 +146,11 @@ class MenuDrawer extends HTMLElement {
     this.releaseFocus();
 
     /* Reset panels after slide-out animation */
-    setTimeout(() => {
-      if (!this.isOpen) {
-        this.drawer.dataset.level = '1';
-        this.resetPanels();
+    var self = this;
+    setTimeout(function () {
+      if (!self.isOpen) {
+        self.drawer.dataset.level = '1';
+        self.resetPanels();
       }
     }, 400);
   }
@@ -143,27 +158,27 @@ class MenuDrawer extends HTMLElement {
   /* ---- Level navigation ---- */
 
   showL2(targetId, trigger) {
-    /* Hide all L2 lists */
-    this.drawer.querySelectorAll('[data-l2-id]').forEach((el) => {
+    /* Hide all L2 groups */
+    this.drawer.querySelectorAll('[data-l2-id]').forEach(function (el) {
       el.hidden = true;
       el.classList.remove('is-active');
     });
 
     /* Show target */
-    const panel = this.drawer.querySelector('[data-l2-id="' + targetId + '"]');
+    var panel = this.drawer.querySelector('[data-l2-id="' + targetId + '"]');
     if (panel) {
       panel.hidden = false;
       panel.classList.add('is-active');
     }
 
     /* Reset L3 */
-    this.drawer.querySelectorAll('[data-l3-id]').forEach((el) => {
+    this.drawer.querySelectorAll('[data-l3-id]').forEach(function (el) {
       el.hidden = true;
       el.classList.remove('is-active');
     });
 
     /* L1 expanded state */
-    this.drawer.querySelectorAll('.drawer__l1-link[aria-expanded]').forEach((el) => {
+    this.drawer.querySelectorAll('.drawer__l1-link[aria-expanded]').forEach(function (el) {
       el.setAttribute('aria-expanded', 'false');
     });
     if (trigger) trigger.setAttribute('aria-expanded', 'true');
@@ -178,7 +193,7 @@ class MenuDrawer extends HTMLElement {
 
   showL3(targetId, trigger) {
     /* Hide all L3 lists */
-    this.drawer.querySelectorAll('[data-l3-id]').forEach((el) => {
+    this.drawer.querySelectorAll('[data-l3-id]').forEach(function (el) {
       el.hidden = true;
       el.classList.remove('is-active');
     });
@@ -190,7 +205,7 @@ class MenuDrawer extends HTMLElement {
       panel.classList.add('is-active');
     }
 
-    /* Breadcrumb: "← Parent / Child" */
+    /* Breadcrumb */
     var childText = trigger ? trigger.textContent.trim() : '';
     this.setBreadcrumb('l3', this.activeBreadcrumbL1 + ' / ' + childText);
 
@@ -200,7 +215,7 @@ class MenuDrawer extends HTMLElement {
   backToL1() {
     this.drawer.dataset.level = '1';
 
-    this.drawer.querySelectorAll('.drawer__l1-link[aria-expanded]').forEach((el) => {
+    this.drawer.querySelectorAll('.drawer__l1-link[aria-expanded]').forEach(function (el) {
       el.setAttribute('aria-expanded', 'false');
     });
   }
@@ -208,7 +223,7 @@ class MenuDrawer extends HTMLElement {
   backToL2() {
     this.drawer.dataset.level = '2';
 
-    this.drawer.querySelectorAll('[data-l3-id]').forEach((el) => {
+    this.drawer.querySelectorAll('[data-l3-id]').forEach(function (el) {
       el.hidden = true;
       el.classList.remove('is-active');
     });
@@ -217,11 +232,11 @@ class MenuDrawer extends HTMLElement {
   /* ---- Universe tabs ---- */
 
   switchTab(tab) {
-    this.drawer.querySelectorAll('[data-tab-content]').forEach((el) => {
+    this.drawer.querySelectorAll('[data-tab-content]').forEach(function (el) {
       el.hidden = el.dataset.tabContent !== tab;
     });
 
-    this.drawer.querySelectorAll('[data-action="switch-tab"]').forEach((el) => {
+    this.drawer.querySelectorAll('[data-action="switch-tab"]').forEach(function (el) {
       el.classList.toggle('drawer__tab--active', el.dataset.tab === tab);
     });
 
@@ -240,12 +255,12 @@ class MenuDrawer extends HTMLElement {
   /* ---- Reset ---- */
 
   resetPanels() {
-    this.drawer.querySelectorAll('[data-l2-id], [data-l3-id]').forEach((el) => {
+    this.drawer.querySelectorAll('[data-l2-id], [data-l3-id]').forEach(function (el) {
       el.hidden = true;
       el.classList.remove('is-active');
     });
 
-    this.drawer.querySelectorAll('.drawer__l1-link[aria-expanded]').forEach((el) => {
+    this.drawer.querySelectorAll('.drawer__l1-link[aria-expanded]').forEach(function (el) {
       el.setAttribute('aria-expanded', 'false');
     });
   }
@@ -258,17 +273,22 @@ class MenuDrawer extends HTMLElement {
     var closeBtn = this.drawer.querySelector('[data-action="close"]');
     if (closeBtn) closeBtn.focus();
 
-    this._trapHandler = (e) => {
+    var drawer = this.drawer;
+    this._trapHandler = function (e) {
       if (e.key !== 'Tab') return;
 
-      var focusable = this.drawer.querySelectorAll(
+      var focusable = drawer.querySelectorAll(
         'a[href]:not([tabindex="-1"]), button:not([disabled]):not([tabindex="-1"])'
       );
       var visible = [];
       for (var i = 0; i < focusable.length; i++) {
-        if (focusable[i].offsetParent !== null && !focusable[i].closest('[hidden]')) {
-          visible.push(focusable[i]);
-        }
+        var el = focusable[i];
+        /* Skip elements in hidden containers or off-screen mobile panels */
+        if (el.offsetParent === null) continue;
+        if (el.closest('[hidden]')) continue;
+        var rect = el.getBoundingClientRect();
+        if (rect.width === 0 && rect.height === 0) continue;
+        visible.push(el);
       }
 
       if (visible.length === 0) return;
@@ -285,7 +305,7 @@ class MenuDrawer extends HTMLElement {
       }
     };
 
-    this.drawer.addEventListener('keydown', this._trapHandler);
+    drawer.addEventListener('keydown', this._trapHandler);
   }
 
   releaseFocus() {

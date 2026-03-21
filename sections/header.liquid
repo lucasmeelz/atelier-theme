@@ -2,7 +2,7 @@
 <script src="{{ 'section-header.js' | asset_url }}" defer="defer"></script>
 
 <sticky-header
-  class="header-wrapper color-{{ section.settings.color_scheme }}{% if section.settings.enable_sticky %} header-wrapper--sticky{% endif %}"
+  class="header-wrapper color-{{ section.settings.color_scheme }}{% if section.settings.enable_sticky %} header-wrapper--sticky{% endif %}{% if section.settings.transparent_header %} header-wrapper--transparent{% endif %}"
   {% if section.settings.hide_on_scroll %}data-hide-on-scroll="true"{% endif %}
 >
   <header class="header">
