@@ -40,7 +40,7 @@
       "settings": {
         "menu": "menu-2",
         "color_scheme": "",
-        "transparent_header": true,
+        "transparent_header": false,
         "nav_style": "drawer",
         "enable_sticky": false,
         "hide_on_scroll": false,
