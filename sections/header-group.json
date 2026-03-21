@@ -41,7 +41,7 @@
         "menu": "menu-2",
         "color_scheme": "",
         "transparent_header": true,
-        "nav_style": "mega",
+        "nav_style": "drawer",
         "enable_sticky": false,
         "hide_on_scroll": false,
         "logo_width": 120,
