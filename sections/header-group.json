@@ -13,6 +13,22 @@
   "sections": {
     "header": {
       "type": "header",
+      "blocks": {
+        "mega_menu_6dmJVr": {
+          "type": "mega_menu",
+          "settings": {
+            "menu_item": "Main 1",
+            "image_1": "shopify://shop_images/portrait_2to3.jpg",
+            "image_1_label": "lllll",
+            "image_1_url": "",
+            "image_2_label": "",
+            "image_2_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "mega_menu_6dmJVr"
+      ],
       "settings": {
         "menu": "menu-2",
         "desktop_layout": "logo_center",
