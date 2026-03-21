@@ -25,6 +25,18 @@
   de tout thème existant sur le Shopify Theme Store.
   Les thèmes de référence ne dictent pas le design — Dior le dicte.
 
+### QA PLAYWRIGHT — obligatoire avant chaque push
+- Lancer : `npx playwright test --project=desktop-standard --project=mobile`
+- 0 test en échec avant de committer
+- Chaque section livrée doit avoir son fichier `_qa/playwright/tests/[section-id].spec.js`
+- Le spec doit couvrir :
+  - **Visuel** : screenshot 375px + 768px + 1440px
+  - **Fonctionnel** : interactions principales (si applicable)
+  - **A11y** : aria-labels, focus-visible, touch targets
+  - **Conformité** : éléments requis présents (lang, meta, etc.)
+- Reduced-motion : tester que `.motion-auto` est désactivé
+  mais que hover/click transitions fonctionnent
+
 ---
 
 ## 1. SECTIONS COMPLÈTES

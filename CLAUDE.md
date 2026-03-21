@@ -92,12 +92,17 @@ Hovers, clicks, focus → jamais désactivés par reduced-motion.
 shopify theme check
 # 0 errors. Si erreurs → corriger, ne pas avancer.
 
-# 2. Push
+# 2. Playwright QA
+npx playwright test --project=desktop-standard --project=mobile
+# 0 failures. Si failure → corriger avant de committer.
+# Jamais pusher avec des tests en échec.
+
+# 3. Push
 git add -A
 git commit -m "feat(scope): description"
 git push origin feature/[nom-tâche]
 
-# 3. Poster dans claude.ai :
+# 4. Poster dans claude.ai :
 "Tâche [ID] pushée — https://github.com/lucasmeelz/atelier-theme/tree/feature/[nom-tâche]"
 ```
 
