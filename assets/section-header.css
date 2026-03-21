@@ -43,14 +43,20 @@ html[scroll-lock] {
    --------------------------------------------------------------------------- */
 
 .header {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
-  height: 60px;
+  height: 56px;
   padding-inline: var(--page-margin, 20px);
   background-color: transparent;
   transition: background-color var(--duration-base, 350ms) var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1)),
               color var(--duration-base, 350ms) var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
+}
+
+@media (min-width: 750px) {
+  .header {
+    height: 64px;
+  }
 }
 
 .header-wrapper--scrolled .header {
@@ -68,21 +74,37 @@ html[scroll-lock] {
   color: var(--color-text, #0A0A0A);
 }
 
-/* Sections */
-.header__left,
+/* Sections — grid ensures logo is always centered */
+.header__left {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  justify-self: start;
+  margin-left: -10px;
+}
+
 .header__right {
   display: flex;
   align-items: center;
-  gap: 12px;
-  flex: 1;
+  gap: 2px;
+  justify-self: end;
+  margin-right: -10px;
 }
 
-.header__right {
-  justify-content: flex-end;
+@media (min-width: 750px) {
+  .header__left {
+    gap: 8px;
+    margin-left: -8px;
+  }
+
+  .header__right {
+    gap: 6px;
+    margin-right: -8px;
+  }
 }
 
 .header__center {
-  flex: 0 0 auto;
+  justify-self: center;
 }
 
 /* ---------------------------------------------------------------------------
@@ -139,14 +161,22 @@ html[scroll-lock] {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   padding: 0;
   background: none;
   border: none;
   color: inherit;
   cursor: pointer;
   transition: opacity var(--duration-fast, 200ms) var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
+}
+
+@media (min-width: 750px) {
+  .header__icon,
+  .header__menu-toggle {
+    width: 40px;
+    height: 40px;
+  }
 }
 
 @media (hover: hover) {
@@ -158,8 +188,16 @@ html[scroll-lock] {
 
 .header__icon svg,
 .header__menu-toggle svg {
-  width: var(--icon-size, 20px);
-  height: var(--icon-size, 20px);
+  width: 18px;
+  height: 18px;
+}
+
+@media (min-width: 750px) {
+  .header__icon svg,
+  .header__menu-toggle svg {
+    width: var(--icon-size, 20px);
+    height: var(--icon-size, 20px);
+  }
 }
 
 .header__icon--cart {
@@ -168,10 +206,10 @@ html[scroll-lock] {
 
 .header__cart-count {
   position: absolute;
-  top: 4px;
-  right: 2px;
-  min-width: 16px;
-  height: 16px;
+  top: 2px;
+  right: 0;
+  min-width: 14px;
+  height: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
