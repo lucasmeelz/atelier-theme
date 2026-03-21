@@ -653,6 +653,10 @@ html[scroll-lock] {
   position: relative;
 }
 
+.header__mega-item:first-child .header__mega-link {
+  padding-left: 0;
+}
+
 .header__mega-link {
   display: flex;
   align-items: center;
