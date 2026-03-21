@@ -2,17 +2,15 @@
 <script src="{{ 'section-header.js' | asset_url }}" defer="defer"></script>
 
 <sticky-header
-  class="header-wrapper{% if section.settings.enable_sticky %} header-wrapper--sticky{% endif %}"
+  class="header-wrapper color-{{ section.settings.color_scheme }}{% if section.settings.enable_sticky %} header-wrapper--sticky{% endif %}"
   {% if section.settings.hide_on_scroll %}data-hide-on-scroll="true"{% endif %}
 >
   <header class="header">
     <!-- Left: hamburger -->
     <div class="header__left">
-      {%- if section.settings.nav_style == 'drawer' -%}
-        <button class="header__menu-toggle" data-drawer-open aria-label="{{ 'header.menu' | t }}">
-          {%- render 'icon', name: 'menu' -%}
-        </button>
-      {%- endif -%}
+      <button class="header__menu-toggle{% if section.settings.nav_style == 'mega' %} header__toggle--mega-hidden{% endif %}" data-drawer-open aria-label="{{ 'header.menu' | t }}">
+        {%- render 'icon', name: 'menu' -%}
+      </button>
     </div>
 
     <!-- Center: logo -->
@@ -116,18 +114,17 @@
   {%- endif -%}
 </sticky-header>
 
-{%- if section.settings.nav_style == 'drawer' -%}
-  <menu-drawer>
-    {%- render 'menu-drawer',
-      menu: linklists[section.settings.menu],
-      blocks: section.blocks,
-      tab_1_menu: linklists[section.settings.tab_1_menu],
-      tab_1_label: section.settings.tab_1_label,
-      tab_2_menu: linklists[section.settings.tab_2_menu],
-      tab_2_label: section.settings.tab_2_label
-    -%}
-  </menu-drawer>
-{%- endif -%}
+{%- comment -%} Drawer : toujours présent sur mobile, optionnel sur desktop {%- endcomment -%}
+<menu-drawer class="{% if section.settings.nav_style == 'mega' %}header__drawer--mobile-only{% endif %}">
+  {%- render 'menu-drawer',
+    menu: linklists[section.settings.menu],
+    blocks: section.blocks,
+    tab_1_menu: linklists[section.settings.tab_1_menu],
+    tab_1_label: section.settings.tab_1_label,
+    tab_2_menu: linklists[section.settings.tab_2_menu],
+    tab_2_label: section.settings.tab_2_label
+  -%}
+</menu-drawer>
 
 {% schema %}
 {
@@ -140,6 +137,23 @@
       "label": "Main menu",
       "default": "main-menu",
       "info": "Main navigation menu. Edit menus in Online Store > Navigation"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "transparent_header",
+      "label": "Transparent header on hero",
+      "default": true,
+      "info": "Header becomes transparent when at the top of the page over a hero section"
     },
     {
       "type": "header",
