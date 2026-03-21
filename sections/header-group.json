@@ -17,7 +17,9 @@
         "mega_menu_knxU7m": {
           "type": "mega_menu",
           "settings": {
-            "menu_item": "",
+            "menu_item": "Main 1",
+            "image_1": "shopify://shop_images/portrait_3to4.jpg",
+            "image_2": "shopify://shop_images/square_2.jpg",
             "image_1_label": "",
             "image_2_label": ""
           }
