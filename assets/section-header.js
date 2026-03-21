@@ -248,7 +248,11 @@ class MenuDrawer extends HTMLElement {
 
   switchTab(tab) {
     this.drawer.querySelectorAll('[data-tab-content]').forEach(function (el) {
-      el.hidden = el.dataset.tabContent !== tab;
+      if (el.dataset.tabContent !== tab) {
+        el.setAttribute('data-tab-hidden', '');
+      } else {
+        el.removeAttribute('data-tab-hidden');
+      }
     });
 
     this.drawer.querySelectorAll('[data-action="switch-tab"]').forEach(function (el) {
@@ -359,19 +363,19 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!link) return;
 
     link.addEventListener('click', function (e) {
-      if (item.querySelector('.header__mega-dropdown')) {
-        e.preventDefault();
-        var wasOpen = item.classList.contains('is-open');
+      e.preventDefault();
+      e.stopPropagation();
 
-        /* Close all */
-        clickItems.forEach(function (el) {
-          el.classList.remove('is-open');
-        });
+      var wasOpen = item.classList.contains('is-open');
 
-        /* Toggle clicked */
-        if (!wasOpen) {
-          item.classList.add('is-open');
-        }
+      /* Close all other items */
+      clickItems.forEach(function (el) {
+        el.classList.remove('is-open');
+      });
+
+      /* Toggle this item */
+      if (!wasOpen) {
+        item.classList.add('is-open');
       }
     });
   });

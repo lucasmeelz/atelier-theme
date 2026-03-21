@@ -151,23 +151,36 @@ html[scroll-lock] {
    --------------------------------------------------------------------------- */
 
 @media (min-width: 1000px) {
+  .header--logo_left .header {
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .header--logo_left .header__left {
+    order: -1;
+  }
+
   .header--logo_left .header__center {
+    order: -2;
     justify-self: start;
   }
 
-  /* Legacy fallback — old values treated as logo_center (default) */
-  .header--logo_left_nav_center .header__center {
-    justify-self: center;
+  .header--logo_left .header__right {
+    order: 1;
   }
 }
 
 /* ---------------------------------------------------------------------------
-   Mobile layout: logo left
+   Mobile layout: logo left — [burger+search] [logo left] [icons]
    --------------------------------------------------------------------------- */
 
 @media (max-width: 999px) {
+  .header--mobile-logo_left .header {
+    grid-template-columns: auto 1fr auto;
+  }
+
   .header--mobile-logo_left .header__center {
     justify-self: start;
+    padding-left: 8px;
   }
 }
 
@@ -706,8 +719,7 @@ html[scroll-lock] {
   transition: opacity var(--duration-fast, 200ms) var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
 }
 
-.drawer__l1-list[data-tab-content][hidden] {
-  display: block !important;
+.drawer__l1-list[data-tab-content][data-tab-hidden] {
   opacity: 0;
   visibility: hidden;
   position: absolute;
