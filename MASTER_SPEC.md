@@ -4,6 +4,29 @@
 
 ---
 
+## 0. Avant de coder une section
+
+### RÈGLE RÉFÉRENCES
+- Les fichiers `references/Theme-example-1/` et `references/Theme-example-2/`
+  servent UNIQUEMENT à comprendre les patterns techniques Shopify :
+  structure des schemas, conventions de nommage des settings,
+  patterns JS (custom elements, PubSub, fetch), structure Liquid.
+
+- Ne JAMAIS copier de code des thèmes de référence.
+  S'en inspirer pour la logique, pas pour le code.
+
+- L'identité visuelle de référence est **Dior.com** :
+  typographie serif fine, espacement généreux, animations subtiles,
+  couleurs neutres (blanc/crème/noir), CTAs text-link underline,
+  drawer navigation latérale, hero full-bleed.
+  Chaque section doit respirer cette esthétique.
+
+- Le thème Atelier doit être visuellement ORIGINAL et distinct
+  de tout thème existant sur le Shopify Theme Store.
+  Les thèmes de référence ne dictent pas le design — Dior le dicte.
+
+---
+
 ## 1. SECTIONS COMPLÈTES
 
 ### 1.1 Phase 1 — Fondations
