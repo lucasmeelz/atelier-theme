@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "scripts": {
+    "test": "npx playwright test --config=_qa/playwright/playwright.config.js",
+    "test:headed": "npx playwright test --config=_qa/playwright/playwright.config.js --headed",
+    "test:header": "npx playwright test --config=_qa/playwright/playwright.config.js header",
+    "test:a11y": "npx playwright test --config=_qa/playwright/playwright.config.js accessibility"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0"
+  }
+}

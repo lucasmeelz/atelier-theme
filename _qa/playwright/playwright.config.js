@@ -1,9 +1,9 @@
 import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
-  testDir: "./_qa/playwright/tests",
-  outputDir: "./_qa/snapshots",
-  reporter: [["html", { outputFolder: "_qa/reports", open: "never" }]],
+  testDir: "./tests",
+  outputDir: "../../_qa/snapshots",
+  reporter: [["html", { outputFolder: "../../_qa/reports", open: "never" }]],
   use: {
     baseURL: "http://127.0.0.1:9292",
     screenshot: "on",
