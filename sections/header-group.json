@@ -13,7 +13,21 @@
   "sections": {
     "header": {
       "type": "header",
+      "blocks": {
+        "mega_menu_knxU7m": {
+          "type": "mega_menu",
+          "settings": {
+            "menu_item": "",
+            "image_1_label": "",
+            "image_2_label": ""
+          }
+        }
+      },
+      "block_order": [
+        "mega_menu_knxU7m"
+      ],
       "settings": {
+        "menu": "main-menu",
         "nav_style": "drawer",
         "enable_sticky": true,
         "hide_on_scroll": false,
