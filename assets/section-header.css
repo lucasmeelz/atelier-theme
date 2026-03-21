@@ -39,7 +39,7 @@ html[scroll-lock] {
 }
 
 /* ---------------------------------------------------------------------------
-   Header bar
+   Header bar — 60px fixed height
    --------------------------------------------------------------------------- */
 
 .header {
@@ -98,6 +98,16 @@ html[scroll-lock] {
 
 .header__logo-image {
   height: auto;
+  width: var(--logo-width-mobile, 90px);
+  max-height: 40px;
+  object-fit: contain;
+}
+
+@media (min-width: 750px) {
+  .header__logo-image {
+    width: var(--logo-width, 120px);
+    max-height: 50px;
+  }
 }
 
 .header__logo-image--transparent {
@@ -148,8 +158,8 @@ html[scroll-lock] {
 
 .header__icon svg,
 .header__menu-toggle svg {
-  width: 20px;
-  height: 20px;
+  width: var(--icon-size, 20px);
+  height: var(--icon-size, 20px);
 }
 
 .header__icon--cart {

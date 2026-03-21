@@ -10,10 +10,10 @@
 {%- endif -%}
 
 <sticky-header
-  class="header-wrapper color-{{ section.settings.color_scheme }}{% if section.settings.enable_sticky %} header-wrapper--sticky{% endif %}{% if section.settings.transparent_header %} header-wrapper--transparent{% endif %}"
+  class="header-wrapper{% if section.settings.color_scheme != blank %} color-{{ section.settings.color_scheme }}{% endif %}{% if section.settings.enable_sticky %} header-wrapper--sticky{% endif %}{% if section.settings.transparent_header %} header-wrapper--transparent{% endif %}"
   {% if section.settings.hide_on_scroll %}data-hide-on-scroll="true"{% endif %}
 >
-  <header class="header">
+  <header class="header" style="--icon-size: {{ section.settings.icon_size | default: 20 }}px;">
     <!-- Left: hamburger -->
     <div class="header__left">
       <button class="header__menu-toggle{% if section.settings.nav_style == 'mega' %} header__toggle--mega-hidden{% endif %}" data-drawer-open aria-label="{{ 'header.menu' | t }}" aria-expanded="false">
@@ -23,7 +23,7 @@
 
     <!-- Center: logo -->
     <div class="header__center">
-      <a href="{{ routes.root_url }}" class="header__logo">
+      <a href="{{ routes.root_url }}" class="header__logo" style="--logo-width: {{ section.settings.logo_width }}px; --logo-width-mobile: {{ section.settings.logo_width_mobile | default: 90 }}px;">
         {%- if section.settings.logo -%}
           {{
             section.settings.logo
