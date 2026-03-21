@@ -41,7 +41,7 @@
         "menu": "menu-2",
         "color_scheme": "",
         "transparent_header": true,
-        "transparent_text_color": "#005BD3",
+        "transparent_text_color": "#000000",
         "nav_style": "drawer",
         "enable_sticky": true,
         "hide_on_scroll": false,
