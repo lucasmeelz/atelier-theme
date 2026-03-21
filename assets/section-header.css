@@ -38,8 +38,34 @@ html[scroll-lock] {
   transform: translateY(-100%);
 }
 
+/* Separator line */
+.header-wrapper--bordered .header {
+  border-bottom: 1px solid var(--color-border, #E2E0DB);
+}
+
+.header-wrapper--bordered.header-wrapper--transparent:not(.header-wrapper--scrolled) .header {
+  border-bottom-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Shrink on scroll */
+.header-wrapper--shrinkable .header {
+  transition: background-color var(--duration-base, 350ms) var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1)),
+              color var(--duration-base, 350ms) var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1)),
+              height var(--duration-base, 350ms) var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
+}
+
+.header-wrapper--shrinkable.header-wrapper--scrolled .header {
+  height: 44px;
+}
+
+@media (min-width: 750px) {
+  .header-wrapper--shrinkable.header-wrapper--scrolled .header {
+    height: 48px;
+  }
+}
+
 /* ---------------------------------------------------------------------------
-   Header bar — 60px fixed height
+   Header bar
    --------------------------------------------------------------------------- */
 
 .header {
@@ -57,6 +83,15 @@ html[scroll-lock] {
   .header {
     height: 64px;
   }
+}
+
+/* Header padding variants */
+[data-header-padding="compact"] .header { height: 48px; }
+[data-header-padding="spacious"] .header { height: 64px; }
+
+@media (min-width: 750px) {
+  [data-header-padding="compact"] .header { height: 52px; }
+  [data-header-padding="spacious"] .header { height: 72px; }
 }
 
 .header-wrapper--scrolled .header {
@@ -197,6 +232,32 @@ html[scroll-lock] {
   .header__menu-toggle svg {
     width: var(--icon-size, 20px);
     height: var(--icon-size, 20px);
+  }
+}
+
+/* Mobile: search icon is in header__left, hidden from header__right */
+.header__icon--search-desktop {
+  display: none;
+}
+
+@media (min-width: 750px) {
+  .header__icon--search-desktop {
+    display: flex;
+  }
+
+  .header__icon--search-mobile {
+    display: none;
+  }
+}
+
+/* Wishlist: desktop only */
+.header__icon--desktop-only {
+  display: none;
+}
+
+@media (min-width: 750px) {
+  .header__icon--desktop-only {
+    display: flex;
   }
 }
 
@@ -853,6 +914,46 @@ html[scroll-lock] {
   .header__toggle--mega-hidden {
     display: none;
   }
+}
+
+/* ---------------------------------------------------------------------------
+   Drawer push animation
+   --------------------------------------------------------------------------- */
+
+html[scroll-lock][data-drawer-push] {
+  overflow: hidden;
+}
+
+html[scroll-lock][data-drawer-push] body {
+  transform: translateX(min(85vw, 440px));
+  transition: transform 400ms var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
+}
+
+@media (min-width: 1000px) {
+  html[scroll-lock][data-drawer-push] body {
+    transform: translateX(300px);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Mega menu click trigger (prevent hover open)
+   --------------------------------------------------------------------------- */
+
+.header__mega-item--click-trigger .header__mega-dropdown {
+  pointer-events: none;
+}
+
+.header__mega-item--click-trigger:hover .header__mega-dropdown {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.header__mega-item--click-trigger.is-open .header__mega-dropdown {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
 }
 
 /* ---------------------------------------------------------------------------

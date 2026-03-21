@@ -9,16 +9,37 @@
   </style>
 {%- endif -%}
 
+{%- liquid
+  assign scroll_class = ''
+  case section.settings.scroll_behavior
+    when 'sticky'
+      assign scroll_class = ' header-wrapper--sticky'
+    when 'sticky_hide'
+      assign scroll_class = ' header-wrapper--sticky'
+    when 'sticky_shrink'
+      assign scroll_class = ' header-wrapper--sticky header-wrapper--shrinkable'
+  endcase
+-%}
+
 <sticky-header
-  class="header-wrapper{% if section.settings.color_scheme != blank %} color-{{ section.settings.color_scheme }}{% endif %}{% if section.settings.enable_sticky %} header-wrapper--sticky{% endif %}{% if section.settings.transparent_header %} header-wrapper--transparent{% endif %}"
-  {% if section.settings.hide_on_scroll %}data-hide-on-scroll="true"{% endif %}
+  class="header-wrapper header--{{ section.settings.desktop_layout }}{% if section.settings.color_scheme != blank %} color-{{ section.settings.color_scheme }}{% endif %}{{ scroll_class }}{% if section.settings.transparent_header %} header-wrapper--transparent{% endif %}{% if section.settings.show_separator_line %} header-wrapper--bordered{% endif %}"
+  {% if section.settings.scroll_behavior == 'sticky_hide' %}data-hide-on-scroll="true"{% endif %}
+  {% if section.settings.scroll_behavior == 'sticky_shrink' %}data-shrink-on-scroll="true"{% endif %}
+  data-header-padding="{{ section.settings.header_padding }}"
 >
-  <header class="header" style="--icon-size: {{ section.settings.icon_size | default: 20 }}px;">
-    <!-- Left: hamburger -->
+  <header class="header header--mobile-{{ section.settings.mobile_layout }}" style="--icon-size: {{ section.settings.icon_size | default: 20 }}px;">
+
+    <!-- Left: hamburger + search (mobile) -->
     <div class="header__left">
       <button class="header__menu-toggle{% if section.settings.nav_style == 'mega' %} header__toggle--mega-hidden{% endif %}" data-drawer-open aria-label="{{ 'header.menu' | t }}" aria-expanded="false">
         {%- render 'icon', name: 'menu' -%}
       </button>
+
+      {%- if section.settings.show_search -%}
+        <a href="{{ routes.search_url }}" class="header__icon header__icon--search-mobile" aria-label="{{ 'header.search' | t }}">
+          {%- render 'icon', name: 'search' -%}
+        </a>
+      {%- endif -%}
     </div>
 
     <!-- Center: logo -->
@@ -46,13 +67,13 @@
     <!-- Right: icons -->
     <div class="header__right">
       {%- if section.settings.show_search -%}
-        <a href="{{ routes.search_url }}" class="header__icon" aria-label="{{ 'header.search' | t }}">
+        <a href="{{ routes.search_url }}" class="header__icon header__icon--search-desktop" aria-label="{{ 'header.search' | t }}">
           {%- render 'icon', name: 'search' -%}
         </a>
       {%- endif -%}
 
       {%- if section.settings.show_wishlist -%}
-        <a href="#" class="header__icon" aria-label="{{ 'header.wishlist' | t }}">
+        <a href="#" class="header__icon header__icon--desktop-only" aria-label="{{ 'header.wishlist' | t }}">
           {%- render 'icon', name: 'wishlist' -%}
         </a>
       {%- endif -%}
@@ -76,7 +97,7 @@
     <nav class="header__mega-nav">
       <ul class="header__mega-list">
         {%- for link in linklists[section.settings.menu].links -%}
-          <li class="header__mega-item{% if link.links.size > 0 %} header__mega-item--has-children{% endif %}">
+          <li class="header__mega-item{% if link.links.size > 0 %} header__mega-item--has-children{% endif %}{% if section.settings.menu_open_trigger == 'click' and link.links.size > 0 %} header__mega-item--click-trigger{% endif %}">
             <a href="{{ link.url }}" class="header__mega-link">
               {{ link.title }}
               {%- if link.links.size > 0 -%}
@@ -101,7 +122,7 @@
                   assign has_image_3 = true
                 endif
               -%}
-              <div class="header__mega-dropdown">
+              <div class="header__mega-dropdown{% if section.settings.dropdown_color_scheme != blank %} color-{{ section.settings.dropdown_color_scheme }}{% endif %}">
                 <div class="header__mega-dropdown-inner">
                   <div class="header__mega-links-area">
                     {%- if mega_block and mega_block.settings.col_1_heading != blank -%}
@@ -142,13 +163,9 @@
                     <div class="header__mega-images-area{% unless has_image_3 %} header__mega-images-area--2col{% endunless %}">
                       {%- if mega_block.settings.image_1 -%}
                         <div class="header__mega-image-item">
-                          {%- if mega_block.settings.image_1_url -%}
-                            <a href="{{ mega_block.settings.image_1_url }}">
-                              {{ mega_block.settings.image_1 | image_url: width: 400 | image_tag: alt: mega_block.settings.image_1_label, loading: 'lazy', widths: '200,300,400' }}
-                            </a>
-                          {%- else -%}
+                          {%- if mega_block.settings.image_1_url -%}<a href="{{ mega_block.settings.image_1_url }}">{%- endif -%}
                             {{ mega_block.settings.image_1 | image_url: width: 400 | image_tag: alt: mega_block.settings.image_1_label, loading: 'lazy', widths: '200,300,400' }}
-                          {%- endif -%}
+                          {%- if mega_block.settings.image_1_url -%}</a>{%- endif -%}
                           {%- if mega_block.settings.image_1_label != blank -%}
                             <p class="header__mega-image-title">{{ mega_block.settings.image_1_label }}</p>
                           {%- endif -%}
@@ -159,13 +176,9 @@
                       {%- endif -%}
                       {%- if mega_block.settings.image_2 -%}
                         <div class="header__mega-image-item">
-                          {%- if mega_block.settings.image_2_url -%}
-                            <a href="{{ mega_block.settings.image_2_url }}">
-                              {{ mega_block.settings.image_2 | image_url: width: 400 | image_tag: alt: mega_block.settings.image_2_label, loading: 'lazy', widths: '200,300,400' }}
-                            </a>
-                          {%- else -%}
+                          {%- if mega_block.settings.image_2_url -%}<a href="{{ mega_block.settings.image_2_url }}">{%- endif -%}
                             {{ mega_block.settings.image_2 | image_url: width: 400 | image_tag: alt: mega_block.settings.image_2_label, loading: 'lazy', widths: '200,300,400' }}
-                          {%- endif -%}
+                          {%- if mega_block.settings.image_2_url -%}</a>{%- endif -%}
                           {%- if mega_block.settings.image_2_label != blank -%}
                             <p class="header__mega-image-title">{{ mega_block.settings.image_2_label }}</p>
                           {%- endif -%}
@@ -176,13 +189,9 @@
                       {%- endif -%}
                       {%- if mega_block.settings.image_3 -%}
                         <div class="header__mega-image-item">
-                          {%- if mega_block.settings.image_3_url -%}
-                            <a href="{{ mega_block.settings.image_3_url }}">
-                              {{ mega_block.settings.image_3 | image_url: width: 400 | image_tag: alt: '', loading: 'lazy', widths: '200,300,400' }}
-                            </a>
-                          {%- else -%}
+                          {%- if mega_block.settings.image_3_url -%}<a href="{{ mega_block.settings.image_3_url }}">{%- endif -%}
                             {{ mega_block.settings.image_3 | image_url: width: 400 | image_tag: alt: '', loading: 'lazy', widths: '200,300,400' }}
-                          {%- endif -%}
+                          {%- if mega_block.settings.image_3_url -%}</a>{%- endif -%}
                           {%- if mega_block.settings.image_3_subtitle != blank -%}
                             <p class="header__mega-image-subtitle">{{ mega_block.settings.image_3_subtitle }}</p>
                           {%- endif -%}
@@ -201,9 +210,10 @@
 </sticky-header>
 
 {%- comment -%} Drawer : toujours présent sur mobile, optionnel sur desktop {%- endcomment -%}
-<menu-drawer class="{% if section.settings.nav_style == 'mega' %}header__drawer--mobile-only{% endif %}">
+{%- assign drawer_menu = linklists[section.settings.drawer_menu] | default: linklists[section.settings.menu] -%}
+<menu-drawer class="{% if section.settings.nav_style == 'mega' %}header__drawer--mobile-only{% endif %}{% if section.settings.drawer_color_scheme != blank %} color-{{ section.settings.drawer_color_scheme }}{% endif %}{% if section.settings.drawer_animation == 'push' %} header__drawer--push{% endif %}">
   {%- render 'menu-drawer',
-    menu: linklists[section.settings.menu],
+    menu: drawer_menu,
     blocks: section.blocks,
     tab_1_menu: linklists[section.settings.tab_1_menu],
     tab_1_label: section.settings.tab_1_label,
@@ -225,14 +235,78 @@
       "info": "Main navigation menu. Edit menus in Online Store > Navigation"
     },
     {
+      "type": "link_list",
+      "id": "drawer_menu",
+      "label": "Mobile drawer menu",
+      "info": "Simplified menu for mobile drawer. If empty, uses main menu"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "desktop_layout",
+      "label": "Desktop layout",
+      "options": [
+        { "value": "logo_center", "label": "Logo center (Dior-style)" },
+        { "value": "logo_left", "label": "Logo left" },
+        { "value": "logo_left_nav_center", "label": "Logo left, navigation center" }
+      ],
+      "default": "logo_center",
+      "info": "Controls logo and navigation positioning on desktop"
+    },
+    {
+      "type": "select",
+      "id": "mobile_layout",
+      "label": "Mobile layout",
+      "options": [
+        { "value": "logo_center", "label": "Logo center" },
+        { "value": "logo_left", "label": "Logo left" }
+      ],
+      "default": "logo_center"
+    },
+    {
+      "type": "select",
+      "id": "header_padding",
+      "label": "Header height",
+      "options": [
+        { "value": "compact", "label": "Compact" },
+        { "value": "default", "label": "Default" },
+        { "value": "spacious", "label": "Spacious" }
+      ],
+      "default": "default",
+      "info": "Compact: 48px, Default: 56px mobile / 64px desktop, Spacious: 72px"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_separator_line",
+      "label": "Show bottom border",
+      "default": true,
+      "info": "1px line below header. Disable for seamless hero integration"
+    },
+    {
       "type": "header",
       "content": "Colors"
     },
     {
       "type": "color_scheme",
       "id": "color_scheme",
-      "label": "Color scheme",
+      "label": "Header color scheme",
       "default": "scheme-1"
+    },
+    {
+      "type": "color_scheme",
+      "id": "dropdown_color_scheme",
+      "label": "Dropdown color scheme",
+      "default": "scheme-1",
+      "info": "Mega menu dropdown panel color"
+    },
+    {
+      "type": "color_scheme",
+      "id": "drawer_color_scheme",
+      "label": "Drawer color scheme",
+      "info": "Side drawer navigation color. Leave empty to inherit header scheme"
     },
     {
       "type": "checkbox",
@@ -264,16 +338,39 @@
       "info": "Drawer: Dior-style side panel. Mega menu: horizontal dropdown below header"
     },
     {
-      "type": "checkbox",
-      "id": "enable_sticky",
-      "label": "Enable sticky header",
-      "default": true
+      "type": "select",
+      "id": "menu_open_trigger",
+      "label": "Mega menu trigger",
+      "options": [
+        { "value": "hover", "label": "Hover" },
+        { "value": "click", "label": "Click" }
+      ],
+      "default": "hover",
+      "info": "How mega menu dropdowns open on desktop"
     },
     {
-      "type": "checkbox",
-      "id": "hide_on_scroll",
-      "label": "Hide on scroll down",
-      "default": false
+      "type": "select",
+      "id": "scroll_behavior",
+      "label": "Scroll behavior",
+      "options": [
+        { "value": "static", "label": "Static (scrolls away)" },
+        { "value": "sticky", "label": "Sticky" },
+        { "value": "sticky_hide", "label": "Sticky, hides on scroll down" },
+        { "value": "sticky_shrink", "label": "Sticky, shrinks on scroll" }
+      ],
+      "default": "sticky",
+      "info": "Shrink reduces header height on scroll for a premium feel"
+    },
+    {
+      "type": "select",
+      "id": "drawer_animation",
+      "label": "Drawer animation",
+      "options": [
+        { "value": "slide", "label": "Slide over" },
+        { "value": "push", "label": "Push content" }
+      ],
+      "default": "slide",
+      "info": "Push moves the entire page when drawer opens"
     },
     {
       "type": "header",
@@ -345,7 +442,25 @@
     },
     {
       "type": "header",
-      "content": "Menu tabs"
+      "content": "Localization"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_country_selector",
+      "label": "Show country selector",
+      "default": true,
+      "info": "Required for stores selling in multiple currencies"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_language_selector",
+      "label": "Show language selector",
+      "default": false,
+      "info": "Required for stores selling in multiple languages"
+    },
+    {
+      "type": "header",
+      "content": "Drawer tabs"
     },
     {
       "type": "text",
@@ -381,7 +496,7 @@
           "type": "text",
           "id": "menu_item",
           "label": "Menu item handle",
-          "info": "Must match exactly the title of the L1 menu link (case insensitive). Ex: if link is 'Women', type 'Women'"
+          "info": "Must match exactly the title of the L1 menu link (case insensitive)"
         },
         {
           "type": "header",

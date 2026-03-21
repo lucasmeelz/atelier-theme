@@ -138,6 +138,12 @@ class MenuDrawer extends HTMLElement {
     this.backdrop.setAttribute('open', '');
     this.drawer.dataset.level = '1';
     document.documentElement.setAttribute('scroll-lock', '');
+
+    /* Push animation: move body */
+    if (this.classList.contains('header__drawer--push')) {
+      document.documentElement.setAttribute('data-drawer-push', '');
+    }
+
     document.querySelectorAll('[data-drawer-open]').forEach(function (btn) {
       btn.setAttribute('aria-expanded', 'true');
     });
@@ -148,6 +154,7 @@ class MenuDrawer extends HTMLElement {
     this.drawer.removeAttribute('open');
     this.backdrop.removeAttribute('open');
     document.documentElement.removeAttribute('scroll-lock');
+    document.documentElement.removeAttribute('data-drawer-push');
     document.querySelectorAll('[data-drawer-open]').forEach(function (btn) {
       btn.setAttribute('aria-expanded', 'false');
     });
@@ -325,3 +332,52 @@ class MenuDrawer extends HTMLElement {
 }
 
 customElements.define('menu-drawer', MenuDrawer);
+
+/* ---------------------------------------------------------------------------
+   Mega menu click trigger
+   --------------------------------------------------------------------------- */
+
+document.addEventListener('DOMContentLoaded', function () {
+  var clickItems = document.querySelectorAll('.header__mega-item--click-trigger');
+  if (clickItems.length === 0) return;
+
+  clickItems.forEach(function (item) {
+    var link = item.querySelector('.header__mega-link');
+    if (!link) return;
+
+    link.addEventListener('click', function (e) {
+      if (item.querySelector('.header__mega-dropdown')) {
+        e.preventDefault();
+        var wasOpen = item.classList.contains('is-open');
+
+        /* Close all */
+        clickItems.forEach(function (el) {
+          el.classList.remove('is-open');
+        });
+
+        /* Toggle clicked */
+        if (!wasOpen) {
+          item.classList.add('is-open');
+        }
+      }
+    });
+  });
+
+  /* Close on click outside */
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('.header__mega-item--click-trigger')) {
+      clickItems.forEach(function (el) {
+        el.classList.remove('is-open');
+      });
+    }
+  });
+
+  /* Close on Escape */
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      clickItems.forEach(function (el) {
+        el.classList.remove('is-open');
+      });
+    }
+  });
+});
