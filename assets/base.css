@@ -13,7 +13,7 @@ body {
   font-weight: var(--font-body--weight);
   background-color: var(--color-background);
   color: var(--color-text);
-  line-height: 1.6;
+  line-height: 1.8;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -23,8 +23,11 @@ h1, h2, h3, h4, h5, h6 {
   font-style: var(--font-heading--style);
   font-weight: var(--font-heading--weight);
   line-height: 1.15;
-  letter-spacing: 0.02em;
 }
+
+h1, h2 { letter-spacing: -0.02em; }
+h3, h4 { letter-spacing: -0.01em; }
+h5, h6 { letter-spacing: 0; }
 
 h1 { font-size: clamp(2rem, 5vw, 3.5rem); }
 h2 { font-size: clamp(1.75rem, 4vw, 2.75rem); }
