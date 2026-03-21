@@ -36,7 +36,7 @@
         "transparent_header": false,
         "transparent_text_color": "#ffffff",
         "logo_width": 120,
-        "nav_style": "drawer",
+        "nav_style": "mega",
         "enable_sticky": true,
         "show_search": true,
         "show_account": true,
