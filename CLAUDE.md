@@ -85,29 +85,58 @@ Hovers, clicks, focus → jamais désactivés par reduced-motion.
 
 ---
 
-## FIN DE TÂCHE — Claude Code fait UNIQUEMENT ces 3 choses
+## FIN DE TÂCHE — Checklist obligatoire
 
 ```bash
 # 1. Theme check
 shopify theme check
 # 0 errors. Si erreurs → corriger, ne pas avancer.
 
-# 2. Playwright QA
+# 2. Vérification manuelle des settings
+# Pour chaque setting ajouté/modifié :
+# - Vérifier que l'id est utilisé dans le Liquid (HTML output)
+# - Vérifier que le CSS correspondant existe (classes, variables)
+# - Vérifier que le JS correspondant existe (si interactif)
+# - Tester la valeur par défaut ET au moins une variante
+# Un setting dans le schema sans code = BUG.
+
+# 3. Playwright QA
 npx playwright test --project=desktop-standard --project=mobile
 # 0 failures. Si failure → corriger avant de committer.
 # Jamais pusher avec des tests en échec.
+# Les tests doivent vérifier :
+# - Visibilité réelle (boundingBox, display, visibility, opacity)
+# - Pas juste "l'élément existe dans le DOM"
+# - Comportements interactifs (click → résultat attendu)
 
-# 3. Push
+# 4. Push
 git add -A
 git commit -m "feat(scope): description"
 git push origin feature/[nom-tâche]
 
-# 4. Poster dans claude.ai :
+# 5. Poster dans claude.ai :
 "Tâche [ID] pushée — https://github.com/lucasmeelz/atelier-theme/tree/feature/[nom-tâche]"
 ```
 
+### Règle anti-régression
+Quand on ajoute du CSS conditionnel (display:none, visibility:hidden, opacity:0),
+TOUJOURS vérifier que ça ne casse pas les autres variantes.
+Méthode : grep "display: none" dans le CSS et vérifier chaque occurrence
+a une condition suffisamment spécifique (pas trop large).
+
+Avant de finir toute tâche touchant au header, footer, 
+product page, cart, collection :
+Vérifier MASTER_SPEC.md section 5 "FEATURES SHOPIFY OBLIGATOIRES"
+et confirmer que tous les requirements applicables sont couverts.
+Si un requirement manque → l'implémenter avant de committer.
+
+Ne mentionne jamais "Dior" ou "Claude" nulle part dans le code;
+
+
 **Claude Code s'arrête là. Il ne valide rien, ne coche rien.**
 La validation appartient à claude.ai (code review GitHub + preview URL).
+
+
 
 ---
 
@@ -151,6 +180,9 @@ La validation appartient à claude.ai (code review GitHub + preview URL).
 - L1 links : opacity 0.3 quand L2/L3 actif
 - Breadcrumb : "← Parent" puis "← Parent / Child"
 - CTA hero : text-link + underline permanent (pas un bouton)
+
+
+
 
 ---
 

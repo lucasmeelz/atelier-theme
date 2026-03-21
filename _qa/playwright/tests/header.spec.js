@@ -12,10 +12,29 @@ test.describe("Header — Structure", () => {
     await expect(page.locator(".header__icon--cart")).toBeVisible();
   });
 
-  test("hamburger button has aria-label", async ({ page }) => {
+  test("hamburger button visible and clickable", async ({ page }) => {
     const hamburger = page.locator(".header__menu-toggle").first();
     await expect(hamburger).toBeVisible();
     await expect(hamburger).toHaveAttribute("aria-label", /.+/);
+
+    /* Verify it has real dimensions (not display:none or 0x0) */
+    const box = await hamburger.boundingBox();
+    expect(box).not.toBeNull();
+    expect(box.width).toBeGreaterThanOrEqual(24);
+    expect(box.height).toBeGreaterThanOrEqual(24);
+
+    /* Verify it's not hidden by CSS (opacity, visibility) */
+    const styles = await hamburger.evaluate((el) => {
+      var cs = getComputedStyle(el);
+      return {
+        display: cs.display,
+        visibility: cs.visibility,
+        opacity: parseFloat(cs.opacity)
+      };
+    });
+    expect(styles.display).not.toBe("none");
+    expect(styles.visibility).not.toBe("hidden");
+    expect(styles.opacity).toBeGreaterThan(0);
   });
 
   test("all icon buttons have aria-label", async ({ page }) => {
