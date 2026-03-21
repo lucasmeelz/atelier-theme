@@ -78,6 +78,12 @@
           "on_secondary_button": "text",
           "secondary_button_border": "border"
         }
+      },
+      {
+        "type": "color_scheme",
+        "id": "default_color_scheme",
+        "label": "Default color scheme",
+        "default": "scheme-1"
       }
     ]
   },

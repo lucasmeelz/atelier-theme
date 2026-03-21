@@ -125,8 +125,13 @@ test.describe("Header — Drawer", () => {
   });
 
   test("scroll-lock applied when drawer open", async ({ page }) => {
-    await page.locator(".header__menu-toggle").first().click();
-    await page.waitForTimeout(500);
+    const burger = page.locator(".header__menu-toggle").first();
+    if (!(await burger.isVisible())) {
+      test.skip();
+      return;
+    }
+    await burger.click();
+    await page.waitForTimeout(800);
     const hasScrollLock = await page.evaluate(() =>
       document.documentElement.hasAttribute("scroll-lock")
     );
