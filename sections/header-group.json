@@ -31,7 +31,7 @@
       "settings": {
         "menu": "menu-2",
         "nav_style": "mega",
-        "enable_sticky": true,
+        "enable_sticky": false,
         "hide_on_scroll": false,
         "logo_width": 120,
         "show_search": true,
