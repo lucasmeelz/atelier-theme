@@ -154,6 +154,11 @@ html[scroll-lock] {
   .header--logo_left .header__center {
     justify-self: start;
   }
+
+  /* Legacy fallback — old values treated as logo_center (default) */
+  .header--logo_left_nav_center .header__center {
+    justify-self: center;
+  }
 }
 
 /* ---------------------------------------------------------------------------

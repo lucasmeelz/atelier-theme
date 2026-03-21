@@ -87,42 +87,40 @@ Hovers, clicks, focus → jamais désactivés par reduced-motion.
 
 ## FIN DE TÂCHE — Checklist obligatoire
 
+**Suivre QA_CHECKLIST.md pour le détail complet.**
+
 ```bash
 # 1. Theme check
 shopify theme check
 # 0 errors. Si erreurs → corriger, ne pas avancer.
 
-# 2. Vérification manuelle des settings
-# Pour chaque setting ajouté/modifié :
-# - Vérifier que l'id est utilisé dans le Liquid (HTML output)
-# - Vérifier que le CSS correspondant existe (classes, variables)
-# - Vérifier que le JS correspondant existe (si interactif)
-# - Tester la valeur par défaut ET au moins une variante
-# Un setting dans le schema sans code = BUG.
+# 2. Settings audit automatisé
+# Pour CHAQUE setting dans le schema :
+grep -rn "SETTING_ID" sections/FICHIER.liquid assets/*.css assets/*.js snippets/*.liquid
+# Si trouvé uniquement dans le schema → DEAD SETTING → corriger.
+# Tester la valeur par défaut + au moins 1 variante.
+# Si on supprime/renomme une option → ajouter fallback CSS pour l'ancienne valeur.
 
-# 3. Playwright QA
+# 3. CSS audit
+grep -n "display: none" assets/section-*.css
+# Chaque occurrence doit avoir une condition spécifique.
+# Jamais masquer un élément sur un sélecteur trop large.
+
+# 4. Playwright QA
 npx playwright test --project=desktop-standard --project=mobile
-# 0 failures. Si failure → corriger avant de committer.
-# Jamais pusher avec des tests en échec.
-# Les tests doivent vérifier :
-# - Visibilité réelle (boundingBox, display, visibility, opacity)
-# - Pas juste "l'élément existe dans le DOM"
-# - Comportements interactifs (click → résultat attendu)
+# 0 failures. Tests vérifient visibilité réelle (boundingBox, computed style).
 
-# 4. Push
+# 5. Push
 git add -A
 git commit -m "feat(scope): description"
 git push origin feature/[nom-tâche]
-
-# 5. Poster dans claude.ai :
-"Tâche [ID] pushée — https://github.com/lucasmeelz/atelier-theme/tree/feature/[nom-tâche]"
 ```
 
-### Règle anti-régression
-Quand on ajoute du CSS conditionnel (display:none, visibility:hidden, opacity:0),
-TOUJOURS vérifier que ça ne casse pas les autres variantes.
-Méthode : grep "display: none" dans le CSS et vérifier chaque occurrence
-a une condition suffisamment spécifique (pas trop large).
+### Règles anti-régression
+1. **Setting = 3 fichiers** : schema + Liquid HTML + CSS (ou JS). Sinon c'est un bug.
+2. **CSS conditionnel** : `display: none` uniquement sur des classes spécifiques (`.header__toggle--mega-hidden`), JAMAIS sur des classes génériques (`.header__menu-toggle`).
+3. **Valeurs legacy** : quand on supprime une option du schema, le store garde l'ancienne valeur. Le CSS DOIT la gérer avec un commentaire `/* Legacy fallback */`.
+4. **Font/couleur** : 0 valeur hardcodée. Grep `font-size:.*[0-9]` sans `var(` = bug. Grep `#[0-9a-f]` hors `var(` fallback = bug.
 
 Avant de finir toute tâche touchant au header, footer, 
 product page, cart, collection :
