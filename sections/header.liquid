@@ -60,9 +60,11 @@
 
 <menu-drawer>
   {%- render 'menu-drawer',
-    tab_1_menu: section.settings.tab_1_menu,
+    menu: linklists[section.settings.menu],
+    blocks: section.blocks,
+    tab_1_menu: linklists[section.settings.tab_1_menu],
     tab_1_label: section.settings.tab_1_label,
-    tab_2_menu: section.settings.tab_2_menu,
+    tab_2_menu: linklists[section.settings.tab_2_menu],
     tab_2_label: section.settings.tab_2_label
   -%}
 </menu-drawer>
@@ -72,6 +74,12 @@
   "name": "t:general.header",
   "class": "shopify-section--header",
   "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Main menu",
+      "default": "main-menu"
+    },
     {
       "type": "header",
       "content": "Navigation"
@@ -165,6 +173,52 @@
       "id": "tab_2_menu",
       "label": "Tab 2 menu"
     }
-  ]
+  ],
+  "blocks": [
+    {
+      "type": "mega_menu",
+      "name": "Mega menu",
+      "limit": 10,
+      "settings": [
+        {
+          "type": "text",
+          "id": "menu_item",
+          "label": "Menu item handle",
+          "info": "Exact title of the L1 link that triggers this mega panel"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_1",
+          "label": "Editorial image 1"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_2",
+          "label": "Editorial image 2"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_3",
+          "label": "Editorial image 3"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_4",
+          "label": "Editorial image 4"
+        },
+        {
+          "type": "text",
+          "id": "image_1_label",
+          "label": "Image 1 caption"
+        },
+        {
+          "type": "text",
+          "id": "image_2_label",
+          "label": "Image 2 caption"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 10
 }
 {% endschema %}

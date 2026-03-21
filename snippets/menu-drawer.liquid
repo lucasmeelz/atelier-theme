@@ -1,6 +1,6 @@
 {%- comment -%}
   Menu Drawer — Dior-style 3-level navigation
-  Parameters: tab_1_menu, tab_1_label, tab_2_menu, tab_2_label
+  Parameters: menu, blocks, tab_1_menu, tab_1_label, tab_2_menu, tab_2_label
 {%- endcomment -%}
 
 {%- liquid
@@ -8,6 +8,7 @@
   if tab_2_menu != blank and tab_2_label != blank
     assign has_tab_2 = true
   endif
+  assign nav_menu = menu | default: tab_1_menu
 -%}
 
 <!-- Backdrop -->
@@ -25,7 +26,7 @@
 
       <!-- Tab 1 links -->
       <ul class="drawer__l1-list" data-tab-content="1" role="list">
-        {%- for link in tab_1_menu.links -%}
+        {%- for link in nav_menu.links -%}
           <li>
             {%- if link.links.size > 0 -%}
               <button class="drawer__l1-link" data-action="show-l2" data-target="t1-{{ forloop.index0 }}" aria-expanded="false">
@@ -82,7 +83,7 @@
       </div>
 
       <!-- L2 groups — Tab 1 -->
-      {%- for link in tab_1_menu.links -%}
+      {%- for link in nav_menu.links -%}
         {%- if link.links.size > 0 -%}
           {%- assign l1_idx = forloop.index0 -%}
           <ul class="drawer__l2-list" data-l2-id="t1-{{ l1_idx }}" hidden role="list">
@@ -140,7 +141,7 @@
       </div>
 
       <!-- L3 groups — Tab 1 -->
-      {%- for link in tab_1_menu.links -%}
+      {%- for link in nav_menu.links -%}
         {%- if link.links.size > 0 -%}
           {%- assign l1_idx = forloop.index0 -%}
           {%- for child in link.links -%}
