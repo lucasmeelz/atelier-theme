@@ -22,4 +22,5 @@ jobs:
         run: npm install -g @shopify/cli @shopify/theme
 
       - name: Run Theme Check
+        working-directory: atelier-theme
         run: shopify theme check --fail-level=error
