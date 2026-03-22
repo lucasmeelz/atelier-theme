@@ -6,7 +6,7 @@ test.describe("Homepage", () => {
     await page.waitForLoadState("domcontentloaded");
   });
 
-  test("pas de bleu Shopify (#5c6ac4)", async ({ page }) => {
+  test("no Shopify blue (#5c6ac4)", async ({ page }) => {
     const blueCells = await page.evaluate(() => {
       const all = document.querySelectorAll("*");
       const found = [];
@@ -25,23 +25,26 @@ test.describe("Homepage", () => {
   });
 
   test("header visible", async ({ page }) => {
-    const header = page.locator("header, .header, [class*='header']").first();
+    const header = page.locator("sticky-header .header").first();
     await expect(header).toBeVisible();
   });
 
-  test("hamburger visible", async ({ page }) => {
-    const hamburger = page
-      .locator(
-        "button[aria-controls='menu-drawer'], .header__menu-toggle, [class*='hamburger']"
-      )
-      .first();
-    await expect(hamburger).toBeVisible();
+  test("hamburger visible", async ({ page, viewport }) => {
+    const isMobile = (viewport?.width ?? 0) < 1000;
+    const hamburger = page.locator(".header__menu-toggle").first();
+    const isMegaHidden = await hamburger.evaluate((el) =>
+      el.classList.contains("header__toggle--mega-hidden")
+    );
+
+    if (isMegaHidden && !isMobile) {
+      await expect(hamburger).toBeHidden();
+    } else {
+      await expect(hamburger).toBeVisible();
+    }
   });
 
   test("logo visible", async ({ page }) => {
-    const logo = page
-      .locator(".header__logo, .header__logo-text, header a[href='/']")
-      .first();
+    const logo = page.locator(".header__logo").first();
     await expect(logo).toBeVisible();
   });
 
