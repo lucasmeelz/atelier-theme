@@ -85,19 +85,81 @@ Hovers, clicks, focus → jamais désactivés par reduced-motion.
 
 ---
 
-## FIN DE TÂCHE — Claude Code fait UNIQUEMENT ces 3 choses
+## QA ROUTINE OBLIGATOIRE PAR TÂCHE
+
+### Principe
+Chaque section livree doit etre testee dans TOUTES ses variantes
+de settings avant tout commit. La boucle test → fix → test
+continue jusqu'a 0 failures.
+
+### Structure standard par section [ID]
+
+1. **Fixtures** — `_qa/playwright/fixtures/[section-id]-[variante].json`
+   Une fixture par combinaison critique de settings.
+   Minimum : valeurs par defaut + 2 variantes differentes.
+
+2. **Helper applySettings(fixture)** dans le spec :
+   - Ecrit la fixture dans le fichier de settings de la section
+   - Attend le rechargement du serveur dev (1500ms)
+   - Navigate vers http://127.0.0.1:9292
+
+3. **Structure du spec** :
+   ```js
+   describe('[Section] — variante X', () => {
+     test.beforeEach(() => applySettings('[section]-[variante]'))
+     // tests specifiques a cette variante
+   })
+   ```
+
+4. **Ce que chaque spec doit tester** :
+   - Rendu sans erreur JS (0 erreurs console)
+   - 0 bleu Shopify (#5c6ac4) visible
+   - Elements conditionnels presents/absents selon settings
+   - Interactions principales (click, hover, keyboard)
+   - Responsive : 375px + 768px + 1440px
+   - Accessibilite : aria-labels, focus-visible, touch targets
+
+5. **Boucle non-negociable** :
+   ```
+   npx playwright test [section].spec.js
+   → Si failures → lire erreur → corriger le code → relancer
+   → Repeter jusqu'a 0 failures
+   → Seulement alors : git commit
+   ```
+
+### Fichiers a creer par section
+```
+_qa/playwright/tests/[section-id].spec.js
+_qa/playwright/fixtures/[section-id]-default.json
+_qa/playwright/fixtures/[section-id]-[variante-1].json
+_qa/playwright/fixtures/[section-id]-[variante-2].json
+```
+
+### Sections a couvrir (dans l'ordre du backlog)
+F-03 header, F-04 footer, F-05 announcement
+H-01 hero, H-02 featured-collection, H-03 editorial-banner
+C-01 collection, P-01 product, CT-01 cart, S-01 search
+Toutes les autres sections H-04 a H-18
+
+---
+
+## FIN DE TÂCHE — Claude Code fait UNIQUEMENT ces 4 choses
 
 ```bash
 # 1. Theme check
 shopify theme check
 # 0 errors. Si erreurs → corriger, ne pas avancer.
 
-# 2. Push
+# 2. Playwright
+npx playwright test
+# 0 failures. Si failures → corriger, ne pas avancer.
+
+# 3. Push
 git add -A
 git commit -m "feat(scope): description"
 git push origin feature/[nom-tâche]
 
-# 3. Poster dans claude.ai :
+# 4. Poster dans claude.ai :
 "Tâche [ID] pushée — https://github.com/lucasmeelz/atelier-theme/tree/feature/[nom-tâche]"
 ```
 
@@ -151,11 +213,12 @@ La validation appartient à claude.ai (code review GitHub + preview URL).
 
 ## COMPACT INSTRUCTIONS
 
-Si contexte compacté, priorités absolues :
-1. `pwd` → doit être dans `atelier-theme/`
+Si contexte compacte, priorites absolues :
+1. `pwd` → doit etre dans `atelier-theme/`
 2. `curl 127.0.0.1:9292` → 200 avant tout travail
 3. Modifier fichiers skeleton existants — jamais from scratch
 4. `shopify theme check` → 0 errors avant push
-5. Push GitHub → stop. Pas de validation.
-6. reduced-motion → jamais sur les interactions user
-7. font_picker obligatoire — 0 font hardcodée
+5. `npx playwright test` → 0 failures avant push
+6. Push GitHub → stop. Pas de validation.
+7. reduced-motion → jamais sur les interactions user
+8. font_picker obligatoire — 0 font hardcodee
