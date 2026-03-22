@@ -3,3 +3,4 @@ node_modules/
 _qa/snapshots/
 _qa/reports/
 .DS_Store
+References/

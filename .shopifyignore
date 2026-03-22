@@ -11,3 +11,12 @@
 #
 # Ignore templates and sections with a regular expression:
 #   /(templates|sections)/.*\.json/
+References/
+SECTIONS-SPECS
+THEME-REQUIREMENTS
+MASTER_SPEC.md
+QA_CHECKLIST.md
+PROJECT_STATE.md
+BACKLOG.md
+CLAUDE.md
+_qa/
