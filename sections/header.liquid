@@ -10,9 +10,9 @@
 {%- endif -%}
 
 <sticky-header
-  class="header-wrapper header--{{ section.settings.desktop_layout }} color-{{ section.settings.color_scheme }}{% if section.settings.enable_sticky %} header-wrapper--sticky{% endif %}{% if section.settings.transparent_header %} header-wrapper--transparent{% endif %}"
+  class="header-wrapper header--{{ section.settings.desktop_layout }} color-{{ section.settings.color_scheme }}{% if section.settings.enable_sticky %} header-wrapper--sticky{% endif %}{% if section.settings.transparent_header %} header-wrapper--transparent{% endif %}{% if section.settings.show_separator_border %} header-wrapper--bordered{% endif %}"
 >
-  <header class="header" style="--logo-width: {{ section.settings.logo_width }}px;">
+  <header class="header" style="--logo-width: {{ section.settings.logo_width }}px; --header-height-setting: {{ section.settings.header_height }}px; --drawer-width: {{ section.settings.drawer_width }}px; --icon-size: {{ section.settings.icon_size }}px;">
 
     {%- comment -%} LEFT: hamburger + search mobile {%- endcomment -%}
     <div class="header__left">
@@ -60,9 +60,18 @@
     {%- comment -%} RIGHT: search desktop + account + cart {%- endcomment -%}
     <div class="header__right">
       {%- if section.settings.show_search -%}
-        <a href="{{ routes.search_url }}" class="header__icon header__icon--search-desktop" aria-label="{{ 'header.search' | t }}">
-          {%- render 'icon', name: 'search' -%}
-        </a>
+        {%- if section.settings.search_style == 'expanded' -%}
+          <form action="{{ routes.search_url }}" method="get" class="header__search-form" role="search">
+            <input type="search" name="q" placeholder="{{ 'header.search_placeholder' | t }}" class="header__search-input" aria-label="{{ 'header.search' | t }}">
+            <button type="submit" class="header__search-submit" aria-label="{{ 'header.search' | t }}">
+              {%- render 'icon', name: 'search' -%}
+            </button>
+          </form>
+        {%- else -%}
+          <a href="{{ routes.search_url }}" class="header__icon header__icon--search-desktop" aria-label="{{ 'header.search' | t }}">
+            {%- render 'icon', name: 'search' -%}
+          </a>
+        {%- endif -%}
       {%- endif -%}
       {%- if section.settings.show_account and shop.customer_accounts_enabled -%}
         <a href="{{ routes.account_url }}" class="header__icon" aria-label="{{ 'header.account' | t }}">
@@ -80,7 +89,7 @@
 
   {%- comment -%} MEGA NAV — desktop only, hover-open dropdowns {%- endcomment -%}
   {%- if section.settings.nav_style == 'mega' -%}
-    <nav class="header__mega-nav" aria-label="{{ 'header.navigation' | t }}">
+    <nav class="header__mega-nav header__mega-nav--{{ section.settings.nav_layout }}" aria-label="{{ 'header.navigation' | t }}">
       <ul class="header__mega-list">
         {%- for link in linklists[section.settings.menu].links -%}
           {%- liquid
@@ -108,7 +117,7 @@
               <div class="header__mega-dropdown" aria-label="{{ link.title }}">
                 <div class="header__mega-dropdown-inner">
                   <div class="header__mega-columns">
-                    <div class="header__mega-links">
+                    <div class="header__mega-links" style="--mega-columns: {{ section.settings.mega_columns }};">
                       {%- for child in link.links -%}
                         <div class="header__mega-group">
                           <a href="{{ child.url }}" class="header__mega-sublink header__mega-sublink--parent">{{ child.title }}</a>
@@ -128,13 +137,14 @@
                       <div class="header__mega-images">
                         {%- if mega_block.settings.image_1 -%}
                           {%- assign fp_1 = mega_block.settings.image_1.presentation.focal_point | default: 'center center' -%}
+                          {%- assign fp_style_1 = 'object-position: ' | append: fp_1 -%}
                           <a href="{{ mega_block.settings.image_1_url | default: '#' }}" class="header__mega-image-link">
                             {{ mega_block.settings.image_1 | image_url: width: 600 | image_tag:
                               alt: mega_block.settings.image_1_label,
                               class: 'header__mega-image',
                               widths: '200,300,400,600',
                               loading: 'lazy',
-                              style: fp_1
+                              style: fp_style_1
                             }}
                             {%- if mega_block.settings.image_1_label != blank -%}
                               <span class="header__mega-image-label">{{ mega_block.settings.image_1_label }}</span>
@@ -143,13 +153,14 @@
                         {%- endif -%}
                         {%- if mega_block.settings.image_2 -%}
                           {%- assign fp_2 = mega_block.settings.image_2.presentation.focal_point | default: 'center center' -%}
+                          {%- assign fp_style_2 = 'object-position: ' | append: fp_2 -%}
                           <a href="{{ mega_block.settings.image_2_url | default: '#' }}" class="header__mega-image-link">
                             {{ mega_block.settings.image_2 | image_url: width: 600 | image_tag:
                               alt: mega_block.settings.image_2_label,
                               class: 'header__mega-image',
                               widths: '200,300,400,600',
                               loading: 'lazy',
-                              style: fp_2
+                              style: fp_style_2
                             }}
                             {%- if mega_block.settings.image_2_label != blank -%}
                               <span class="header__mega-image-label">{{ mega_block.settings.image_2_label }}</span>
@@ -178,7 +189,8 @@
     tab_2_menu: linklists[section.settings.tab_2_menu],
     tab_2_label: section.settings.tab_2_label,
     show_country_selector: section.settings.show_country_selector,
-    show_language_selector: section.settings.show_language_selector
+    show_language_selector: section.settings.show_language_selector,
+    blocks: section.blocks
   -%}
 </menu-drawer>
 
@@ -197,6 +209,15 @@
       ],
       "default": "logo_center"
     },
+    {
+      "type": "range", "id": "header_height", "min": 48, "max": 120, "step": 4, "unit": "px",
+      "label": "Header height", "default": 64,
+      "info": "Height of the header bar on desktop"
+    },
+    {
+      "type": "checkbox", "id": "show_separator_border", "label": "Show separator border",
+      "default": true, "info": "Display a bottom border on the header"
+    },
     { "type": "header", "content": "Colors" },
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
     { "type": "checkbox", "id": "transparent_header", "label": "Transparent header on home page", "default": false, "info": "Use only when the first section is a full-bleed hero image" },
@@ -214,10 +235,51 @@
       ],
       "default": "drawer"
     },
+    {
+      "type": "select", "id": "nav_layout", "label": "Navigation layout",
+      "options": [
+        { "value": "logo_center_nav_below", "label": "Logo center, nav below" },
+        { "value": "logo_center_nav_inline", "label": "Logo center, nav inline left" },
+        { "value": "logo_left_nav_inline", "label": "Logo left, nav inline" },
+        { "value": "logo_left_nav_center", "label": "Logo left, nav center" }
+      ],
+      "default": "logo_center_nav_inline",
+      "info": "Layout for mega menu desktop navigation"
+    },
+    {
+      "type": "select", "id": "mega_columns", "label": "Mega menu columns",
+      "options": [
+        { "value": "2", "label": "2 columns" },
+        { "value": "3", "label": "3 columns" },
+        { "value": "4", "label": "4 columns" }
+      ],
+      "default": "3",
+      "info": "Number of link columns in the mega dropdown"
+    },
     { "type": "checkbox", "id": "enable_sticky", "label": "Enable sticky header", "default": true },
     { "type": "header", "content": "Icons" },
     { "type": "checkbox", "id": "show_search", "label": "Show search icon", "default": true },
+    {
+      "type": "select", "id": "search_style", "label": "Search style",
+      "options": [
+        { "value": "icon", "label": "Icon only" },
+        { "value": "expanded", "label": "Expanded search bar" }
+      ],
+      "default": "icon",
+      "info": "Icon redirects to search page. Expanded shows an inline search bar"
+    },
     { "type": "checkbox", "id": "show_account", "label": "Show account icon", "default": true },
+    {
+      "type": "range", "id": "icon_size", "min": 16, "max": 28, "step": 2, "unit": "px",
+      "label": "Icon size", "default": 20,
+      "info": "Size of header icons (search, account, cart)"
+    },
+    { "type": "header", "content": "Drawer" },
+    {
+      "type": "range", "id": "drawer_width", "min": 280, "max": 480, "step": 20, "unit": "px",
+      "label": "Drawer width", "default": 360,
+      "info": "Width of the navigation drawer on desktop"
+    },
     { "type": "header", "content": "Localization" },
     { "type": "checkbox", "id": "show_country_selector", "label": "Show country selector", "default": true },
     { "type": "checkbox", "id": "show_language_selector", "label": "Show language selector", "default": false },

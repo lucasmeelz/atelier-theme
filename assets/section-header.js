@@ -141,8 +141,8 @@ class MenuDrawer extends HTMLElement {
 
   _switchTab(tab) {
     this.drawer.querySelectorAll('[data-tab-content]').forEach(function (el) {
-      if (el.dataset.tabContent === tab) el.setAttribute('data-tab-active', '');
-      else el.removeAttribute('data-tab-active');
+      if (el.dataset.tabContent === tab) el.removeAttribute('data-tab-hidden');
+      else el.setAttribute('data-tab-hidden', '');
     });
     this.drawer.querySelectorAll('[data-action="switch-tab"]').forEach(function (el) {
       el.classList.toggle('drawer__tab--active', el.dataset.tab === tab);

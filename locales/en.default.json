@@ -59,6 +59,7 @@
     "navigation": "Navigation",
     "country": "Country",
     "language": "Language",
-    "view_all": "View all"
+    "view_all": "View all",
+    "search_placeholder": "Search"
   }
 }

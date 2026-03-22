@@ -19,7 +19,7 @@
       </button>
 
       {%- comment -%} Tab 1 links (always visible) {%- endcomment -%}
-      <ul class="drawer__l1-list" data-tab-content="1" data-tab-active role="list">
+      <ul class="drawer__l1-list" data-tab-content="1" role="list">
         {%- for link in nav_menu.links -%}
           <li>
             {%- if link.links.size > 0 -%}
@@ -44,7 +44,7 @@
 
       {%- comment -%} Tab 2 links (hidden by default, shown via tab switch) {%- endcomment -%}
       {%- if has_tab_2 -%}
-        <ul class="drawer__l1-list" data-tab-content="2" role="list">
+        <ul class="drawer__l1-list" data-tab-content="2" data-tab-hidden role="list">
           {%- for link in tab_2_menu.links -%}
             <li>
               {%- if link.links.size > 0 -%}
@@ -118,6 +118,15 @@
       {%- for link in nav_menu.links -%}
         {%- if link.links.size > 0 -%}
           {%- assign l1_idx = forloop.index0 -%}
+          {%- liquid
+            assign drawer_mega_block = nil
+            for block in blocks
+              if block.type == 'mega_menu' and block.settings.menu_item == link.title
+                assign drawer_mega_block = block
+                break
+              endif
+            endfor
+          -%}
           <div id="drawer-l2-t1-{{ l1_idx }}" data-l2-id="t1-{{ l1_idx }}" hidden>
             <ul class="drawer__l2-list" role="list">
               {%- for child in link.links -%}
@@ -133,6 +142,42 @@
                 </li>
               {%- endfor -%}
             </ul>
+            {%- if drawer_mega_block -%}
+              <div class="drawer__editorial">
+                {%- if drawer_mega_block.settings.image_1 -%}
+                  {%- assign dfp_1 = drawer_mega_block.settings.image_1.presentation.focal_point | default: 'center center' -%}
+                  {%- assign dfp_style_1 = 'object-position: ' | append: dfp_1 -%}
+                  <a href="{{ drawer_mega_block.settings.image_1_url | default: '#' }}" class="drawer__editorial-link">
+                    {{ drawer_mega_block.settings.image_1 | image_url: width: 400 | image_tag:
+                      alt: drawer_mega_block.settings.image_1_label,
+                      class: 'drawer__editorial-image',
+                      widths: '200,300,400',
+                      loading: 'lazy',
+                      style: dfp_style_1
+                    }}
+                    {%- if drawer_mega_block.settings.image_1_label != blank -%}
+                      <span class="drawer__editorial-label">{{ drawer_mega_block.settings.image_1_label }}</span>
+                    {%- endif -%}
+                  </a>
+                {%- endif -%}
+                {%- if drawer_mega_block.settings.image_2 -%}
+                  {%- assign dfp_2 = drawer_mega_block.settings.image_2.presentation.focal_point | default: 'center center' -%}
+                  {%- assign dfp_style_2 = 'object-position: ' | append: dfp_2 -%}
+                  <a href="{{ drawer_mega_block.settings.image_2_url | default: '#' }}" class="drawer__editorial-link">
+                    {{ drawer_mega_block.settings.image_2 | image_url: width: 400 | image_tag:
+                      alt: drawer_mega_block.settings.image_2_label,
+                      class: 'drawer__editorial-image',
+                      widths: '200,300,400',
+                      loading: 'lazy',
+                      style: dfp_style_2
+                    }}
+                    {%- if drawer_mega_block.settings.image_2_label != blank -%}
+                      <span class="drawer__editorial-label">{{ drawer_mega_block.settings.image_2_label }}</span>
+                    {%- endif -%}
+                  </a>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
           </div>
         {%- endif -%}
       {%- endfor -%}
