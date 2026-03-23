@@ -11,8 +11,8 @@
   z-index: 100;
 }
 
-/* Sticky — applied to the shopify-section wrapper */
-.section-header:has(.header--sticky) {
+/* Sticky — on the shopify-section wrapper via Liquid inline style */
+.section-header--sticky {
   position: sticky;
   top: 0;
 }
@@ -26,14 +26,24 @@
               color var(--duration-base) var(--ease-dior);
 }
 
-/* Transparent — before scroll */
-.header--transparent:not(.header--scrolled) {
+/* Transparent — only when class is present AND not scrolled */
+.header--transparent {
   background-color: transparent;
   color: rgb(var(--color-button-text));
 }
 
-.header--transparent:not(.header--scrolled) .header__nav--below {
+.header--transparent .header__nav--below {
   border-color: rgba(var(--color-button-text), 0.2);
+}
+
+/* Scrolled — override transparent back to solid */
+.header--transparent.header--scrolled {
+  background-color: rgb(var(--color-background));
+  color: rgb(var(--color-text));
+}
+
+.header--transparent.header--scrolled .header__nav--below {
+  border-color: rgb(var(--color-border));
 }
 
 /* ============================
@@ -155,10 +165,11 @@
   }
 }
 
-/* Icon sizes: 18px mobile, 20px desktop */
+/* Icon sizes — fixed, never stretch */
 .header__icon-btn .icon {
   width: 18px;
   height: 18px;
+  flex-shrink: 0;
 }
 
 @media screen and (min-width: 990px) {

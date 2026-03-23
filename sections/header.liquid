@@ -1,5 +1,16 @@
 {{ 'section-header.css' | asset_url | stylesheet_tag }}
 
+{% comment %} Add sticky class directly to section wrapper via Liquid {% endcomment %}
+{%- if section.settings.sticky_header -%}
+  <style>
+    #shopify-section-{{ section.id }} {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+  </style>
+{%- endif -%}
+
 {%- style -%}
   html {
     scroll-padding-top: var(--header-height, 64px);
@@ -10,9 +21,9 @@
   #shopify-section-{{ section.id }} .header__bar {
     {%- case section.settings.mobile_layout -%}
       {%- when 'logo_center' -%}
-        --header-grid: "primary-nav logo secondary-nav" / minmax(0, 1fr) auto minmax(0, 1fr);
+        --header-grid: "primary-nav logo secondary-nav" / 1fr auto 1fr;
       {%- when 'logo_left' -%}
-        --header-grid: "primary-nav logo secondary-nav" / auto auto minmax(0, 1fr);
+        --header-grid: "primary-nav logo secondary-nav" / auto auto 1fr;
     {%- endcase -%}
   }
 
@@ -21,11 +32,11 @@
     #shopify-section-{{ section.id }} .header__bar {
       {%- case section.settings.desktop_layout -%}
         {%- when 'logo_center_nav_below' -%}
-          --header-grid: "primary-nav logo secondary-nav" / minmax(0, 1fr) auto minmax(0, 1fr);
+          --header-grid: "primary-nav logo secondary-nav" / 1fr auto 1fr;
         {%- when 'logo_left_nav_inline' -%}
           --header-grid: "primary-nav logo desktop-nav secondary-nav" / auto auto 1fr auto;
         {%- when 'logo_left_nav_center' -%}
-          --header-grid: "primary-nav logo secondary-nav" / auto auto minmax(0, 1fr);
+          --header-grid: "primary-nav logo secondary-nav" / auto auto 1fr;
       {%- endcase -%}
     }
   }

@@ -18,28 +18,25 @@ class HeaderElement extends HTMLElement {
   }
 
   setupScrollObserver() {
-    if (this.dataset.transparent !== 'true' && this.dataset.sticky !== 'true') return;
+    if (this.dataset.transparent !== 'true') return;
 
-    /* Create sentinel after the section wrapper — outside the sticky container */
-    var section = this.closest('.shopify-section');
-    if (!section) return;
+    /* Use scroll event to detect when page has scrolled past initial position */
+    var header = this;
+    var scrollThreshold = 10;
 
-    this.sentinel = document.createElement('div');
-    this.sentinel.className = 'header__sentinel';
-    this.sentinel.setAttribute('aria-hidden', 'true');
-    this.sentinel.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:1px;pointer-events:none;';
-    section.parentNode.insertBefore(this.sentinel, section.nextSibling);
+    this._onScroll = function() {
+      var scrolled = window.scrollY > scrollThreshold;
+      if (scrolled !== header._wasScrolled) {
+        header._wasScrolled = scrolled;
+        header.classList.toggle('header--scrolled', scrolled);
+      }
+    };
 
-    this.observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          this.classList.toggle('header--scrolled', !entry.isIntersecting);
-        });
-      },
-      { threshold: 0 }
-    );
+    this._wasScrolled = false;
+    window.addEventListener('scroll', this._onScroll, { passive: true });
 
-    this.observer.observe(this.sentinel);
+    /* Initial check */
+    this._onScroll();
   }
 
   setupSearch() {
@@ -65,8 +62,7 @@ class HeaderElement extends HTMLElement {
   }
 
   disconnectedCallback() {
-    if (this.observer) this.observer.disconnect();
-    if (this.sentinel && this.sentinel.parentNode) this.sentinel.parentNode.removeChild(this.sentinel);
+    if (this._onScroll) window.removeEventListener('scroll', this._onScroll);
     if (this.searchTrigger && this._onSearchOpen) this.searchTrigger.removeEventListener('click', this._onSearchOpen);
     if (this.searchClose && this._onSearchClose) this.searchClose.removeEventListener('click', this._onSearchClose);
     if (this.searchPanel && this._onSearchKeydown) this.searchPanel.removeEventListener('keydown', this._onSearchKeydown);
