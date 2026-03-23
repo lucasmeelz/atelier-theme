@@ -1,0 +1,59 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "current": {
+    "default_color_scheme": "scheme-1",
+    "type_heading_font": "cormorant_n4",
+    "type_body_font": "jost_n4",
+    "max_page_width": "1440px",
+    "page_margin": 20,
+    "ease_type": "cubic-bezier(0.31, 0, 0.13, 1)",
+    "duration_fast": 200,
+    "duration_base": 350,
+    "color_schemes": {
+      "scheme-1": {
+        "settings": {
+          "background": "#FFFFFF",
+          "text": "#0A0A0A",
+          "text_subdued": "#6B6B6B",
+          "accent": "#B8946A",
+          "border": "#E2E0DB",
+          "button": "#0A0A0A",
+          "button_text": "#FFFFFF",
+          "background_gradient": ""
+        }
+      },
+      "scheme-2": {
+        "settings": {
+          "background": "#F5F4F0",
+          "text": "#0A0A0A",
+          "text_subdued": "#6B6B6B",
+          "accent": "#B8946A",
+          "border": "#E2E0DB",
+          "button": "#0A0A0A",
+          "button_text": "#FFFFFF",
+          "background_gradient": ""
+        }
+      },
+      "scheme-3": {
+        "settings": {
+          "background": "#0A0A0A",
+          "text": "#FFFFFF",
+          "text_subdued": "#A0A0A0",
+          "accent": "#B8946A",
+          "border": "#333333",
+          "button": "#FFFFFF",
+          "button_text": "#0A0A0A",
+          "background_gradient": ""
+        }
+      }
+    }
+  }
+}
