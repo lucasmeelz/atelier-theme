@@ -83,7 +83,16 @@
     "quick_add_style": "Quick add style",
     "social_accounts": "Social accounts",
     "favicon": "Favicon",
-    "favicon_info": "32×32px .png recommended."
+    "favicon_info": "32×32px .png recommended.",
+    "color_scheme": "Color scheme",
+    "layout": "Layout",
+    "logo": "Logo",
+    "logo_width": "Logo width",
+    "sticky_header": "Sticky header",
+    "transparent_header": "Transparent header",
+    "transparent_header_info": "Makes the header transparent over full-screen hero sections. Background appears on scroll.",
+    "show_search": "Show search icon",
+    "show_wishlist": "Show wishlist icon"
   },
   "options": {
     "alignment": {
@@ -137,6 +146,11 @@
       "none": "None",
       "icon": "Icon only",
       "button": "Button"
+    },
+    "header_layout": {
+      "logo_center_nav_below": "Logo center, nav below",
+      "logo_left_nav_inline": "Logo left, nav inline",
+      "logo_left_nav_center": "Logo left, nav center below"
     }
   }
 }

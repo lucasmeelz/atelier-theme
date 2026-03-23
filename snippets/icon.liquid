@@ -1,0 +1,59 @@
+{% comment %}
+  Icon snippet — Atelier theme
+  Renders inline SVG icons by name.
+  Params:
+    name  {String}  Icon name (required): search, cart, account, hamburger, close, wishlist, chevron-down
+    size  {Number}  Width/height in px (default: 20)
+    class {String}  Additional CSS class
+{% endcomment %}
+
+{%- liquid
+  assign icon_size = size | default: 20
+  assign icon_class = 'icon icon--' | append: name
+  if class != blank
+    assign icon_class = icon_class | append: ' ' | append: class
+  endif
+-%}
+
+{%- case name -%}
+
+  {%- when 'search' -%}
+    <svg class="{{ icon_class }}" width="{{ icon_size }}" height="{{ icon_size }}" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <circle cx="8.5" cy="8.5" r="5" stroke="currentColor" stroke-width="var(--icon-stroke-width, 1.5)" />
+      <path d="M12.5 12.5 17 17" stroke="currentColor" stroke-width="var(--icon-stroke-width, 1.5)" stroke-linecap="round" />
+    </svg>
+
+  {%- when 'cart' -%}
+    <svg class="{{ icon_class }}" width="{{ icon_size }}" height="{{ icon_size }}" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="var(--icon-stroke-width, 1.5)" d="M3.392 6.875h13.216v8.016c0 .567-.224 1.112-.624 1.513-.4.402-.941.627-1.506.627H5.522a2.13 2.13 0 0 1-1.506-.627 2.15 2.15 0 0 1-.624-1.513zM8.818 2.969h2.333c.618 0 1.211.247 1.649.686a2.35 2.35 0 0 1 .683 1.658v1.562H6.486V5.313c0-.622.246-1.218.683-1.658a2.33 2.33 0 0 1 1.65-.686" />
+    </svg>
+
+  {%- when 'account' -%}
+    <svg class="{{ icon_class }}" width="{{ icon_size }}" height="{{ icon_size }}" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <circle cx="10" cy="6.5" r="2.75" stroke="currentColor" stroke-width="var(--icon-stroke-width, 1.5)" />
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="var(--icon-stroke-width, 1.5)" d="m5.172 14.591-.437.786a.588.588 0 0 0 .514.873h9.502a.588.588 0 0 0 .514-.873l-.437-.786a5.523 5.523 0 0 0-9.656 0" />
+    </svg>
+
+  {%- when 'hamburger' -%}
+    <svg class="{{ icon_class }}" width="{{ icon_size }}" height="{{ icon_size }}" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <line x1="2" y1="5" x2="18" y2="5" stroke="currentColor" stroke-width="var(--icon-stroke-width, 1.5)" stroke-linecap="round" />
+      <line x1="2" y1="10" x2="18" y2="10" stroke="currentColor" stroke-width="var(--icon-stroke-width, 1.5)" stroke-linecap="round" />
+      <line x1="2" y1="15" x2="18" y2="15" stroke="currentColor" stroke-width="var(--icon-stroke-width, 1.5)" stroke-linecap="round" />
+    </svg>
+
+  {%- when 'close' -%}
+    <svg class="{{ icon_class }}" width="{{ icon_size }}" height="{{ icon_size }}" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="var(--icon-stroke-width, 1.5)" stroke-linecap="round" />
+    </svg>
+
+  {%- when 'wishlist' -%}
+    <svg class="{{ icon_class }}" width="{{ icon_size }}" height="{{ icon_size }}" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <path d="M10 16.5s-6.5-4.2-6.5-8.3C3.5 5.8 5.3 4 7.5 4c1.3 0 2.1.6 2.5 1.2C10.4 4.6 11.2 4 12.5 4c2.2 0 4 1.8 4 4.2 0 4.1-6.5 8.3-6.5 8.3z" stroke="currentColor" stroke-width="var(--icon-stroke-width, 1.5)" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+
+  {%- when 'chevron-down' -%}
+    <svg class="{{ icon_class }}" width="{{ icon_size }}" height="{{ icon_size }}" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="var(--icon-stroke-width, 1.5)" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+
+{%- endcase -%}

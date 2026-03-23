@@ -30,6 +30,17 @@
   "collections": {
     "title": "Collections"
   },
+  "header": {
+    "navigation": "Main navigation",
+    "open_menu": "Open navigation menu",
+    "close_menu": "Close navigation menu",
+    "open_search": "Open search",
+    "close_search": "Close search",
+    "cart_count": "Cart ({{ count }} items)",
+    "wishlist": "Wishlist",
+    "account": "Account",
+    "view_all_in": "View all {{ collection }}"
+  },
   "gift_card": {
     "add_to_apple_wallet": "Add to Apple Wallet",
     "card": "Gift card",
