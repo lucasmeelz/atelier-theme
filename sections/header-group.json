@@ -18,22 +18,28 @@
           "type": "mega_menu",
           "settings": {
             "menu_item": "Main 1",
-            "image_1": "shopify://shop_images/portrait_3to4.jpg",
-            "image_1_label": "kjkk",
-            "image_1_url": "",
-            "image_2_label": "",
-            "image_2_url": ""
+            "promo_1_heading": "",
+            "promo_1_link": "",
+            "promo_2_heading": "",
+            "promo_2_link": "",
+            "promo_3_heading": "",
+            "promo_3_link": "",
+            "promo_4_heading": "",
+            "promo_4_link": ""
           }
         },
         "mega_menu_xx4yrr": {
           "type": "mega_menu",
           "settings": {
             "menu_item": "Main 1",
-            "image_1": "shopify://shop_images/portrait_3to4.jpg",
-            "image_1_label": "kjkk",
-            "image_1_url": "",
-            "image_2_label": "",
-            "image_2_url": ""
+            "promo_1_heading": "",
+            "promo_1_link": "",
+            "promo_2_heading": "",
+            "promo_2_link": "",
+            "promo_3_heading": "",
+            "promo_3_link": "",
+            "promo_4_heading": "",
+            "promo_4_link": ""
           }
         }
       },
@@ -45,7 +51,8 @@
         "color_scheme": "scheme-2",
         "desktop_layout": "logo_center_nav_below",
         "mobile_layout": "logo_center",
-        "menu_style": "drawer",
+        "menu_style": "mega",
+        "menu_open_trigger": "hover",
         "logo": "shopify://shop_images/logo-simple.png",
         "logo_width": 100,
         "sticky_header": true,
