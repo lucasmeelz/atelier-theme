@@ -175,9 +175,9 @@ html[scroll-lock] { overflow: hidden; }
   background: var(--color-background, #fff);
   border-bottom: 1px solid var(--color-border, #E2E0DB);
   opacity: 0; visibility: hidden; pointer-events: none;
-  transform: translateY(-4px);
-  transition: opacity 250ms var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1)),
-              transform 250ms var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
+  transform: translateY(-8px);
+  transition: opacity var(--duration-fast, 200ms) var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1)),
+              transform var(--duration-fast, 200ms) var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
   z-index: 300;
 }
 
@@ -185,6 +185,8 @@ html[scroll-lock] { overflow: hidden; }
 @media (hover: hover) {
   .header__mega-item--has-children:hover .header__mega-dropdown {
     opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0);
+    transition: opacity var(--duration-base, 350ms) var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1)),
+                transform var(--duration-base, 350ms) var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
   }
 }
 .header__mega-item--has-children:focus-within .header__mega-dropdown {
@@ -298,24 +300,29 @@ html[scroll-lock] { overflow: hidden; }
   background-color: rgba(0, 0, 0, 0);
   backdrop-filter: blur(0); -webkit-backdrop-filter: blur(0);
   pointer-events: none;
-  transition: background-color 400ms var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1)),
-              backdrop-filter 400ms var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
+  transition: background-color var(--duration-fast, 200ms) var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1)),
+              backdrop-filter var(--duration-fast, 200ms) var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
 }
 
 .drawer-backdrop[open] {
   background-color: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
   pointer-events: auto;
+  transition: background-color var(--duration-base, 350ms) var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1)),
+              backdrop-filter var(--duration-base, 350ms) var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
 }
 
 .drawer {
   position: fixed; top: 0; left: 0; bottom: 0; z-index: 201;
   display: flex;
   transform: translateX(-100%);
-  transition: transform 400ms var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
+  transition: transform var(--duration-fast, 200ms) ease-in;
 }
 
-.drawer[open] { transform: translateX(0); }
+.drawer[open] {
+  transform: translateX(0);
+  transition: transform var(--duration-base, 350ms) var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
+}
 .drawer__inner { display: flex; height: 100%; }
 
 .drawer__panel {
@@ -350,7 +357,7 @@ html[scroll-lock] { overflow: hidden; }
   .drawer__panel {
     position: absolute; inset: 0; width: 100%;
     transform: translateX(100%);
-    transition: transform 400ms var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
+    transition: transform var(--duration-base, 350ms) var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
   }
   .drawer__panel--l1 { transform: translateX(0); }
   .drawer[data-level="2"] .drawer__panel--l1 { transform: translateX(-100%); }
@@ -381,7 +388,7 @@ html[scroll-lock] { overflow: hidden; }
   font-size: 1.125rem; font-weight: 300; letter-spacing: 0.08em;
   text-transform: uppercase;
   text-decoration: none; cursor: pointer;
-  transition: opacity 250ms var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
+  transition: opacity var(--duration-fast, 200ms) var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
 }
 
 .drawer__l1-link svg { width: 10px; height: 10px; opacity: 0.3; }
@@ -437,8 +444,8 @@ html[scroll-lock] { overflow: hidden; }
   font-size: 0.6875rem; font-weight: 400;
   letter-spacing: 0.1em; text-transform: uppercase;
   cursor: pointer;
-  transition: background-color 250ms var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1)),
-              color 250ms var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
+  transition: background-color var(--duration-fast, 200ms) var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1)),
+              color var(--duration-fast, 200ms) var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
 }
 
 .drawer__tab:first-child { border-radius: 4px 0 0 4px; border-right: none; }
@@ -456,15 +463,15 @@ html[scroll-lock] { overflow: hidden; }
 /* Tab content — crossfade via data-tab-hidden */
 .drawer__l1-list[data-tab-content] {
   opacity: 1; visibility: visible;
-  transition: opacity 250ms var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1)),
+  transition: opacity var(--duration-fast, 200ms) var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1)),
               visibility 0ms 0ms;
 }
 
 .drawer__l1-list[data-tab-hidden] {
   opacity: 0; visibility: hidden;
   position: absolute; pointer-events: none;
-  transition: opacity 250ms var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1)),
-              visibility 0ms 250ms;
+  transition: opacity var(--duration-fast, 200ms) var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1)),
+              visibility 0ms 200ms;
 }
 
 /* Localization

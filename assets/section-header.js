@@ -101,7 +101,7 @@ class MenuDrawer extends HTMLElement {
     var self = this;
     setTimeout(function () {
       if (!self.isOpen) { self.drawer.dataset.level = '1'; self._resetPanels(); }
-    }, 400);
+    }, 350);
   }
 
   _showL2(id, trigger) {
