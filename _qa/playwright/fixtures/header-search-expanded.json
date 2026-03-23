@@ -4,24 +4,11 @@
   "sections": {
     "header": {
       "type": "header",
-      "blocks": {
-        "mega_menu_6dmJVr": {
-          "type": "mega_menu",
-          "settings": {
-            "menu_item": "Main 1",
-            "image_1": "shopify://shop_images/portrait_2to3.jpg",
-            "image_1_label": "lllll",
-            "image_1_url": "",
-            "image_2": "shopify://shop_images/square_2.jpg",
-            "image_2_label": "",
-            "image_2_url": ""
-          }
-        }
-      },
-      "block_order": ["mega_menu_6dmJVr"],
+      "blocks": {},
+      "block_order": [],
       "settings": {
         "menu": "menu-2",
-        "desktop_layout": "logo_center",
+        "desktop_layout": "logo_left",
         "header_height": 64,
         "show_separator_border": true,
         "color_scheme": "",
@@ -33,11 +20,11 @@
         "mega_columns": "3",
         "enable_sticky": true,
         "show_search": true,
-        "search_style": "icon",
+        "search_style": "expanded",
         "show_account": true,
         "icon_size": 20,
-        "drawer_width": 360,
-        "show_country_selector": true,
+        "drawer_width": 400,
+        "show_country_selector": false,
         "show_language_selector": false,
         "tab_1_label": "Fashion",
         "tab_1_menu": "main-menu",

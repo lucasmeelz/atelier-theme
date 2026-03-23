@@ -3,10 +3,13 @@ import { defineConfig, devices } from "@playwright/test";
 export default defineConfig({
   testDir: "./tests",
   outputDir: "../../_qa/snapshots",
+  workers: 1,
+  retries: 0,
+  timeout: 15000,
   reporter: [["html", { outputFolder: "../../_qa/reports", open: "never" }]],
   use: {
     baseURL: "http://127.0.0.1:9292",
-    screenshot: "on",
+    screenshot: "only-on-failure",
     video: "off",
   },
   projects: [

@@ -1,0 +1,37 @@
+{
+  "type": "header",
+  "name": "t:general.header",
+  "sections": {
+    "header": {
+      "type": "header",
+      "blocks": {},
+      "block_order": [],
+      "settings": {
+        "menu": "menu-2",
+        "desktop_layout": "logo_center",
+        "header_height": 48,
+        "show_separator_border": false,
+        "color_scheme": "scheme-3",
+        "transparent_header": false,
+        "transparent_text_color": "#ffffff",
+        "logo_width": 120,
+        "nav_style": "drawer",
+        "nav_layout": "logo_center_nav_inline",
+        "mega_columns": "3",
+        "enable_sticky": false,
+        "show_search": false,
+        "search_style": "icon",
+        "show_account": false,
+        "icon_size": 16,
+        "drawer_width": 280,
+        "show_country_selector": false,
+        "show_language_selector": false,
+        "tab_1_label": "Fashion",
+        "tab_1_menu": "main-menu",
+        "tab_2_label": "",
+        "tab_2_menu": ""
+      }
+    }
+  },
+  "order": ["header"]
+}

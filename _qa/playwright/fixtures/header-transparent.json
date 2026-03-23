@@ -4,28 +4,15 @@
   "sections": {
     "header": {
       "type": "header",
-      "blocks": {
-        "mega_menu_6dmJVr": {
-          "type": "mega_menu",
-          "settings": {
-            "menu_item": "Main 1",
-            "image_1": "shopify://shop_images/portrait_2to3.jpg",
-            "image_1_label": "lllll",
-            "image_1_url": "",
-            "image_2": "shopify://shop_images/square_2.jpg",
-            "image_2_label": "",
-            "image_2_url": ""
-          }
-        }
-      },
-      "block_order": ["mega_menu_6dmJVr"],
+      "blocks": {},
+      "block_order": [],
       "settings": {
         "menu": "menu-2",
         "desktop_layout": "logo_center",
         "header_height": 64,
-        "show_separator_border": true,
+        "show_separator_border": false,
         "color_scheme": "",
-        "transparent_header": false,
+        "transparent_header": true,
         "transparent_text_color": "#ffffff",
         "logo_width": 120,
         "nav_style": "drawer",

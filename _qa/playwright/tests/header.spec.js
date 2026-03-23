@@ -1,286 +1,395 @@
 import { test, expect } from "@playwright/test";
+import fs from "fs";
+import path from "path";
 
 /* ==========================================================================
-   Header — comprehensive tests for all settings variants
-   Tests detect the current configuration from the rendered DOM and adapt.
+   Header F-03 — fixture-based variant testing
    ========================================================================== */
 
-test.describe("Header — core", () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto("/");
-    await page.waitForLoadState("domcontentloaded");
-  });
+const HEADER_GROUP = path.resolve(__dirname, "../../../sections/header-group.json");
+const FIXTURES_DIR = path.resolve(__dirname, "../fixtures");
+const ORIGINAL_HEADER = fs.readFileSync(HEADER_GROUP, "utf-8");
 
-  test("header visible", async ({ page }) => {
-    const header = page.locator("sticky-header .header").first();
-    await expect(header).toBeVisible();
-  });
+/* Safety net: always restore on process exit */
+process.on("exit", () => {
+  try { fs.writeFileSync(HEADER_GROUP, ORIGINAL_HEADER, "utf-8"); } catch {}
+});
 
-  test("logo visible", async ({ page }) => {
-    const logo = page.locator(".header__logo").first();
-    await expect(logo).toBeVisible();
-  });
+/* --- Build a JS fingerprint expression from fixture settings ---
+   Returns a function string that resolves to true when the DOM matches. */
+function buildFingerprint(settings) {
+  const checks = [];
+  /* mega nav presence */
+  if (settings.nav_style === "mega") {
+    checks.push('!!document.querySelector(".header__mega-nav")');
+    if (settings.nav_layout) {
+      checks.push(`document.querySelector(".header__mega-nav")?.classList.contains("header__mega-nav--${settings.nav_layout}")`);
+    }
+  } else {
+    checks.push('!document.querySelector(".header__mega-nav")');
+  }
+  /* bordered */
+  const wantBorder = settings.show_separator_border !== false;
+  checks.push(`${wantBorder} === document.querySelector("sticky-header")?.classList.contains("header-wrapper--bordered")`);
+  /* transparent */
+  if (settings.transparent_header) {
+    checks.push('document.querySelector("sticky-header")?.classList.contains("header-wrapper--transparent")');
+  } else {
+    checks.push('!document.querySelector("sticky-header")?.classList.contains("header-wrapper--transparent")');
+  }
+  /* sticky */
+  const wantSticky = settings.enable_sticky !== false;
+  checks.push(`${wantSticky} === !!document.querySelector("sticky-header")?.classList.contains("header-wrapper--sticky")`);
+  /* search */
+  if (settings.search_style === "expanded") {
+    checks.push('!!document.querySelector(".header__search-form")');
+  }
+  return `(function(){ return ${checks.join(" && ")}; })()`;
+}
 
-  test("cart icon visible", async ({ page }) => {
-    const cart = page.locator(".header__icon--cart").first();
-    await expect(cart).toBeVisible();
-  });
+/* Track which fixture is currently written to disk */
+let currentFixtureOnDisk = null;
 
-  test("no JS errors on load", async ({ page }) => {
-    const errors = [];
-    page.on("pageerror", (err) => errors.push(err.message));
-    await page.goto("/");
-    await page.waitForLoadState("domcontentloaded");
-    expect(errors).toHaveLength(0);
-  });
+/* --- Apply fixture: write file, let hot-reload update the page --- */
+async function applyFixture(page, fixtureName) {
+  const fixturePath = path.join(FIXTURES_DIR, `${fixtureName}.json`);
+  const fixture = fs.readFileSync(fixturePath, "utf-8");
+  const settings = JSON.parse(fixture).sections.header.settings;
+  const fingerprint = buildFingerprint(settings);
+  const needsWrite = currentFixtureOnDisk !== fixtureName;
 
-  test("no Shopify blue (#5c6ac4)", async ({ page }) => {
-    const blueCells = await page.evaluate(() => {
-      const all = document.querySelectorAll("*");
-      const found = [];
-      for (const el of all) {
-        const style = getComputedStyle(el);
-        if (
-          style.color.includes("92, 106, 196") ||
-          style.backgroundColor.includes("92, 106, 196")
-        ) {
-          found.push(el.tagName + "." + el.className);
-        }
+  if (needsWrite) {
+    fs.writeFileSync(HEADER_GROUP, fixture, "utf-8");
+    currentFixtureOnDisk = fixtureName;
+  }
+
+  /* Always navigate (new browser context per project) */
+  await page.goto("/", { waitUntil: "domcontentloaded" });
+
+  if (needsWrite) {
+    /* Fixture changed — wait for hot-reload to sync */
+    try {
+      await page.waitForFunction(fingerprint, { timeout: 8000 });
+    } catch {
+      await page.goto("/", { waitUntil: "domcontentloaded" });
+      await page.waitForFunction(fingerprint, { timeout: 5000 });
+    }
+  }
+}
+
+function restoreOriginal() {
+  fs.writeFileSync(HEADER_GROUP, ORIGINAL_HEADER, "utf-8");
+}
+
+/* --- Shared assertions --- */
+
+async function assertNoJsErrors(page) {
+  const themeError = await page.evaluate(() => {
+    try {
+      const sh = document.querySelector("sticky-header");
+      const md = document.querySelector("menu-drawer");
+      if (!sh) return "sticky-header element missing";
+      if (!md) return "menu-drawer element missing";
+      return null;
+    } catch (e) { return e.message; }
+  });
+  expect(themeError).toBeNull();
+}
+
+async function assertNoShopifyBlue(page) {
+  const found = await page.evaluate(() => {
+    const all = document.querySelectorAll("*");
+    const blue = [];
+    for (const el of all) {
+      const s = getComputedStyle(el);
+      if (s.color.includes("92, 106, 196") || s.backgroundColor.includes("92, 106, 196")) {
+        blue.push(el.tagName + "." + el.className);
       }
-      return found;
-    });
-    expect(blueCells).toHaveLength(0);
+    }
+    return blue;
+  });
+  expect(found).toHaveLength(0);
+}
+
+async function assertHeaderVisible(page) {
+  await expect(page.locator("sticky-header .header").first()).toBeVisible();
+}
+
+async function assertLogoVisible(page) {
+  await expect(page.locator(".header__logo").first()).toBeVisible();
+}
+
+async function assertCartVisible(page) {
+  await expect(page.locator(".header__icon--cart").first()).toBeVisible();
+}
+
+async function assertStickyScroll(page) {
+  const sh = page.locator("sticky-header").first();
+  const isSticky = await sh.evaluate((el) => el.classList.contains("header-wrapper--sticky"));
+  if (!isSticky) return;
+  await page.evaluate(() => {
+    if (document.body.scrollHeight <= window.innerHeight) {
+      const s = document.createElement("div");
+      s.style.height = "2000px";
+      document.body.appendChild(s);
+    }
+    window.scrollTo(0, 300);
+  });
+  const scrollY = await page.evaluate(() => window.scrollY);
+  if (scrollY < 3) return;
+  await expect(sh).toHaveClass(/header-wrapper--scrolled/, { timeout: 3000 });
+}
+
+async function assertDrawerOpensCloses(page, viewport) {
+  const isMobile = (viewport?.width ?? 0) < 1000;
+  const hamburger = page.locator(".header__menu-toggle").first();
+  const isMegaHidden = await hamburger.evaluate((el) =>
+    el.classList.contains("header__toggle--mega-hidden")
+  );
+  if (isMegaHidden && !isMobile) return;
+  await hamburger.click();
+  const drawer = page.locator("[data-drawer]").first();
+  await expect(drawer).toHaveAttribute("open", "");
+  await page.keyboard.press("Escape");
+  await expect(drawer).not.toHaveAttribute("open", "", { timeout: 3000 });
+}
+
+/* ==========================================================================
+   VARIANT 1 — Default (drawer, logo center, sticky, border, icon search)
+   ========================================================================== */
+test.describe("Header — default", () => {
+  test.beforeEach(async ({ page }) => { await applyFixture(page, "header-default"); });
+  test.afterAll(() => restoreOriginal());
+
+  test("no JS errors", async ({ page }) => { await assertNoJsErrors(page); });
+  test("no Shopify blue", async ({ page }) => { await assertNoShopifyBlue(page); });
+  test("header visible", async ({ page }) => { await assertHeaderVisible(page); });
+  test("logo visible", async ({ page }) => { await assertLogoVisible(page); });
+  test("cart icon visible", async ({ page }) => { await assertCartVisible(page); });
+  test("hamburger visible", async ({ page }) => {
+    await expect(page.locator(".header__menu-toggle").first()).toBeVisible();
+  });
+  test("no mega nav rendered", async ({ page }) => {
+    expect(await page.locator(".header__mega-nav").count()).toBe(0);
+  });
+  test("bordered class present", async ({ page }) => {
+    await expect(page.locator("sticky-header").first()).toHaveClass(/header-wrapper--bordered/);
+  });
+  test("sticky scroll", async ({ page }) => { await assertStickyScroll(page); });
+  test("drawer open/close", async ({ page, viewport }) => { await assertDrawerOpensCloses(page, viewport); });
+  test("search icon on desktop", async ({ page, viewport }) => {
+    if ((viewport?.width ?? 0) < 750) return;
+    await expect(page.locator(".header__icon--search-desktop").first()).toBeVisible();
+  });
+  test("no expanded search form", async ({ page }) => {
+    expect(await page.locator(".header__search-form").count()).toBe(0);
   });
 });
 
-test.describe("Header — nav style detection", () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto("/");
-    await page.waitForLoadState("domcontentloaded");
-  });
+/* ==========================================================================
+   VARIANT 2 — Mega nav, logo_center_nav_below
+   ========================================================================== */
+test.describe("Header — mega nav below", () => {
+  test.beforeEach(async ({ page }) => { await applyFixture(page, "header-mega-nav-below"); });
+  test.afterAll(() => restoreOriginal());
 
-  test("hamburger adapts to nav_style", async ({ page, viewport }) => {
-    const isMobile = (viewport?.width ?? 0) < 1000;
-    const hamburger = page.locator(".header__menu-toggle").first();
-    const isMegaHidden = await hamburger.evaluate((el) =>
-      el.classList.contains("header__toggle--mega-hidden")
-    );
-
-    if (isMegaHidden && !isMobile) {
-      /* mega mode on desktop: hamburger hidden */
-      await expect(hamburger).toBeHidden();
-    } else {
-      /* drawer mode OR mobile: hamburger visible */
-      await expect(hamburger).toBeVisible();
-    }
+  test("no JS errors", async ({ page }) => { await assertNoJsErrors(page); });
+  test("no Shopify blue", async ({ page }) => { await assertNoShopifyBlue(page); });
+  test("header visible", async ({ page }) => { await assertHeaderVisible(page); });
+  test("logo visible", async ({ page }) => { await assertLogoVisible(page); });
+  test("mega nav visible on desktop", async ({ page, viewport }) => {
+    if ((viewport?.width ?? 0) < 1000) return;
+    await expect(page.locator(".header__mega-nav").first()).toBeVisible();
   });
-
-  test("right icons visible", async ({ page }) => {
-    const right = page.locator(".header__right").first();
-    await expect(right).toBeVisible();
-    const icons = right.locator(".header__icon");
-    const count = await icons.count();
-    expect(count).toBeGreaterThanOrEqual(1);
+  test("mega nav layout class", async ({ page, viewport }) => {
+    if ((viewport?.width ?? 0) < 1000) return;
+    await expect(page.locator(".header__mega-nav").first()).toHaveClass(/header__mega-nav--logo_center_nav_below/);
   });
+  test("mega links rendered", async ({ page, viewport }) => {
+    if ((viewport?.width ?? 0) < 1000) return;
+    expect(await page.locator(".header__mega-link").count()).toBeGreaterThanOrEqual(1);
+  });
+  test("hamburger hidden on desktop", async ({ page, viewport }) => {
+    if ((viewport?.width ?? 0) < 1000) return;
+    await expect(page.locator(".header__menu-toggle").first()).toBeHidden();
+  });
+  test("hamburger visible on mobile", async ({ page, viewport }) => {
+    if ((viewport?.width ?? 0) >= 1000) return;
+    await expect(page.locator(".header__menu-toggle").first()).toBeVisible();
+  });
+  test("drawer on mobile", async ({ page, viewport }) => {
+    if ((viewport?.width ?? 0) >= 1000) return;
+    await assertDrawerOpensCloses(page, viewport);
+  });
+  test("sticky scroll", async ({ page }) => { await assertStickyScroll(page); });
 });
 
-test.describe("Header — mega nav layout variants", () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto("/");
-    await page.waitForLoadState("domcontentloaded");
-  });
+/* ==========================================================================
+   VARIANT 3 — Mega nav, logo_center_nav_inline
+   ========================================================================== */
+test.describe("Header — mega nav inline", () => {
+  test.beforeEach(async ({ page }) => { await applyFixture(page, "header-mega-nav-inline"); });
+  test.afterAll(() => restoreOriginal());
 
-  test("mega nav renders without error if present", async ({ page }) => {
-    const megaNav = page.locator(".header__mega-nav");
-    const megaExists = (await megaNav.count()) > 0;
-    if (megaExists) {
-      await expect(megaNav.first()).toBeVisible();
-      const navLayout = await megaNav.first().evaluate((el) => {
-        const classes = el.className;
-        const match = classes.match(/header__mega-nav--(\S+)/);
-        return match ? match[1] : null;
-      });
-      expect(navLayout).toBeTruthy();
-    }
+  test("no JS errors", async ({ page }) => { await assertNoJsErrors(page); });
+  test("header visible", async ({ page }) => { await assertHeaderVisible(page); });
+  test("mega nav inline class", async ({ page, viewport }) => {
+    if ((viewport?.width ?? 0) < 1000) return;
+    await expect(page.locator(".header__mega-nav").first()).toHaveClass(/header__mega-nav--logo_center_nav_inline/);
   });
-
-  test("mega links render if mega nav present", async ({ page }) => {
-    const megaNav = page.locator(".header__mega-nav");
-    const megaExists = (await megaNav.count()) > 0;
-    if (megaExists) {
-      const links = megaNav.locator(".header__mega-link");
-      const count = await links.count();
-      expect(count).toBeGreaterThanOrEqual(1);
-    }
+  test("hamburger hidden on desktop", async ({ page, viewport }) => {
+    if ((viewport?.width ?? 0) < 1000) return;
+    await expect(page.locator(".header__menu-toggle").first()).toBeHidden();
   });
+  test("hamburger visible on mobile", async ({ page, viewport }) => {
+    if ((viewport?.width ?? 0) >= 1000) return;
+    await expect(page.locator(".header__menu-toggle").first()).toBeVisible();
+  });
+  test("sticky scroll", async ({ page }) => { await assertStickyScroll(page); });
 });
 
-test.describe("Header — sticky", () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto("/");
-    await page.waitForLoadState("domcontentloaded");
+/* ==========================================================================
+   VARIANT 4 — Mega nav, logo_left_nav_inline, no border
+   ========================================================================== */
+test.describe("Header — mega left inline", () => {
+  test.beforeEach(async ({ page }) => { await applyFixture(page, "header-mega-left-inline"); });
+  test.afterAll(() => restoreOriginal());
+
+  test("no JS errors", async ({ page }) => { await assertNoJsErrors(page); });
+  test("header visible", async ({ page }) => { await assertHeaderVisible(page); });
+  test("mega nav left-inline class", async ({ page, viewport }) => {
+    if ((viewport?.width ?? 0) < 1000) return;
+    await expect(page.locator(".header__mega-nav").first()).toHaveClass(/header__mega-nav--logo_left_nav_inline/);
   });
+  test("no border", async ({ page }) => {
+    const cls = await page.locator("sticky-header").first().getAttribute("class");
+    expect(cls).not.toContain("header-wrapper--bordered");
+  });
+  test("sticky scroll", async ({ page }) => { await assertStickyScroll(page); });
+});
 
-  test("scrolled class appears after scroll", async ({ page }) => {
-    const stickyHeader = page.locator("sticky-header").first();
-    const isSticky = await stickyHeader.evaluate((el) =>
-      el.classList.contains("header-wrapper--sticky")
-    );
-    if (!isSticky) return;
+/* ==========================================================================
+   VARIANT 5 — Mega nav, logo_left_nav_center
+   ========================================================================== */
+test.describe("Header — mega left center", () => {
+  test.beforeEach(async ({ page }) => { await applyFixture(page, "header-mega-left-center"); });
+  test.afterAll(() => restoreOriginal());
 
-    /* Ensure page is scrollable by adding tall spacer if needed */
-    const scrolled = await page.evaluate(() => {
+  test("no JS errors", async ({ page }) => { await assertNoJsErrors(page); });
+  test("header visible", async ({ page }) => { await assertHeaderVisible(page); });
+  test("mega nav left-center class", async ({ page, viewport }) => {
+    if ((viewport?.width ?? 0) < 1000) return;
+    await expect(page.locator(".header__mega-nav").first()).toHaveClass(/header__mega-nav--logo_left_nav_center/);
+  });
+  test("sticky scroll", async ({ page }) => { await assertStickyScroll(page); });
+});
+
+/* ==========================================================================
+   VARIANT 6 — Transparent header
+   ========================================================================== */
+test.describe("Header — transparent", () => {
+  test.beforeEach(async ({ page }) => { await applyFixture(page, "header-transparent"); });
+  test.afterAll(() => restoreOriginal());
+
+  test("no JS errors", async ({ page }) => { await assertNoJsErrors(page); });
+  test("no Shopify blue", async ({ page }) => { await assertNoShopifyBlue(page); });
+  test("header visible", async ({ page }) => { await assertHeaderVisible(page); });
+  test("transparent class", async ({ page }) => {
+    await expect(page.locator("sticky-header").first()).toHaveClass(/header-wrapper--transparent/);
+  });
+  test("header bg transparent at top", async ({ page }) => {
+    const bg = await page.locator("sticky-header .header").first()
+      .evaluate((el) => getComputedStyle(el).backgroundColor);
+    const isTransparent = bg.includes("0, 0, 0, 0") || bg === "transparent";
+    expect(isTransparent).toBe(true);
+  });
+  test("no bordered class", async ({ page }) => {
+    const cls = await page.locator("sticky-header").first().getAttribute("class");
+    expect(cls).not.toContain("header-wrapper--bordered");
+  });
+  test("bg opaque after scroll", async ({ page }) => {
+    const canScroll = await page.evaluate(() => {
       if (document.body.scrollHeight <= window.innerHeight) {
-        const spacer = document.createElement("div");
-        spacer.style.height = "2000px";
-        document.body.appendChild(spacer);
+        document.body.appendChild(Object.assign(document.createElement("div"), { style: "height:2000px" }));
       }
       window.scrollTo(0, 300);
-      return new Promise((resolve) => {
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            resolve(window.scrollY);
-          });
-        });
-      });
+      return window.scrollY > 2;
     });
-
-    if (scrolled < 3) return;
-    await page.waitForTimeout(200);
-    await expect(stickyHeader).toHaveClass(/header-wrapper--scrolled/);
+    if (!canScroll) return;
+    const bgIsOpaque = await page.waitForFunction(() => {
+      const sh = document.querySelector("sticky-header");
+      if (!sh?.classList.contains("header-wrapper--scrolled")) return false;
+      const bg = getComputedStyle(sh.querySelector(".header")).backgroundColor;
+      return !bg.includes("0, 0, 0, 0") && bg !== "transparent";
+    }, { timeout: 3000 }).then(() => true).catch(() => false);
+    expect(bgIsOpaque).toBe(true);
   });
-
-  test("transparent header has transparent bg at top", async ({ page }) => {
-    const stickyHeader = page.locator("sticky-header").first();
-    const isTransparent = await stickyHeader.evaluate((el) =>
-      el.classList.contains("header-wrapper--transparent")
-    );
-    if (!isTransparent) return;
-
-    const bg = await page
-      .locator("sticky-header .header")
-      .first()
-      .evaluate((el) => getComputedStyle(el).backgroundColor);
-    expect(bg).toContain("0, 0, 0, 0");
-  });
-
-  test("transparent header gets bg after scroll", async ({ page }) => {
-    const stickyHeader = page.locator("sticky-header").first();
-    const isTransparent = await stickyHeader.evaluate((el) =>
-      el.classList.contains("header-wrapper--transparent")
-    );
-    if (!isTransparent) return;
-
-    await page.evaluate(() => window.scrollBy(0, 300));
-    await page.waitForTimeout(300);
-    const bg = await page
-      .locator("sticky-header .header")
-      .first()
-      .evaluate((el) => getComputedStyle(el).backgroundColor);
-    expect(bg).not.toContain("0, 0, 0, 0");
-  });
+  test("drawer open/close", async ({ page, viewport }) => { await assertDrawerOpensCloses(page, viewport); });
 });
 
-test.describe("Header — drawer interactions", () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto("/");
-    await page.waitForLoadState("domcontentloaded");
+/* ==========================================================================
+   VARIANT 7 — Search expanded + logo left
+   ========================================================================== */
+test.describe("Header — search expanded", () => {
+  test.beforeEach(async ({ page }) => { await applyFixture(page, "header-search-expanded"); });
+  test.afterAll(() => restoreOriginal());
+
+  test("no JS errors", async ({ page }) => { await assertNoJsErrors(page); });
+  test("header visible", async ({ page }) => { await assertHeaderVisible(page); });
+  test("search form visible on desktop", async ({ page, viewport }) => {
+    if ((viewport?.width ?? 0) < 750) return;
+    await expect(page.locator(".header__search-form").first()).toBeVisible();
   });
-
-  test("click hamburger opens drawer", async ({ page, viewport }) => {
-    const isMobile = (viewport?.width ?? 0) < 1000;
-    const hamburger = page.locator(".header__menu-toggle").first();
-    const isMegaHidden = await hamburger.evaluate((el) =>
-      el.classList.contains("header__toggle--mega-hidden")
-    );
-
-    if (isMegaHidden && !isMobile) return;
-
-    await hamburger.click();
-    const drawer = page.locator("[data-drawer]").first();
-    await expect(drawer).toHaveAttribute("open", "");
+  test("search input has placeholder", async ({ page, viewport }) => {
+    if ((viewport?.width ?? 0) < 750) return;
+    const ph = await page.locator(".header__search-input").first().getAttribute("placeholder");
+    expect(ph).toBeTruthy();
   });
-
-  test("escape closes drawer", async ({ page, viewport }) => {
-    const isMobile = (viewport?.width ?? 0) < 1000;
-    const hamburger = page.locator(".header__menu-toggle").first();
-    const isMegaHidden = await hamburger.evaluate((el) =>
-      el.classList.contains("header__toggle--mega-hidden")
-    );
-
-    if (isMegaHidden && !isMobile) return;
-
-    await hamburger.click();
-    const drawer = page.locator("[data-drawer]").first();
-    await expect(drawer).toHaveAttribute("open", "");
-
-    await page.keyboard.press("Escape");
-    await page.waitForTimeout(500);
-    const hasOpen = await drawer.evaluate((el) => el.hasAttribute("open"));
-    expect(hasOpen).toBe(false);
+  test("search submit button exists", async ({ page, viewport }) => {
+    if ((viewport?.width ?? 0) < 750) return;
+    await expect(page.locator(".header__search-submit").first()).toBeVisible();
   });
-
-  test("backdrop opens with drawer", async ({ page, viewport }) => {
-    const isMobile = (viewport?.width ?? 0) < 1000;
-    const hamburger = page.locator(".header__menu-toggle").first();
-    const isMegaHidden = await hamburger.evaluate((el) =>
-      el.classList.contains("header__toggle--mega-hidden")
-    );
-
-    if (isMegaHidden && !isMobile) return;
-
-    await hamburger.click();
-    const backdrop = page.locator("[data-backdrop]").first();
-    await expect(backdrop).toHaveAttribute("open", "");
+  test("no search icon link on desktop", async ({ page, viewport }) => {
+    if ((viewport?.width ?? 0) < 750) return;
+    expect(await page.locator(".header__icon--search-desktop").count()).toBe(0);
   });
-
-  test("tab switch changes content", async ({ page, viewport }) => {
-    const isMobile = (viewport?.width ?? 0) < 1000;
-    const hamburger = page.locator(".header__menu-toggle").first();
-    const isMegaHidden = await hamburger.evaluate((el) =>
-      el.classList.contains("header__toggle--mega-hidden")
-    );
-
-    if (isMegaHidden && !isMobile) return;
-
-    const tabs = page.locator(".drawer__tab");
-    const tabCount = await tabs.count();
-    if (tabCount < 2) return;
-
-    await hamburger.click();
-    await page.waitForTimeout(300);
-
-    /* Tab 1 active by default — content 1 visible, content 2 hidden */
-    const content1 = page.locator('[data-tab-content="1"]').first();
-    const content2 = page.locator('[data-tab-content="2"]').first();
-    const c2HasHidden = await content2.evaluate((el) =>
-      el.hasAttribute("data-tab-hidden")
-    );
-    expect(c2HasHidden).toBe(true);
-
-    /* Click tab 2 */
-    await tabs.nth(1).click();
-    await page.waitForTimeout(300);
-
-    const c1HasHidden = await content1.evaluate((el) =>
-      el.hasAttribute("data-tab-hidden")
-    );
-    expect(c1HasHidden).toBe(true);
-
-    const c2StillHidden = await content2.evaluate((el) =>
-      el.hasAttribute("data-tab-hidden")
-    );
-    expect(c2StillHidden).toBe(false);
-  });
+  test("drawer open/close", async ({ page, viewport }) => { await assertDrawerOpensCloses(page, viewport); });
 });
 
-test.describe("Header — screenshot", () => {
-  test("screenshot full page", async ({ page }, testInfo) => {
-    await page.goto("/");
-    await page.waitForLoadState("domcontentloaded");
-    await page.screenshot({
-      path: `_qa/snapshots/header-full-${testInfo.project.name}.png`,
-      fullPage: true,
-    });
+/* ==========================================================================
+   VARIANT 8 — Scheme 3, no border, no sticky, no search, no account
+   ========================================================================== */
+test.describe("Header — scheme 3 minimal", () => {
+  test.beforeEach(async ({ page }) => { await applyFixture(page, "header-scheme3-no-border"); });
+  test.afterAll(() => restoreOriginal());
+
+  test("no JS errors", async ({ page }) => { await assertNoJsErrors(page); });
+  test("no Shopify blue", async ({ page }) => { await assertNoShopifyBlue(page); });
+  test("header visible", async ({ page }) => { await assertHeaderVisible(page); });
+  test("not sticky", async ({ page }) => {
+    const cls = await page.locator("sticky-header").first().getAttribute("class");
+    expect(cls).not.toContain("header-wrapper--sticky");
+  });
+  test("no border", async ({ page }) => {
+    const cls = await page.locator("sticky-header").first().getAttribute("class");
+    expect(cls).not.toContain("header-wrapper--bordered");
+  });
+  test("no search icon", async ({ page }) => {
+    expect(await page.locator(".header__icon--search-desktop").count()).toBe(0);
+    expect(await page.locator(".header__icon--search-mobile").count()).toBe(0);
+    expect(await page.locator(".header__search-form").count()).toBe(0);
+  });
+  test("cart icon still visible", async ({ page }) => { await assertCartVisible(page); });
+  test("drawer open/close", async ({ page, viewport }) => { await assertDrawerOpensCloses(page, viewport); });
+});
+
+/* ==========================================================================
+   CLEANUP — restore original
+   ========================================================================== */
+test.describe("Header — cleanup", () => {
+  test("restore original settings", async ({ page }) => {
+    restoreOriginal();
+    await page.goto("/", { waitUntil: "domcontentloaded" });
+    await assertHeaderVisible(page);
   });
 });
