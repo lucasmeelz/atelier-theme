@@ -41,84 +41,41 @@
   color: rgb(var(--color-button-text));
 }
 
-.header--transparent:not(.header--scrolled) .header__nav {
+.header--transparent:not(.header--scrolled) .header__nav--below {
   border-color: rgba(var(--color-button-text), 0.2);
 }
 
 /* ============================
-   Header bar — Dior mobile pattern: 3-zone grid
+   Header bar — CSS grid with named areas (Theme-example-2 pattern)
    ============================ */
 
 .header__bar {
   display: grid;
-  grid-template-columns: auto 1fr auto;
-  grid-template-areas: "start center end";
+  grid: var(--header-grid, "primary-nav logo secondary-nav" / minmax(0, 1fr) auto minmax(0, 1fr));
   align-items: center;
-  height: 64px;
-  padding: 0 24px;
-  gap: 8px;
+  column-gap: 1.25rem;
+  padding-block: 1rem;
+  padding-inline: 1.5rem;
 }
 
 @media screen and (min-width: 750px) {
   .header__bar {
-    padding: 0 40px;
+    padding-inline: 2.5rem;
+    column-gap: 2.5rem;
   }
 }
 
-.header__hamburger {
-  grid-area: start;
-  justify-self: start;
+/* Primary nav — hamburger zone (left) */
+.header__primary-nav {
+  grid-area: primary-nav;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
 }
 
+/* Logo — center or left depending on layout */
 .header__logo {
-  grid-area: center;
-  justify-self: center;
-}
-
-.header__icons {
-  grid-area: end;
-  justify-self: end;
-}
-
-/* Mobile logo_left: logo goes to start zone */
-[data-mobile-layout="logo_left"] .header__hamburger {
-  order: -1;
-}
-
-[data-mobile-layout="logo_left"] .header__logo {
-  justify-self: start;
-}
-
-/* Desktop: override grid for different layouts */
-@media screen and (min-width: 990px) {
-  /* logo_center_nav_below: same as mobile centered */
-
-  /* logo_left_nav_inline: logo left, nav fills center, icons right */
-  [data-desktop-layout="logo_left_nav_inline"] .header__bar {
-    grid-template-columns: auto 1fr auto;
-  }
-
-  [data-desktop-layout="logo_left_nav_inline"] .header__logo {
-    justify-self: start;
-  }
-
-  /* logo_left_nav_center: logo left, icons right */
-  [data-desktop-layout="logo_left_nav_center"] .header__logo {
-    justify-self: start;
-  }
-}
-
-/* Desktop nav inline — sits between logo and icons */
-.header__nav--inline {
-  grid-area: center;
-  justify-self: center;
-}
-
-/* ============================
-   Logo
-   ============================ */
-
-.header__logo-link {
+  grid-area: logo;
   display: flex;
   align-items: center;
   text-decoration: none;
@@ -128,28 +85,59 @@
 .header__logo-image {
   width: auto;
   height: auto;
+  max-width: 80px;
 }
 
 .header__logo-text {
+  font-family: var(--font-heading--family);
+  font-size: 1.25rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
   white-space: nowrap;
 }
 
-/* ============================
-   Icons
-   ============================ */
-
-.header__icons {
+/* Secondary nav — icons zone (right) */
+.header__secondary-nav {
+  grid-area: secondary-nav;
   display: flex;
   align-items: center;
-  gap: 16px;
+  justify-content: flex-end;
+  gap: 1rem;
 }
 
+@media screen and (min-width: 990px) {
+  .header__secondary-nav {
+    gap: 1.25rem;
+  }
+}
+
+/* Desktop nav inline — occupies its own grid area */
+.header__nav--inline {
+  grid-area: desktop-nav;
+  display: none;
+  border-top: none;
+  padding: 0;
+  min-height: 0;
+}
+
+@media screen and (min-width: 990px) {
+  .header__nav--inline {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* ============================
+   Icon buttons (search, account, wishlist, cart)
+   ============================ */
+
 .header__icon-btn {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
   padding: 0;
   border: none;
   background: none;
@@ -159,15 +147,34 @@
   transition: opacity var(--duration-fast) var(--ease-dior);
 }
 
+/* Touch target — invisible expanded area */
+.header__icon-btn::before {
+  content: '';
+  position: absolute;
+  width: 2.25rem;
+  height: 2.25rem;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 @media (hover: hover) {
   .header__icon-btn:hover {
     opacity: 0.65;
   }
 }
 
+/* Icon sizes: 18px mobile, 20px desktop */
 .header__icon-btn .icon {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
+}
+
+@media screen and (min-width: 990px) {
+  .header__icon-btn .icon {
+    width: 20px;
+    height: 20px;
+  }
 }
 
 .header__cart-link {
@@ -176,20 +183,30 @@
 
 .header__cart-count {
   position: absolute;
-  top: 4px;
-  right: 2px;
+  top: -2px;
+  right: -4px;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 16px;
-  height: 16px;
-  padding: 0 4px;
+  min-width: 14px;
+  height: 14px;
+  padding: 0 3px;
   border-radius: 50%;
   background-color: rgb(var(--color-accent));
   color: rgb(var(--color-button-text));
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 600;
   line-height: 1;
+}
+
+@media screen and (min-width: 990px) {
+  .header__cart-count {
+    min-width: 16px;
+    height: 16px;
+    font-size: 10px;
+    top: -4px;
+    right: -6px;
+  }
 }
 
 /* ============================
@@ -197,11 +214,10 @@
    ============================ */
 
 .header__hamburger {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
   padding: 0;
   border: none;
   background: none;
@@ -209,10 +225,21 @@
   cursor: pointer;
 }
 
+/* Touch target */
+.header__hamburger::before {
+  content: '';
+  position: absolute;
+  width: 2.25rem;
+  height: 2.25rem;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .header__hamburger-icon {
   display: grid;
-  row-gap: 5px;
-  width: 18px;
+  row-gap: 3px;
+  width: 1rem;
 }
 
 .header__hamburger-icon > span {
@@ -223,18 +250,13 @@
   transform-origin: center;
 }
 
-.header__hamburger-icon > span:last-child {
-  width: 12px;
-}
-
 /* Animate to X when drawer open */
 [aria-expanded="true"] .header__hamburger-icon > span:first-child {
-  transform: translateY(3px) rotate(45deg);
+  transform: translateY(2px) rotate(45deg);
 }
 
 [aria-expanded="true"] .header__hamburger-icon > span:last-child {
-  width: 18px;
-  transform: translateY(-3px) rotate(-45deg);
+  transform: translateY(-2px) rotate(-45deg);
 }
 
 /* Mega mode: hide hamburger on desktop */
@@ -250,37 +272,28 @@
 }
 
 /* Drawer mode: hide desktop nav */
-.header--drawer .header__nav {
+.header--drawer .header__nav--below,
+.header--drawer .header__nav--inline {
   display: none !important;
 }
 
 /* ============================
-   Desktop nav
+   Desktop nav — below bar (mega mode, non-inline layouts)
    ============================ */
 
-.header__nav {
+.header__nav--below {
   display: none;
-  padding: 0 40px;
+  padding: 0 2.5rem;
   min-height: 34px;
   border-top: 1px solid rgb(var(--color-border));
 }
 
 @media screen and (min-width: 990px) {
-  .header__nav {
+  .header__nav--below {
     display: flex;
     align-items: center;
     justify-content: center;
   }
-
-  [data-desktop-layout="logo_left_nav_center"] .header__nav {
-    justify-content: center;
-  }
-}
-
-.header__nav--inline {
-  border-top: none;
-  padding: 0;
-  min-height: 0;
 }
 
 .header__nav-list {

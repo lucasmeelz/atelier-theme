@@ -2,9 +2,45 @@
 
 {%- style -%}
   html {
-    scroll-padding-top: var(--header-height, 98px);
+    scroll-padding-top: var(--header-height, 64px);
     scroll-behavior: smooth;
   }
+
+  /* Mobile layout grid */
+  #shopify-section-{{ section.id }} .header__bar {
+    {%- case section.settings.mobile_layout -%}
+      {%- when 'logo_center' -%}
+        --header-grid: "primary-nav logo secondary-nav" / minmax(0, 1fr) auto minmax(0, 1fr);
+      {%- when 'logo_left' -%}
+        --header-grid: "primary-nav logo secondary-nav" / auto auto minmax(0, 1fr);
+    {%- endcase -%}
+  }
+
+  /* Desktop layout grid */
+  @media screen and (min-width: 990px) {
+    #shopify-section-{{ section.id }} .header__bar {
+      {%- case section.settings.desktop_layout -%}
+        {%- when 'logo_center_nav_below' -%}
+          --header-grid: "primary-nav logo secondary-nav" / minmax(0, 1fr) auto minmax(0, 1fr);
+        {%- when 'logo_left_nav_inline' -%}
+          --header-grid: "primary-nav logo desktop-nav secondary-nav" / auto auto 1fr auto;
+        {%- when 'logo_left_nav_center' -%}
+          --header-grid: "primary-nav logo secondary-nav" / auto auto minmax(0, 1fr);
+      {%- endcase -%}
+    }
+  }
+
+  /* Logo width */
+  {%- if section.settings.logo != blank -%}
+    #shopify-section-{{ section.id }} .header__logo-image {
+      max-width: {{ section.settings.logo_width | times: 0.7 }}px;
+    }
+    @media screen and (min-width: 750px) {
+      #shopify-section-{{ section.id }} .header__logo-image {
+        max-width: {{ section.settings.logo_width }}px;
+      }
+    }
+  {%- endif -%}
 {%- endstyle -%}
 
 {%- liquid
@@ -33,27 +69,28 @@
   <div class="header__sentinel" aria-hidden="true"></div>
 
   <div class="header__bar">
-    {% comment %} Hamburger — always present {% endcomment %}
-    <button
-      class="header__hamburger"
-      aria-label="{{ 'header.open_menu' | t }}"
-      aria-expanded="false"
-      aria-controls="header-drawer"
-    >
-      <span class="header__hamburger-icon" aria-hidden="true">
-        <span></span>
-        <span></span>
-      </span>
-    </button>
+    {% comment %} Primary nav — hamburger (+ optional search on split layout) {% endcomment %}
+    <nav class="header__primary-nav">
+      <button
+        class="header__hamburger"
+        aria-label="{{ 'header.open_menu' | t }}"
+        aria-expanded="false"
+        aria-controls="header-drawer"
+      >
+        <span class="header__hamburger-icon" aria-hidden="true">
+          <span></span>
+          <span></span>
+        </span>
+      </button>
+    </nav>
 
     {% comment %} Logo {% endcomment %}
-    <div class="header__logo">
-      <a href="{{ routes.root_url }}" class="header__logo-link">
+    <a href="{{ routes.root_url }}" class="header__logo">
         {%- if section.settings.logo != blank -%}
           {%- liquid
             assign logo_alt = section.settings.logo.alt | default: shop.name
-            assign logo_sizes = '(max-width: 749px) 80px, ' | append: section.settings.logo_width | append: 'px'
-            assign logo_style = 'max-width: ' | append: section.settings.logo_width | append: 'px'
+            assign logo_mobile_width = section.settings.logo_width | times: 0.7 | round
+            assign logo_sizes = '(max-width: 749px) ' | append: logo_mobile_width | append: 'px, ' | append: section.settings.logo_width | append: 'px'
           -%}
           <img
             srcset="{{ section.settings.logo | image_url: width: 100 }} 100w,
@@ -66,15 +103,13 @@
             loading="eager"
             fetchpriority="high"
             class="header__logo-image"
-            style="{{ logo_style }}"
             width="{{ section.settings.logo.width }}"
             height="{{ section.settings.logo.height }}"
           >
         {%- else -%}
-          <span class="header__logo-text h5">{{ shop.name }}</span>
+          <span class="header__logo-text">{{ shop.name }}</span>
         {%- endif -%}
-      </a>
-    </div>
+    </a>
 
     {% comment %} Desktop nav — inline layout (mega mode only) {% endcomment %}
     {%- if desktop_layout == 'logo_left_nav_inline' and menu_style == 'mega' -%}
@@ -123,8 +158,8 @@
       </nav>
     {%- endif -%}
 
-    {% comment %} Icon cluster {% endcomment %}
-    <div class="header__icons">
+    {% comment %} Secondary nav — icons {% endcomment %}
+    <nav class="header__secondary-nav">
       {%- if section.settings.show_search -%}
         <button class="header__icon-btn header__search-trigger" aria-label="{{ 'header.open_search' | t }}">
           {%- render 'icon', name: 'search' -%}
@@ -149,7 +184,7 @@
           <span class="header__cart-count">{{ cart.item_count }}</span>
         {%- endif -%}
       </a>
-    </div>
+    </nav>
   </div>
 
   {% comment %} Desktop nav — below logo (mega mode only) {% endcomment %}
