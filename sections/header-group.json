@@ -46,6 +46,7 @@
         "desktop_layout": "logo_center_nav_below",
         "mobile_layout": "logo_center",
         "menu_style": "drawer",
+        "logo": "shopify://shop_images/logo-simple.png",
         "logo_width": 100,
         "sticky_header": true,
         "transparent_header": false,
