@@ -5,51 +5,6 @@
     scroll-padding-top: var(--header-height, 98px);
     scroll-behavior: smooth;
   }
-
-  #shopify-section-{{ section.id }} {
-    {%- case section.settings.mobile_layout -%}
-      {%- when 'logo_center' -%}
-        --header-mobile-justify: center;
-        --header-mobile-hamburger-position: absolute;
-        --header-mobile-hamburger-left: 24px;
-        --header-mobile-icons-position: absolute;
-        --header-mobile-icons-right: 24px;
-      {%- when 'logo_left' -%}
-        --header-mobile-justify: flex-start;
-        --header-mobile-hamburger-position: static;
-        --header-mobile-hamburger-left: auto;
-        --header-mobile-icons-position: static;
-        --header-mobile-icons-right: auto;
-    {%- endcase -%}
-  }
-
-  @media screen and (min-width: 990px) {
-    #shopify-section-{{ section.id }} {
-      {%- case section.settings.desktop_layout -%}
-        {%- when 'logo_center_nav_below' -%}
-          --header-desktop-justify: center;
-          --header-desktop-hamburger-position: absolute;
-          --header-desktop-hamburger-left: 40px;
-          --header-desktop-icons-position: absolute;
-          --header-desktop-icons-right: 40px;
-          --header-desktop-nav-justify: center;
-        {%- when 'logo_left_nav_inline' -%}
-          --header-desktop-justify: flex-start;
-          --header-desktop-hamburger-position: static;
-          --header-desktop-hamburger-left: auto;
-          --header-desktop-icons-position: static;
-          --header-desktop-icons-right: auto;
-          --header-desktop-nav-justify: flex-start;
-        {%- when 'logo_left_nav_center' -%}
-          --header-desktop-justify: flex-start;
-          --header-desktop-hamburger-position: static;
-          --header-desktop-hamburger-left: auto;
-          --header-desktop-icons-position: static;
-          --header-desktop-icons-right: auto;
-          --header-desktop-nav-justify: center;
-      {%- endcase -%}
-    }
-  }
 {%- endstyle -%}
 
 {%- liquid

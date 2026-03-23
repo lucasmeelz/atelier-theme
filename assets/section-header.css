@@ -46,17 +46,17 @@
 }
 
 /* ============================
-   Header bar — responsive via custom properties
+   Header bar — Dior mobile pattern: 3-zone grid
    ============================ */
 
 .header__bar {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-areas: "start center end";
   align-items: center;
-  justify-content: var(--header-mobile-justify, space-between);
   height: 64px;
   padding: 0 24px;
-  position: relative;
-  gap: 16px;
+  gap: 8px;
 }
 
 @media screen and (min-width: 750px) {
@@ -65,40 +65,53 @@
   }
 }
 
-@media screen and (min-width: 990px) {
-  .header__bar {
-    justify-content: var(--header-desktop-justify, center);
-    gap: 40px;
-  }
-}
-
-/* Hamburger positioning — mobile */
 .header__hamburger {
-  position: var(--header-mobile-hamburger-position, static);
-  left: var(--header-mobile-hamburger-left, auto);
+  grid-area: start;
+  justify-self: start;
 }
 
-/* Icons positioning — mobile */
+.header__logo {
+  grid-area: center;
+  justify-self: center;
+}
+
 .header__icons {
-  position: var(--header-mobile-icons-position, static);
-  right: var(--header-mobile-icons-right, auto);
+  grid-area: end;
+  justify-self: end;
 }
 
+/* Mobile logo_left: logo goes to start zone */
+[data-mobile-layout="logo_left"] .header__hamburger {
+  order: -1;
+}
+
+[data-mobile-layout="logo_left"] .header__logo {
+  justify-self: start;
+}
+
+/* Desktop: override grid for different layouts */
 @media screen and (min-width: 990px) {
-  .header__hamburger {
-    position: var(--header-desktop-hamburger-position, static);
-    left: var(--header-desktop-hamburger-left, auto);
+  /* logo_center_nav_below: same as mobile centered */
+
+  /* logo_left_nav_inline: logo left, nav fills center, icons right */
+  [data-desktop-layout="logo_left_nav_inline"] .header__bar {
+    grid-template-columns: auto 1fr auto;
   }
 
-  .header__icons {
-    position: var(--header-desktop-icons-position, static);
-    right: var(--header-desktop-icons-right, auto);
+  [data-desktop-layout="logo_left_nav_inline"] .header__logo {
+    justify-self: start;
+  }
+
+  /* logo_left_nav_center: logo left, icons right */
+  [data-desktop-layout="logo_left_nav_center"] .header__logo {
+    justify-self: start;
   }
 }
 
-/* When icons/hamburger are static (left layouts), push icons to right */
-.header__icons:not([style*="absolute"]) {
-  margin-left: auto;
+/* Desktop nav inline — sits between logo and icons */
+.header__nav--inline {
+  grid-area: center;
+  justify-self: center;
 }
 
 /* ============================
@@ -233,7 +246,11 @@
   .header__nav {
     display: flex;
     align-items: center;
-    justify-content: var(--header-desktop-nav-justify, center);
+    justify-content: center;
+  }
+
+  [data-desktop-layout="logo_left_nav_center"] .header__nav {
+    justify-content: center;
   }
 }
 
