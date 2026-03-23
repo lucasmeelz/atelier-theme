@@ -193,7 +193,7 @@
 }
 
 /* ============================
-   Hamburger
+   Hamburger — CSS animated lines (Theme-example-2 pattern)
    ============================ */
 
 .header__hamburger {
@@ -209,12 +209,35 @@
   cursor: pointer;
 }
 
-.header__hamburger .icon {
-  width: 20px;
-  height: 20px;
+.header__hamburger-icon {
+  display: grid;
+  row-gap: 5px;
+  width: 18px;
 }
 
-/* Mega mode: hide hamburger on desktop, show on mobile */
+.header__hamburger-icon > span {
+  display: block;
+  height: 1px;
+  background: currentColor;
+  transition: transform var(--duration-fast) var(--ease-dior);
+  transform-origin: center;
+}
+
+.header__hamburger-icon > span:last-child {
+  width: 12px;
+}
+
+/* Animate to X when drawer open */
+[aria-expanded="true"] .header__hamburger-icon > span:first-child {
+  transform: translateY(3px) rotate(45deg);
+}
+
+[aria-expanded="true"] .header__hamburger-icon > span:last-child {
+  width: 18px;
+  transform: translateY(-3px) rotate(-45deg);
+}
+
+/* Mega mode: hide hamburger on desktop */
 @media screen and (min-width: 990px) {
   .header--mega .header__hamburger {
     display: none;
@@ -515,25 +538,23 @@
 }
 
 /* ============================
-   Drawer
+   Drawer — multi-panel (reference theme pattern)
    ============================ */
 
 .header__drawer {
   position: fixed;
   top: 0;
   left: 0;
-  width: min(360px, 85vw);
+  width: min(400px, 85vw);
   height: 100%;
   background-color: rgb(var(--color-background));
   color: rgb(var(--color-text));
   transform: translateX(-100%);
   transition: transform var(--duration-base) var(--ease-dior);
   z-index: 200;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
+  overflow: hidden;
 }
 
-/* Close transition: faster, ease-in */
 .header__drawer:not(.header__drawer--open) {
   transition: transform var(--duration-fast) ease-in;
 }
@@ -559,19 +580,91 @@
   pointer-events: auto;
 }
 
-/* Drawer inner spacing — Dior reference */
-.header__drawer-inner {
-  padding: 0;
+/* Panels container */
+.header__drawer-panels {
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
-.header__drawer-header {
+/* Individual panel */
+.header__drawer-panel {
+  position: absolute;
+  inset: 0;
   display: flex;
-  justify-content: flex-end;
-  padding: 16px 24px 24px;
-  border-bottom: 1px solid rgb(var(--color-border));
-  margin-bottom: 8px;
+  flex-direction: column;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(100%);
 }
 
+.header__drawer-panel.is-active {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0);
+  position: relative;
+}
+
+/* Panel slide animations */
+.header__drawer-panel.slide-in-right {
+  animation: slideInRight var(--duration-base) var(--ease-dior) forwards;
+}
+
+.header__drawer-panel.slide-in-left {
+  animation: slideInLeft var(--duration-base) var(--ease-dior) forwards;
+}
+
+.header__drawer-panel.slide-out-left {
+  animation: slideOutLeft var(--duration-fast) ease-in forwards;
+}
+
+.header__drawer-panel.slide-out-right {
+  animation: slideOutRight var(--duration-fast) ease-in forwards;
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 0; visibility: hidden; }
+  to { transform: translateX(0); opacity: 1; visibility: visible; }
+}
+
+@keyframes slideInLeft {
+  from { transform: translateX(-100%); opacity: 0; visibility: hidden; }
+  to { transform: translateX(0); opacity: 1; visibility: visible; }
+}
+
+@keyframes slideOutLeft {
+  from { transform: translateX(0); opacity: 1; visibility: visible; }
+  to { transform: translateX(-100%); opacity: 0; visibility: hidden; }
+}
+
+@keyframes slideOutRight {
+  from { transform: translateX(0); opacity: 1; visibility: visible; }
+  to { transform: translateX(100%); opacity: 0; visibility: hidden; }
+}
+
+/* Panel header */
+.header__drawer-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 16px 24px;
+  border-bottom: 1px solid rgb(var(--color-border));
+  min-height: 56px;
+  flex-shrink: 0;
+}
+
+/* Panel body */
+.header__drawer-panel-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 0;
+}
+
+/* Close button */
 .header__drawer-close {
   display: flex;
   align-items: center;
@@ -597,14 +690,38 @@
   }
 }
 
-/* Drawer nav */
-.header__drawer-list {
-  list-style: none;
-  padding: 16px 0;
-  margin: 0;
+/* Back button */
+.header__drawer-back {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  font-family: var(--font-body--family);
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-right: auto;
+  transition: opacity var(--duration-fast) var(--ease-dior);
 }
 
-.header__drawer-sublist {
+.header__drawer-back .icon {
+  width: 12px;
+  height: 12px;
+  transform: rotate(90deg);
+}
+
+@media (hover: hover) {
+  .header__drawer-back:hover {
+    opacity: 0.65;
+  }
+}
+
+/* Drawer nav — L1 list */
+.header__drawer-list {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -614,19 +731,38 @@
   border-bottom: 1px solid rgb(var(--color-border));
 }
 
+/* Drawer links */
 .header__drawer-link {
-  display: block;
-  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 14px 24px;
   font-family: var(--font-body--family);
   font-size: 0.9375rem;
   text-decoration: none;
   color: inherit;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-align: left;
   transition: opacity var(--duration-fast) var(--ease-dior);
 }
 
-.header__drawer-link--parent {
-  color: rgb(var(--color-text-subdued));
-  font-size: 0.8125rem;
+/* L1 links — heading font, Dior style */
+.header__drawer-link--l1 {
+  font-family: var(--font-heading--family);
+  font-size: 1.125rem;
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.header__drawer-link--l1 .icon {
+  width: 14px;
+  height: 14px;
+  transform: rotate(-90deg);
+  flex-shrink: 0;
 }
 
 @media (hover: hover) {
@@ -635,67 +771,92 @@
   }
 }
 
-/* Details/summary accordion — no JS */
-.header__drawer-details {
-  width: 100%;
-}
-
-.header__drawer-summary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 24px;
-  font-family: var(--font-body--family);
-  font-size: 1.125rem;
+/* Secondary panel title */
+.header__drawer-panel-title {
+  padding: 8px 24px 16px;
+  font-family: var(--font-heading--family);
+  font-size: 1.25rem;
+  font-weight: 300;
+  text-transform: uppercase;
   letter-spacing: 0.08em;
-  cursor: pointer;
+}
+
+/* Sublist in secondary panels */
+.header__drawer-sublist {
   list-style: none;
-  color: inherit;
+  padding: 0;
+  margin: 0;
 }
 
-.header__drawer-summary::-webkit-details-marker {
-  display: none;
-}
-
-.header__drawer-summary .icon {
-  width: 16px;
-  height: 16px;
-  transition: transform var(--duration-fast) var(--ease-dior);
-}
-
-.header__drawer-details[open] > .header__drawer-summary .icon {
-  transform: rotate(180deg);
-}
-
-/* Details content — animated via max-height */
-.header__drawer-details .header__drawer-sublist {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height var(--duration-base) var(--ease-dior);
-  padding: 0 0 0 24px;
-}
-
-.header__drawer-details[open] .header__drawer-sublist {
-  max-height: 500px;
-  padding: 8px 0 8px 24px;
-}
-
-.header__drawer-summary--nested {
-  font-size: 0.875rem;
-  letter-spacing: normal;
+.header__drawer-sublist .header__drawer-link {
   padding: 10px 24px;
+  font-size: 0.875rem;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.header__drawer-link--view-all {
+  color: rgb(var(--color-text-subdued));
+  font-size: 0.8125rem;
+}
+
+.header__drawer-link--heading {
+  padding: 14px 24px 4px;
+  font-weight: 500;
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgb(var(--color-text-subdued));
+  margin: 0;
 }
 
 .header__drawer-sublist--nested {
-  padding-left: 24px;
+  padding-bottom: 8px;
 }
 
-/* Drawer mega images — displayed inside details after links */
+.header__drawer-sublist--nested .header__drawer-link {
+  padding: 8px 24px 8px 40px;
+  font-size: 0.8125rem;
+}
+
+/* Drawer footer */
+.header__drawer-footer {
+  flex-shrink: 0;
+  padding: 16px 24px;
+  border-top: 1px solid rgb(var(--color-border));
+  margin-top: auto;
+}
+
+.header__drawer-footer-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: inherit;
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: opacity var(--duration-fast) var(--ease-dior);
+}
+
+.header__drawer-footer-link .icon {
+  width: 16px;
+  height: 16px;
+}
+
+@media (hover: hover) {
+  .header__drawer-footer-link:hover {
+    opacity: 0.65;
+  }
+}
+
+/* Drawer promo images */
 .header__drawer-images {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
-  padding: 16px 0 8px;
+  padding: 24px 24px 8px;
 }
 
 .header__drawer-image-card {
@@ -724,43 +885,18 @@
 }
 
 /* ============================
-   Drawer mode — Dior style (desktop)
+   Drawer mode — desktop overrides
    ============================ */
 
 @media screen and (min-width: 990px) {
   .header--drawer ~ header-drawer .header__drawer {
-    width: 360px;
+    width: 400px;
   }
 
   .header--drawer ~ header-drawer .header__drawer,
   .header--drawer ~ header-drawer .header__drawer-backdrop {
     display: block;
   }
-}
-
-/* Mobile drawer width for drawer mode */
-.header--drawer ~ header-drawer .header__drawer {
-  width: min(440px, 85vw);
-}
-
-/* Drawer mode — L1: heading font */
-.header--drawer ~ header-drawer .header__drawer-summary,
-.header--drawer ~ header-drawer .header__drawer-item > .header__drawer-link {
-  font-family: var(--font-heading--family);
-  font-size: 1.125rem;
-  font-weight: 300;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-/* Drawer mode — L2/L3: body font */
-.header--drawer ~ header-drawer .header__drawer-summary--nested,
-.header--drawer ~ header-drawer .header__drawer-sublist .header__drawer-link {
-  font-family: var(--font-body--family);
-  font-size: 0.875rem;
-  font-weight: 400;
-  text-transform: none;
-  letter-spacing: normal;
 }
 
 /* ============================

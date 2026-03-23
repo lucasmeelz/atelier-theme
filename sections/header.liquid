@@ -30,18 +30,20 @@
   data-sticky="{{ section.settings.sticky_header }}"
   data-transparent="{{ section.settings.transparent_header }}"
 >
-  {% comment %} Scroll sentinel for IntersectionObserver {% endcomment %}
   <div class="header__sentinel" aria-hidden="true"></div>
 
   <div class="header__bar">
-    {% comment %} Hamburger {% endcomment %}
+    {% comment %} Hamburger — always present {% endcomment %}
     <button
       class="header__hamburger"
       aria-label="{{ 'header.open_menu' | t }}"
       aria-expanded="false"
       aria-controls="header-drawer"
     >
-      {%- render 'icon', name: 'hamburger' -%}
+      <span class="header__hamburger-icon" aria-hidden="true">
+        <span></span>
+        <span></span>
+      </span>
     </button>
 
     {% comment %} Logo {% endcomment %}
@@ -74,7 +76,7 @@
       </a>
     </div>
 
-    {% comment %} Desktop nav — inline layout only (mega mode) {% endcomment %}
+    {% comment %} Desktop nav — inline layout (mega mode only) {% endcomment %}
     {%- if desktop_layout == 'logo_left_nav_inline' and menu_style == 'mega' -%}
       <nav class="header__nav header__nav--inline" aria-label="{{ 'header.navigation' | t | default: 'Main navigation' }}">
         <ul class="header__nav-list" role="list">
@@ -83,21 +85,17 @@
               <a href="{{ link.url }}" class="header__nav-link"{% if link.current %} aria-current="page"{% endif %}>
                 {{ link.title | escape }}
               </a>
-
               {%- if link.links.size > 0 -%}
                 <div class="header__dropdown">
                   <div class="header__dropdown-content">
                     <ul class="header__dropdown-list" role="list">
                       {%- for child_link in link.links -%}
-                        <li class="header__dropdown-item{% if child_link.links.size > 0 %} header__dropdown-item--has-children{% endif %}">
+                        <li class="header__dropdown-item">
                           <a href="{{ child_link.url }}" class="header__dropdown-link">{{ child_link.title | escape }}</a>
-
                           {%- if child_link.links.size > 0 -%}
                             <ul class="header__dropdown-sublist" role="list">
                               {%- for grandchild_link in child_link.links -%}
-                                <li class="header__dropdown-subitem">
-                                  <a href="{{ grandchild_link.url }}" class="header__dropdown-link">{{ grandchild_link.title | escape }}</a>
-                                </li>
+                                <li><a href="{{ grandchild_link.url }}" class="header__dropdown-link">{{ grandchild_link.title | escape }}</a></li>
                               {%- endfor -%}
                             </ul>
                           {%- endif -%}
@@ -154,7 +152,7 @@
     </div>
   </div>
 
-  {% comment %} Desktop nav — below logo layouts (mega mode only) {% endcomment %}
+  {% comment %} Desktop nav — below logo (mega mode only) {% endcomment %}
   {%- if desktop_layout != 'logo_left_nav_inline' and menu_style == 'mega' -%}
     <nav class="header__nav header__nav--below" aria-label="{{ 'header.navigation' | t | default: 'Main navigation' }}">
       <ul class="header__nav-list" role="list">
@@ -163,21 +161,17 @@
             <a href="{{ link.url }}" class="header__nav-link"{% if link.current %} aria-current="page"{% endif %}>
               {{ link.title | escape }}
             </a>
-
             {%- if link.links.size > 0 -%}
               <div class="header__dropdown">
                 <div class="header__dropdown-content">
                   <ul class="header__dropdown-list" role="list">
                     {%- for child_link in link.links -%}
-                      <li class="header__dropdown-item{% if child_link.links.size > 0 %} header__dropdown-item--has-children{% endif %}">
+                      <li class="header__dropdown-item">
                         <a href="{{ child_link.url }}" class="header__dropdown-link">{{ child_link.title | escape }}</a>
-
                         {%- if child_link.links.size > 0 -%}
                           <ul class="header__dropdown-sublist" role="list">
                             {%- for grandchild_link in child_link.links -%}
-                              <li class="header__dropdown-subitem">
-                                <a href="{{ grandchild_link.url }}" class="header__dropdown-link">{{ grandchild_link.title | escape }}</a>
-                              </li>
+                              <li><a href="{{ grandchild_link.url }}" class="header__dropdown-link">{{ grandchild_link.title | escape }}</a></li>
                             {%- endfor -%}
                           </ul>
                         {%- endif -%}
@@ -211,17 +205,7 @@
       <div class="header__search-inner">
         <form action="{{ routes.search_url }}" method="get" role="search" class="header__search-form">
           <label for="header-search-input" class="visually-hidden">{{ 'search.placeholder' | t }}</label>
-          <input
-            type="search"
-            id="header-search-input"
-            name="q"
-            class="header__search-input"
-            placeholder="{{ 'search.placeholder' | t }}"
-            autocomplete="off"
-            autocorrect="off"
-            autocapitalize="off"
-            spellcheck="false"
-          >
+          <input type="search" id="header-search-input" name="q" class="header__search-input" placeholder="{{ 'search.placeholder' | t }}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
           <button type="submit" class="header__search-submit" aria-label="{{ 'search.submit' | t }}">
             {%- render 'icon', name: 'search' -%}
           </button>
@@ -234,77 +218,107 @@
   {%- endif -%}
 </header-element>
 
-{% comment %} Drawer — always present for mobile + drawer mode desktop {% endcomment %}
+{% comment %} ==========================================
+   Drawer — multi-panel navigation (always present)
+   Pattern: Theme-example-1 + Theme-example-2
+   ========================================== {% endcomment %}
 <header-drawer>
-  <div class="header__drawer" id="header-drawer" aria-label="{{ 'header.open_menu' | t }}">
-    <div class="header__drawer-inner">
-      <div class="header__drawer-header">
-        <button class="header__drawer-close" aria-label="{{ 'header.close_menu' | t }}">
-          {%- render 'icon', name: 'close' -%}
-        </button>
-      </div>
+  <div class="header__drawer" id="header-drawer">
+    <div class="header__drawer-panels">
 
-      <nav class="header__drawer-nav" aria-label="{{ 'header.navigation' | t | default: 'Main navigation' }}">
-        <ul class="header__drawer-list" role="list">
-          {%- for link in section.settings.menu.links -%}
-            <li class="header__drawer-item">
-              {%- if link.links.size > 0 -%}
-                <details class="header__drawer-details">
-                  <summary class="header__drawer-summary">
+      {% comment %} Main panel — L1 links {% endcomment %}
+      <div class="header__drawer-panel header__drawer-panel--main is-active" data-panel="main">
+        <div class="header__drawer-panel-header">
+          <button class="header__drawer-close" aria-label="{{ 'header.close_menu' | t }}">
+            {%- render 'icon', name: 'close' -%}
+          </button>
+        </div>
+        <nav class="header__drawer-panel-body" aria-label="{{ 'header.navigation' | t | default: 'Main navigation' }}">
+          <ul class="header__drawer-list" role="list">
+            {%- for link in section.settings.menu.links -%}
+              <li class="header__drawer-item">
+                {%- if link.links.size > 0 -%}
+                  <button type="button" class="header__drawer-link header__drawer-link--l1" data-panel-open="panel-{{ forloop.index }}">
                     <span>{{ link.title | escape }}</span>
                     {%- render 'icon', name: 'chevron-down', size: 16 -%}
-                  </summary>
-                  <ul class="header__drawer-sublist" role="list">
-                    <li class="header__drawer-subitem">
-                      <a href="{{ link.url }}" class="header__drawer-link header__drawer-link--parent">{{ 'header.view_all_in' | t: collection: link.title }}</a>
-                    </li>
-                    {%- for child_link in link.links -%}
-                      <li class="header__drawer-subitem">
-                        {%- if child_link.links.size > 0 -%}
-                          <details class="header__drawer-details">
-                            <summary class="header__drawer-summary header__drawer-summary--nested">
-                              <span>{{ child_link.title | escape }}</span>
-                              {%- render 'icon', name: 'chevron-down', size: 16 -%}
-                            </summary>
-                            <ul class="header__drawer-sublist header__drawer-sublist--nested" role="list">
-                              <li class="header__drawer-subitem">
-                                <a href="{{ child_link.url }}" class="header__drawer-link header__drawer-link--parent">{{ 'header.view_all_in' | t: collection: child_link.title }}</a>
-                              </li>
-                              {%- for grandchild_link in child_link.links -%}
-                                <li class="header__drawer-subitem">
-                                  <a href="{{ grandchild_link.url }}" class="header__drawer-link">{{ grandchild_link.title | escape }}</a>
-                                </li>
-                              {%- endfor -%}
-                            </ul>
-                          </details>
-                        {%- else -%}
-                          <a href="{{ child_link.url }}" class="header__drawer-link">{{ child_link.title | escape }}</a>
-                        {%- endif -%}
-                      </li>
-                    {%- endfor -%}
-                    {%- liquid
-                      assign drawer_mega_block = nil
-                      for block in section.blocks
-                        if block.type == 'mega_menu' and block.settings.menu_item == link.title
-                          assign drawer_mega_block = block
-                          break
-                        endif
-                      endfor
-                    -%}
-                    {%- if drawer_mega_block -%}
-                      <li class="header__drawer-subitem">
-                        {%- render 'header-drawer-images', block: drawer_mega_block -%}
-                      </li>
+                  </button>
+                {%- else -%}
+                  <a href="{{ link.url }}" class="header__drawer-link header__drawer-link--l1"{% if link.current %} aria-current="page"{% endif %}>
+                    {{ link.title | escape }}
+                  </a>
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+        </nav>
+
+        {% comment %} Drawer footer — account + social {% endcomment %}
+        <div class="header__drawer-footer">
+          {%- if shop.customer_accounts_enabled -%}
+            <a href="{{ routes.account_url }}" class="header__drawer-footer-link">
+              {%- render 'icon', name: 'account', size: 16 -%}
+              <span>{{ 'header.account' | t }}</span>
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+
+      {% comment %} Secondary panels — one per L1 with children {% endcomment %}
+      {%- for link in section.settings.menu.links -%}
+        {%- if link.links.size > 0 -%}
+          <div class="header__drawer-panel" data-panel="panel-{{ forloop.index }}">
+            <div class="header__drawer-panel-header">
+              <button type="button" class="header__drawer-back" data-panel-back="main">
+                {%- render 'icon', name: 'chevron-down', size: 16 -%}
+                <span>{{ 'header.back' | t }}</span>
+              </button>
+              <button class="header__drawer-close" aria-label="{{ 'header.close_menu' | t }}">
+                {%- render 'icon', name: 'close' -%}
+              </button>
+            </div>
+            <div class="header__drawer-panel-body">
+              <p class="header__drawer-panel-title">{{ link.title | escape }}</p>
+
+              <ul class="header__drawer-sublist" role="list">
+                <li>
+                  <a href="{{ link.url }}" class="header__drawer-link header__drawer-link--view-all">{{ 'header.view_all_in' | t: collection: link.title }}</a>
+                </li>
+                {%- for child_link in link.links -%}
+                  <li>
+                    {%- if child_link.links.size > 0 -%}
+                      <p class="header__drawer-link header__drawer-link--heading">{{ child_link.title | escape }}</p>
+                      <ul class="header__drawer-sublist header__drawer-sublist--nested" role="list">
+                        {%- for grandchild_link in child_link.links -%}
+                          <li>
+                            <a href="{{ grandchild_link.url }}" class="header__drawer-link">{{ grandchild_link.title | escape }}</a>
+                          </li>
+                        {%- endfor -%}
+                      </ul>
+                    {%- else -%}
+                      <a href="{{ child_link.url }}" class="header__drawer-link">{{ child_link.title | escape }}</a>
                     {%- endif -%}
-                  </ul>
-                </details>
-              {%- else -%}
-                <a href="{{ link.url }}" class="header__drawer-link">{{ link.title | escape }}</a>
+                  </li>
+                {%- endfor -%}
+              </ul>
+
+              {% comment %} Promo images for this L1 {% endcomment %}
+              {%- liquid
+                assign drawer_mega_block = nil
+                for block in section.blocks
+                  if block.type == 'mega_menu' and block.settings.menu_item == link.title
+                    assign drawer_mega_block = block
+                    break
+                  endif
+                endfor
+              -%}
+              {%- if drawer_mega_block -%}
+                {%- render 'header-drawer-images', block: drawer_mega_block -%}
               {%- endif -%}
-            </li>
-          {%- endfor -%}
-        </ul>
-      </nav>
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+
     </div>
   </div>
   <div class="header__drawer-backdrop" aria-hidden="true"></div>
@@ -332,18 +346,9 @@
       "id": "desktop_layout",
       "label": "t:header.desktop_layout",
       "options": [
-        {
-          "value": "logo_center_nav_below",
-          "label": "t:header.desktop_layout_center"
-        },
-        {
-          "value": "logo_left_nav_inline",
-          "label": "t:header.desktop_layout_inline"
-        },
-        {
-          "value": "logo_left_nav_center",
-          "label": "t:header.desktop_layout_left_center"
-        }
+        { "value": "logo_center_nav_below", "label": "t:header.desktop_layout_center" },
+        { "value": "logo_left_nav_inline", "label": "t:header.desktop_layout_inline" },
+        { "value": "logo_left_nav_center", "label": "t:header.desktop_layout_left_center" }
       ],
       "default": "logo_center_nav_below"
     },
@@ -352,14 +357,8 @@
       "id": "mobile_layout",
       "label": "t:header.mobile_layout",
       "options": [
-        {
-          "value": "logo_center",
-          "label": "t:header.mobile_layout_center"
-        },
-        {
-          "value": "logo_left",
-          "label": "t:header.mobile_layout_left"
-        }
+        { "value": "logo_center", "label": "t:header.mobile_layout_center" },
+        { "value": "logo_left", "label": "t:header.mobile_layout_left" }
       ],
       "default": "logo_center"
     },
@@ -442,44 +441,14 @@
           "label": "t:header.mega_menu_item_title",
           "info": "t:header.mega_menu_item_info"
         },
-        {
-          "type": "header",
-          "content": "t:header.mega_menu_image_1"
-        },
-        {
-          "type": "image_picker",
-          "id": "image_1",
-          "label": "t:header.mega_menu_image"
-        },
-        {
-          "type": "text",
-          "id": "image_1_label",
-          "label": "t:header.mega_menu_image_caption"
-        },
-        {
-          "type": "url",
-          "id": "image_1_url",
-          "label": "t:header.mega_menu_image_link"
-        },
-        {
-          "type": "header",
-          "content": "t:header.mega_menu_image_2"
-        },
-        {
-          "type": "image_picker",
-          "id": "image_2",
-          "label": "t:header.mega_menu_image"
-        },
-        {
-          "type": "text",
-          "id": "image_2_label",
-          "label": "t:header.mega_menu_image_caption"
-        },
-        {
-          "type": "url",
-          "id": "image_2_url",
-          "label": "t:header.mega_menu_image_link"
-        }
+        { "type": "header", "content": "t:header.mega_menu_image_1" },
+        { "type": "image_picker", "id": "image_1", "label": "t:header.mega_menu_image" },
+        { "type": "text", "id": "image_1_label", "label": "t:header.mega_menu_image_caption" },
+        { "type": "url", "id": "image_1_url", "label": "t:header.mega_menu_image_link" },
+        { "type": "header", "content": "t:header.mega_menu_image_2" },
+        { "type": "image_picker", "id": "image_2", "label": "t:header.mega_menu_image" },
+        { "type": "text", "id": "image_2_label", "label": "t:header.mega_menu_image_caption" },
+        { "type": "url", "id": "image_2_url", "label": "t:header.mega_menu_image_link" }
       ]
     }
   ]
