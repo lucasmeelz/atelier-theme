@@ -1,0 +1,3 @@
+[    1214ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:9292/favicon.ico:0
+[    1639ms] [ERROR] Framing 'https://shop.app/' violates the following Content Security Policy directive: "frame-ancestors https://odoo-app-test.myshopify.com https://odoo-app-test.account.myshopify.com https://shopify.com". The request has been blocked.
+ @ :0

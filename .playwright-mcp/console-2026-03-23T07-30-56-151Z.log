@@ -1,0 +1,6 @@
+[     261ms] [ERROR] [HotReload] Connection closed by the server, attempting to reconnect... @ http://127.0.0.1:9292/cdn/shopifycloud/theme-hot-reload/theme-hot-reload.js:304
+[     877ms] [ERROR] Framing 'https://shop.app/' violates the following Content Security Policy directive: "frame-ancestors https://odoo-app-test.myshopify.com https://odoo-app-test.account.myshopify.com https://shopify.com". The request has been blocked.
+ @ :0
+[   45502ms] [ERROR] [HotReload] Connection closed by the server, attempting to reconnect... @ http://127.0.0.1:9292/cdn/shopifycloud/theme-hot-reload/theme-hot-reload.js:304
+[   46098ms] [ERROR] Framing 'https://shop.app/' violates the following Content Security Policy directive: "frame-ancestors https://odoo-app-test.myshopify.com https://odoo-app-test.account.myshopify.com https://shopify.com". The request has been blocked.
+ @ :0

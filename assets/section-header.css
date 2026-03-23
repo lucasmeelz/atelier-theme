@@ -243,9 +243,10 @@ html[scroll-lock] { overflow: hidden; }
 
 @media (hover: hover) { .header__mega-l3-link:hover { opacity: 0.5; } }
 
-/* View all link */
+/* View all link — spans full width below the grid columns */
 .header__mega-view-all {
   display: inline-block;
+  grid-column: 1 / -1;
   margin-top: 8px;
   font-size: 0.75rem; font-weight: 400;
   letter-spacing: 0.05em; text-transform: uppercase;
@@ -376,8 +377,9 @@ html[scroll-lock] { overflow: hidden; }
   display: flex; align-items: center; justify-content: space-between;
   width: 100%; padding: 11px 0;
   background: none; border: none; color: inherit;
-  font-family: var(--font-body--family, sans-serif);
-  font-size: 1rem; font-weight: 400; letter-spacing: 0;
+  font-family: var(--font-heading--family, serif);
+  font-size: 1.125rem; font-weight: 300; letter-spacing: 0.08em;
+  text-transform: uppercase;
   text-decoration: none; cursor: pointer;
   transition: opacity 250ms var(--ease-dior, cubic-bezier(0.31, 0, 0.13, 1));
 }
