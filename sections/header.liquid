@@ -86,23 +86,26 @@
 
               {%- if link.links.size > 0 -%}
                 <div class="header__dropdown">
-                  <ul class="header__dropdown-list" role="list">
-                    {%- for child_link in link.links -%}
-                      <li class="header__dropdown-item{% if child_link.links.size > 0 %} header__dropdown-item--has-children{% endif %}">
-                        <a href="{{ child_link.url }}" class="header__dropdown-link">{{ child_link.title | escape }}</a>
+                  <div class="header__dropdown-content">
+                    <ul class="header__dropdown-list" role="list">
+                      {%- for child_link in link.links -%}
+                        <li class="header__dropdown-item{% if child_link.links.size > 0 %} header__dropdown-item--has-children{% endif %}">
+                          <a href="{{ child_link.url }}" class="header__dropdown-link">{{ child_link.title | escape }}</a>
 
-                        {%- if child_link.links.size > 0 -%}
-                          <ul class="header__dropdown-sublist" role="list">
-                            {%- for grandchild_link in child_link.links -%}
-                              <li class="header__dropdown-subitem">
-                                <a href="{{ grandchild_link.url }}" class="header__dropdown-link">{{ grandchild_link.title | escape }}</a>
-                              </li>
-                            {%- endfor -%}
-                          </ul>
-                        {%- endif -%}
-                      </li>
-                    {%- endfor -%}
-                  </ul>
+                          {%- if child_link.links.size > 0 -%}
+                            <ul class="header__dropdown-sublist" role="list">
+                              {%- for grandchild_link in child_link.links -%}
+                                <li class="header__dropdown-subitem">
+                                  <a href="{{ grandchild_link.url }}" class="header__dropdown-link">{{ grandchild_link.title | escape }}</a>
+                                </li>
+                              {%- endfor -%}
+                            </ul>
+                          {%- endif -%}
+                        </li>
+                      {%- endfor -%}
+                    </ul>
+                    {%- render 'header-mega-images', link_title: link.title, blocks: section.blocks -%}
+                  </div>
                 </div>
               {%- endif -%}
             </li>
@@ -152,23 +155,26 @@
 
             {%- if link.links.size > 0 -%}
               <div class="header__dropdown">
-                <ul class="header__dropdown-list" role="list">
-                  {%- for child_link in link.links -%}
-                    <li class="header__dropdown-item{% if child_link.links.size > 0 %} header__dropdown-item--has-children{% endif %}">
-                      <a href="{{ child_link.url }}" class="header__dropdown-link">{{ child_link.title | escape }}</a>
+                <div class="header__dropdown-content">
+                  <ul class="header__dropdown-list" role="list">
+                    {%- for child_link in link.links -%}
+                      <li class="header__dropdown-item{% if child_link.links.size > 0 %} header__dropdown-item--has-children{% endif %}">
+                        <a href="{{ child_link.url }}" class="header__dropdown-link">{{ child_link.title | escape }}</a>
 
-                      {%- if child_link.links.size > 0 -%}
-                        <ul class="header__dropdown-sublist" role="list">
-                          {%- for grandchild_link in child_link.links -%}
-                            <li class="header__dropdown-subitem">
-                              <a href="{{ grandchild_link.url }}" class="header__dropdown-link">{{ grandchild_link.title | escape }}</a>
-                            </li>
-                          {%- endfor -%}
-                        </ul>
-                      {%- endif -%}
-                    </li>
-                  {%- endfor -%}
-                </ul>
+                        {%- if child_link.links.size > 0 -%}
+                          <ul class="header__dropdown-sublist" role="list">
+                            {%- for grandchild_link in child_link.links -%}
+                              <li class="header__dropdown-subitem">
+                                <a href="{{ grandchild_link.url }}" class="header__dropdown-link">{{ grandchild_link.title | escape }}</a>
+                              </li>
+                            {%- endfor -%}
+                          </ul>
+                        {%- endif -%}
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                  {%- render 'header-mega-images', link_title: link.title, blocks: section.blocks -%}
+                </div>
               </div>
             {%- endif -%}
           </li>
@@ -369,6 +375,58 @@
       "id": "show_wishlist",
       "label": "t:labels.show_wishlist",
       "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "mega_menu",
+      "name": "t:header.mega_menu_block",
+      "settings": [
+        {
+          "type": "text",
+          "id": "menu_item",
+          "label": "t:header.mega_menu_item_title",
+          "info": "t:header.mega_menu_item_info"
+        },
+        {
+          "type": "header",
+          "content": "t:header.mega_menu_image_1"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_1",
+          "label": "t:header.mega_menu_image"
+        },
+        {
+          "type": "text",
+          "id": "image_1_label",
+          "label": "t:header.mega_menu_image_caption"
+        },
+        {
+          "type": "url",
+          "id": "image_1_url",
+          "label": "t:header.mega_menu_image_link"
+        },
+        {
+          "type": "header",
+          "content": "t:header.mega_menu_image_2"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_2",
+          "label": "t:header.mega_menu_image"
+        },
+        {
+          "type": "text",
+          "id": "image_2_label",
+          "label": "t:header.mega_menu_image_caption"
+        },
+        {
+          "type": "url",
+          "id": "image_2_url",
+          "label": "t:header.mega_menu_image_link"
+        }
+      ]
     }
   ]
 }

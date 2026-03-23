@@ -1,0 +1,69 @@
+{% comment %}
+  Renders mega menu images for a given nav link.
+  Params:
+    link_title {String}  The nav link title to match against blocks
+    blocks     {Array}   section.blocks
+{% endcomment %}
+
+{%- liquid
+  assign has_images = false
+  for block in blocks
+    if block.type == 'mega_menu' and block.settings.menu_item == link_title
+      if block.settings.image_1 != blank or block.settings.image_2 != blank
+        assign has_images = true
+        assign mega_block = block
+        break
+      endif
+    endif
+  endfor
+-%}
+
+{%- if has_images -%}
+  <div class="header__dropdown-images" {{ mega_block.shopify_attributes }}>
+    {%- if mega_block.settings.image_1 != blank -%}
+      <div class="header__dropdown-image-card">
+        {%- if mega_block.settings.image_1_url != blank -%}
+          <a href="{{ mega_block.settings.image_1_url }}" class="header__dropdown-image-link">
+        {%- endif -%}
+          <div class="header__dropdown-image-wrapper">
+            {{ mega_block.settings.image_1 | image_url: width: 600 | image_tag:
+              widths: '300, 400, 600',
+              sizes: '300px',
+              loading: 'lazy',
+              class: 'header__dropdown-image',
+              style: 'object-position: {{ mega_block.settings.image_1.presentation.focal_point }}'
+            }}
+          </div>
+          {%- if mega_block.settings.image_1_label != blank -%}
+            <p class="header__dropdown-image-caption">{{ mega_block.settings.image_1_label | escape }}</p>
+          {%- endif -%}
+        {%- if mega_block.settings.image_1_url != blank -%}
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if mega_block.settings.image_2 != blank -%}
+      <div class="header__dropdown-image-card">
+        {%- if mega_block.settings.image_2_url != blank -%}
+          <a href="{{ mega_block.settings.image_2_url }}" class="header__dropdown-image-link">
+        {%- endif -%}
+          <div class="header__dropdown-image-wrapper">
+            {{ mega_block.settings.image_2 | image_url: width: 600 | image_tag:
+              widths: '300, 400, 600',
+              sizes: '300px',
+              loading: 'lazy',
+              class: 'header__dropdown-image',
+              style: 'object-position: {{ mega_block.settings.image_2.presentation.focal_point }}'
+            }}
+          </div>
+          {%- if mega_block.settings.image_2_label != blank -%}
+            <p class="header__dropdown-image-caption">{{ mega_block.settings.image_2_label | escape }}</p>
+          {%- endif -%}
+        {%- if mega_block.settings.image_2_url != blank -%}
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+{%- endif -%}
