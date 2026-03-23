@@ -1,0 +1,65 @@
+{% comment %}
+  Renders mega menu images inside the drawer.
+  Params:
+    block {Block}  The mega_menu block to render images from
+{% endcomment %}
+
+{%- if block != blank -%}
+  {%- if block.settings.image_1 != blank or block.settings.image_2 != blank -%}
+    <div class="header__drawer-images" {{ block.shopify_attributes }}>
+      {%- if block.settings.image_1 != blank -%}
+        {%- assign d_img1_focal = block.settings.image_1.presentation.focal_point -%}
+        {%- assign d_img1_style = 'object-position: ' | append: d_img1_focal -%}
+        {%- if block.settings.image_1_url != blank -%}
+          <a href="{{ block.settings.image_1_url }}" class="header__drawer-image-card">
+        {%- else -%}
+          <div class="header__drawer-image-card">
+        {%- endif -%}
+          <div class="header__drawer-image-wrapper">
+            {{ block.settings.image_1 | image_url: width: 400 | image_tag:
+              widths: '200, 300, 400',
+              sizes: '(max-width: 440px) 45vw, 170px',
+              loading: 'lazy',
+              class: 'header__drawer-image',
+              style: d_img1_style
+            }}
+          </div>
+          {%- if block.settings.image_1_label != blank -%}
+            <p class="header__drawer-image-caption">{{ block.settings.image_1_label | escape }}</p>
+          {%- endif -%}
+        {%- if block.settings.image_1_url != blank -%}
+          </a>
+        {%- else -%}
+          </div>
+        {%- endif -%}
+      {%- endif -%}
+
+      {%- if block.settings.image_2 != blank -%}
+        {%- assign d_img2_focal = block.settings.image_2.presentation.focal_point -%}
+        {%- assign d_img2_style = 'object-position: ' | append: d_img2_focal -%}
+        {%- if block.settings.image_2_url != blank -%}
+          <a href="{{ block.settings.image_2_url }}" class="header__drawer-image-card">
+        {%- else -%}
+          <div class="header__drawer-image-card">
+        {%- endif -%}
+          <div class="header__drawer-image-wrapper">
+            {{ block.settings.image_2 | image_url: width: 400 | image_tag:
+              widths: '200, 300, 400',
+              sizes: '(max-width: 440px) 45vw, 170px',
+              loading: 'lazy',
+              class: 'header__drawer-image',
+              style: d_img2_style
+            }}
+          </div>
+          {%- if block.settings.image_2_label != blank -%}
+            <p class="header__drawer-image-caption">{{ block.settings.image_2_label | escape }}</p>
+          {%- endif -%}
+        {%- if block.settings.image_2_url != blank -%}
+          </a>
+        {%- else -%}
+          </div>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+{%- endif -%}
