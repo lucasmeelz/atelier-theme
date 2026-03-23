@@ -13,9 +13,21 @@ class HeaderElement extends HTMLElement {
     this.searchClose = this.querySelector('.header__search-close');
     this.searchInput = this.querySelector('.header__search-input');
 
+    this.setupHeaderHeight();
     this.setupScrollObserver();
     this.setupSearch();
     this.setupDesktopNav();
+  }
+
+  setupHeaderHeight() {
+    var header = this;
+    var update = function() {
+      var h = header.offsetHeight;
+      document.documentElement.style.setProperty('--header-computed-height', h + 'px');
+    };
+    update();
+    window.addEventListener('resize', update, { passive: true });
+    this._onResize = update;
   }
 
   setupScrollObserver() {
@@ -125,6 +137,7 @@ class HeaderElement extends HTMLElement {
 
   disconnectedCallback() {
     if (this._onScroll) window.removeEventListener('scroll', this._onScroll);
+    if (this._onResize) window.removeEventListener('resize', this._onResize);
     if (this.searchTrigger && this._onSearchOpen) this.searchTrigger.removeEventListener('click', this._onSearchOpen);
     if (this.searchClose && this._onSearchClose) this.searchClose.removeEventListener('click', this._onSearchClose);
     if (this.searchPanel && this._onSearchKeydown) this.searchPanel.removeEventListener('keydown', this._onSearchKeydown);

@@ -14,41 +14,21 @@
     "header": {
       "type": "header",
       "blocks": {
-        "mega_menu_3N6yhm": {
+        "mega_main1": {
           "type": "mega_menu",
           "settings": {
             "menu_item": "Main 1",
-            "promo_1_heading": "",
-            "promo_1_link": "",
-            "promo_2_heading": "",
-            "promo_2_link": "",
-            "promo_3_heading": "",
-            "promo_3_link": "",
-            "promo_4_heading": "",
-            "promo_4_link": ""
-          }
-        },
-        "mega_menu_xx4yrr": {
-          "type": "mega_menu",
-          "settings": {
-            "menu_item": "Main 1",
-            "promo_1_heading": "",
-            "promo_1_link": "",
-            "promo_2_heading": "",
-            "promo_2_link": "",
-            "promo_3_heading": "",
-            "promo_3_link": "",
-            "promo_4_heading": "",
-            "promo_4_link": ""
+            "promo_1_image": "shopify://shop_images/portrait_3to4.jpg",
+            "promo_1_heading": "New Collection",
+            "promo_1_link": ""
           }
         }
       },
       "block_order": [
-        "mega_menu_3N6yhm",
-        "mega_menu_xx4yrr"
+        "mega_main1"
       ],
       "settings": {
-        "color_scheme": "scheme-2",
+        "color_scheme": "scheme-1",
         "desktop_layout": "logo_center_nav_below",
         "mobile_layout": "logo_center",
         "menu_style": "mega",
