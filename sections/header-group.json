@@ -13,13 +13,30 @@
   "sections": {
     "header": {
       "type": "header",
+      "blocks": {
+        "mega_menu_3N6yhm": {
+          "type": "mega_menu",
+          "settings": {
+            "menu_item": "Main 1",
+            "image_1": "shopify://shop_images/portrait_3to4.jpg",
+            "image_1_label": "",
+            "image_1_url": "",
+            "image_2_label": "",
+            "image_2_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "mega_menu_3N6yhm"
+      ],
       "settings": {
         "color_scheme": "scheme-2",
         "layout": "logo_left_nav_inline",
+        "menu_style": "drawer",
         "logo_width": 100,
         "sticky_header": true,
         "transparent_header": false,
-        "menu": "main-menu",
+        "menu": "menu-2",
         "customer_account_menu": "customer-account-main-menu",
         "show_search": true,
         "show_wishlist": true
