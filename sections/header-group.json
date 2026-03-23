@@ -27,7 +27,9 @@
           }
         }
       },
-      "block_order": ["mega_menu_6dmJVr"],
+      "block_order": [
+        "mega_menu_6dmJVr"
+      ],
       "settings": {
         "menu": "menu-2",
         "desktop_layout": "logo_center",
@@ -37,7 +39,7 @@
         "transparent_header": false,
         "transparent_text_color": "#ffffff",
         "logo_width": 120,
-        "nav_style": "drawer",
+        "nav_style": "mega",
         "nav_layout": "logo_center_nav_inline",
         "mega_columns": "3",
         "enable_sticky": true,
@@ -55,5 +57,7 @@
       }
     }
   },
-  "order": ["header"]
+  "order": [
+    "header"
+  ]
 }
