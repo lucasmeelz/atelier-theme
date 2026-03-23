@@ -32,7 +32,7 @@
       "settings": {
         "color_scheme": "scheme-2",
         "layout": "logo_left_nav_inline",
-        "menu_style": "drawer",
+        "menu_style": "mega",
         "logo_width": 100,
         "sticky_header": true,
         "transparent_header": false,
