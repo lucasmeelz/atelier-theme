@@ -85,54 +85,75 @@ Hovers, clicks, focus → jamais désactivés par reduced-motion.
 
 ---
 
-## QA ROUTINE OBLIGATOIRE PAR TÂCHE
+## QA ROUTINE — APPROCHE COMBINATOIRE
 
 ### Principe
-Chaque section livree doit etre testee dans TOUTES ses variantes
-de settings avant tout commit. La boucle test → fix → test
-continue jusqu'a 0 failures.
+Pour chaque section, tester TOUTES les combinaisons critiques
+de settings, pas juste les variantes isolees.
 
-### Structure standard par section [ID]
+### Etape 1 — Matrice de combinaisons
+Avant d'ecrire les fixtures, construire une matrice :
 
-1. **Fixtures** — `_qa/playwright/fixtures/[section-id]-[variante].json`
-   Une fixture par combinaison critique de settings.
-   Minimum : valeurs par defaut + 2 variantes differentes.
+Exemple header (3 settings cles) :
 
-2. **Helper applySettings(fixture)** dans le spec :
-   - Ecrit la fixture dans le fichier de settings de la section
-   - Attend le rechargement du serveur dev (1500ms)
-   - Navigate vers http://127.0.0.1:9292
+| nav_style | transparent | sticky | fixture           |
+|-----------|-------------|--------|-------------------|
+| drawer    | false       | false  | header-001        |
+| drawer    | false       | true   | header-002        |
+| drawer    | true        | false  | header-003        |
+| drawer    | true        | true   | header-004        |
+| mega      | false       | false  | header-005        |
+| mega      | false       | true   | header-006        |
+| mega      | true        | false  | header-007        |
+| mega      | true        | true   | header-008        |
 
-3. **Structure du spec** :
-   ```js
-   describe('[Section] — variante X', () => {
-     test.beforeEach(() => applySettings('[section]-[variante]'))
-     // tests specifiques a cette variante
-   })
-   ```
+Regle : settings binaires (checkbox) = toutes combinaisons.
+Settings select (3+ options) = chaque valeur testee au moins une fois.
 
-4. **Ce que chaque spec doit tester** :
-   - Rendu sans erreur JS (0 erreurs console)
-   - 0 bleu Shopify (#5c6ac4) visible
-   - Elements conditionnels presents/absents selon settings
-   - Interactions principales (click, hover, keyboard)
-   - Responsive : 375px + 768px + 1440px
-   - Accessibilite : aria-labels, focus-visible, touch targets
+### Etape 2 — Pour chaque combinaison, tester
 
-5. **Boucle non-negociable** :
-   ```
-   npx playwright test [section].spec.js
-   → Si failures → lire erreur → corriger le code → relancer
-   → Repeter jusqu'a 0 failures
-   → Seulement alors : git commit
-   ```
+**Fonctionnel (Playwright)** :
+- 0 erreur JS console
+- Elements attendus presents/absents
+- Interactions principales
 
-### Fichiers a creer par section
+**Visuel (Playwright screenshot)** :
+- Screenshot 375px + 1440px
+- Sauvegarder dans `_qa/screenshots/[section]/[fixture-id]/`
+
+### Etape 3 — Rapport visuel automatique
+Apres chaque combinaison, generer dans
+`_qa/reports/[section]-visual-report.md` :
+
+```
+## Fixture header-001 (drawer / transparent:false / sticky:false)
+- Screenshot mobile : _qa/screenshots/header/header-001/mobile.png
+- Screenshot desktop : _qa/screenshots/header/header-001/desktop.png
+- Bugs identifies : [liste ou "aucun"]
+- Status : OK / BUG
+```
+
+### Etape 4 — Boucle par combinaison
+Pour chaque fixture :
+1. Appliquer les settings
+2. Screenshot mobile + desktop
+3. Analyser le screenshot (elements visibles, layout, overlap)
+4. Si bug → corriger le code → retester cette fixture
+5. Passer a la fixture suivante seulement quand OK
+6. Ne committer qu'une fois TOUTES les fixtures OK
+
+### Etape 5 — Validation humaine finale
+Quand toutes les combinaisons sont OK :
+- Poster le rapport `_qa/reports/[section]-visual-report.md`
+- Poster les screenshots des combinaisons les plus representatives
+- STOP — attendre validation explicite avant commit
+
+### Fichiers par section
 ```
 _qa/playwright/tests/[section-id].spec.js
-_qa/playwright/fixtures/[section-id]-default.json
-_qa/playwright/fixtures/[section-id]-[variante-1].json
-_qa/playwright/fixtures/[section-id]-[variante-2].json
+_qa/playwright/fixtures/[section-id]-001.json ... [section-id]-NNN.json
+_qa/screenshots/[section-id]/[fixture-id]/mobile.png + desktop.png
+_qa/reports/[section-id]-visual-report.md
 ```
 
 ### Sections a couvrir (dans l'ordre du backlog)
