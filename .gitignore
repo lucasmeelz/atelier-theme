@@ -1,17 +1,5 @@
-# OS generated files #
-######################
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
 node_modules/
-
-# Shopify CLI files
-.shopify/
-
-## Release files
-release
-*.zip
+.DS_Store
+_qa/screenshots/
+_qa/reports/
+config/settings_data.json
