@@ -46,16 +46,17 @@
 }
 
 /* ============================
-   Header bar
+   Header bar — responsive via custom properties
    ============================ */
 
 .header__bar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: var(--header-mobile-justify, space-between);
   height: 64px;
   padding: 0 24px;
   position: relative;
+  gap: 16px;
 }
 
 @media screen and (min-width: 750px) {
@@ -64,61 +65,40 @@
   }
 }
 
-/* ============================
-   Layout — logo_center_nav_below (default)
-   ============================ */
-
-.header--logo_center_nav_below .header__bar {
-  justify-content: center;
-}
-
-.header--logo_center_nav_below .header__hamburger {
-  position: absolute;
-  left: 24px;
-}
-
-.header--logo_center_nav_below .header__icons {
-  position: absolute;
-  right: 24px;
-}
-
-@media screen and (min-width: 750px) {
-  .header--logo_center_nav_below .header__hamburger {
-    left: 40px;
-  }
-
-  .header--logo_center_nav_below .header__icons {
-    right: 40px;
+@media screen and (min-width: 990px) {
+  .header__bar {
+    justify-content: var(--header-desktop-justify, center);
+    gap: 40px;
   }
 }
 
-/* ============================
-   Layout — logo_left_nav_inline
-   ============================ */
-
-.header--logo_left_nav_inline .header__bar {
-  justify-content: flex-start;
-  gap: 40px;
+/* Hamburger positioning — mobile */
+.header__hamburger {
+  position: var(--header-mobile-hamburger-position, static);
+  left: var(--header-mobile-hamburger-left, auto);
 }
 
-.header--logo_left_nav_inline .header__icons {
+/* Icons positioning — mobile */
+.header__icons {
+  position: var(--header-mobile-icons-position, static);
+  right: var(--header-mobile-icons-right, auto);
+}
+
+@media screen and (min-width: 990px) {
+  .header__hamburger {
+    position: var(--header-desktop-hamburger-position, static);
+    left: var(--header-desktop-hamburger-left, auto);
+  }
+
+  .header__icons {
+    position: var(--header-desktop-icons-position, static);
+    right: var(--header-desktop-icons-right, auto);
+  }
+}
+
+/* When icons/hamburger are static (left layouts), push icons to right */
+.header__icons:not([style*="absolute"]) {
   margin-left: auto;
-}
-
-/* ============================
-   Layout — logo_left_nav_center
-   ============================ */
-
-.header--logo_left_nav_center .header__bar {
-  justify-content: flex-start;
-}
-
-.header--logo_left_nav_center .header__icons {
-  margin-left: auto;
-}
-
-.header--logo_left_nav_center .header__nav--below {
-  justify-content: center;
 }
 
 /* ============================
@@ -221,11 +201,7 @@
   height: 20px;
 }
 
-/* Mega mode: hide hamburger on desktop */
-.header--mega .header__hamburger {
-  display: flex;
-}
-
+/* Mega mode: hide hamburger on desktop, show on mobile */
 @media screen and (min-width: 990px) {
   .header--mega .header__hamburger {
     display: none;
@@ -257,13 +233,14 @@
   .header__nav {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: var(--header-desktop-nav-justify, center);
   }
 }
 
 .header__nav--inline {
   border-top: none;
   padding: 0;
+  min-height: 0;
 }
 
 .header__nav-list {
@@ -328,9 +305,10 @@
   opacity: 0;
   transform: translateY(-8px);
   pointer-events: none;
-  transition: opacity var(--duration-base) var(--ease-dior),
-              transform var(--duration-base) var(--ease-dior);
   z-index: 101;
+  /* Close: faster, no translateY */
+  transition: opacity var(--duration-fast) ease-in,
+              transform var(--duration-fast) ease-in;
 }
 
 @media (hover: hover) {
@@ -338,15 +316,7 @@
     opacity: 1;
     transform: translateY(0);
     pointer-events: auto;
-  }
-
-  /* Close transition: faster, no translateY */
-  .header__dropdown {
-    transition: opacity var(--duration-fast) ease-in,
-                transform var(--duration-fast) ease-in;
-  }
-
-  .header__nav-item--has-dropdown:hover > .header__dropdown {
+    /* Open: slower, ease-dior */
     transition: opacity var(--duration-base) var(--ease-dior),
                 transform var(--duration-base) var(--ease-dior);
   }
@@ -572,14 +542,17 @@
   pointer-events: auto;
 }
 
+/* Drawer inner spacing — Dior reference */
 .header__drawer-inner {
-  padding: 24px;
+  padding: 0;
 }
 
 .header__drawer-header {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 24px;
+  padding: 16px 24px 24px;
+  border-bottom: 1px solid rgb(var(--color-border));
+  margin-bottom: 8px;
 }
 
 .header__drawer-close {
@@ -608,7 +581,12 @@
 }
 
 /* Drawer nav */
-.header__drawer-list,
+.header__drawer-list {
+  list-style: none;
+  padding: 16px 0;
+  margin: 0;
+}
+
 .header__drawer-sublist {
   list-style: none;
   padding: 0;
@@ -621,7 +599,7 @@
 
 .header__drawer-link {
   display: block;
-  padding: 14px 0;
+  padding: 10px 24px;
   font-family: var(--font-body--family);
   font-size: 0.9375rem;
   text-decoration: none;
@@ -649,9 +627,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 0;
+  padding: 14px 24px;
   font-family: var(--font-body--family);
-  font-size: 0.9375rem;
+  font-size: 1.125rem;
+  letter-spacing: 0.08em;
   cursor: pointer;
   list-style: none;
   color: inherit;
@@ -676,28 +655,22 @@
   max-height: 0;
   overflow: hidden;
   transition: max-height var(--duration-base) var(--ease-dior);
+  padding: 0 0 0 24px;
 }
 
 .header__drawer-details[open] .header__drawer-sublist {
   max-height: 500px;
+  padding: 8px 0 8px 24px;
 }
 
 .header__drawer-summary--nested {
   font-size: 0.875rem;
-  padding: 10px 0;
-}
-
-.header__drawer-sublist {
-  padding-left: 16px;
-  padding-bottom: 0;
-}
-
-.header__drawer-details[open] > .header__drawer-sublist {
-  padding-bottom: 8px;
+  letter-spacing: normal;
+  padding: 10px 24px;
 }
 
 .header__drawer-sublist--nested {
-  padding-left: 16px;
+  padding-left: 24px;
 }
 
 /* Drawer mega images — displayed inside details after links */
@@ -734,28 +707,26 @@
 }
 
 /* ============================
-   Drawer mode — Dior style
+   Drawer mode — Dior style (desktop)
    ============================ */
 
-/* Desktop drawer width */
 @media screen and (min-width: 990px) {
   .header--drawer ~ header-drawer .header__drawer {
     width: 360px;
   }
 
-  /* Keep drawer and backdrop visible on desktop in drawer mode */
   .header--drawer ~ header-drawer .header__drawer,
   .header--drawer ~ header-drawer .header__drawer-backdrop {
     display: block;
   }
 }
 
-/* Mobile drawer width override for drawer mode */
+/* Mobile drawer width for drawer mode */
 .header--drawer ~ header-drawer .header__drawer {
   width: min(440px, 85vw);
 }
 
-/* Drawer mode — L1 links: heading font, 18px, uppercase, weight 300 */
+/* Drawer mode — L1: heading font */
 .header--drawer ~ header-drawer .header__drawer-summary,
 .header--drawer ~ header-drawer .header__drawer-item > .header__drawer-link {
   font-family: var(--font-heading--family);
@@ -765,7 +736,7 @@
   letter-spacing: 0.08em;
 }
 
-/* Drawer mode — L2/L3: body font, 14px, normal case */
+/* Drawer mode — L2/L3: body font */
 .header--drawer ~ header-drawer .header__drawer-summary--nested,
 .header--drawer ~ header-drawer .header__drawer-sublist .header__drawer-link {
   font-family: var(--font-body--family);
@@ -791,7 +762,7 @@
   border: 0;
 }
 
-/* Mega mode: hide drawer on desktop */
+/* Mega mode: hide drawer on desktop only */
 @media screen and (min-width: 990px) {
   .header--mega ~ header-drawer .header__drawer,
   .header--mega ~ header-drawer .header__drawer-backdrop {

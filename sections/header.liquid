@@ -2,16 +2,60 @@
 
 {%- style -%}
   html {
-    scroll-padding-top: 98px;
+    scroll-padding-top: var(--header-height, 98px);
     scroll-behavior: smooth;
+  }
+
+  #shopify-section-{{ section.id }} {
+    {%- case section.settings.mobile_layout -%}
+      {%- when 'logo_center' -%}
+        --header-mobile-justify: center;
+        --header-mobile-hamburger-position: absolute;
+        --header-mobile-hamburger-left: 24px;
+        --header-mobile-icons-position: absolute;
+        --header-mobile-icons-right: 24px;
+      {%- when 'logo_left' -%}
+        --header-mobile-justify: flex-start;
+        --header-mobile-hamburger-position: static;
+        --header-mobile-hamburger-left: auto;
+        --header-mobile-icons-position: static;
+        --header-mobile-icons-right: auto;
+    {%- endcase -%}
+  }
+
+  @media screen and (min-width: 990px) {
+    #shopify-section-{{ section.id }} {
+      {%- case section.settings.desktop_layout -%}
+        {%- when 'logo_center_nav_below' -%}
+          --header-desktop-justify: center;
+          --header-desktop-hamburger-position: absolute;
+          --header-desktop-hamburger-left: 40px;
+          --header-desktop-icons-position: absolute;
+          --header-desktop-icons-right: 40px;
+          --header-desktop-nav-justify: center;
+        {%- when 'logo_left_nav_inline' -%}
+          --header-desktop-justify: flex-start;
+          --header-desktop-hamburger-position: static;
+          --header-desktop-hamburger-left: auto;
+          --header-desktop-icons-position: static;
+          --header-desktop-icons-right: auto;
+          --header-desktop-nav-justify: flex-start;
+        {%- when 'logo_left_nav_center' -%}
+          --header-desktop-justify: flex-start;
+          --header-desktop-hamburger-position: static;
+          --header-desktop-hamburger-left: auto;
+          --header-desktop-icons-position: static;
+          --header-desktop-icons-right: auto;
+          --header-desktop-nav-justify: center;
+      {%- endcase -%}
+    }
   }
 {%- endstyle -%}
 
 {%- liquid
-  assign layout = section.settings.layout
+  assign desktop_layout = section.settings.desktop_layout
   assign menu_style = section.settings.menu_style
   assign header_classes = 'header'
-  assign header_classes = header_classes | append: ' header--' | append: layout
   assign header_classes = header_classes | append: ' header--' | append: menu_style
 
   if section.settings.sticky_header
@@ -25,7 +69,8 @@
 
 <header-element
   class="{{ header_classes }} color-{{ section.settings.color_scheme }}"
-  data-layout="{{ layout }}"
+  data-desktop-layout="{{ desktop_layout }}"
+  data-mobile-layout="{{ section.settings.mobile_layout }}"
   data-menu-style="{{ menu_style }}"
   data-sticky="{{ section.settings.sticky_header }}"
   data-transparent="{{ section.settings.transparent_header }}"
@@ -34,7 +79,7 @@
   <div class="header__sentinel" aria-hidden="true"></div>
 
   <div class="header__bar">
-    {% comment %} Hamburger — mobile only {% endcomment %}
+    {% comment %} Hamburger {% endcomment %}
     <button
       class="header__hamburger"
       aria-label="{{ 'header.open_menu' | t }}"
@@ -75,7 +120,7 @@
     </div>
 
     {% comment %} Desktop nav — inline layout only (mega mode) {% endcomment %}
-    {%- if layout == 'logo_left_nav_inline' and menu_style == 'mega' -%}
+    {%- if desktop_layout == 'logo_left_nav_inline' and menu_style == 'mega' -%}
       <nav class="header__nav header__nav--inline" aria-label="{{ 'header.navigation' | t | default: 'Main navigation' }}">
         <ul class="header__nav-list" role="list">
           {%- for link in section.settings.menu.links -%}
@@ -155,7 +200,7 @@
   </div>
 
   {% comment %} Desktop nav — below logo layouts (mega mode only) {% endcomment %}
-  {%- if layout != 'logo_left_nav_inline' and menu_style == 'mega' -%}
+  {%- if desktop_layout != 'logo_left_nav_inline' and menu_style == 'mega' -%}
     <nav class="header__nav header__nav--below" aria-label="{{ 'header.navigation' | t | default: 'Main navigation' }}">
       <ul class="header__nav-list" role="list">
         {%- for link in section.settings.menu.links -%}
@@ -184,7 +229,18 @@
                       </li>
                     {%- endfor -%}
                   </ul>
-                  {%- render 'header-mega-images', link_title: link.title, blocks: section.blocks -%}
+                  {%- liquid
+                    assign mega_block = nil
+                    for block in section.blocks
+                      if block.type == 'mega_menu' and block.settings.menu_item == link.title
+                        assign mega_block = block
+                        break
+                      endif
+                    endfor
+                  -%}
+                  {%- if mega_block -%}
+                    {%- render 'header-mega-images', block: mega_block -%}
+                  {%- endif -%}
                 </div>
               </div>
             {%- endif -%}
@@ -195,33 +251,35 @@
   {%- endif -%}
 
   {% comment %} Search panel {% endcomment %}
-  <div class="header__search-panel" hidden>
-    <div class="header__search-inner">
-      <form action="{{ routes.search_url }}" method="get" role="search" class="header__search-form">
-        <label for="header-search-input" class="visually-hidden">{{ 'search.placeholder' | t }}</label>
-        <input
-          type="search"
-          id="header-search-input"
-          name="q"
-          class="header__search-input"
-          placeholder="{{ 'search.placeholder' | t }}"
-          autocomplete="off"
-          autocorrect="off"
-          autocapitalize="off"
-          spellcheck="false"
-        >
-        <button type="submit" class="header__search-submit" aria-label="{{ 'search.submit' | t }}">
-          {%- render 'icon', name: 'search' -%}
+  {%- if section.settings.show_search -%}
+    <div class="header__search-panel" hidden>
+      <div class="header__search-inner">
+        <form action="{{ routes.search_url }}" method="get" role="search" class="header__search-form">
+          <label for="header-search-input" class="visually-hidden">{{ 'search.placeholder' | t }}</label>
+          <input
+            type="search"
+            id="header-search-input"
+            name="q"
+            class="header__search-input"
+            placeholder="{{ 'search.placeholder' | t }}"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+            spellcheck="false"
+          >
+          <button type="submit" class="header__search-submit" aria-label="{{ 'search.submit' | t }}">
+            {%- render 'icon', name: 'search' -%}
+          </button>
+        </form>
+        <button class="header__search-close" aria-label="{{ 'header.close_search' | t }}">
+          {%- render 'icon', name: 'close' -%}
         </button>
-      </form>
-      <button class="header__search-close" aria-label="{{ 'header.close_search' | t }}">
-        {%- render 'icon', name: 'close' -%}
-      </button>
+      </div>
     </div>
-  </div>
+  {%- endif -%}
 </header-element>
 
-{% comment %} Mobile drawer {% endcomment %}
+{% comment %} Drawer — always present for mobile + drawer mode desktop {% endcomment %}
 <header-drawer>
   <div class="header__drawer" id="header-drawer" aria-label="{{ 'header.open_menu' | t }}">
     <div class="header__drawer-inner">
@@ -316,23 +374,39 @@
     },
     {
       "type": "select",
-      "id": "layout",
-      "label": "t:labels.layout",
+      "id": "desktop_layout",
+      "label": "t:header.desktop_layout",
       "options": [
         {
           "value": "logo_center_nav_below",
-          "label": "t:options.header_layout.logo_center_nav_below"
+          "label": "t:header.desktop_layout_center"
         },
         {
           "value": "logo_left_nav_inline",
-          "label": "t:options.header_layout.logo_left_nav_inline"
+          "label": "t:header.desktop_layout_inline"
         },
         {
           "value": "logo_left_nav_center",
-          "label": "t:options.header_layout.logo_left_nav_center"
+          "label": "t:header.desktop_layout_left_center"
         }
       ],
       "default": "logo_center_nav_below"
+    },
+    {
+      "type": "select",
+      "id": "mobile_layout",
+      "label": "t:header.mobile_layout",
+      "options": [
+        {
+          "value": "logo_center",
+          "label": "t:header.mobile_layout_center"
+        },
+        {
+          "value": "logo_left",
+          "label": "t:header.mobile_layout_left"
+        }
+      ],
+      "default": "logo_center"
     },
     {
       "type": "select",
@@ -392,7 +466,7 @@
     {
       "type": "checkbox",
       "id": "show_search",
-      "label": "t:labels.show_search",
+      "label": "t:header.show_search",
       "default": true
     },
     {

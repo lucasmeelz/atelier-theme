@@ -115,7 +115,15 @@
     "mega_menu_image_2": "Image 2",
     "mega_menu_image": "Image",
     "mega_menu_image_caption": "Caption",
-    "mega_menu_image_link": "Link"
+    "mega_menu_image_link": "Link",
+    "desktop_layout": "Desktop layout",
+    "desktop_layout_center": "Logo center, nav below",
+    "desktop_layout_inline": "Logo left, nav inline",
+    "desktop_layout_left_center": "Logo left, nav center below",
+    "mobile_layout": "Mobile layout",
+    "mobile_layout_center": "Logo center",
+    "mobile_layout_left": "Logo left",
+    "show_search": "Show search"
   },
   "options": {
     "alignment": {
