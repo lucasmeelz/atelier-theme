@@ -132,11 +132,20 @@ Color schemes :
 1. `shopify theme check` → 0 errors
 2. `npx playwright test` → 0 failures
 3. Invoquer `shopify-verifier` → validation schema + patterns Liquid
-4. Poster les URLs raw de tous les fichiers modifiés
-5. **STOP — attendre validation explicite**
-6. Seulement après "✅ validé" : `git commit + push`
+4. **RÈGLE DE TEST OBLIGATOIRE AVANT STOP :**
+   Claude Code doit tester chaque setting modifié via curl
+   ou Playwright sur http://127.0.0.1:9292 avant de poster
+   les URLs raw. Vérifier :
+   - 0 "translation missing" dans le HTML rendu
+   - Chaque setting configurable affiche un label lisible
+   - Les éléments conditionnels (images, blocs) s'affichent
+     quand activés dans settings_data.json
+   Ne jamais poster STOP sans avoir vérifié ces 3 points.
+5. Poster les URLs raw de tous les fichiers modifiés
+6. **STOP — attendre validation explicite**
+7. Seulement après "✅ validé" : `git commit + push`
 
-**NON-NÉGOCIABLE. Aucune section committée sans ces 6 étapes.**
+**NON-NÉGOCIABLE. Aucune section committée sans ces 7 étapes.**
 
 ### Convention commits
 ```
