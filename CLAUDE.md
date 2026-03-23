@@ -212,28 +212,17 @@ Claude Code doit generer un rapport textuel :
 
 ---
 
-## FIN DE TÂCHE — Claude Code fait UNIQUEMENT ces 4 choses
+## FIN DE TÂCHE — CHECKLIST OBLIGATOIRE (dans cet ordre)
 
-```bash
-# 1. Theme check
-shopify theme check
-# 0 errors. Si erreurs → corriger, ne pas avancer.
+1. Invoquer **shopify-verifier** → 0 errors
+2. Invoquer **animation-checker** sur les fichiers CSS/JS modifies
+3. Invoquer **qa-visual** sur la section → tourne jusqu'a 0 bug visuel
+   sur toutes les combinaisons de settings
+4. Poster URLs raw + rapport qa-visual
+5. STOP — attendre "valide" explicite
+6. Seulement apres validation : git commit + push
 
-# 2. Playwright
-npx playwright test
-# 0 failures. Si failures → corriger, ne pas avancer.
-
-# 3. Push
-git add -A
-git commit -m "feat(scope): description"
-git push origin feature/[nom-tâche]
-
-# 4. Poster dans claude.ai :
-"Tâche [ID] pushée — https://github.com/lucasmeelz/atelier-theme/tree/feature/[nom-tâche]"
-```
-
-**Claude Code s'arrête là. Il ne valide rien, ne coche rien.**
-La validation appartient à claude.ai (code review GitHub + preview URL).
+**NON-NEGOCIABLE. Aucune section committee sans ces 6 etapes.**
 
 ---
 
