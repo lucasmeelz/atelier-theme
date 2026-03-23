@@ -8,7 +8,6 @@
    ============================ */
 class HeaderElement extends HTMLElement {
   connectedCallback() {
-    this.sentinel = this.querySelector('.header__sentinel');
     this.searchTrigger = this.querySelector('.header__search-trigger');
     this.searchPanel = this.querySelector('.header__search-panel');
     this.searchClose = this.querySelector('.header__search-close');
@@ -19,8 +18,17 @@ class HeaderElement extends HTMLElement {
   }
 
   setupScrollObserver() {
-    if (!this.sentinel) return;
     if (this.dataset.transparent !== 'true' && this.dataset.sticky !== 'true') return;
+
+    /* Create sentinel after the section wrapper — outside the sticky container */
+    var section = this.closest('.shopify-section');
+    if (!section) return;
+
+    this.sentinel = document.createElement('div');
+    this.sentinel.className = 'header__sentinel';
+    this.sentinel.setAttribute('aria-hidden', 'true');
+    this.sentinel.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:1px;pointer-events:none;';
+    section.parentNode.insertBefore(this.sentinel, section.nextSibling);
 
     this.observer = new IntersectionObserver(
       (entries) => {
@@ -58,6 +66,7 @@ class HeaderElement extends HTMLElement {
 
   disconnectedCallback() {
     if (this.observer) this.observer.disconnect();
+    if (this.sentinel && this.sentinel.parentNode) this.sentinel.parentNode.removeChild(this.sentinel);
     if (this.searchTrigger && this._onSearchOpen) this.searchTrigger.removeEventListener('click', this._onSearchOpen);
     if (this.searchClose && this._onSearchClose) this.searchClose.removeEventListener('click', this._onSearchClose);
     if (this.searchPanel && this._onSearchKeydown) this.searchPanel.removeEventListener('keydown', this._onSearchKeydown);
