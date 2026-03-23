@@ -436,7 +436,7 @@
 .header__drawer-backdrop {
   position: fixed;
   inset: 0;
-  background-color: rgba(var(--color-overlay), var(--overlay-opacity));
+  background-color: rgba(0, 0, 0, 0.48);
   opacity: 0;
   pointer-events: none;
   transition: opacity var(--duration-base) var(--ease-dior);
