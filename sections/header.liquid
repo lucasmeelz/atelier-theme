@@ -1,5 +1,12 @@
 {{ 'section-header.css' | asset_url | stylesheet_tag }}
 
+{%- style -%}
+  html {
+    scroll-padding-top: 98px;
+    scroll-behavior: smooth;
+  }
+{%- endstyle -%}
+
 {%- liquid
   assign layout = section.settings.layout
   assign header_classes = 'header'
