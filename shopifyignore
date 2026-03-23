@@ -1,0 +1,10 @@
+CLAUDE.md
+SECTIONS-SPECS.md
+THEME-REQUIREMENTS.md
+PROJECT_STATE.md
+BACKLOG.md
+QA_CHECKLIST.md
+_qa/
+.claude/
+*.md
+node_modules/

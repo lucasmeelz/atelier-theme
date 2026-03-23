@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(shopify theme check:*)",
+      "Bash(shopify theme dev:*)",
+      "Bash(git *:*)",
+      "Bash(npx playwright*:*)",
+      "Bash(curl*:*)",
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "Bash(pwd:*)"
+    ]
+  }
+}
