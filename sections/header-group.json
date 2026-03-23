@@ -18,7 +18,7 @@
         "layout": "logo_left_nav_inline",
         "logo_width": 100,
         "sticky_header": true,
-        "transparent_header": true,
+        "transparent_header": false,
         "menu": "main-menu",
         "customer_account_menu": "customer-account-main-menu",
         "show_search": true,
