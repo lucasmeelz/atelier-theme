@@ -104,7 +104,18 @@
                         </li>
                       {%- endfor -%}
                     </ul>
-                    {%- render 'header-mega-images', link_title: link.title, blocks: section.blocks -%}
+                    {%- liquid
+                      assign mega_block = nil
+                      for block in section.blocks
+                        if block.type == 'mega_menu' and block.settings.menu_item == link.title
+                          assign mega_block = block
+                          break
+                        endif
+                      endfor
+                    -%}
+                    {%- if mega_block -%}
+                      {%- render 'header-mega-images', block: mega_block -%}
+                    {%- endif -%}
                   </div>
                 </div>
               {%- endif -%}

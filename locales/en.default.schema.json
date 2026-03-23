@@ -94,6 +94,20 @@
     "show_search": "Show search icon",
     "show_wishlist": "Show wishlist icon"
   },
+  "header": {
+    "menu_style": "Menu style",
+    "menu_style_drawer": "Drawer (Dior style)",
+    "menu_style_mega": "Mega menu",
+    "menu_style_info": "Drawer shows a side panel on click. Mega menu shows dropdowns on hover (desktop only).",
+    "mega_menu_block": "Mega menu item",
+    "mega_menu_item_title": "Menu item title",
+    "mega_menu_item_info": "Enter the exact title of a top-level menu item to attach images to its dropdown.",
+    "mega_menu_image_1": "Image 1",
+    "mega_menu_image_2": "Image 2",
+    "mega_menu_image": "Image",
+    "mega_menu_image_caption": "Caption",
+    "mega_menu_image_link": "Link"
+  },
   "options": {
     "alignment": {
       "left": "Left",
