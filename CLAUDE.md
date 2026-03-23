@@ -164,6 +164,54 @@ Toutes les autres sections H-04 a H-18
 
 ---
 
+## VALIDATION ANIMATIONS
+
+Apres chaque feature, verifier que les animations respectent
+ces principes avant commit.
+
+### Principes non-negociables
+- Easing : cubic-bezier(0.31, 0, 0.13, 1) — var(--ease-dior)
+- Durees : fast 200ms / base 350ms / slow 600ms
+- Aucune animation qui "rebondit" (pas de ease-bounce, pas de spring)
+- Aucune animation simultanee sur plus de 2 proprietes
+- Entree = toujours plus lente que sortie (open 350ms, close 200ms)
+- Opacite + transform uniquement — jamais width/height animes
+
+### Ce qu'on doit voir sur chaque interaction
+
+**Mega menu hover** :
+- L1 link : opacity 0.5 sur les liens non-survoles (350ms)
+- Dropdown : opacity 0→1 + translateY(-8px)→0 en 350ms
+- Fermeture : opacity 1→0 en 200ms, pas de translateY
+
+**Drawer open/close** :
+- Open : translateX(-100%)→0 en 350ms var(--ease-dior)
+- Close : translateX(0)→(-100%) en 200ms ease-in
+- Backdrop : opacity 0→0.4 en 350ms
+
+**Sticky header** :
+- Transition background : 350ms
+- Transition box-shadow : 350ms
+- Jamais de saut de layout au scroll
+
+**Hover icones** :
+- opacity 0.6 en 200ms — jamais de scale ni de color change brusque
+
+### Verification Playwright
+Creer un helper checkAnimations(page) qui :
+1. Verifie que --ease-dior est defini dans les CSS variables
+2. Verifie l'absence de `transition: all` dans les stylesheets
+3. Verifie que reduced-motion est respecte (.motion-auto uniquement)
+
+### Verification visuelle (humain)
+Screenshots ne suffisent pas pour les animations.
+Claude Code doit generer un rapport textuel :
+- Lister chaque animation implementee avec ses valeurs exactes
+- Signaler tout ecart avec les principes ci-dessus
+- STOP et attendre validation avant commit si ecart detecte
+
+---
+
 ## FIN DE TÂCHE — Claude Code fait UNIQUEMENT ces 4 choses
 
 ```bash
