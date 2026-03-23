@@ -39,7 +39,11 @@
     "cart_count": "Cart ({{ count }} items)",
     "wishlist": "Wishlist",
     "account": "Account",
-    "view_all_in": "View all {{ collection }}"
+    "view_all_in": "View all {{ collection }}",
+    "menu_style": "Menu style",
+    "menu_style_drawer": "Drawer (Dior style)",
+    "menu_style_mega": "Mega menu",
+    "menu_style_info": "Drawer shows a side panel on click. Mega menu shows dropdowns on hover (desktop only)."
   },
   "gift_card": {
     "add_to_apple_wallet": "Add to Apple Wallet",

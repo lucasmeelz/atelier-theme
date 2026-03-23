@@ -194,7 +194,7 @@
 }
 
 /* ============================
-   Hamburger — mobile only
+   Hamburger
    ============================ */
 
 .header__hamburger {
@@ -210,10 +210,25 @@
   cursor: pointer;
 }
 
+/* Mega mode: hide hamburger on desktop */
+.header--mega .header__hamburger {
+  display: flex;
+}
+
 @media screen and (min-width: 990px) {
-  .header__hamburger {
+  .header--mega .header__hamburger {
     display: none;
   }
+}
+
+/* Drawer mode: hamburger always visible */
+.header--drawer .header__hamburger {
+  display: flex;
+}
+
+/* Drawer mode: hide desktop nav */
+.header--drawer .header__nav {
+  display: none !important;
 }
 
 /* ============================
@@ -565,6 +580,54 @@
 }
 
 /* ============================
+   Drawer mode — Dior style
+   ============================ */
+
+/* Desktop drawer width */
+@media screen and (min-width: 990px) {
+  .header--drawer ~ header-drawer .header__drawer {
+    width: 360px;
+  }
+
+  /* Keep drawer and backdrop visible on desktop in drawer mode */
+  .header--drawer ~ header-drawer .header__drawer,
+  .header--drawer ~ header-drawer .header__drawer-backdrop {
+    display: block;
+  }
+}
+
+/* Mobile drawer width override for drawer mode */
+.header--drawer ~ header-drawer .header__drawer {
+  width: min(440px, 85vw);
+}
+
+/* Drawer mode — L1 links: heading font, 18px, uppercase, weight 300 */
+.header--drawer ~ header-drawer .header__drawer-summary,
+.header--drawer ~ header-drawer .header__drawer-item > .header__drawer-link {
+  font-family: var(--font-heading--family);
+  font-size: 1.125rem;
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* Drawer mode — L2/L3: body font, 14px, normal case */
+.header--drawer ~ header-drawer .header__drawer-summary--nested,
+.header--drawer ~ header-drawer .header__drawer-sublist .header__drawer-link {
+  font-family: var(--font-body--family);
+  font-size: 0.875rem;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+/* Drawer mode — backdrop blur */
+.header--drawer ~ header-drawer .header__drawer-backdrop {
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+/* ============================
    Utilities
    ============================ */
 
@@ -580,9 +643,10 @@
   border: 0;
 }
 
+/* Mega mode: hide drawer on desktop */
 @media screen and (min-width: 990px) {
-  .header__drawer,
-  .header__drawer-backdrop {
+  .header--mega ~ header-drawer .header__drawer,
+  .header--mega ~ header-drawer .header__drawer-backdrop {
     display: none;
   }
 }

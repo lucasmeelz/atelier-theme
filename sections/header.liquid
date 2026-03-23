@@ -9,8 +9,10 @@
 
 {%- liquid
   assign layout = section.settings.layout
+  assign menu_style = section.settings.menu_style
   assign header_classes = 'header'
   assign header_classes = header_classes | append: ' header--' | append: layout
+  assign header_classes = header_classes | append: ' header--' | append: menu_style
 
   if section.settings.sticky_header
     assign header_classes = header_classes | append: ' header--sticky'
@@ -24,6 +26,7 @@
 <header-element
   class="{{ header_classes }} color-{{ section.settings.color_scheme }}"
   data-layout="{{ layout }}"
+  data-menu-style="{{ menu_style }}"
   data-sticky="{{ section.settings.sticky_header }}"
   data-transparent="{{ section.settings.transparent_header }}"
 >
@@ -71,8 +74,8 @@
       </a>
     </div>
 
-    {% comment %} Desktop nav — inline layout only {% endcomment %}
-    {%- if layout == 'logo_left_nav_inline' -%}
+    {% comment %} Desktop nav — inline layout only (mega mode) {% endcomment %}
+    {%- if layout == 'logo_left_nav_inline' and menu_style == 'mega' -%}
       <nav class="header__nav header__nav--inline" aria-label="{{ 'header.navigation' | t | default: 'Main navigation' }}">
         <ul class="header__nav-list" role="list">
           {%- for link in section.settings.menu.links -%}
@@ -137,8 +140,8 @@
     </div>
   </div>
 
-  {% comment %} Desktop nav — below logo layouts {% endcomment %}
-  {%- if layout != 'logo_left_nav_inline' -%}
+  {% comment %} Desktop nav — below logo layouts (mega mode only) {% endcomment %}
+  {%- if layout != 'logo_left_nav_inline' and menu_style == 'mega' -%}
     <nav class="header__nav header__nav--below" aria-label="{{ 'header.navigation' | t | default: 'Main navigation' }}">
       <ul class="header__nav-list" role="list">
         {%- for link in section.settings.menu.links -%}
@@ -299,6 +302,17 @@
         }
       ],
       "default": "logo_center_nav_below"
+    },
+    {
+      "type": "select",
+      "id": "menu_style",
+      "label": "t:header.menu_style",
+      "options": [
+        { "value": "drawer", "label": "t:header.menu_style_drawer" },
+        { "value": "mega", "label": "t:header.menu_style_mega" }
+      ],
+      "default": "drawer",
+      "info": "t:header.menu_style_info"
     },
     {
       "type": "image_picker",
