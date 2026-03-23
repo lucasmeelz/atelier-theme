@@ -13,10 +13,20 @@
   "sections": {
     "header": {
       "type": "header",
-      "settings": {}
+      "settings": {
+        "color_scheme": "scheme-2",
+        "layout": "logo_left_nav_inline",
+        "logo_width": 100,
+        "sticky_header": true,
+        "transparent_header": true,
+        "menu": "main-menu",
+        "customer_account_menu": "customer-account-main-menu",
+        "show_search": true,
+        "show_wishlist": true
+      }
     }
   },
   "order": [
     "header"
-  ],
+  ]
 }
