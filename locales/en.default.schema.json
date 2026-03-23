@@ -23,6 +23,7 @@
     "password": "Password",
     "primary": "Primary",
     "product": "Product",
+    "product_cards": "Product cards",
     "row": "Row",
     "search": "Search",
     "secondary": "Secondary",
@@ -31,12 +32,31 @@
     "sidebar": "Sidebar",
     "text": "Text",
     "theme": "Theme",
-    "typography": "Typography"
+    "typography": "Typography",
+    "animations": "Animations",
+    "cursor": "Cursor",
+    "social_media": "Social media",
+    "favicon": "Favicon"
   },
   "labels": {
     "alignment": "Alignment",
     "background": "Background",
+    "background_gradient": "Background gradient",
+    "background_gradient_info": "Overrides the background color when set.",
     "foreground": "Foreground",
+    "text": "Text",
+    "text_colors": "Text colors",
+    "text_subdued": "Subdued text",
+    "buttons": "Buttons",
+    "button_bg": "Button background",
+    "button_text": "Button text",
+    "button_outline_text": "Outline button text",
+    "other_colors": "Other colors",
+    "accent_color": "Accent",
+    "border_color": "Border",
+    "link_color": "Link",
+    "heading_font": "Heading font",
+    "body_font": "Body font",
     "grid_gap": "Grid spacing",
     "grid_item_width": "Grid item width",
     "input_corner_radius": "Input corner radius",
@@ -46,9 +66,24 @@
     "padding": "Padding",
     "page_margin": "Page margin",
     "page_width": "Page width",
+    "section_padding_mobile": "Section padding (mobile)",
+    "section_padding_desktop": "Section padding (desktop)",
     "show_payment_icons": "Show payment icons",
     "text_style": "Text style",
-    "text": "Text"
+    "cart_type": "Cart type",
+    "page_transition": "Page transition",
+    "page_transition_info": "Transition effect between page navigations.",
+    "scroll_animations": "Scroll animations",
+    "animation_threshold": "Animation trigger point",
+    "animation_threshold_info": "Percentage of element visible before animation triggers.",
+    "cursor_style": "Cursor style",
+    "cursor_color": "Cursor color",
+    "card_hover_effect": "Card hover effect",
+    "card_border_radius": "Card corner radius",
+    "quick_add_style": "Quick add style",
+    "social_accounts": "Social accounts",
+    "favicon": "Favicon",
+    "favicon_info": "32×32px .png recommended."
   },
   "options": {
     "alignment": {
@@ -73,5 +108,35 @@
       "subtitle": "Subtitle",
       "normal": "Normal text"
     },
+    "cart_type": {
+      "drawer": "Drawer",
+      "page": "Page"
+    },
+    "page_transition": {
+      "none": "None",
+      "fade": "Fade",
+      "slide_up": "Slide up"
+    },
+    "scroll_animations": {
+      "none": "None",
+      "fade_up": "Fade up",
+      "fade_in": "Fade in"
+    },
+    "cursor_style": {
+      "default": "Default",
+      "dot": "Dot",
+      "circle": "Circle"
+    },
+    "card_hover_effect": {
+      "none": "None",
+      "image_swap": "Image swap",
+      "scale": "Scale",
+      "overlay": "Overlay"
+    },
+    "quick_add_style": {
+      "none": "None",
+      "icon": "Icon only",
+      "button": "Button"
+    }
   }
 }

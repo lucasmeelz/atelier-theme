@@ -7,15 +7,24 @@
     {% comment %}
       Font preloading:
       1. Preconnect to font CDN for faster connection
-      2. Preload only the critical font variant (base weight)
+      2. Preload critical font variants (heading + body base weights)
       3. Additional variants load on-demand via @font-face
     {% endcomment %}
-    {% unless settings.type_primary_font.system? %}
+    {% unless settings.type_heading_font.system? %}
       <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
-
-      {% comment %} Preload the base font variant for initial page render {% endcomment %}
-      {{ settings.type_primary_font | font_url | preload_tag: as: 'font', crossorigin: 'anonymous' }}
+      {{ settings.type_heading_font | font_url | preload_tag: as: 'font', crossorigin: 'anonymous' }}
     {% endunless %}
+    {% unless settings.type_body_font.system? %}
+      {% if settings.type_heading_font.system? %}
+        <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+      {% endif %}
+      {{ settings.type_body_font | font_url | preload_tag: as: 'font', crossorigin: 'anonymous' }}
+    {% endunless %}
+
+    {% # Favicon %}
+    {% if settings.favicon %}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {% endif %}
 
     {% # Load and preload the critical CSS %}
     {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
@@ -26,11 +35,73 @@
     {{ content_for_header }}
   </head>
 
-  <body>
+  <body
+    data-scroll-animation="{{ settings.scroll_animations }}"
+    data-animation-threshold="{{ settings.animation_threshold }}"
+    data-page-transition="{{ settings.page_transition }}"
+    data-cursor-style="{{ settings.cursor_style }}"
+  >
     {% sections 'header-group' %}
 
     {{ content_for_layout }}
 
     {% sections 'footer-group' %}
+
+    {% comment %} Custom cursor elements {% endcomment %}
+    {% if settings.cursor_style != 'default' %}
+      <div class="cursor-{{ settings.cursor_style }}" aria-hidden="true"></div>
+      {% if settings.cursor_style == 'circle' %}
+        <div class="cursor-dot" aria-hidden="true"></div>
+      {% endif %}
+
+      <script>
+        (function() {
+          var cursor = document.querySelector('.cursor-{{ settings.cursor_style }}');
+          var dot = document.querySelector('.cursor-dot');
+          var cx = 0, cy = 0, dx = 0, dy = 0;
+
+          document.addEventListener('mousemove', function(e) {
+            cx = e.clientX;
+            cy = e.clientY;
+          });
+
+          function render() {
+            {% if settings.cursor_style == 'circle' %}
+              dx += (cx - dx) * 0.15;
+              dy += (cy - dy) * 0.15;
+              cursor.style.transform = 'translate(' + (dx - 18) + 'px, ' + (dy - 18) + 'px)';
+              if (dot) dot.style.transform = 'translate(' + (cx - 4) + 'px, ' + (cy - 4) + 'px)';
+            {% else %}
+              cursor.style.transform = 'translate(' + (cx - 4) + 'px, ' + (cy - 4) + 'px)';
+            {% endif %}
+            requestAnimationFrame(render);
+          }
+
+          document.body.classList.add('cursor-ready');
+          requestAnimationFrame(render);
+        })();
+      </script>
+    {% endif %}
+
+    {% comment %} Scroll animations {% endcomment %}
+    {% if settings.scroll_animations != 'none' %}
+      <script>
+        (function() {
+          var threshold = {{ settings.animation_threshold }} / 100;
+          var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+              }
+            });
+          }, { threshold: threshold });
+
+          document.querySelectorAll('.animate-on-scroll').forEach(function(el) {
+            observer.observe(el);
+          });
+        })();
+      </script>
+    {% endif %}
   </body>
 </html>

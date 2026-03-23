@@ -35,13 +35,13 @@ select {
 }
 
 select {
-  background-color: var(--color-background);
+  background-color: rgb(var(--color-background));
   color: currentcolor;
 }
 
 dialog {
-  background-color: var(--color-background);
-  color: var(--color-foreground);
+  background-color: rgb(var(--color-background));
+  color: rgb(var(--color-text));
 }
 
 p {
@@ -73,9 +73,145 @@ p:empty {
 
 /** Theme styles below */
 body {
-  font-family: var(--font-primary--family);
-  background-color: var(--color-background);
-  color: var(--color-foreground);
+  font-family: var(--font-body--family);
+  font-style: var(--font-body--style);
+  font-weight: var(--font-body--weight);
+  background-color: rgb(var(--color-background));
+  color: rgb(var(--color-text));
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/** Typography scale */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading--family);
+  font-style: var(--font-heading--style);
+  font-weight: var(--font-heading--weight);
+  line-height: 1.15;
+  color: rgb(var(--color-text));
+}
+
+h1 { font-size: clamp(2rem, 5vw, 3.5rem); }
+h2 { font-size: clamp(1.75rem, 4vw, 2.75rem); }
+h3 { font-size: clamp(1.5rem, 3vw, 2rem); }
+h4 { font-size: clamp(1.25rem, 2.5vw, 1.5rem); }
+h5 { font-size: 1.125rem; }
+h6 { font-size: 1rem; }
+
+a {
+  color: rgb(var(--color-link));
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  transition: opacity var(--duration-fast) var(--ease-dior);
+}
+
+@media (hover: hover) {
+  a:hover {
+    opacity: 0.75;
+  }
+}
+
+/** Color scheme utility classes */
+[class*="color-"] {
+  background-color: rgb(var(--color-background));
+  color: rgb(var(--color-text));
+}
+
+/** Section padding utility */
+.section-padding {
+  padding-block: var(--section-padding-mobile);
+}
+
+@media screen and (min-width: 750px) {
+  .section-padding {
+    padding-block: var(--section-padding-desktop);
+  }
+}
+
+/** Reduced-motion — scoped to autonomous animations only */
+@media (prefers-reduced-motion: reduce) {
+  .motion-auto {
+    animation: none !important;
+  }
+}
+
+/** Scroll animation base states */
+.animate-on-scroll {
+  opacity: 0;
+  transition: opacity var(--duration-slow) var(--ease-dior),
+              transform var(--duration-slow) var(--ease-dior);
+}
+
+.animate-on-scroll[data-animation="fade-up"] {
+  transform: translateY(30px);
+}
+
+.animate-on-scroll[data-animation="fade-in"] {
+  transform: none;
+}
+
+.animate-on-scroll.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-on-scroll {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/** Custom cursor */
+.cursor-dot,
+.cursor-circle {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity var(--duration-fast) var(--ease-dior);
+}
+
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--cursor-color);
+}
+
+.cursor-circle {
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--cursor-color);
+}
+
+body.cursor-ready .cursor-dot,
+body.cursor-ready .cursor-circle {
+  opacity: 1;
+}
+
+/** Page transitions */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root) {
+  animation: var(--duration-base) var(--ease-dior) both page-fade-out;
+}
+
+::view-transition-new(root) {
+  animation: var(--duration-base) var(--ease-dior) both page-fade-in;
+}
+
+@keyframes page-fade-out {
+  to { opacity: 0; }
+}
+
+@keyframes page-fade-in {
+  from { opacity: 0; }
 }
 
 /** Section layout utilities */

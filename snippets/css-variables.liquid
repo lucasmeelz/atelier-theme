@@ -1,18 +1,75 @@
 {% style %}
-  {% # Loads all font variantions with display: swap %}
-  {{ settings.type_primary_font | font_face: font_display: 'swap' }}
-  {{ settings.type_primary_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
-  {{ settings.type_primary_font | font_modify: 'weight', 'bold' | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
-  {{ settings.type_primary_font | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
+  {% comment %} Heading font — all variants {% endcomment %}
+  {{ settings.type_heading_font | font_face: font_display: 'swap' }}
+  {{ settings.type_heading_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
+  {{ settings.type_heading_font | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
+  {{ settings.type_heading_font | font_modify: 'weight', 'bold' | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
+
+  {% comment %} Body font — all variants {% endcomment %}
+  {{ settings.type_body_font | font_face: font_display: 'swap' }}
+  {{ settings.type_body_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
+  {{ settings.type_body_font | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
+  {{ settings.type_body_font | font_modify: 'weight', 'bold' | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
 
   :root {
-    --font-primary--family: {{ settings.type_primary_font.family }}, {{ settings.type_primary_font.fallback_families }};
-    --font-primary--style: {{ settings.type_primary_font.style }};
-    --font-primary--weight: {{ settings.type_primary_font.weight }};
-    --page-width: {{ settings.max_page_width }};
+    /* Fonts — heading */
+    --font-heading--family: {{ settings.type_heading_font.family }}, {{ settings.type_heading_font.fallback_families }};
+    --font-heading--style: {{ settings.type_heading_font.style }};
+    --font-heading--weight: {{ settings.type_heading_font.weight }};
+
+    /* Fonts — body */
+    --font-body--family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+    --font-body--style: {{ settings.type_body_font.style }};
+    --font-body--weight: {{ settings.type_body_font.weight }};
+
+    /* Layout */
+    --page-width: {{ settings.max_page_width }}px;
     --page-margin: {{ settings.min_page_margin }}px;
-    --color-background: {{ settings.background_color }};
-    --color-foreground: {{ settings.foreground_color }};
+    --container-max: {{ settings.max_page_width }}px;
+    --section-padding-mobile: {{ settings.section_padding_mobile }}px;
+    --section-padding-desktop: {{ settings.section_padding_desktop }}px;
+
+    /* Easing & durations */
+    --ease-dior: cubic-bezier(0.31, 0, 0.13, 1);
+    --duration-fast: 200ms;
+    --duration-base: 350ms;
+    --duration-slow: 600ms;
+
+    /* Inputs */
     --style-border-radius-inputs: {{ settings.input_corner_radius }}px;
+
+    /* Product cards */
+    --card-border-radius: {{ settings.card_border_radius }}px;
+
+    /* Cursor */
+    --cursor-color: {{ settings.cursor_color }};
   }
+
+  {% comment %} Color schemes — OS 2.0 color_scheme_group {% endcomment %}
+  {% for scheme in settings.color_schemes %}
+    {% liquid
+      assign scheme_bg = scheme.settings.background
+      assign scheme_bg_gradient = scheme_bg
+      if scheme.settings.background_gradient != blank
+        assign scheme_bg_gradient = scheme.settings.background_gradient
+      endif
+    %}
+
+    {% if forloop.index == 1 %}
+      :root,
+    {% endif %}
+    .color-{{ scheme.id }} {
+      --color-background: {{ scheme_bg.red }}, {{ scheme_bg.green }}, {{ scheme_bg.blue }};
+      --gradient-background: {{ scheme_bg_gradient }};
+      --color-text: {{ scheme.settings.text.red }}, {{ scheme.settings.text.green }}, {{ scheme.settings.text.blue }};
+      --color-text-subdued: {{ scheme.settings.text_subdued.red }}, {{ scheme.settings.text_subdued.green }}, {{ scheme.settings.text_subdued.blue }};
+      --color-accent: {{ scheme.settings.accent.red }}, {{ scheme.settings.accent.green }}, {{ scheme.settings.accent.blue }};
+      --color-border: {{ scheme.settings.border.red }}, {{ scheme.settings.border.green }}, {{ scheme.settings.border.blue }};
+      --color-link: {{ scheme.settings.link.red }}, {{ scheme.settings.link.green }}, {{ scheme.settings.link.blue }};
+      --color-button-bg: {{ scheme.settings.button_bg.red }}, {{ scheme.settings.button_bg.green }}, {{ scheme.settings.button_bg.blue }};
+      --color-button-text: {{ scheme.settings.button_text.red }}, {{ scheme.settings.button_text.green }}, {{ scheme.settings.button_text.blue }};
+      --color-button-outline-text: {{ scheme.settings.button_outline_text.red }}, {{ scheme.settings.button_outline_text.green }}, {{ scheme.settings.button_outline_text.blue }};
+      --color-foreground: {{ scheme.settings.text.red }}, {{ scheme.settings.text.green }}, {{ scheme.settings.text.blue }};
+    }
+  {% endfor %}
 {% endstyle %}
