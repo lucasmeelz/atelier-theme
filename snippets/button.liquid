@@ -1,0 +1,47 @@
+{% comment %}
+  Button component — Atelier theme
+  Params:
+    label       {String}  Button text (required)
+    url         {String}  Link URL (for type 'a')
+    style       {String}  filled | outline | text-link (default: filled)
+    type        {String}  a | button | submit (default: a)
+    class       {String}  Additional CSS classes
+    aria_label  {String}  Accessible label override
+{% endcomment %}
+
+{%- liquid
+  assign btn_style = style | default: 'filled'
+  assign btn_type = type | default: 'a'
+  assign btn_class = 'btn btn--' | append: btn_style
+  if class != blank
+    assign btn_class = btn_class | append: ' ' | append: class
+  endif
+-%}
+
+{%- if btn_type == 'a' -%}
+  <a
+    {% if url != blank %}href="{{ url | escape }}"{% endif %}
+    class="{{ btn_class }}"
+    {% if aria_label != blank %}aria-label="{{ aria_label }}"{% endif %}
+  >
+    {%- if btn_style == 'text-link' -%}
+      <span class="btn__label">{{ label }}</span>
+    {%- else -%}
+      <span class="btn__label">{{ label }}</span>
+      <span class="btn__bg" aria-hidden="true"></span>
+    {%- endif -%}
+  </a>
+{%- else -%}
+  <button
+    {% if btn_type == 'submit' %}type="submit"{% else %}type="button"{% endif %}
+    class="{{ btn_class }}"
+    {% if aria_label != blank %}aria-label="{{ aria_label }}"{% endif %}
+  >
+    {%- if btn_style == 'text-link' -%}
+      <span class="btn__label">{{ label }}</span>
+    {%- else -%}
+      <span class="btn__label">{{ label }}</span>
+      <span class="btn__bg" aria-hidden="true"></span>
+    {%- endif -%}
+  </button>
+{%- endif -%}
