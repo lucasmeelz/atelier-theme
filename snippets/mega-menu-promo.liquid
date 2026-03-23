@@ -1,0 +1,62 @@
+{% comment %}
+  Mega menu promo cards — Atelier theme
+  Renders up to 4 promo image/product cards inside the mega menu.
+  Params:
+    block {Block}  The mega_menu block with promo settings
+{% endcomment %}
+
+{%- assign promo_count = 0 -%}
+
+{%- capture promo_cards -%}
+  {%- for i in (1..4) -%}
+    {%- liquid
+      assign img_key = 'promo_' | append: i | append: '_image'
+      assign heading_key = 'promo_' | append: i | append: '_heading'
+      assign link_key = 'promo_' | append: i | append: '_link'
+
+      assign promo_image = block.settings[img_key]
+      assign promo_heading = block.settings[heading_key]
+      assign promo_link = block.settings[link_key]
+    -%}
+
+    {%- if promo_image != blank or promo_heading != blank -%}
+      {%- assign promo_count = promo_count | plus: 1 -%}
+
+      {%- if promo_link != blank -%}
+        <a href="{{ promo_link }}" class="mega-menu-promo__card">
+      {%- else -%}
+        <div class="mega-menu-promo__card">
+      {%- endif -%}
+
+        {%- if promo_image != blank -%}
+          {%- assign promo_focal = promo_image.presentation.focal_point -%}
+          {%- assign promo_style = 'object-position: ' | append: promo_focal -%}
+          <div class="mega-menu-promo__image-wrap">
+            {{ promo_image | image_url: width: 600 | image_tag:
+              widths: '300, 400, 600',
+              sizes: '280px',
+              loading: 'lazy',
+              class: 'mega-menu-promo__image',
+              style: promo_style
+            }}
+          </div>
+        {%- endif -%}
+
+        {%- if promo_heading != blank -%}
+          <p class="mega-menu-promo__caption">{{ promo_heading | escape }}</p>
+        {%- endif -%}
+
+      {%- if promo_link != blank -%}
+        </a>
+      {%- else -%}
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- if promo_count > 0 -%}
+  <div class="mega-menu-promo" style="--promo-count: {{ promo_count }}">
+    {{ promo_cards }}
+  </div>
+{%- endif -%}

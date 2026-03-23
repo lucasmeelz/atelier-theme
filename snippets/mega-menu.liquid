@@ -1,0 +1,51 @@
+{% comment %}
+  Mega menu dropdown — Atelier theme (inspired by Stretch/Theme-example-2)
+  Params:
+    link         {Link}   The L1 menu link
+    block        {Block}  The mega_menu block with promo settings
+    color_scheme {String} Color scheme ID
+    id           {String} Unique ID for this dropdown
+{% endcomment %}
+
+<div
+  class="mega-menu color-{{ color_scheme }}"
+  id="{{ id }}"
+  role="dialog"
+  aria-label="{{ link.title | escape }}"
+>
+  {%- if link.links.size > 0 -%}
+    <div class="mega-menu__navigation">
+      {%- if link.levels == 1 -%}
+        {% comment %} Single level — simple list {% endcomment %}
+        <ul class="mega-menu__linklist" role="list">
+          {%- for sub_link in link.links -%}
+            <li>
+              <a href="{{ sub_link.url }}" class="mega-menu__link">{{ sub_link.title | escape }}</a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- else -%}
+        {% comment %} Multi level — grouped columns {% endcomment %}
+        {%- for sub_link in link.links -%}
+          <div class="mega-menu__column">
+            <a href="{{ sub_link.url }}" class="mega-menu__heading">{{ sub_link.title | escape }}</a>
+            {%- if sub_link.links.size > 0 -%}
+              <ul class="mega-menu__linklist" role="list">
+                {%- for sub_sub_link in sub_link.links -%}
+                  <li>
+                    <a href="{{ sub_sub_link.url }}" class="mega-menu__link">{{ sub_sub_link.title | escape }}</a>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  {% comment %} Promo cards {% endcomment %}
+  {%- if block != blank -%}
+    {%- render 'mega-menu-promo', block: block -%}
+  {%- endif -%}
+</div>

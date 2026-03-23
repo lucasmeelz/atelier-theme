@@ -15,6 +15,7 @@ class HeaderElement extends HTMLElement {
 
     this.setupScrollObserver();
     this.setupSearch();
+    this.setupDesktopNav();
   }
 
   setupScrollObserver() {
@@ -37,6 +38,67 @@ class HeaderElement extends HTMLElement {
 
     /* Initial check */
     this._onScroll();
+  }
+
+  setupDesktopNav() {
+    var navItems = this.querySelectorAll('.header__nav-item--has-dropdown');
+    if (navItems.length === 0) return;
+
+    navItems.forEach(function(item) {
+      var link = item.querySelector('[aria-controls]');
+      if (!link) return;
+
+      var targetId = link.getAttribute('aria-controls');
+      var dropdown = item.querySelector('#' + targetId) || item.querySelector('.header__dropdown') || item.querySelector('.mega-menu');
+      if (!dropdown) return;
+
+      /* Hover behavior */
+      if (link.hasAttribute('data-hover-open')) {
+        var hideTimeout = null;
+
+        var showDropdown = function() {
+          clearTimeout(hideTimeout);
+          link.setAttribute('aria-expanded', 'true');
+        };
+
+        var hideDropdown = function() {
+          hideTimeout = setTimeout(function() {
+            link.setAttribute('aria-expanded', 'false');
+          }, 150);
+        };
+
+        item.addEventListener('pointerenter', function(e) {
+          if (window.matchMedia('(pointer: fine)').matches) {
+            showDropdown();
+          }
+        });
+
+        item.addEventListener('pointerleave', function() {
+          hideDropdown();
+        });
+      }
+
+      /* Click behavior (fallback or when configured) */
+      link.addEventListener('click', function(e) {
+        if (link.hasAttribute('data-hover-open') && window.matchMedia('(pointer: fine)').matches) {
+          /* On desktop with hover, click navigates */
+          return;
+        }
+        e.preventDefault();
+        var isOpen = link.getAttribute('aria-expanded') === 'true';
+        link.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+      });
+    });
+
+    /* Close all dropdowns when clicking outside */
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.header__nav-item--has-dropdown')) {
+        navItems.forEach(function(item) {
+          var link = item.querySelector('[aria-controls]');
+          if (link) link.setAttribute('aria-expanded', 'false');
+        });
+      }
+    });
   }
 
   setupSearch() {

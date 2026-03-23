@@ -1,0 +1,77 @@
+{% comment %}
+  Desktop navigation — shared between inline and below layouts.
+  Renders standard dropdowns or mega menus based on blocks.
+  Params:
+    menu          {Linklist}  The navigation menu
+    blocks        {Array}     section.blocks
+    color_scheme  {String}    Color scheme ID
+    open_trigger  {String}    'hover' or 'click'
+{% endcomment %}
+
+<ul class="header__nav-list" role="list">
+  {%- for link in menu.links -%}
+    {%- liquid
+      assign has_dropdown = false
+      assign has_mega = false
+      assign mega_block = nil
+      assign menu_id = 'header-menu-' | append: link.title | handle | append: '-' | append: forloop.index
+
+      if link.links.size > 0
+        assign has_dropdown = true
+      endif
+
+      assign link_title_downcase = link.title | strip | downcase
+      for block in blocks
+        assign block_title_downcase = block.settings.menu_item | strip | downcase
+        if block.type == 'mega_menu' and block_title_downcase == link_title_downcase
+          assign mega_block = block
+          assign has_mega = true
+          assign has_dropdown = true
+          break
+        endif
+      endfor
+    -%}
+
+    <li class="header__nav-item{% if has_dropdown %} header__nav-item--has-dropdown{% endif %}">
+      <a
+        href="{{ link.url }}"
+        class="header__nav-link"
+        {% if link.current %}aria-current="page"{% endif %}
+        {% if has_dropdown %}
+          aria-expanded="false"
+          aria-controls="{{ menu_id }}"
+          {% if open_trigger == 'hover' %}data-hover-open{% endif %}
+        {% endif %}
+      >
+        {{ link.title | escape }}
+      </a>
+
+      {%- if has_dropdown -%}
+        {%- if has_mega -%}
+          {% comment %} Mega menu with promo cards {% endcomment %}
+          {%- render 'mega-menu', link: link, block: mega_block, color_scheme: color_scheme, id: menu_id -%}
+        {%- else -%}
+          {% comment %} Standard dropdown {% endcomment %}
+          <div class="header__dropdown" id="{{ menu_id }}">
+            <div class="header__dropdown-content">
+              <ul class="header__dropdown-list" role="list">
+                {%- for child_link in link.links -%}
+                  <li class="header__dropdown-item">
+                    <a href="{{ child_link.url }}" class="header__dropdown-link">{{ child_link.title | escape }}</a>
+                    {%- if child_link.links.size > 0 -%}
+                      <ul class="header__dropdown-sublist" role="list">
+                        {%- for grandchild_link in child_link.links -%}
+                          <li><a href="{{ grandchild_link.url }}" class="header__dropdown-link">{{ grandchild_link.title | escape }}</a></li>
+                        {%- endfor -%}
+                      </ul>
+                    {%- endif -%}
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endif -%}
+    </li>
+  {%- endfor -%}
+</ul>
