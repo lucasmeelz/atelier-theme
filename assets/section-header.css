@@ -966,7 +966,7 @@
 
 /* Editorial image in drawer */
 .header-drawer__editorial {
-  margin: 24px 20px;
+  margin: 24px 16px;
   position: relative;
   border-radius: var(--card-border-radius);
   overflow: hidden;
