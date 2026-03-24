@@ -357,9 +357,9 @@
   pointer-events: none;
 }
 
-.header__dropdown.is-open {
-  opacity: 1;
-  visibility: visible;
+.header__dropdown[data-menu-panel].is-open {
+  opacity: 1 !important;
+  visibility: visible !important;
   transform: translateY(0);
   pointer-events: auto;
 }
@@ -540,9 +540,9 @@
   pointer-events: none;
 }
 
-.header__search-panel.is-open {
-  opacity: 1;
-  visibility: visible;
+.header__search-panel[data-search-panel].is-open {
+  opacity: 1 !important;
+  visibility: visible !important;
   transform: translateY(0);
   pointer-events: auto;
 }
