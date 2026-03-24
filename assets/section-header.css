@@ -45,9 +45,11 @@
   width: 100%;
 }
 
-.header--sticky {
+/* Sticky must be on the shopify-section wrapper, not the custom element */
+.shopify-section-header {
   position: sticky;
   top: 0;
+  z-index: 100;
 }
 
 .header--hide-on-scroll {
