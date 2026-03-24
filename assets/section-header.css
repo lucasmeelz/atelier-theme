@@ -814,11 +814,22 @@
 .header-drawer__level--3 {
   transform: translateX(100%);
   transition: transform var(--duration-base) var(--ease-ecrin);
+  background-color: rgb(var(--color-background, 255, 255, 255));
+  z-index: 2;
+}
+
+.header-drawer__level--3 {
+  z-index: 3;
 }
 
 .header-drawer__level--2.is-open,
 .header-drawer__level--3.is-open {
   transform: translateX(0);
+}
+
+/* When level 3 is open, shift level 2 left so text doesn't bleed through */
+.header-drawer__level--2.is-shifted {
+  transform: translateX(-33%);
 }
 
 /* Navigation items */
