@@ -219,6 +219,7 @@
 
 .header__icon svg {
   stroke-width: var(--icon-stroke-width);
+  pointer-events: none;
 }
 
 /* Cart count badge */
@@ -325,8 +326,9 @@
   z-index: 99;
   max-height: calc(80vh - var(--header-height, 72px));
   overflow-y: auto;
-  background-color: rgb(var(--color-background));
+  background-color: var(--color-background-hex, #fff);
   color: rgb(var(--color-text));
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
   opacity: 0;
   visibility: hidden;
   transform: translateY(-6px);
@@ -497,12 +499,13 @@
 /* ===== SEARCH PANEL ===== */
 
 .header__search-panel {
-  position: absolute;
-  top: 100%;
+  position: fixed;
+  top: var(--header-height, 72px);
   left: 0;
   right: 0;
   z-index: 99;
-  background-color: rgb(var(--color-background));
+  background-color: var(--color-background-hex, #fff);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
   padding: 24px 0;
   border-top: 1px solid rgb(var(--color-border));
   opacity: 0;
@@ -544,8 +547,11 @@
   border-color: rgb(var(--color-text));
 }
 
-.predictive-search__input-wrapper .icon {
+.predictive-search__input-wrapper .icon,
+.predictive-search__input-wrapper svg {
   flex-shrink: 0;
+  width: 18px;
+  height: 18px;
   color: rgb(var(--color-text-subdued));
 }
 
