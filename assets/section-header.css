@@ -738,8 +738,8 @@
   left: 0;
   bottom: 0;
   width: min(85vw, 440px);
-  background-color: rgb(var(--color-background));
-  color: rgb(var(--color-text));
+  background-color: rgb(var(--color-background, 255, 255, 255));
+  color: rgb(var(--color-text, 10, 10, 10));
   transform: translateX(-100%);
   transition: transform var(--duration-slow) var(--ease-ecrin);
   overflow: hidden;
@@ -843,8 +843,8 @@
   padding: 12px 0;
   border: none;
   background: none;
-  color: rgb(var(--color-text));
-  font-family: var(--font-heading-family);
+  color: rgb(var(--color-text, 10, 10, 10));
+  font-family: var(--font-heading-family, serif);
   font-size: clamp(16px, 4vw, 22px);
   font-weight: 300;
   letter-spacing: -0.01em;
