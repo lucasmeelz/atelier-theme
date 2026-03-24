@@ -287,21 +287,15 @@ class HeaderDrawer extends HTMLElement {
 
     var self = this;
 
-    /* Open toggles — defer to ensure toggle buttons are in the DOM
-       (drawer element may be parsed before the header buttons) */
-    function bindToggles() {
-      document.querySelectorAll('[data-drawer-toggle]').forEach(function(toggle) {
-        if (!toggle._drawerBound) {
-          toggle.addEventListener('click', function() { self.open(); });
-          toggle._drawerBound = true;
-        }
-      });
-    }
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', bindToggles);
-    } else {
-      requestAnimationFrame(bindToggles);
-    }
+    /* Open toggles — use event delegation on document to avoid timing issues
+       (drawer element may be parsed before the header buttons exist) */
+    document.addEventListener('click', function(e) {
+      var toggle = e.target.closest('[data-drawer-toggle]');
+      if (toggle) {
+        e.preventDefault();
+        self.open();
+      }
+    });
 
     /* Close buttons + overlay */
     this.querySelectorAll('[data-drawer-close]').forEach(function(btn) {
