@@ -15,21 +15,26 @@ class HeaderComponent extends HTMLElement {
     this.openPanelIndex = null;
     this.lastScrollY = 0;
     this.closeTimeout = null;
+    this.hideTimeouts = new Set();
 
     this.setupTransparentHeader();
     this.setupStickyBehavior();
     this.setupDesktopNav();
     this.setupSearchToggle();
     this.setupOverlay();
+    this.setupEscapeKey();
     this.updateHeaderHeight();
 
     window.addEventListener('resize', this.updateHeaderHeight.bind(this));
-    document.addEventListener('shopify:section:load', () => this.updateHeaderHeight());
+    document.addEventListener('shopify:section:load', this.updateHeaderHeight.bind(this));
   }
 
   updateHeaderHeight() {
     if (this.wrapper) {
-      document.documentElement.style.setProperty('--header-height', this.wrapper.offsetHeight + 'px');
+      document.documentElement.style.setProperty(
+        '--header-height',
+        this.wrapper.offsetHeight + 'px'
+      );
     }
   }
 
@@ -37,10 +42,11 @@ class HeaderComponent extends HTMLElement {
   setupTransparentHeader() {
     if (!this.isTransparent || !this.sentinel) return;
 
+    var self = this;
     this.transparentObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          this.classList.toggle('header--is-transparent', entry.isIntersecting);
+      function(entries) {
+        entries.forEach(function(entry) {
+          self.classList.toggle('header--is-transparent', entry.isIntersecting);
         });
       },
       { threshold: 0 }
@@ -53,23 +59,24 @@ class HeaderComponent extends HTMLElement {
   setupStickyBehavior() {
     if (!this.hideOnScroll) return;
 
-    this.scrollHandler = () => {
+    var self = this;
+    this.scrollHandler = function() {
       var currentY = window.scrollY;
-      var delta = currentY - this.lastScrollY;
+      var delta = currentY - self.lastScrollY;
 
-      if (delta > 5 && currentY > 100 && !this.openPanelIndex) {
-        this.classList.add('is-hidden');
+      if (delta > 5 && currentY > 100 && !self.openPanelIndex) {
+        self.classList.add('is-hidden');
       } else if (delta < -5) {
-        this.classList.remove('is-hidden');
+        self.classList.remove('is-hidden');
       }
 
-      this.lastScrollY = currentY;
+      self.lastScrollY = currentY;
     };
 
     window.addEventListener('scroll', this.scrollHandler, { passive: true });
   }
 
-  /* --- Desktop navigation --- */
+  /* --- Desktop navigation (hover + click) --- */
   setupDesktopNav() {
     var navItems = this.querySelectorAll('.header__nav-item--has-dropdown');
     var panels = this.querySelectorAll('[data-menu-panel]');
@@ -85,7 +92,7 @@ class HeaderComponent extends HTMLElement {
 
       if (self.menuTriggerType === 'hover') {
         item.addEventListener('mouseenter', function() {
-          clearTimeout(self.closeTimeout);
+          self.cancelClose();
           self.openDropdown(index);
         });
 
@@ -94,7 +101,6 @@ class HeaderComponent extends HTMLElement {
         });
       }
 
-      /* Click always works (accessibility) */
       trigger.addEventListener('click', function() {
         if (self.openPanelIndex === index) {
           self.closeAllDropdowns();
@@ -104,36 +110,42 @@ class HeaderComponent extends HTMLElement {
       });
     });
 
-    /* Keep dropdown open when hovering over it */
+    /* Keep dropdown open when hovering */
     panels.forEach(function(panel) {
       panel.addEventListener('mouseenter', function() {
-        clearTimeout(self.closeTimeout);
+        self.cancelClose();
       });
       panel.addEventListener('mouseleave', function() {
         self.scheduleClose();
       });
     });
+  }
 
-    /* Close on Escape */
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') {
-        self.closeAllDropdowns();
-        self.closeSearch();
-      }
-    });
+  cancelClose() {
+    clearTimeout(this.closeTimeout);
+    this.closeTimeout = null;
   }
 
   openDropdown(index) {
-    /* Close others first */
-    this.closeAllDropdowns(true);
+    this.cancelClose();
+    this.closeSearch();
+    this.clearHideTimeouts();
+
+    /* Close others without hiding (instant swap) */
+    var self = this;
+    this.querySelectorAll('[data-menu-panel]').forEach(function(panel) {
+      panel.classList.remove('is-open');
+    });
+    this.querySelectorAll('[data-menu-trigger-index]').forEach(function(trigger) {
+      trigger.setAttribute('aria-expanded', 'false');
+    });
 
     var panel = this.querySelector('[data-menu-panel="' + index + '"]');
     var trigger = this.querySelector('[data-menu-trigger-index="' + index + '"]');
     if (!panel || !trigger) return;
 
     panel.removeAttribute('hidden');
-    /* Force reflow before adding class for transition */
-    panel.offsetHeight;
+    panel.offsetHeight; /* Force reflow */
     panel.classList.add('is-open');
     trigger.setAttribute('aria-expanded', 'true');
 
@@ -143,23 +155,30 @@ class HeaderComponent extends HTMLElement {
 
   scheduleClose() {
     var self = this;
-    clearTimeout(this.closeTimeout);
+    this.cancelClose();
     this.closeTimeout = setTimeout(function() {
       self.closeAllDropdowns();
-    }, 250);
+    }, 300);
   }
 
-  closeAllDropdowns(skipOverlay) {
-    clearTimeout(this.closeTimeout);
+  clearHideTimeouts() {
+    this.hideTimeouts.forEach(function(id) { clearTimeout(id); });
+    this.hideTimeouts.clear();
+  }
 
+  closeAllDropdowns() {
+    this.cancelClose();
+    this.clearHideTimeouts();
+
+    var self = this;
     this.querySelectorAll('[data-menu-panel]').forEach(function(panel) {
       panel.classList.remove('is-open');
-      /* Wait for transition then hide */
-      setTimeout(function() {
+      var id = setTimeout(function() {
         if (!panel.classList.contains('is-open')) {
           panel.setAttribute('hidden', '');
         }
       }, 350);
+      self.hideTimeouts.add(id);
     });
 
     this.querySelectorAll('[data-menu-trigger-index]').forEach(function(trigger) {
@@ -167,9 +186,7 @@ class HeaderComponent extends HTMLElement {
     });
 
     this.openPanelIndex = null;
-    if (!skipOverlay && this.overlay) {
-      this.overlay.classList.remove('is-visible');
-    }
+    if (this.overlay) this.overlay.classList.remove('is-visible');
   }
 
   /* --- Search --- */
@@ -209,7 +226,8 @@ class HeaderComponent extends HTMLElement {
   }
 
   closeSearch() {
-    if (!this.searchPanel) return;
+    if (!this.searchPanel || !this.searchPanel.classList.contains('is-open')) return;
+
     this.searchPanel.classList.remove('is-open');
     var panel = this.searchPanel;
     setTimeout(function() {
@@ -227,7 +245,7 @@ class HeaderComponent extends HTMLElement {
     });
   }
 
-  /* --- Overlay --- */
+  /* --- Overlay click --- */
   setupOverlay() {
     if (!this.overlay) return;
     var self = this;
@@ -237,9 +255,22 @@ class HeaderComponent extends HTMLElement {
     });
   }
 
+  /* --- Escape key --- */
+  setupEscapeKey() {
+    var self = this;
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        self.closeAllDropdowns();
+        self.closeSearch();
+      }
+    });
+  }
+
   disconnectedCallback() {
     if (this.transparentObserver) this.transparentObserver.disconnect();
     if (this.scrollHandler) window.removeEventListener('scroll', this.scrollHandler);
+    this.clearHideTimeouts();
+    this.cancelClose();
   }
 }
 
@@ -251,18 +282,17 @@ customElements.define('header-component', HeaderComponent);
 class HeaderDrawer extends HTMLElement {
   connectedCallback() {
     this.panel = this.querySelector('.header-drawer__panel');
-    this.overlay = this.querySelector('.header-drawer__overlay');
     this.level1 = this.querySelector('.header-drawer__level--1');
     this.scrollPosition = 0;
 
     var self = this;
 
-    /* Open toggles (from header) */
+    /* Open toggles */
     document.querySelectorAll('[data-drawer-toggle]').forEach(function(toggle) {
       toggle.addEventListener('click', function() { self.open(); });
     });
 
-    /* Close buttons */
+    /* Close buttons + overlay */
     this.querySelectorAll('[data-drawer-close]').forEach(function(btn) {
       btn.addEventListener('click', function() { self.close(); });
     });
@@ -270,21 +300,18 @@ class HeaderDrawer extends HTMLElement {
     /* Level navigation — open */
     this.querySelectorAll('[data-open-level]').forEach(function(btn) {
       btn.addEventListener('click', function() {
-        var targetId = btn.dataset.targetPanel;
-        var level = parseInt(btn.dataset.openLevel, 10);
-        self.openLevel(targetId, level);
+        self.openLevel(btn.dataset.targetPanel, parseInt(btn.dataset.openLevel, 10));
       });
     });
 
-    /* Level navigation — close/back */
+    /* Level navigation — back */
     this.querySelectorAll('[data-close-level]').forEach(function(btn) {
       btn.addEventListener('click', function() {
-        var level = parseInt(btn.dataset.closeLevel, 10);
-        self.closeLevel(level);
+        self.closeLevel(parseInt(btn.dataset.closeLevel, 10));
       });
     });
 
-    /* Escape key */
+    /* Escape */
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape' && self.getAttribute('aria-hidden') === 'false') {
         self.close();
@@ -294,12 +321,12 @@ class HeaderDrawer extends HTMLElement {
 
   open() {
     this.scrollPosition = window.scrollY;
-    document.body.style.overflow = 'hidden';
-    document.body.style.position = 'fixed';
-    document.body.style.top = '-' + this.scrollPosition + 'px';
-    document.body.style.width = '100%';
-
+    document.body.classList.add('drawer-open');
     this.setAttribute('aria-hidden', 'false');
+
+    /* Close header search if open */
+    var header = document.querySelector('header-component');
+    if (header) header.closeSearch();
 
     document.querySelectorAll('[data-drawer-toggle]').forEach(function(t) {
       t.setAttribute('aria-expanded', 'true');
@@ -311,11 +338,7 @@ class HeaderDrawer extends HTMLElement {
 
   close() {
     this.setAttribute('aria-hidden', 'true');
-
-    document.body.style.overflow = '';
-    document.body.style.position = '';
-    document.body.style.top = '';
-    document.body.style.width = '';
+    document.body.classList.remove('drawer-open');
     window.scrollTo(0, this.scrollPosition);
 
     document.querySelectorAll('[data-drawer-toggle]').forEach(function(t) {
@@ -380,7 +403,7 @@ class PredictiveSearch extends HTMLElement {
     this.clearBtn = this.querySelector('[data-search-clear]');
     this.debounceTimer = null;
 
-    if (!this.input) return;
+    if (!this.input || !this.results) return;
 
     var self = this;
 
@@ -388,9 +411,7 @@ class PredictiveSearch extends HTMLElement {
       clearTimeout(self.debounceTimer);
       var query = self.input.value.trim();
 
-      if (self.clearBtn) {
-        self.clearBtn.hidden = query.length === 0;
-      }
+      if (self.clearBtn) self.clearBtn.hidden = query.length === 0;
 
       if (query.length < 2) {
         self.hideResults();
@@ -412,23 +433,21 @@ class PredictiveSearch extends HTMLElement {
     }
   }
 
+  disconnectedCallback() {
+    clearTimeout(this.debounceTimer);
+  }
+
   fetchResults(query) {
     var self = this;
     this.showLoading();
 
     fetch(
-      window.Shopify.routes.root + 'search/suggest.json?q=' + encodeURIComponent(query) + '&resources[type]=product,article,page&resources[limit]=6'
+      window.Shopify.routes.root + 'search/suggest.json?q=' + encodeURIComponent(query)
+      + '&resources[type]=product,article,page&resources[limit]=6'
     )
-    .then(function(response) {
-      if (!response.ok) throw new Error('Search failed');
-      return response.json();
-    })
-    .then(function(data) {
-      self.renderResults(data, query);
-    })
-    .catch(function() {
-      self.hideResults();
-    });
+    .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
+    .then(function(data) { self.renderResults(data, query); })
+    .catch(function() { self.hideResults(); });
   }
 
   renderResults(data, query) {
@@ -436,9 +455,8 @@ class PredictiveSearch extends HTMLElement {
     var products = resources.products || [];
     var articles = resources.articles || [];
     var pages = resources.pages || [];
-    var hasResults = products.length || articles.length || pages.length;
 
-    if (!hasResults) {
+    if (!products.length && !articles.length && !pages.length) {
       this.showNoResults(query);
       return;
     }
@@ -446,38 +464,34 @@ class PredictiveSearch extends HTMLElement {
     var html = '';
 
     if (products.length) {
-      html += '<div class="predictive-search__group">';
-      html += '<h3 class="predictive-search__group-title label">Products</h3>';
-      html += '<ul class="predictive-search__list">';
-      products.forEach(function(product) {
-        var image = product.featured_image && product.featured_image.url
-          ? '<img src="' + product.featured_image.url + '&width=100" alt="" width="50" height="50" loading="lazy" class="predictive-search__item-image">'
+      html += '<div class="predictive-search__group">'
+        + '<h3 class="predictive-search__group-title label">Products</h3>'
+        + '<ul class="predictive-search__list">';
+      products.forEach(function(p) {
+        var img = p.featured_image && p.featured_image.url
+          ? '<img src="' + p.featured_image.url + '&width=100" alt="" width="50" height="50" loading="lazy" class="predictive-search__item-image">'
           : '';
-        html += '<li class="predictive-search__item">'
-          + '<a href="' + product.url + '" class="predictive-search__item-link">'
-          + image
-          + '<div class="predictive-search__item-info">'
-          + '<span class="predictive-search__item-title">' + product.title + '</span>'
-          + '</div></a></li>';
+        html += '<li class="predictive-search__item"><a href="' + p.url
+          + '" class="predictive-search__item-link">' + img
+          + '<span class="predictive-search__item-title">' + p.title + '</span></a></li>';
       });
       html += '</ul></div>';
     }
 
     if (articles.length) {
-      html += '<div class="predictive-search__group">';
-      html += '<h3 class="predictive-search__group-title label">Articles</h3>';
-      html += '<ul class="predictive-search__list">';
-      articles.forEach(function(article) {
-        html += '<li class="predictive-search__item">'
-          + '<a href="' + article.url + '" class="predictive-search__item-link">'
-          + '<span class="predictive-search__item-title">' + article.title + '</span>'
-          + '</a></li>';
+      html += '<div class="predictive-search__group">'
+        + '<h3 class="predictive-search__group-title label">Articles</h3>'
+        + '<ul class="predictive-search__list">';
+      articles.forEach(function(a) {
+        html += '<li class="predictive-search__item"><a href="' + a.url
+          + '" class="predictive-search__item-link"><span class="predictive-search__item-title">'
+          + a.title + '</span></a></li>';
       });
       html += '</ul></div>';
     }
 
-    html += '<a href="' + window.Shopify.routes.root + 'search?q=' + encodeURIComponent(query) + '" class="predictive-search__view-all">'
-      + 'View all results</a>';
+    html += '<a href="' + window.Shopify.routes.root + 'search?q='
+      + encodeURIComponent(query) + '" class="predictive-search__view-all">View all results</a>';
 
     if (this.content) this.content.innerHTML = html;
     this.showResults();
