@@ -176,8 +176,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 44px;
-  min-width: 44px;
+  min-height: 40px;
+  min-width: 40px;
   padding: 8px;
   border: none;
   border-radius: 0;
@@ -185,6 +185,13 @@
   color: inherit;
   cursor: pointer;
   transition: opacity var(--duration-fast) var(--ease-ecrin);
+}
+
+@media screen and (min-width: 990px) {
+  .btn--icon {
+    min-height: 44px;
+    min-width: 44px;
+  }
 }
 
 .btn--icon svg {
