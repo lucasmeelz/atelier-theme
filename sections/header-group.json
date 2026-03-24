@@ -28,19 +28,35 @@
             "promo_4_heading": "",
             "promo_4_link": ""
           }
+        },
+        "mega_menu_VWV8fR": {
+          "type": "mega_menu",
+          "settings": {
+            "menu_item": "Main 1",
+            "promo_1_image": "shopify://shop_images/portrait_3to4.jpg",
+            "promo_1_heading": "New Collection",
+            "promo_1_link": "",
+            "promo_2_heading": "",
+            "promo_2_link": "",
+            "promo_3_heading": "",
+            "promo_3_link": "",
+            "promo_4_heading": "",
+            "promo_4_link": ""
+          }
         }
       },
       "block_order": [
-        "mega_main1"
+        "mega_main1",
+        "mega_menu_VWV8fR"
       ],
       "settings": {
         "color_scheme": "scheme-1",
         "desktop_layout": "logo_center_nav_below",
         "mobile_layout": "logo_center",
         "menu_style": "mega",
-        "menu_open_trigger": "hover",
+        "menu_open_trigger": "click",
         "logo": "shopify://shop_images/logo-simple.png",
-        "logo_width": 100,
+        "logo_width": 60,
         "sticky_header": true,
         "transparent_header": false,
         "menu": "menu-2",
