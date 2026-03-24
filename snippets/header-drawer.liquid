@@ -5,8 +5,7 @@
 {%- endcomment -%}
 
 {%- liquid
-  assign drawer_menu = section.settings.drawer_menu | default: menu
-  assign secondary_menu = section.settings.secondary_menu
+  assign drawer_menu = menu
 -%}
 
 <header-drawer class="header-drawer" id="header-drawer" aria-hidden="true" role="dialog" aria-label="{{ 'header.navigation' | t }}">
@@ -71,13 +70,6 @@
           </a>
         {%- endif -%}
 
-        {%- if secondary_menu -%}
-          {%- for link in secondary_menu.links -%}
-            <a href="{{ link.url }}" class="header-drawer__secondary-link">
-              {{ link.title }}
-            </a>
-          {%- endfor -%}
-        {%- endif -%}
       </div>
 
       {%- comment -%} Country/language selectors {%- endcomment -%}
