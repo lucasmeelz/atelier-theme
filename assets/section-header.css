@@ -895,10 +895,9 @@
 /* Back button */
 .header-drawer__back {
   position: relative;
-  display: flex;
+  display: grid;
+  grid-template-columns: 24px 1fr 24px;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
   width: 100%;
   padding: 16px 16px 12px;
   border: none;
@@ -910,17 +909,15 @@
   letter-spacing: var(--label-letter-spacing, 0.06em);
   text-transform: var(--label-text-transform, uppercase);
   cursor: pointer;
-  text-align: center;
   white-space: nowrap;
 }
 
 .header-drawer__back svg {
-  position: absolute;
-  left: 16px;
+  justify-self: start;
 }
 
 .header-drawer__back span {
-  /* Centered title */
+  text-align: center;
 }
 
 /* Secondary links */
