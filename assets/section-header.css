@@ -176,9 +176,11 @@
 /* ===== MOBILE LAYOUTS ===== */
 
 @media screen and (max-width: 989px) {
-  .header__nav { display: none; }
-  .header__icon--desktop-only { display: none; }
-  .header__search-toggle--desktop { display: none; }
+  .header__nav { display: none !important; }
+  .header__icon--desktop-only { display: none !important; }
+  .header__search-toggle--desktop { display: none !important; }
+  .header__left { display: flex !important; }
+  .header__menu-toggle { display: flex !important; }
 
   /* Layout: Logo left, menu right */
   .header__inner--mobile-logo_left_menu_right {
@@ -875,6 +877,13 @@
   text-transform: var(--label-text-transform);
   cursor: pointer;
   text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.header-drawer__back span {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .header-drawer__back svg {
