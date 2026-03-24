@@ -53,63 +53,107 @@ class HeaderElement extends HTMLElement {
   }
 
   setupDesktopNav() {
+    var header = this;
     var navItems = this.querySelectorAll('.header__nav-item--has-dropdown');
     if (navItems.length === 0) return;
+
+    var closeAll = function(except) {
+      navItems.forEach(function(item) {
+        var link = item.querySelector('[aria-controls]');
+        var dropdown = item.querySelector('.header__dropdown, .mega-menu');
+        if (dropdown && dropdown !== except) {
+          dropdown.removeAttribute('open');
+          if (link) link.setAttribute('aria-expanded', 'false');
+        }
+      });
+    };
 
     navItems.forEach(function(item) {
       var link = item.querySelector('[aria-controls]');
       if (!link) return;
 
-      var targetId = link.getAttribute('aria-controls');
-      var dropdown = item.querySelector('#' + targetId) || item.querySelector('.header__dropdown') || item.querySelector('.mega-menu');
+      var dropdown = item.querySelector('.header__dropdown, .mega-menu');
       if (!dropdown) return;
 
-      /* Hover behavior */
-      if (link.hasAttribute('data-hover-open')) {
+      var isHoverMode = link.hasAttribute('data-hover-open');
+
+      /* ---- Hover mode ---- */
+      if (isHoverMode) {
         var hideTimeout = null;
 
-        var showDropdown = function() {
+        var scheduleHide = function() {
           clearTimeout(hideTimeout);
-          link.setAttribute('aria-expanded', 'true');
-        };
-
-        var hideDropdown = function() {
           hideTimeout = setTimeout(function() {
+            dropdown.removeAttribute('open');
             link.setAttribute('aria-expanded', 'false');
-          }, 150);
+          }, 200);
         };
 
-        item.addEventListener('pointerenter', function(e) {
-          if (window.matchMedia('(pointer: fine)').matches) {
-            showDropdown();
+        var cancelHide = function() {
+          clearTimeout(hideTimeout);
+        };
+
+        /* Show on pointer enter nav item */
+        item.addEventListener('pointerenter', function() {
+          if (!window.matchMedia('(pointer: fine)').matches) return;
+          cancelHide();
+          closeAll(dropdown);
+          dropdown.setAttribute('open', '');
+          link.setAttribute('aria-expanded', 'true');
+        });
+
+        /* Schedule hide when leaving nav item */
+        item.addEventListener('pointerleave', function() {
+          scheduleHide();
+        });
+
+        /* Cancel hide when entering the dropdown itself */
+        dropdown.addEventListener('pointerenter', function() {
+          cancelHide();
+        });
+
+        /* Schedule hide when leaving the dropdown */
+        dropdown.addEventListener('pointerleave', function() {
+          scheduleHide();
+        });
+
+        /* In hover mode, click on link navigates normally on desktop */
+        link.addEventListener('click', function() {
+          if (window.matchMedia('(pointer: fine)').matches) return;
+          /* Touch device fallback — toggle */
+          var isOpen = dropdown.hasAttribute('open');
+          closeAll();
+          if (!isOpen) {
+            dropdown.setAttribute('open', '');
+            link.setAttribute('aria-expanded', 'true');
           }
         });
-
-        item.addEventListener('pointerleave', function() {
-          hideDropdown();
-        });
       }
 
-      /* Click behavior (fallback or when configured) */
-      link.addEventListener('click', function(e) {
-        if (link.hasAttribute('data-hover-open') && window.matchMedia('(pointer: fine)').matches) {
-          /* On desktop with hover, click navigates */
-          return;
-        }
-        e.preventDefault();
-        var isOpen = link.getAttribute('aria-expanded') === 'true';
-        link.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
-      });
+      /* ---- Click mode ---- */
+      if (!isHoverMode) {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          var isOpen = dropdown.hasAttribute('open');
+          closeAll();
+          if (!isOpen) {
+            dropdown.setAttribute('open', '');
+            link.setAttribute('aria-expanded', 'true');
+          }
+        });
+      }
     });
 
-    /* Close all dropdowns when clicking outside */
+    /* Close all when clicking outside header nav */
     document.addEventListener('click', function(e) {
       if (!e.target.closest('.header__nav-item--has-dropdown')) {
-        navItems.forEach(function(item) {
-          var link = item.querySelector('[aria-controls]');
-          if (link) link.setAttribute('aria-expanded', 'false');
-        });
+        closeAll();
       }
+    });
+
+    /* Close on Escape */
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeAll();
     });
   }
 

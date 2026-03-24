@@ -331,21 +331,21 @@
   .header__nav-link:hover {
     opacity: 0.65;
   }
+}
 
-  /* Dimming: when any dropdown is hovered, dim sibling L1 links */
-  .header__nav-list:has(.header__nav-item--has-dropdown:hover) .header__nav-link {
-    opacity: 0.4;
-    transition: opacity var(--duration-fast) var(--ease-dior);
-  }
+/* Dimming: when any dropdown is open, dim sibling L1 links */
+.header__nav-list:has([open]) .header__nav-link {
+  opacity: 0.4;
+  transition: opacity var(--duration-fast) var(--ease-dior);
+}
 
-  /* The hovered item stays fully opaque */
-  .header__nav-list:has(.header__nav-item--has-dropdown:hover) .header__nav-item--has-dropdown:hover > .header__nav-link {
-    opacity: 1;
-  }
+/* The item with open dropdown stays fully opaque */
+.header__nav-item:has([open]) > .header__nav-link {
+  opacity: 1;
 }
 
 /* ============================
-   Standard dropdown (no mega block)
+   Standard dropdown (no mega block) — [open] attribute pattern
    ============================ */
 
 .header__dropdown {
@@ -358,17 +358,12 @@
   background-color: rgb(var(--color-background));
   color: rgb(var(--color-text));
   border: 1px solid rgb(var(--color-border));
-  opacity: 0;
-  pointer-events: none;
+  display: none;
   z-index: 101;
-  transition: opacity var(--duration-fast) ease-in;
 }
 
-.header__nav-item--has-dropdown:hover > .header__dropdown,
-.header__nav-item--has-dropdown > a[aria-expanded="true"] + .header__dropdown {
-  opacity: 1;
-  pointer-events: auto;
-  transition: opacity var(--duration-base) var(--ease-dior);
+.header__dropdown[open] {
+  display: block;
 }
 
 .header__dropdown-content {
@@ -421,10 +416,10 @@
   --mega-menu-padding: 1.75rem;
   --mega-menu-nav-max-width: 800px;
 
-  position: fixed;
-  top: var(--header-computed-height, 98px);
-  left: 0;
-  right: 0;
+  position: absolute;
+  inset-block-start: 100%;
+  inset-inline-start: 0;
+  width: 100%;
   max-height: calc(100vh - var(--header-computed-height, 98px) - 48px);
   padding: var(--mega-menu-padding) var(--mega-menu-padding) 2.5rem;
   background-color: rgb(var(--color-background));
@@ -435,25 +430,29 @@
   align-items: start;
   column-gap: clamp(2rem, 4vw, 4rem);
   overflow-y: auto;
-  z-index: 200;
+  z-index: 101;
 }
 
-/* Show mega menu */
-.header__nav-item--has-dropdown:hover > .mega-menu,
-.header__nav-item--has-dropdown > a[aria-expanded="true"] + .mega-menu {
+/* Full-width from a relative-positioned nav-item */
+.header__nav--below .mega-menu {
+  width: 100vw;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Show mega menu via [open] attribute */
+.mega-menu[open] {
   display: grid;
 }
 
-/* Backdrop overlay — separate fixed element */
+/* Backdrop overlay — starts below the header, not covering it */
 .mega-menu::after {
   content: "";
   background: rgba(0, 0, 0, 0.15);
   pointer-events: none;
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
+  inset-block-start: var(--header-computed-height, 98px);
   z-index: -1;
 }
 
