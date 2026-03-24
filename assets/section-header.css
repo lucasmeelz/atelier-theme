@@ -923,10 +923,6 @@
   /* Centered title */
 }
 
-.header-drawer__back svg {
-  pointer-events: none;
-}
-
 /* Secondary links */
 .header-drawer__secondary {
   padding: 24px 16px 8px;
