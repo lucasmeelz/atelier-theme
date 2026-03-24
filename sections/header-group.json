@@ -20,7 +20,13 @@
             "menu_item": "Main 1",
             "promo_1_image": "shopify://shop_images/portrait_3to4.jpg",
             "promo_1_heading": "New Collection",
-            "promo_1_link": ""
+            "promo_1_link": "",
+            "promo_2_heading": "",
+            "promo_2_link": "",
+            "promo_3_heading": "",
+            "promo_3_link": "",
+            "promo_4_heading": "",
+            "promo_4_link": ""
           }
         }
       },
@@ -32,7 +38,7 @@
         "desktop_layout": "logo_center_nav_below",
         "mobile_layout": "logo_center",
         "menu_style": "mega",
-        "menu_open_trigger": "hover",
+        "menu_open_trigger": "click",
         "logo": "shopify://shop_images/logo-simple.png",
         "logo_width": 100,
         "sticky_header": true,
