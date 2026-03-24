@@ -9,55 +9,19 @@
  */
 {
   "current": {
-    "color_schemes": {
-      "scheme-1": {
-        "settings": {
-          "background": "#FFFFFF",
-          "background_gradient": "",
-          "text": "#0A0A0A",
-          "text_subdued": "#6B6B6B",
-          "accent": "#B8946A",
-          "border": "#E2E0DB",
-          "button_background": "#0A0A0A",
-          "button_label": "#FFFFFF"
-        }
-      },
-      "scheme-2": {
-        "settings": {
-          "background": "#F5F4F0",
-          "background_gradient": "",
-          "text": "#0A0A0A",
-          "text_subdued": "#6B6B6B",
-          "accent": "#B8946A",
-          "border": "#E2E0DB",
-          "button_background": "#0A0A0A",
-          "button_label": "#FFFFFF"
-        }
-      },
-      "scheme-3": {
-        "settings": {
-          "background": "#0A0A0A",
-          "background_gradient": "",
-          "text": "#FFFFFF",
-          "text_subdued": "#A0A0A0",
-          "accent": "#B8946A",
-          "border": "#333333",
-          "button_background": "#FFFFFF",
-          "button_label": "#0A0A0A"
-        }
-      }
-    },
     "default_color_scheme": "scheme-1",
-    "type_heading_font": "cormorant_n4",
+    "sale_badge_color": "#0A0A0A",
+    "sold_out_badge_color": "#6B6B6B",
     "type_body_font": "jost_n4",
-    "type_label_font": "jost_n4",
     "body_font_size_mobile": 14,
     "body_font_size_desktop": 15,
     "body_line_height": 1.6,
-    "heading_size_scale": 1.0,
+    "type_heading_font": "cormorant_n4",
+    "heading_size_scale": 1,
     "heading_text_transform": "none",
     "heading_letter_spacing": 0,
     "heading_line_height": 1.1,
+    "type_label_font": "jost_n4",
     "label_font_size": 11,
     "label_text_transform": "uppercase",
     "label_letter_spacing": 12,
@@ -92,11 +56,48 @@
     "product_card_sale_badge_style": "percentage",
     "product_card_show_sold_out_badge": true,
     "cart_type": "drawer",
-    "cart_icon": "bag",
+    "cart_icon": "cart",
     "show_free_shipping_bar": false,
     "free_shipping_threshold": "150",
-    "sale_badge_color": "#0A0A0A",
-    "sold_out_badge_color": "#6B6B6B"
+    "content_for_index": [],
+    "color_schemes": {
+      "scheme-1": {
+        "settings": {
+          "background": "#ffffff",
+          "background_gradient": "",
+          "text": "#0a0a0a",
+          "text_subdued": "#6b6b6b",
+          "accent": "#b8946a",
+          "border": "#e2e0db",
+          "button_background": "#0a0a0a",
+          "button_label": "#ffffff"
+        }
+      },
+      "scheme-2": {
+        "settings": {
+          "background": "#f5f4f0",
+          "background_gradient": "",
+          "text": "#0a0a0a",
+          "text_subdued": "#6b6b6b",
+          "accent": "#b8946a",
+          "border": "#e2e0db",
+          "button_background": "#0a0a0a",
+          "button_label": "#ffffff"
+        }
+      },
+      "scheme-3": {
+        "settings": {
+          "background": "#0a0a0a",
+          "background_gradient": "",
+          "text": "#ffffff",
+          "text_subdued": "#a0a0a0",
+          "accent": "#b8946a",
+          "border": "#333333",
+          "button_background": "#ffffff",
+          "button_label": "#0a0a0a"
+        }
+      }
+    }
   },
   "presets": {
     "Ecrin": {}
