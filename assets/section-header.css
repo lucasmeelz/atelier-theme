@@ -119,15 +119,16 @@
 .header__inner {
   display: grid;
   align-items: center;
-  gap: 16px;
-  min-height: 64px;
-  padding-block: 8px;
+  gap: 8px;
+  min-height: 56px;
+  padding-block: 6px;
 }
 
 /* ===== DESKTOP LAYOUTS ===== */
 
 @media screen and (min-width: 990px) {
   .header__inner {
+    gap: 16px;
     min-height: 72px;
     padding-block: 12px;
   }
@@ -215,11 +216,18 @@
 
 .header__logo-text {
   font-family: var(--font-heading-family);
-  font-size: clamp(18px, 3vw, 24px);
+  font-size: clamp(16px, 4vw, 24px);
   font-weight: var(--font-heading-weight);
   letter-spacing: var(--heading-letter-spacing);
   text-transform: var(--heading-text-transform);
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.header__logo {
+  min-width: 0;
+  overflow: hidden;
 }
 
 /* ===== LEFT / RIGHT ICON GROUPS ===== */
