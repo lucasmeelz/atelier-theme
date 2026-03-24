@@ -104,8 +104,8 @@
 /* ===== HEADER WRAPPER ===== */
 
 .header__wrapper {
-  background-color: rgb(var(--color-background));
-  border-bottom: 1px solid rgb(var(--color-border));
+  background-color: rgb(var(--color-background, 255, 255, 255));
+  border-bottom: 1px solid rgb(var(--color-border, 230, 230, 230));
   transition: background-color var(--duration-base) var(--ease-ecrin),
               color var(--duration-base) var(--ease-ecrin),
               border-color var(--duration-base) var(--ease-ecrin);
@@ -403,7 +403,7 @@
 }
 
 .header__dropdown--mega .header__dropdown-inner {
-  grid-template-columns: minmax(200px, 300px) 1fr;
+  grid-template-columns: minmax(240px, 1fr) 2fr;
 }
 
 /* Dropdown links */
