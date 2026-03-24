@@ -138,7 +138,7 @@
   }
   .header__inner--logo_left_nav_right .header__left { display: none; }
   .header__inner--logo_left_nav_right .header__logo { grid-column: 1; }
-  .header__inner--logo_left_nav_right .header__nav { grid-column: 2; justify-self: end; }
+  .header__inner--logo_left_nav_right .header__nav { grid-column: 2; justify-self: end; margin-right: 16px; }
   .header__inner--logo_left_nav_right .header__right { grid-column: 3; justify-self: end; }
 
   /* Layout: Logo left, nav center */
