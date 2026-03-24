@@ -73,10 +73,20 @@
       </div>
 
       {%- comment -%} Country/language selectors {%- endcomment -%}
-      {%- if show_country or show_language -%}
+      {%- liquid
+        assign drawer_show_country = false
+        if show_country and localization.available_countries.size > 1
+          assign drawer_show_country = true
+        endif
+        assign drawer_show_language = false
+        if show_language and localization.available_languages.size > 1
+          assign drawer_show_language = true
+        endif
+      -%}
+      {%- if drawer_show_country or drawer_show_language -%}
         <div class="header-drawer__localization">
           {%- form 'localization', id: 'drawer-localization-form', class: 'header-drawer__localization-form' -%}
-            {%- if show_country and localization.available_countries.size > 1 -%}
+            {%- if drawer_show_country -%}
               <div class="header-drawer__locale-selector">
                 <label for="drawer-country-selector" class="label">{{ 'localization.country_label' | t }}</label>
                 <select id="drawer-country-selector" name="country_code">
@@ -90,7 +100,7 @@
               </div>
             {%- endif -%}
 
-            {%- if show_language and localization.available_languages.size > 1 -%}
+            {%- if drawer_show_language -%}
               <div class="header-drawer__locale-selector">
                 <label for="drawer-language-selector" class="label">{{ 'localization.language_label' | t }}</label>
                 <select id="drawer-language-selector" name="locale_code">
