@@ -194,7 +194,13 @@
   background: none;
   padding: 12px;
   color: rgb(var(--color-text));
+  cursor: pointer;
   transition: opacity var(--duration-fast) var(--ease-ecrin);
+}
+
+.footer__newsletter-submit svg {
+  width: 18px;
+  height: 18px;
 }
 
 @media (hover: hover) {

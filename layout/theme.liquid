@@ -4,15 +4,25 @@
     {%- render 'css-variables' -%}
 
     {%- comment -%} Font preloading {%- endcomment -%}
-    {%- unless settings.type_heading_font.system? -%}
+    {%- liquid
+      assign heading_font = settings.type_heading_font
+      assign body_font = settings.type_body_font
+      assign needs_preconnect = false
+      unless heading_font.system?
+        assign needs_preconnect = true
+      endunless
+      unless body_font.system?
+        assign needs_preconnect = true
+      endunless
+    -%}
+    {%- if needs_preconnect -%}
       <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
-      {{ settings.type_heading_font | font_url | preload_tag: as: 'font', crossorigin: 'anonymous' }}
+    {%- endif -%}
+    {%- unless heading_font.system? -%}
+      <link rel="preload" as="font" href="{{ heading_font | font_url }}" type="font/woff2" crossorigin>
     {%- endunless -%}
-    {%- unless settings.type_body_font.system? -%}
-      {%- if settings.type_heading_font.system? -%}
-        <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
-      {%- endif -%}
-      {{ settings.type_body_font | font_url | preload_tag: as: 'font', crossorigin: 'anonymous' }}
+    {%- unless body_font.system? -%}
+      <link rel="preload" as="font" href="{{ body_font | font_url }}" type="font/woff2" crossorigin>
     {%- endunless -%}
 
     {%- comment -%} Favicon {%- endcomment -%}
