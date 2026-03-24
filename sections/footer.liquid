@@ -1,57 +1,311 @@
-<footer>
-  <div class="footer__copyright">
-    &copy;
-    {{ 'now' | date: '%Y' }}
-    {{ shop.name | link_to: routes.root_url }}, {{ powered_by_link }}
-  </div>
+{%- comment -%}
+  Footer section — Ecrin theme
+  4 columns desktop, 2 tablet, 1 mobile (accordion), newsletter, payment icons, social, localization
+{%- endcomment -%}
 
-  <div class="footer__links">
-    {% for link in section.settings.menu.links %}
-      {{ link.title | link_to: link.url }}
-    {% endfor %}
-  </div>
+{{ 'section-footer.css' | asset_url | stylesheet_tag }}
 
-  <div class="footer__payment">
-    {% if section.settings.show_payment_icons %}
-      {% for type in shop.enabled_payment_types %}
-        {{ type | payment_type_svg_tag }}
-      {% endfor %}
-    {% endif %}
+<footer class="footer section-spacing color-{{ section.settings.color_scheme }}">
+  <div class="container">
+    <div class="footer__grid">
+
+      {%- comment -%} Column 1 — Logo + tagline + social {%- endcomment -%}
+      <div class="footer__brand">
+        {%- if section.settings.logo -%}
+          <a href="{{ routes.root_url }}" class="footer__logo" aria-label="{{ shop.name }}">
+            <img
+              src="{{ section.settings.logo | image_url: width: 400 }}"
+              alt="{{ section.settings.logo.alt | default: shop.name | escape }}"
+              width="{{ section.settings.logo.width }}"
+              height="{{ section.settings.logo.height }}"
+              style="max-width: {{ section.settings.logo_width }}px;"
+              loading="lazy"
+            >
+          </a>
+        {%- else -%}
+          <a href="{{ routes.root_url }}" class="footer__shop-name" aria-label="{{ shop.name }}">
+            {{ shop.name }}
+          </a>
+        {%- endif -%}
+
+        {%- if section.settings.tagline != blank -%}
+          <div class="footer__tagline rte">{{ section.settings.tagline }}</div>
+        {%- endif -%}
+
+        {%- if section.settings.show_social -%}
+          <div class="footer__social">
+            {%- if settings.social_instagram_url != blank -%}
+              <a href="{{ settings.social_instagram_url }}" class="footer__social-link btn--icon" aria-label="Instagram" rel="noopener noreferrer" target="_blank">
+                {%- render 'icon', name: 'instagram', size: 20 -%}
+              </a>
+            {%- endif -%}
+            {%- if settings.social_facebook_url != blank -%}
+              <a href="{{ settings.social_facebook_url }}" class="footer__social-link btn--icon" aria-label="Facebook" rel="noopener noreferrer" target="_blank">
+                {%- render 'icon', name: 'facebook', size: 20 -%}
+              </a>
+            {%- endif -%}
+            {%- if settings.social_tiktok_url != blank -%}
+              <a href="{{ settings.social_tiktok_url }}" class="footer__social-link btn--icon" aria-label="TikTok" rel="noopener noreferrer" target="_blank">
+                {%- render 'icon', name: 'tiktok', size: 20 -%}
+              </a>
+            {%- endif -%}
+            {%- if settings.social_pinterest_url != blank -%}
+              <a href="{{ settings.social_pinterest_url }}" class="footer__social-link btn--icon" aria-label="Pinterest" rel="noopener noreferrer" target="_blank">
+                {%- render 'icon', name: 'pinterest', size: 20 -%}
+              </a>
+            {%- endif -%}
+            {%- if settings.social_youtube_url != blank -%}
+              <a href="{{ settings.social_youtube_url }}" class="footer__social-link btn--icon" aria-label="YouTube" rel="noopener noreferrer" target="_blank">
+                {%- render 'icon', name: 'youtube', size: 20 -%}
+              </a>
+            {%- endif -%}
+            {%- if settings.social_twitter_url != blank -%}
+              <a href="{{ settings.social_twitter_url }}" class="footer__social-link btn--icon" aria-label="X" rel="noopener noreferrer" target="_blank">
+                {%- render 'icon', name: 'twitter', size: 20 -%}
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} Column 2 — Menu 1 {%- endcomment -%}
+      {%- if section.settings.footer_menu_1.links.size > 0 -%}
+        <details class="footer__column footer__accordion" open>
+          <summary class="footer__column-heading">
+            <span>{{ section.settings.footer_menu_1_heading | default: section.settings.footer_menu_1.title }}</span>
+            <span class="footer__accordion-icon" aria-hidden="true">
+              {%- render 'icon', name: 'chevron-down', size: 14 -%}
+            </span>
+          </summary>
+          <ul class="footer__links" role="list">
+            {%- for link in section.settings.footer_menu_1.links -%}
+              <li>
+                <a href="{{ link.url }}" class="footer__link">{{ link.title }}</a>
+              </li>
+            {%- endfor -%}
+          </ul>
+        </details>
+      {%- endif -%}
+
+      {%- comment -%} Column 3 — Menu 2 {%- endcomment -%}
+      {%- if section.settings.footer_menu_2.links.size > 0 -%}
+        <details class="footer__column footer__accordion" open>
+          <summary class="footer__column-heading">
+            <span>{{ section.settings.footer_menu_2_heading | default: section.settings.footer_menu_2.title }}</span>
+            <span class="footer__accordion-icon" aria-hidden="true">
+              {%- render 'icon', name: 'chevron-down', size: 14 -%}
+            </span>
+          </summary>
+          <ul class="footer__links" role="list">
+            {%- for link in section.settings.footer_menu_2.links -%}
+              <li>
+                <a href="{{ link.url }}" class="footer__link">{{ link.title }}</a>
+              </li>
+            {%- endfor -%}
+          </ul>
+        </details>
+      {%- endif -%}
+
+      {%- comment -%} Column 4 — Newsletter {%- endcomment -%}
+      {%- if section.settings.show_newsletter -%}
+        <div class="footer__column footer__newsletter">
+          {%- if section.settings.newsletter_heading != blank -%}
+            <h3 class="footer__column-heading-text">{{ section.settings.newsletter_heading }}</h3>
+          {%- endif -%}
+          {%- if section.settings.newsletter_text != blank -%}
+            <p class="footer__newsletter-text">{{ section.settings.newsletter_text }}</p>
+          {%- endif -%}
+
+          {%- form 'customer', id: 'footer-newsletter-form', class: 'footer__newsletter-form' -%}
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            <div class="footer__newsletter-input-wrapper">
+              <label for="footer-newsletter-email" class="visually-hidden">{{ 'newsletter.placeholder' | t }}</label>
+              <input
+                type="email"
+                id="footer-newsletter-email"
+                name="contact[email]"
+                class="footer__newsletter-input"
+                placeholder="{{ 'newsletter.placeholder' | t }}"
+                autocomplete="email"
+                required
+              >
+              <button type="submit" class="footer__newsletter-submit btn--icon" aria-label="{{ 'newsletter.submit' | t }}">
+                {%- render 'icon', name: 'arrow-right', size: 18 -%}
+              </button>
+            </div>
+            {%- if form.posted_successfully? -%}
+              <p class="footer__newsletter-success" role="status">{{ 'newsletter.success' | t }}</p>
+            {%- endif -%}
+          {%- endform -%}
+        </div>
+      {%- endif -%}
+
+    </div>
+
+    {%- comment -%} Bottom bar — localization + payment + copyright {%- endcomment -%}
+    <div class="footer__bottom">
+      <div class="footer__bottom-left">
+        {%- comment -%} Country/language {%- endcomment -%}
+        {%- if section.settings.show_country_selector or section.settings.show_language_selector -%}
+          {%- form 'localization', id: 'footer-localization-form', class: 'footer__localization' -%}
+            {%- if section.settings.show_country_selector and localization.available_countries.size > 1 -%}
+              <div class="footer__locale-selector">
+                <label for="footer-country" class="visually-hidden">{{ 'localization.country_label' | t }}</label>
+                <select id="footer-country" name="country_code" class="footer__select">
+                  {%- for country in localization.available_countries -%}
+                    <option value="{{ country.iso_code }}"{% if country.iso_code == localization.country.iso_code %} selected{% endif %}>
+                      {{ country.name }} ({{ country.currency.iso_code }} {{ country.currency.symbol }})
+                    </option>
+                  {%- endfor -%}
+                </select>
+              </div>
+            {%- endif -%}
+
+            {%- if section.settings.show_language_selector and localization.available_languages.size > 1 -%}
+              <div class="footer__locale-selector">
+                <label for="footer-language" class="visually-hidden">{{ 'localization.language_label' | t }}</label>
+                <select id="footer-language" name="locale_code" class="footer__select">
+                  {%- for language in localization.available_languages -%}
+                    <option value="{{ language.iso_code }}"{% if language.iso_code == localization.language.iso_code %} selected{% endif %}>
+                      {{ language.endonym_name | capitalize }}
+                    </option>
+                  {%- endfor -%}
+                </select>
+              </div>
+            {%- endif -%}
+
+            <button type="submit" class="btn btn--small btn--secondary footer__locale-submit">
+              <span class="btn__label">{{ 'localization.update' | t }}</span>
+              <span class="btn__fill" aria-hidden="true"></span>
+            </button>
+          {%- endform -%}
+        {%- endif -%}
+      </div>
+
+      <div class="footer__bottom-center">
+        <p class="footer__copyright">
+          &copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ powered_by_link }}
+        </p>
+      </div>
+
+      <div class="footer__bottom-right">
+        {%- if section.settings.show_payment_icons -%}
+          <div class="footer__payment" aria-label="{{ 'footer.payment_methods' | t }}">
+            {%- for type in shop.enabled_payment_types -%}
+              {{ type | payment_type_svg_tag: class: 'footer__payment-icon' }}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+
   </div>
 </footer>
-
-{% stylesheet %}
-  footer {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 2rem;
-  }
-  footer a {
-    text-decoration: none;
-    color: var(--color-foreground);
-  }
-  footer .footer__links,
-  footer .footer__payment {
-    display: flex;
-    gap: 1rem;
-  }
-{% endstylesheet %}
 
 {% schema %}
 {
   "name": "t:general.footer",
   "settings": [
     {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+
+    { "type": "header", "content": "Brand" },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "Logo width",
+      "min": 40, "max": 200, "step": 10, "unit": "px",
+      "default": 100
+    },
+    {
+      "type": "richtext",
+      "id": "tagline",
+      "label": "Tagline"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social",
+      "label": "Show social media icons",
+      "default": true
+    },
+
+    { "type": "header", "content": "Navigation" },
+    {
       "type": "link_list",
-      "id": "menu",
-      "label": "t:labels.menu"
+      "id": "footer_menu_1",
+      "label": "Footer menu 1",
+      "default": "footer"
+    },
+    {
+      "type": "text",
+      "id": "footer_menu_1_heading",
+      "label": "Footer menu 1 heading",
+      "default": "Quick links"
+    },
+    {
+      "type": "link_list",
+      "id": "footer_menu_2",
+      "label": "Footer menu 2",
+      "default": "footer"
+    },
+    {
+      "type": "text",
+      "id": "footer_menu_2_heading",
+      "label": "Footer menu 2 heading",
+      "default": "Information"
+    },
+
+    { "type": "header", "content": "Newsletter" },
+    {
+      "type": "checkbox",
+      "id": "show_newsletter",
+      "label": "Show newsletter signup",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "newsletter_heading",
+      "label": "Newsletter heading",
+      "default": "Stay in the know"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_text",
+      "label": "Newsletter description"
+    },
+
+    { "type": "header", "content": "Bottom bar" },
+    {
+      "type": "checkbox",
+      "id": "show_country_selector",
+      "label": "Show country/region selector",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_language_selector",
+      "label": "Show language selector",
+      "default": false
     },
     {
       "type": "checkbox",
       "id": "show_payment_icons",
-      "label": "t:labels.show_payment_icons",
+      "label": "Show payment icons",
       "default": true
     }
-  ]
+  ],
+  "blocks": [],
+  "default": {
+    "settings": {}
+  }
 }
 {% endschema %}

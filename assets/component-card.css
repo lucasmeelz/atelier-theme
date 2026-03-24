@@ -1,0 +1,301 @@
+/* Product card + Price components */
+
+/* ===== PRICE ===== */
+
+.price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25em 0.5em;
+  font-size: var(--body-font-size-mobile);
+  line-height: 1.3;
+}
+
+@media screen and (min-width: 750px) {
+  .price {
+    font-size: var(--body-font-size-desktop);
+  }
+}
+
+.price__current {
+  font-weight: 500;
+  color: rgb(var(--color-text));
+}
+
+.price__current--sale {
+  color: var(--color-sale-badge);
+}
+
+.price__was {
+  color: rgb(var(--color-text-subdued));
+  text-decoration: line-through;
+  font-size: 0.875em;
+}
+
+.price__from {
+  color: rgb(var(--color-text));
+}
+
+.price__unit {
+  width: 100%;
+  font-size: 0.8em;
+  color: rgb(var(--color-text-subdued));
+}
+
+.price__unit-separator {
+  margin-inline: 0.15em;
+}
+
+.price__tax-notice {
+  width: 100%;
+  font-size: 0.75em;
+  color: rgb(var(--color-text-subdued));
+}
+
+/* ===== PRODUCT CARD ===== */
+
+.card-product {
+  position: relative;
+}
+
+/* Image wrapper */
+.card-product__media {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--card-border-radius);
+  text-decoration: none;
+  background-color: rgba(var(--color-text), 0.03);
+}
+
+.card-product__media-wrapper {
+  position: relative;
+  aspect-ratio: var(--card-image-ratio, auto);
+  overflow: hidden;
+}
+
+.card-product__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-product__image--secondary {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease-ecrin);
+}
+
+/* Secondary image on hover */
+@media (hover: hover) {
+  .card-product__media:hover .card-product__image--secondary {
+    opacity: 1;
+  }
+
+  /* Scale effect */
+  [data-card-hover="scale"] .card-product__image--primary {
+    transition: transform var(--duration-slow) var(--ease-ecrin);
+  }
+
+  [data-card-hover="scale"] .card-product__media:hover .card-product__image--primary {
+    transform: scale(1.05);
+  }
+}
+
+/* Placeholder */
+.card-product__placeholder {
+  aspect-ratio: 3 / 4;
+  background-color: rgba(var(--color-text), 0.03);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-product__placeholder-svg {
+  width: 50%;
+  height: auto;
+  opacity: 0.15;
+}
+
+/* Badges */
+.card-product__badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 2;
+  padding: 4px 10px;
+  font-family: var(--font-label-family);
+  font-size: var(--label-font-size);
+  font-weight: var(--font-label-weight);
+  letter-spacing: var(--label-letter-spacing);
+  text-transform: var(--label-text-transform);
+  line-height: 1.3;
+  border-radius: 2px;
+}
+
+.card-product__badge--sale {
+  background-color: var(--color-sale-badge);
+  color: #fff;
+}
+
+.card-product__badge--sold-out {
+  background-color: var(--color-sold-out-badge);
+  color: #fff;
+}
+
+/* Quick add button */
+.card-product__quick-add {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  z-index: 2;
+}
+
+.card-product__quick-add-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgb(var(--color-background));
+  color: rgb(var(--color-text));
+  border: 1px solid rgb(var(--color-border));
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity var(--duration-base) var(--ease-ecrin),
+              transform var(--duration-base) var(--ease-ecrin),
+              background-color var(--duration-fast) var(--ease-ecrin);
+}
+
+@media (hover: hover) {
+  .card-product__media:hover .card-product__quick-add-btn {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .card-product__quick-add-btn:hover {
+    background-color: rgb(var(--color-button-bg));
+    color: rgb(var(--color-button-text));
+    border-color: rgb(var(--color-button-bg));
+  }
+}
+
+/* Always show on touch devices */
+@media (hover: none) {
+  .card-product__quick-add-btn {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Info section */
+.card-product__info {
+  padding-block-start: 10px;
+}
+
+.card-product--center .card-product__info {
+  text-align: center;
+}
+
+.card-product__vendor {
+  margin-block-end: 2px;
+  color: rgb(var(--color-text-subdued));
+}
+
+.card-product__title {
+  font-family: var(--font-body-family);
+  font-size: var(--body-font-size-mobile);
+  font-weight: 400;
+  line-height: 1.4;
+  margin-block-end: 4px;
+}
+
+@media screen and (min-width: 750px) {
+  .card-product__title {
+    font-size: var(--body-font-size-desktop);
+  }
+}
+
+.card-product__title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+@media (hover: hover) {
+  .card-product__title a:hover {
+    opacity: 1;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    text-decoration-thickness: 1px;
+  }
+}
+
+/* Color swatches */
+.card-product__swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  list-style: none;
+  padding: 0;
+  margin: 6px 0 0;
+}
+
+.card-product--center .card-product__swatches {
+  justify-content: center;
+}
+
+.card-product__swatch {
+  width: 16px;
+  height: 16px;
+  border: 1px solid rgb(var(--color-border));
+  cursor: default;
+}
+
+.card-product__swatch--circle {
+  border-radius: 50%;
+}
+
+.card-product__swatch--square {
+  border-radius: 2px;
+}
+
+.card-product__swatch--more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: rgb(var(--color-text-subdued));
+  border: none;
+  width: auto;
+  padding-inline: 2px;
+}
+
+/* Stagger animation */
+@keyframes card-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+[data-stagger-cards] .card-product {
+  animation: card-reveal var(--duration-slow) var(--ease-ecrin) both;
+}
+
+[data-stagger-cards] .card-product:nth-child(1) { animation-delay: 0ms; }
+[data-stagger-cards] .card-product:nth-child(2) { animation-delay: 80ms; }
+[data-stagger-cards] .card-product:nth-child(3) { animation-delay: 160ms; }
+[data-stagger-cards] .card-product:nth-child(4) { animation-delay: 240ms; }
+[data-stagger-cards] .card-product:nth-child(5) { animation-delay: 320ms; }
+[data-stagger-cards] .card-product:nth-child(6) { animation-delay: 400ms; }
+[data-stagger-cards] .card-product:nth-child(7) { animation-delay: 480ms; }
+[data-stagger-cards] .card-product:nth-child(8) { animation-delay: 560ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-stagger-cards] .card-product {
+    animation: none;
+  }
+}

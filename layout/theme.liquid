@@ -1,94 +1,49 @@
 <!doctype html>
 <html lang="{{ request.locale.iso_code }}">
   <head>
-    {% # Inlined CSS Variables %}
-    {% render 'css-variables' %}
+    {%- render 'css-variables' -%}
 
-    {% comment %}
-      Font preloading:
-      1. Preconnect to font CDN for faster connection
-      2. Preload critical font variants (heading + body base weights)
-      3. Additional variants load on-demand via @font-face
-    {% endcomment %}
-    {% unless settings.type_heading_font.system? %}
+    {%- comment -%} Font preloading {%- endcomment -%}
+    {%- unless settings.type_heading_font.system? -%}
       <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
       {{ settings.type_heading_font | font_url | preload_tag: as: 'font', crossorigin: 'anonymous' }}
-    {% endunless %}
-    {% unless settings.type_body_font.system? %}
-      {% if settings.type_heading_font.system? %}
+    {%- endunless -%}
+    {%- unless settings.type_body_font.system? -%}
+      {%- if settings.type_heading_font.system? -%}
         <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
-      {% endif %}
+      {%- endif -%}
       {{ settings.type_body_font | font_url | preload_tag: as: 'font', crossorigin: 'anonymous' }}
-    {% endunless %}
+    {%- endunless -%}
 
-    {% # Favicon %}
-    {% if settings.favicon %}
+    {%- comment -%} Favicon {%- endcomment -%}
+    {%- if settings.favicon -%}
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
-    {% endif %}
+    {%- endif -%}
 
-    {% # Load and preload the critical CSS %}
     {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
-    {{ 'component-button.css' | asset_url | stylesheet_tag }}
 
-    {% # Social, title, etc. %}
-    {% render 'meta-tags' %}
+    {%- render 'meta-tags' -%}
 
     {{ content_for_header }}
   </head>
 
-  <body
-    data-scroll-animation="{{ settings.scroll_animations }}"
-    data-animation-threshold="{{ settings.animation_threshold }}"
-    data-page-transition="{{ settings.page_transition }}"
-    data-cursor-style="{{ settings.cursor_style }}"
-  >
-    {% sections 'header-group' %}
+  <body>
+    <a class="skip-to-content" href="#main-content">
+      {{- 'accessibility.skip_to_content' | t -}}
+    </a>
 
-    {{ content_for_layout }}
+    {%- sections 'header-group' -%}
 
-    {% sections 'footer-group' %}
+    <main id="main-content" role="main">
+      {{ content_for_layout }}
+    </main>
 
-    {% comment %} Custom cursor elements {% endcomment %}
-    {% if settings.cursor_style != 'default' %}
-      <div class="cursor-{{ settings.cursor_style }}" aria-hidden="true"></div>
-      {% if settings.cursor_style == 'circle' %}
-        <div class="cursor-dot" aria-hidden="true"></div>
-      {% endif %}
+    {%- sections 'footer-group' -%}
 
+    {%- comment -%} Scroll reveal animations {%- endcomment -%}
+    {%- if settings.scroll_reveal != 'none' -%}
       <script>
         (function() {
-          var cursor = document.querySelector('.cursor-{{ settings.cursor_style }}');
-          var dot = document.querySelector('.cursor-dot');
-          var cx = 0, cy = 0, dx = 0, dy = 0;
-
-          document.addEventListener('mousemove', function(e) {
-            cx = e.clientX;
-            cy = e.clientY;
-          });
-
-          function render() {
-            {% if settings.cursor_style == 'circle' %}
-              dx += (cx - dx) * 0.15;
-              dy += (cy - dy) * 0.15;
-              cursor.style.transform = 'translate(' + (dx - 18) + 'px, ' + (dy - 18) + 'px)';
-              if (dot) dot.style.transform = 'translate(' + (cx - 4) + 'px, ' + (cy - 4) + 'px)';
-            {% else %}
-              cursor.style.transform = 'translate(' + (cx - 4) + 'px, ' + (cy - 4) + 'px)';
-            {% endif %}
-            requestAnimationFrame(render);
-          }
-
-          document.body.classList.add('cursor-ready');
-          requestAnimationFrame(render);
-        })();
-      </script>
-    {% endif %}
-
-    {% comment %} Scroll animations {% endcomment %}
-    {% if settings.scroll_animations != 'none' %}
-      <script>
-        (function() {
-          var threshold = {{ settings.animation_threshold }} / 100;
           var observer = new IntersectionObserver(function(entries) {
             entries.forEach(function(entry) {
               if (entry.isIntersecting) {
@@ -96,13 +51,19 @@
                 observer.unobserve(entry.target);
               }
             });
-          }, { threshold: threshold });
+          }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
-          document.querySelectorAll('.animate-on-scroll').forEach(function(el) {
+          document.querySelectorAll('.reveal').forEach(function(el) {
             observer.observe(el);
+          });
+
+          document.addEventListener('shopify:section:load', function() {
+            document.querySelectorAll('.reveal:not(.is-visible)').forEach(function(el) {
+              observer.observe(el);
+            });
           });
         })();
       </script>
-    {% endif %}
+    {%- endif -%}
   </body>
 </html>

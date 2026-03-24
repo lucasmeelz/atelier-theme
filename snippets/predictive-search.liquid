@@ -1,0 +1,44 @@
+{%- comment -%}
+  Predictive search component
+  Uses Shopify's predictive search API
+  Params: section_id {String}
+{%- endcomment -%}
+
+<predictive-search class="predictive-search" data-section-id="{{ section_id }}">
+  <form action="{{ routes.search_url }}" method="get" role="search" class="predictive-search__form">
+    <label for="predictive-search-input-{{ section_id }}" class="visually-hidden">{{ 'search.placeholder' | t }}</label>
+    <div class="predictive-search__input-wrapper">
+      {%- render 'icon', name: 'search', size: 18 -%}
+      <input
+        type="search"
+        id="predictive-search-input-{{ section_id }}"
+        name="q"
+        class="predictive-search__input"
+        placeholder="{{ 'search.placeholder' | t }}"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+        spellcheck="false"
+        data-predictive-search-input
+      >
+      <button type="button" class="predictive-search__clear btn--icon" data-search-clear hidden aria-label="{{ 'accessibility.close' | t }}">
+        {%- render 'icon', name: 'close', size: 16 -%}
+      </button>
+    </div>
+    <input type="hidden" name="type" value="product,article,page">
+  </form>
+
+  <div class="predictive-search__results" data-predictive-search-results aria-live="polite" hidden>
+    {%- comment -%} Results populated via JavaScript {%- endcomment -%}
+    <div class="predictive-search__loading" data-search-loading hidden>
+      <span class="predictive-search__spinner" aria-hidden="true"></span>
+      <span class="visually-hidden">{{ 'accessibility.loading' | t }}</span>
+    </div>
+
+    <div class="predictive-search__content" data-search-content></div>
+
+    <div class="predictive-search__no-results" data-search-no-results hidden>
+      <p>{{ 'search.no_results' | t: terms: '' }}</p>
+    </div>
+  </div>
+</predictive-search>

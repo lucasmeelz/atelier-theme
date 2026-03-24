@@ -1,0 +1,186 @@
+{%- comment -%}
+  Product card component
+  Params:
+    product             {Product}   Product object (required)
+    image_ratio         {String}    Override global setting (natural | portrait | square | landscape)
+    show_secondary_image {Boolean}  Override global setting
+    show_vendor         {Boolean}   Override global setting
+    show_quick_add      {Boolean}   Override global setting
+    show_color_swatches {Boolean}   Override global setting
+    columns             {Number}    Grid columns (for responsive image sizes)
+    lazy                {Boolean}   Lazy load images (default: true)
+    section_id          {String}    Parent section ID
+{%- endcomment -%}
+
+{%- liquid
+  assign ratio = image_ratio | default: settings.product_card_image_ratio
+  assign show_secondary = show_secondary_image | default: settings.product_card_show_secondary_image
+  assign vendor_visible = show_vendor | default: settings.product_card_show_vendor
+  assign quick_add_visible = show_quick_add | default: settings.product_card_show_quick_add
+  assign swatches_visible = show_color_swatches | default: settings.product_card_show_color_swatches
+  assign alignment = settings.product_card_info_alignment
+  assign hover_effect = settings.card_hover_effect
+  assign loading = 'lazy'
+  unless lazy == false
+    assign loading = 'lazy'
+  else
+    assign loading = 'eager'
+  endunless
+
+  assign primary_image = product.featured_image
+  assign secondary_image = nil
+  if show_secondary and product.images.size > 1
+    assign secondary_image = product.images[1]
+  endif
+
+  assign on_sale = false
+  if product.compare_at_price > product.price and product.available
+    assign on_sale = true
+  endif
+
+  assign sold_out = true
+  if product.available
+    assign sold_out = false
+  endif
+-%}
+
+<div class="card-product{% if alignment %} card-product--{{ alignment }}{% endif %}" data-product-id="{{ product.id }}">
+
+  {%- comment -%} Image container {%- endcomment -%}
+  <div class="card-product__media">
+    {%- liquid
+      assign ratio_css = ''
+      case ratio
+        when 'portrait'
+          assign ratio_css = '3 / 4'
+        when 'square'
+          assign ratio_css = '1 / 1'
+        when 'landscape'
+          assign ratio_css = '4 / 3'
+      endcase
+    -%}
+    <a href="{{ product.url }}" class="card-product__media-link" aria-label="{{ product.title | escape }}" tabindex="-1">
+      <div class="card-product__media-wrapper"{% if ratio_css != blank %} style="--card-image-ratio: {{ ratio_css }};"{% endif %}>
+
+        {%- if primary_image -%}
+          {{ primary_image | image_url: width: 800 | image_tag:
+            loading: loading,
+            widths: '300,400,500,600,800',
+            sizes: '(min-width: 1200px) calc((100vw - 80px) / ' | append: columns | default: 4 | append: '), (min-width: 750px) calc((100vw - 40px) / 2), calc(100vw - 40px)',
+            class: 'card-product__image card-product__image--primary',
+            alt: primary_image.alt | default: product.title
+          }}
+
+          {%- if secondary_image -%}
+            {{ secondary_image | image_url: width: 800 | image_tag:
+              loading: 'lazy',
+              widths: '300,400,500,600,800',
+              sizes: '(min-width: 1200px) calc((100vw - 80px) / ' | append: columns | default: 4 | append: '), (min-width: 750px) calc((100vw - 40px) / 2), calc(100vw - 40px)',
+              class: 'card-product__image card-product__image--secondary',
+              alt: secondary_image.alt | default: product.title
+            }}
+          {%- endif -%}
+        {%- else -%}
+          <div class="card-product__placeholder">
+            {{ 'product-1' | placeholder_svg_tag: 'card-product__placeholder-svg' }}
+          </div>
+        {%- endif -%}
+
+      </div>
+    </a>
+
+    {%- comment -%} Badges {%- endcomment -%}
+    {%- if settings.product_card_show_sale_badge and on_sale -%}
+      <span class="card-product__badge card-product__badge--sale">
+        {%- case settings.product_card_sale_badge_style -%}
+          {%- when 'percentage' -%}
+            {%- assign discount = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
+            {{ 'product.sale_percentage' | t: percentage: discount }}
+          {%- when 'amount' -%}
+            {%- assign savings = product.compare_at_price | minus: product.price | money -%}
+            -{{ savings }}
+          {%- when 'text' -%}
+            {{ 'product.sale' | t }}
+        {%- endcase -%}
+      </span>
+    {%- endif -%}
+
+    {%- if settings.product_card_show_sold_out_badge and sold_out -%}
+      <span class="card-product__badge card-product__badge--sold-out">
+        {{ 'product.sold_out' | t }}
+      </span>
+    {%- endif -%}
+
+    {%- comment -%} Quick add {%- endcomment -%}
+    {%- if quick_add_visible and product.available -%}
+      {%- if product.has_only_default_variant -%}
+        <form method="post" action="{{ routes.cart_add_url }}" class="card-product__quick-add">
+          <input type="hidden" name="id" value="{{ product.first_available_variant.id }}">
+          <input type="hidden" name="quantity" value="1">
+          <button type="submit" class="card-product__quick-add-btn btn--icon" aria-label="{{ 'product.add_to_cart' | t }}: {{ product.title | escape }}">
+            {%- render 'icon', name: 'plus', size: 16 -%}
+          </button>
+        </form>
+      {%- else -%}
+        <a href="{{ product.url }}" class="card-product__quick-add-btn btn--icon" aria-label="{{ 'product.add_to_cart' | t }}: {{ product.title | escape }}">
+          {%- render 'icon', name: 'plus', size: 16 -%}
+        </a>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+
+  {%- comment -%} Product info {%- endcomment -%}
+  <div class="card-product__info">
+    {%- if vendor_visible -%}
+      <p class="card-product__vendor label">{{ product.vendor }}</p>
+    {%- endif -%}
+
+    <h3 class="card-product__title">
+      <a href="{{ product.url }}">{{ product.title }}</a>
+    </h3>
+
+    {%- render 'price', product: product, show_badges: false -%}
+
+    {%- comment -%} Color swatches {%- endcomment -%}
+    {%- if swatches_visible -%}
+      {%- for option in product.options_with_values -%}
+        {%- assign option_name_lower = option.name | downcase -%}
+        {%- if option_name_lower == 'color' or option_name_lower == 'colour' -%}
+          <ul class="card-product__swatches" role="list" aria-label="{{ option.name }}">
+            {%- for value in option.values -%}
+              {%- liquid
+                assign swatch_color = value | downcase | replace: ' ', ''
+                assign swatch_image = value | handle | append: '.png' | file_url
+                assign swatch_style = ''
+
+                for swatch_line in settings.swatch_config
+                  assign swatch_parts = swatch_line | strip | split: ':'
+                  assign swatch_name = swatch_parts[0] | strip | downcase | replace: ' ', ''
+                  if swatch_name == swatch_color
+                    assign swatch_style = 'background-color: ' | append: swatch_parts[1] | strip
+                    break
+                  endif
+                endfor
+
+                if swatch_style == blank
+                  assign swatch_style = 'background-color: ' | append: value | downcase
+                endif
+              -%}
+              <li class="card-product__swatch card-product__swatch--{{ settings.product_card_swatch_shape }}"
+                  style="{{ swatch_style }}"
+                  title="{{ value }}"
+                  aria-label="{{ value }}">
+              </li>
+              {%- if forloop.index == 5 and forloop.length > 5 -%}
+                <li class="card-product__swatch card-product__swatch--more">
+                  +{{ forloop.length | minus: 5 }}
+                </li>
+                {%- break -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+</div>

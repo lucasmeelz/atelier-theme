@@ -1,142 +1,154 @@
 {
+  "settings_schema": {
+    "colors": {
+      "name": "Colors",
+      "background": "Background",
+      "background_gradient": "Background gradient",
+      "background_gradient_info": "Overrides background color when set.",
+      "text": "Text",
+      "text_subdued": "Subdued text",
+      "accent": "Accent",
+      "border": "Border",
+      "buttons": "Buttons",
+      "button_background": "Button background",
+      "button_label": "Button label",
+      "default_scheme": "Default color scheme",
+      "badges": "Badges",
+      "sale_badge": "Sale badge",
+      "sold_out_badge": "Sold out badge"
+    },
+    "typography": {
+      "name": "Typography",
+      "font": "Font",
+      "body": "Body text",
+      "headings": "Headings",
+      "labels": "Labels and subheadings",
+      "buttons": "Buttons",
+      "size": "Size",
+      "size_mobile": "Size on mobile",
+      "size_desktop": "Size on desktop",
+      "line_height": "Line height",
+      "letter_spacing": "Letter spacing",
+      "casing": "Casing",
+      "casing_default": "Default",
+      "casing_uppercase": "Uppercase",
+      "heading_scale": "Size scale",
+      "heading_scale_info": "Scales all heading sizes proportionally.",
+      "heading_font": "Heading font",
+      "body_font": "Body font"
+    },
+    "layout": {
+      "name": "Layout",
+      "page_width": "Page width",
+      "page_margin": "Page margin",
+      "section_spacing": "Space between sections",
+      "compact": "Compact",
+      "normal": "Normal",
+      "loose": "Loose"
+    },
+    "appearance": {
+      "name": "Appearance",
+      "shapes": "Borders and shapes",
+      "button_corners": "Button corners",
+      "input_corners": "Input corners",
+      "card_corners": "Card corners",
+      "icons": "Icons",
+      "icon_thickness": "Icon thickness",
+      "overlays": "Overlays",
+      "backdrop_blur": "Backdrop blur",
+      "backdrop_blur_info": "Blur applied behind drawers and overlays."
+    },
+    "animations": {
+      "name": "Animations",
+      "reduced_motion_info": "Animations respect the user's reduce motion system preference.",
+      "page_transition": "Page transition",
+      "scroll_reveal": "Scroll reveal",
+      "button_hover": "Button hover effect",
+      "image_hover": "Image hover effect",
+      "stagger_products": "Stagger product cards on scroll",
+      "stagger_blog_posts": "Stagger blog posts on scroll",
+      "none": "None",
+      "fade": "Fade",
+      "fade_up": "Fade up",
+      "fade_in": "Fade in",
+      "slide_up": "Slide up",
+      "zoom": "Zoom",
+      "zoom_and_fade": "Zoom and fade"
+    },
+    "product_cards": {
+      "name": "Product cards",
+      "color_scheme": "Color scheme",
+      "image_ratio": "Image ratio",
+      "natural": "Natural",
+      "portrait": "Portrait (3:4)",
+      "square": "Square (1:1)",
+      "landscape": "Landscape (4:3)",
+      "show_secondary_image": "Show secondary image on hover",
+      "info_alignment": "Product info alignment",
+      "left": "Left",
+      "center": "Center",
+      "show_vendor": "Show vendor",
+      "show_rating": "Show rating",
+      "rating_info": "Requires a product reviews app.",
+      "show_quick_add": "Show quick add",
+      "show_color_swatches": "Show color swatches",
+      "swatch_shape": "Swatch shape",
+      "circle": "Circle",
+      "square_shape": "Square",
+      "badges": "Badges",
+      "show_sale_badge": "Show sale badge",
+      "sale_badge_style": "Sale badge style",
+      "percentage": "Percentage (e.g. -20%)",
+      "amount_saved": "Amount saved",
+      "sale_text": "Sale text only",
+      "show_sold_out_badge": "Show sold out badge"
+    },
+    "cart": {
+      "name": "Cart",
+      "cart_type": "Cart type",
+      "drawer": "Drawer",
+      "page": "Page",
+      "cart_icon": "Cart icon",
+      "shopping_bag": "Shopping bag",
+      "shopping_cart": "Shopping cart",
+      "free_shipping": "Free shipping bar",
+      "show_free_shipping_bar": "Show free shipping progress bar",
+      "free_shipping_minimum": "Free shipping minimum amount",
+      "free_shipping_info": "Enter the amount in your store currency without the symbol."
+    },
+    "color_swatches": {
+      "name": "Color swatches",
+      "mapping": "Color mapping",
+      "mapping_info": "Map color names to hex values. One per line: Name:#hexcode"
+    },
+    "social_media": {
+      "name": "Social media",
+      "accounts": "Accounts"
+    },
+    "favicon": {
+      "name": "Favicon",
+      "image": "Favicon image",
+      "info": "32 x 32px .png recommended"
+    }
+  },
   "general": {
-    "404": "Not found",
+    "404": "404",
     "article": "Article",
-    "block": "Block",
     "blog": "Blog",
     "cart": "Cart",
     "collection": "Collection",
-    "collections": "Collections",
-    "collection_card": "Collection card",
     "collections_grid": "Collections grid",
-    "colors": "Colors",
-    "column": "Column",
-    "content": "Content",
     "custom_section": "Custom section",
-    "fonts": "Fonts",
     "footer": "Footer",
     "group": "Group",
     "header": "Header",
-    "layout": "Layout",
-    "main": "Main",
     "page": "Page",
     "password": "Password",
-    "primary": "Primary",
     "product": "Product",
-    "product_cards": "Product cards",
-    "row": "Row",
     "search": "Search",
-    "secondary": "Secondary",
-    "section": "Section",
-    "settings": "Settings",
-    "sidebar": "Sidebar",
-    "text": "Text",
-    "theme": "Theme",
-    "typography": "Typography",
-    "animations": "Animations",
-    "cursor": "Cursor",
-    "social_media": "Social media",
-    "favicon": "Favicon"
+    "text": "Text"
   },
-  "labels": {
-    "alignment": "Alignment",
-    "background": "Background",
-    "background_gradient": "Background gradient",
-    "background_gradient_info": "Overrides the background color when set.",
-    "foreground": "Foreground",
-    "text": "Text",
-    "text_colors": "Text colors",
-    "text_subdued": "Subdued text",
-    "buttons": "Buttons",
-    "button_bg": "Button background",
-    "button_text": "Button text",
-    "button_outline_text": "Outline button text",
-    "other_colors": "Other colors",
-    "accent_color": "Accent",
-    "border_color": "Border",
-    "link_color": "Link",
-    "heading_font": "Heading font",
-    "body_font": "Body font",
-    "grid_gap": "Grid spacing",
-    "grid_item_width": "Grid item width",
-    "input_corner_radius": "Input corner radius",
-    "layout_direction": "Layout direction",
-    "menu": "Menu",
-    "customer_account_menu": "Customer account menu",
-    "padding": "Padding",
-    "page_margin": "Page margin",
-    "page_width": "Page width",
-    "section_padding_mobile": "Section padding (mobile)",
-    "section_padding_desktop": "Section padding (desktop)",
-    "show_payment_icons": "Show payment icons",
-    "text_style": "Text style",
-    "cart_type": "Cart type",
-    "page_transition": "Page transition",
-    "page_transition_info": "Transition effect between page navigations.",
-    "scroll_animations": "Scroll animations",
-    "animation_threshold": "Animation trigger point",
-    "animation_threshold_info": "Percentage of element visible before animation triggers.",
-    "cursor_style": "Cursor style",
-    "cursor_color": "Cursor color",
-    "card_hover_effect": "Card hover effect",
-    "card_border_radius": "Card corner radius",
-    "quick_add_style": "Quick add style",
-    "social_accounts": "Social accounts",
-    "favicon": "Favicon",
-    "favicon_info": "32×32px .png recommended."
-  },
-  "options": {
-    "alignment": {
-      "left": "Left",
-      "center": "Center",
-      "right": "Right"
-    },
-    "direction": {
-      "horizontal": "Horizontal",
-      "vertical": "Vertical"
-    },
-    "page_width": {
-      "narrow": "Narrow",
-      "wide": "Wide"
-    },
-    "size": {
-      "large": "Large",
-      "small": "Small"
-    },
-    "text_style": {
-      "title": "Title",
-      "subtitle": "Subtitle",
-      "normal": "Normal text"
-    },
-    "cart_type": {
-      "drawer": "Drawer",
-      "page": "Page"
-    },
-    "page_transition": {
-      "none": "None",
-      "fade": "Fade",
-      "slide_up": "Slide up"
-    },
-    "scroll_animations": {
-      "none": "None",
-      "fade_up": "Fade up",
-      "fade_in": "Fade in"
-    },
-    "cursor_style": {
-      "default": "Default",
-      "dot": "Dot",
-      "circle": "Circle"
-    },
-    "card_hover_effect": {
-      "none": "None",
-      "image_swap": "Image swap",
-      "scale": "Scale",
-      "overlay": "Overlay"
-    },
-    "quick_add_style": {
-      "none": "None",
-      "icon": "Icon only",
-      "button": "Button"
-    }
+  "accessibility": {
+    "skip_to_content": "Skip to content"
   }
 }

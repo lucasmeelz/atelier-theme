@@ -1,7 +1,10 @@
-/** Critical CSS for the theme. This file is included on every page. */
+/* Ecrin — Critical CSS (loaded on every page) */
 
-/* Reset styles inspired by https://www.joshwcomeau.com/css/custom-css-reset/ */
-* {
+/* ===== RESET ===== */
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
 }
@@ -9,7 +12,6 @@
 body {
   display: flex;
   flex-direction: column;
-  margin: 0;
   min-height: 100svh;
 }
 
@@ -29,14 +31,20 @@ svg {
 
 input,
 textarea,
-select {
+select,
+button {
   font: inherit;
-  border-radius: var(--style-border-radius-inputs);
+  color: inherit;
+}
+
+input,
+textarea,
+select {
+  border-radius: var(--input-border-radius);
 }
 
 select {
   background-color: rgb(var(--color-background));
-  color: currentcolor;
 }
 
 dialog {
@@ -47,13 +55,9 @@ dialog {
 p {
   text-wrap: pretty;
 }
+
 p,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h2, h3, h4, h5, h6 {
   overflow-wrap: break-word;
 }
 
@@ -71,39 +75,70 @@ p:empty {
   margin-block-end: 0;
 }
 
-/** Theme styles below */
+/* ===== BASE TYPOGRAPHY ===== */
+
 body {
-  font-family: var(--font-body--family);
-  font-style: var(--font-body--style);
-  font-weight: var(--font-body--weight);
+  font-family: var(--font-body-family);
+  font-style: var(--font-body-style);
+  font-weight: var(--font-body-weight);
+  font-size: var(--body-font-size-mobile);
+  line-height: var(--body-line-height);
   background-color: rgb(var(--color-background));
   color: rgb(var(--color-text));
-  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/** Typography scale */
+@media screen and (min-width: 750px) {
+  body {
+    font-size: var(--body-font-size-desktop);
+  }
+}
+
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading--family);
-  font-style: var(--font-heading--style);
-  font-weight: var(--font-heading--weight);
-  line-height: 1.15;
+  font-family: var(--font-heading-family);
+  font-style: var(--font-heading-style);
+  font-weight: var(--font-heading-weight);
+  line-height: var(--heading-line-height);
+  text-transform: var(--heading-text-transform);
+  letter-spacing: var(--heading-letter-spacing);
   color: rgb(var(--color-text));
 }
 
-h1 { font-size: clamp(2rem, 5vw, 3.5rem); }
-h2 { font-size: clamp(1.75rem, 4vw, 2.75rem); }
-h3 { font-size: clamp(1.5rem, 3vw, 2rem); }
-h4 { font-size: clamp(1.25rem, 2.5vw, 1.5rem); }
-h5 { font-size: 1.125rem; }
-h6 { font-size: 1rem; }
+h1 { font-size: var(--h1-mobile); }
+h2 { font-size: var(--h2-mobile); }
+h3 { font-size: var(--h3-mobile); }
+h4 { font-size: var(--h4-mobile); }
+h5 { font-size: var(--h5-mobile); }
+h6 { font-size: var(--h6-mobile); }
+
+@media screen and (min-width: 750px) {
+  h1 { font-size: var(--h1-desktop); }
+  h2 { font-size: var(--h2-desktop); }
+  h3 { font-size: var(--h3-desktop); }
+  h4 { font-size: var(--h4-desktop); }
+  h5 { font-size: var(--h5-desktop); }
+  h6 { font-size: var(--h6-desktop); }
+}
+
+/* Label / subheading utility */
+.label,
+.subheading {
+  font-family: var(--font-label-family);
+  font-weight: var(--font-label-weight);
+  font-size: var(--label-font-size);
+  text-transform: var(--label-text-transform);
+  letter-spacing: var(--label-letter-spacing);
+  line-height: 1.3;
+}
+
+/* ===== LINKS ===== */
 
 a {
-  color: rgb(var(--color-link));
+  color: rgb(var(--color-accent));
   text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
-  transition: opacity var(--duration-fast) var(--ease-dior);
+  transition: opacity var(--duration-fast) var(--ease-ecrin);
 }
 
 @media (hover: hover) {
@@ -112,121 +147,46 @@ a {
   }
 }
 
-/** Color scheme utility classes */
+/* ===== FOCUS STATES ===== */
+
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid rgb(var(--color-accent));
+  outline-offset: 3px;
+}
+
+/* Skip link for accessibility */
+.skip-to-content {
+  position: absolute;
+  z-index: 9999;
+  padding: 0.75rem 1.5rem;
+  background-color: rgb(var(--color-button-bg));
+  color: rgb(var(--color-button-text));
+  font-size: var(--label-font-size);
+  text-transform: var(--label-text-transform);
+  letter-spacing: var(--label-letter-spacing);
+  text-decoration: none;
+  transform: translateY(-100%);
+  transition: transform var(--duration-fast) var(--ease-ecrin);
+}
+
+.skip-to-content:focus {
+  transform: translateY(0);
+}
+
+/* ===== COLOR SCHEME ===== */
+
 [class*="color-"] {
   background-color: rgb(var(--color-background));
   color: rgb(var(--color-text));
 }
 
-/** Section padding utility */
-.section-padding {
-  padding-block: var(--section-padding-mobile);
-}
+/* ===== LAYOUT ===== */
 
-@media screen and (min-width: 750px) {
-  .section-padding {
-    padding-block: var(--section-padding-desktop);
-  }
-}
-
-/** Reduced-motion — scoped to autonomous animations only */
-@media (prefers-reduced-motion: reduce) {
-  .motion-auto {
-    animation: none !important;
-  }
-}
-
-/** Scroll animation base states */
-.animate-on-scroll {
-  opacity: 0;
-  transition: opacity var(--duration-slow) var(--ease-dior),
-              transform var(--duration-slow) var(--ease-dior);
-}
-
-.animate-on-scroll[data-animation="fade-up"] {
-  transform: translateY(30px);
-}
-
-.animate-on-scroll[data-animation="fade-in"] {
-  transform: none;
-}
-
-.animate-on-scroll.is-visible {
-  opacity: 1;
-  transform: none;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .animate-on-scroll {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-/** Custom cursor */
-.cursor-dot,
-.cursor-circle {
-  position: fixed;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  z-index: 9999;
-  border-radius: 50%;
-  opacity: 0;
-  transition: opacity var(--duration-fast) var(--ease-dior);
-}
-
-.cursor-dot {
-  width: 8px;
-  height: 8px;
-  background-color: var(--cursor-color);
-}
-
-.cursor-circle {
-  width: 36px;
-  height: 36px;
-  border: 1px solid var(--cursor-color);
-}
-
-body.cursor-ready .cursor-dot,
-body.cursor-ready .cursor-circle {
-  opacity: 1;
-}
-
-/** Page transitions */
-@view-transition {
-  navigation: auto;
-}
-
-::view-transition-old(root) {
-  animation: var(--duration-base) var(--ease-dior) both page-fade-out;
-}
-
-::view-transition-new(root) {
-  animation: var(--duration-base) var(--ease-dior) both page-fade-in;
-}
-
-@keyframes page-fade-out {
-  to { opacity: 0; }
-}
-
-@keyframes page-fade-in {
-  from { opacity: 0; }
-}
-
-/** Section layout utilities */
-
-/**
- * Setup a grid that enables both full-width and constrained layouts
- * depending on the class of the child elements.
- *
- * By default, a minimum content margin is set on the left and right
- * sides of the section and the content is centered in the viewport to
- * not exceed the maximum page width.
- *
- * When a child element is given the `full-width` class, it will span
- * the entire viewport.
- */
+/* Section grid — enables full-width and constrained content */
 .shopify-section {
   --content-width: min(
     calc(var(--page-width) - var(--page-margin) * 2),
@@ -235,19 +195,180 @@ body.cursor-ready .cursor-circle {
   --content-margin: minmax(var(--page-margin), 1fr);
   --content-grid: var(--content-margin) var(--content-width) var(--content-margin);
 
-  /* This is required to make <img> elements work as background images */
   position: relative;
-  grid-template-columns: var(--content-grid);
   display: grid;
+  grid-template-columns: var(--content-grid);
   width: 100%;
 }
 
-/* Child elements, by default, are constrained to the central column of the grid. */
 .shopify-section > * {
   grid-column: 2;
 }
 
-/* Child elements that use the full-width utility class span the entire viewport. */
 .shopify-section > .full-width {
   grid-column: 1 / -1;
+}
+
+/* Container utility */
+.container {
+  width: 100%;
+  max-width: var(--page-width);
+  margin-inline: auto;
+  padding-inline: var(--page-margin);
+}
+
+/* Section spacing */
+.section-spacing {
+  padding-block: var(--section-spacing-mobile);
+}
+
+@media screen and (min-width: 750px) {
+  .section-spacing {
+    padding-block: var(--section-spacing-desktop);
+  }
+}
+
+/* Main content grows to fill viewport */
+main {
+  flex: 1 0 auto;
+}
+
+/* ===== RICH TEXT CONTENT ===== */
+
+.rte {
+  line-height: var(--body-line-height);
+}
+
+.rte h1, .rte h2, .rte h3, .rte h4, .rte h5, .rte h6 {
+  margin-block: 1.5em 0.5em;
+}
+
+.rte p {
+  margin-block: 0.75em;
+}
+
+.rte ul,
+.rte ol {
+  margin-block: 0.75em;
+  padding-inline-start: 1.5em;
+}
+
+.rte li {
+  margin-block: 0.25em;
+}
+
+.rte blockquote {
+  margin-block: 1.5em;
+  padding-inline-start: 1.5em;
+  border-inline-start: 2px solid rgb(var(--color-border));
+  font-style: italic;
+}
+
+.rte img {
+  margin-block: 1em;
+  border-radius: var(--card-border-radius);
+}
+
+.rte table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-block: 1em;
+}
+
+.rte th,
+.rte td {
+  padding: 0.5em 0.75em;
+  border: 1px solid rgb(var(--color-border));
+  text-align: start;
+}
+
+.rte th {
+  font-weight: 600;
+  background-color: rgba(var(--color-text), 0.03);
+}
+
+/* ===== ANIMATIONS ===== */
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transition: opacity var(--duration-slow) var(--ease-ecrin),
+              transform var(--duration-slow) var(--ease-ecrin);
+}
+
+.reveal[data-animation="fade-up"] {
+  transform: translateY(24px);
+}
+
+.reveal[data-animation="fade-in"] {
+  transform: none;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Stagger children */
+.reveal.is-visible > [data-stagger] {
+  animation: reveal-stagger var(--duration-slow) var(--ease-ecrin) both;
+}
+
+@keyframes reveal-stagger {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+/* Reduced motion — only autonomous animations */
+@media (prefers-reduced-motion: reduce) {
+  .motion-auto {
+    animation: none !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  .reveal.is-visible > [data-stagger] {
+    animation: none;
+  }
+}
+
+/* ===== VISUALLY HIDDEN ===== */
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ===== PAGE TRANSITIONS ===== */
+
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root) {
+  animation: var(--duration-base) var(--ease-ecrin) both page-fade-out;
+}
+
+::view-transition-new(root) {
+  animation: var(--duration-base) var(--ease-ecrin) both page-fade-in;
+}
+
+@keyframes page-fade-out {
+  to { opacity: 0; }
+}
+
+@keyframes page-fade-in {
+  from { opacity: 0; }
 }

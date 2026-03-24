@@ -1,75 +1,143 @@
-{% style %}
-  {% comment %} Heading font — all variants {% endcomment %}
+{%- style -%}
+  {%- comment -%} Heading font — all variants {%- endcomment -%}
   {{ settings.type_heading_font | font_face: font_display: 'swap' }}
   {{ settings.type_heading_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
   {{ settings.type_heading_font | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
   {{ settings.type_heading_font | font_modify: 'weight', 'bold' | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
 
-  {% comment %} Body font — all variants {% endcomment %}
+  {%- comment -%} Body font — all variants {%- endcomment -%}
   {{ settings.type_body_font | font_face: font_display: 'swap' }}
   {{ settings.type_body_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
   {{ settings.type_body_font | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
   {{ settings.type_body_font | font_modify: 'weight', 'bold' | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
 
+  {%- comment -%} Label font — all variants {%- endcomment -%}
+  {{ settings.type_label_font | font_face: font_display: 'swap' }}
+  {{ settings.type_label_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
+
   :root {
-    /* Fonts — heading */
-    --font-heading--family: {{ settings.type_heading_font.family }}, {{ settings.type_heading_font.fallback_families }};
-    --font-heading--style: {{ settings.type_heading_font.style }};
-    --font-heading--weight: {{ settings.type_heading_font.weight }};
+    /* ===== TYPOGRAPHY ===== */
 
-    /* Fonts — body */
-    --font-body--family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
-    --font-body--style: {{ settings.type_body_font.style }};
-    --font-body--weight: {{ settings.type_body_font.weight }};
+    /* Heading */
+    --font-heading-family: {{ settings.type_heading_font.family }}, {{ settings.type_heading_font.fallback_families }};
+    --font-heading-style: {{ settings.type_heading_font.style }};
+    --font-heading-weight: {{ settings.type_heading_font.weight }};
+    --heading-scale: {{ settings.heading_size_scale }};
+    --heading-text-transform: {{ settings.heading_text_transform }};
+    --heading-letter-spacing: {{ settings.heading_letter_spacing | divided_by: 100.0 }}em;
+    --heading-line-height: {{ settings.heading_line_height }};
 
-    /* Layout */
-    --page-width: {{ settings.max_page_width }}px;
-    --page-margin: {{ settings.min_page_margin }}px;
-    --container-max: {{ settings.max_page_width }}px;
-    --section-padding-mobile: {{ settings.section_padding_mobile }}px;
-    --section-padding-desktop: {{ settings.section_padding_desktop }}px;
+    /* Body */
+    --font-body-family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+    --font-body-style: {{ settings.type_body_font.style }};
+    --font-body-weight: {{ settings.type_body_font.weight }};
+    --body-font-size-mobile: {{ settings.body_font_size_mobile }}px;
+    --body-font-size-desktop: {{ settings.body_font_size_desktop }}px;
+    --body-line-height: {{ settings.body_line_height }};
 
-    /* Easing & durations */
-    --ease-dior: cubic-bezier(0.31, 0, 0.13, 1);
+    /* Labels and subheadings */
+    --font-label-family: {{ settings.type_label_font.family }}, {{ settings.type_label_font.fallback_families }};
+    --font-label-weight: {{ settings.type_label_font.weight }};
+    --label-font-size: {{ settings.label_font_size }}px;
+    --label-text-transform: {{ settings.label_text_transform }};
+    --label-letter-spacing: {{ settings.label_letter_spacing | divided_by: 100.0 }}em;
+
+    /* Buttons */
+    {%- if settings.button_font_choice == 'heading' -%}
+      --font-button-family: var(--font-heading-family);
+      --font-button-weight: var(--font-heading-weight);
+    {%- else -%}
+      --font-button-family: var(--font-body-family);
+      --font-button-weight: 500;
+    {%- endif -%}
+    --button-font-size: {{ settings.button_font_size }}px;
+    --button-text-transform: {{ settings.button_text_transform }};
+    --button-letter-spacing: {{ settings.button_letter_spacing | divided_by: 100.0 }}em;
+
+    /* Heading sizes (responsive, scaled by --heading-scale) */
+    --h1-mobile: calc(36px * var(--heading-scale));
+    --h1-desktop: calc(56px * var(--heading-scale));
+    --h2-mobile: calc(28px * var(--heading-scale));
+    --h2-desktop: calc(40px * var(--heading-scale));
+    --h3-mobile: calc(22px * var(--heading-scale));
+    --h3-desktop: calc(28px * var(--heading-scale));
+    --h4-mobile: calc(18px * var(--heading-scale));
+    --h4-desktop: calc(22px * var(--heading-scale));
+    --h5-mobile: calc(16px * var(--heading-scale));
+    --h5-desktop: calc(18px * var(--heading-scale));
+    --h6-mobile: calc(14px * var(--heading-scale));
+    --h6-desktop: calc(16px * var(--heading-scale));
+
+    /* ===== LAYOUT ===== */
+    --page-width: {{ settings.page_width }}px;
+    --page-margin: {{ settings.page_margin }}px;
+
+    {%- case settings.section_spacing -%}
+      {%- when 'compact' -%}
+        --section-spacing-mobile: 40px;
+        --section-spacing-desktop: 80px;
+      {%- when 'normal' -%}
+        --section-spacing-mobile: 60px;
+        --section-spacing-desktop: 120px;
+      {%- when 'loose' -%}
+        --section-spacing-mobile: 80px;
+        --section-spacing-desktop: 160px;
+    {%- endcase -%}
+
+    /* ===== APPEARANCE ===== */
+    --button-border-radius: {{ settings.button_border_radius }}px;
+    --input-border-radius: {{ settings.input_border_radius }}px;
+    --card-border-radius: {{ settings.card_border_radius }}px;
+    --icon-stroke-width: {{ settings.icon_stroke_width }}px;
+    --backdrop-blur: {{ settings.backdrop_blur }}px;
+
+    /* ===== MOTION ===== */
+    --ease-ecrin: cubic-bezier(0.31, 0, 0.13, 1);
     --duration-fast: 200ms;
     --duration-base: 350ms;
     --duration-slow: 600ms;
 
-    /* Inputs */
-    --style-border-radius-inputs: {{ settings.input_corner_radius }}px;
+    /* ===== BADGES ===== */
+    --color-sale-badge: {{ settings.sale_badge_color }};
+    --color-sold-out-badge: {{ settings.sold_out_badge_color }};
 
-    /* Product cards */
-    --card-border-radius: {{ settings.card_border_radius }}px;
-
-    /* Cursor */
-    --cursor-color: {{ settings.cursor_color }};
+    /* ===== PRODUCT CARDS ===== */
+    {%- case settings.product_card_image_ratio -%}
+      {%- when 'portrait' -%}
+        --card-image-ratio: 3 / 4;
+      {%- when 'square' -%}
+        --card-image-ratio: 1 / 1;
+      {%- when 'landscape' -%}
+        --card-image-ratio: 4 / 3;
+      {%- when 'natural' -%}
+        --card-image-ratio: auto;
+    {%- endcase -%}
   }
 
-  {% comment %} Color schemes — OS 2.0 color_scheme_group {% endcomment %}
-  {% for scheme in settings.color_schemes %}
-    {% liquid
+  {%- comment -%} Color schemes — OS 2.0 color_scheme_group {%- endcomment -%}
+  {%- for scheme in settings.color_schemes -%}
+    {%- liquid
       assign scheme_bg = scheme.settings.background
       assign scheme_bg_gradient = scheme_bg
       if scheme.settings.background_gradient != blank
         assign scheme_bg_gradient = scheme.settings.background_gradient
       endif
-    %}
+    -%}
 
-    {% if forloop.index == 1 %}
+    {%- if forloop.index == 1 -%}
       :root,
-    {% endif %}
+    {%- endif -%}
     .color-{{ scheme.id }} {
       --color-background: {{ scheme_bg.red }}, {{ scheme_bg.green }}, {{ scheme_bg.blue }};
+      --color-background-hex: {{ scheme_bg }};
       --gradient-background: {{ scheme_bg_gradient }};
       --color-text: {{ scheme.settings.text.red }}, {{ scheme.settings.text.green }}, {{ scheme.settings.text.blue }};
       --color-text-subdued: {{ scheme.settings.text_subdued.red }}, {{ scheme.settings.text_subdued.green }}, {{ scheme.settings.text_subdued.blue }};
       --color-accent: {{ scheme.settings.accent.red }}, {{ scheme.settings.accent.green }}, {{ scheme.settings.accent.blue }};
       --color-border: {{ scheme.settings.border.red }}, {{ scheme.settings.border.green }}, {{ scheme.settings.border.blue }};
-      --color-link: {{ scheme.settings.link.red }}, {{ scheme.settings.link.green }}, {{ scheme.settings.link.blue }};
-      --color-button-bg: {{ scheme.settings.button_bg.red }}, {{ scheme.settings.button_bg.green }}, {{ scheme.settings.button_bg.blue }};
-      --color-button-text: {{ scheme.settings.button_text.red }}, {{ scheme.settings.button_text.green }}, {{ scheme.settings.button_text.blue }};
-      --color-button-outline-text: {{ scheme.settings.button_outline_text.red }}, {{ scheme.settings.button_outline_text.green }}, {{ scheme.settings.button_outline_text.blue }};
+      --color-button-bg: {{ scheme.settings.button_background.red }}, {{ scheme.settings.button_background.green }}, {{ scheme.settings.button_background.blue }};
+      --color-button-text: {{ scheme.settings.button_label.red }}, {{ scheme.settings.button_label.green }}, {{ scheme.settings.button_label.blue }};
       --color-foreground: {{ scheme.settings.text.red }}, {{ scheme.settings.text.green }}, {{ scheme.settings.text.blue }};
     }
-  {% endfor %}
-{% endstyle %}
+  {%- endfor -%}
+{%- endstyle -%}
