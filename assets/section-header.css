@@ -26,24 +26,14 @@
               color var(--duration-base) var(--ease-dior);
 }
 
-/* Transparent — only when class is present AND not scrolled */
-.header--transparent {
+/* Transparent — active when class present AND not scrolled AND no dropdown open */
+.header--transparent:not(.header--scrolled, :has([open])) {
   background-color: transparent;
   color: rgb(var(--color-button-text));
 }
 
-.header--transparent .header__nav--below {
+.header--transparent:not(.header--scrolled, :has([open])) .header__nav--below {
   border-color: rgba(var(--color-button-text), 0.2);
-}
-
-/* Scrolled — override transparent back to solid */
-.header--transparent.header--scrolled {
-  background-color: rgb(var(--color-background));
-  color: rgb(var(--color-text));
-}
-
-.header--transparent.header--scrolled .header__nav--below {
-  border-color: rgb(var(--color-border));
 }
 
 /* ============================
@@ -311,6 +301,11 @@
   position: relative;
 }
 
+/* Nav items with mega menu: static so mega menu positions relative to nav bar */
+.header__nav-item:has(.mega-menu) {
+  position: static;
+}
+
 /* L1 nav links */
 .header__nav-link {
   display: inline-flex;
@@ -412,6 +407,11 @@
    Mega menu (Stretch / Theme-example-2 pattern)
    ============================ */
 
+/* Nav bar is the positioning context for mega menu */
+.header__nav--below {
+  position: relative;
+}
+
 .mega-menu {
   --mega-menu-padding: 1.75rem;
   --mega-menu-nav-max-width: 800px;
@@ -421,7 +421,7 @@
   inset-inline-start: 0;
   width: 100%;
   max-height: calc(100vh - var(--header-computed-height, 98px) - 48px);
-  padding: var(--mega-menu-padding) var(--mega-menu-padding) 2.5rem;
+  padding: var(--mega-menu-padding);
   background-color: rgb(var(--color-background));
   color: rgb(var(--color-text));
   border-top: 1px solid rgb(var(--color-border));
@@ -433,22 +433,16 @@
   z-index: 101;
 }
 
-/* Full-width from a relative-positioned nav-item */
-.header__nav--below .mega-menu {
-  width: 100vw;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
 /* Show mega menu via [open] attribute */
 .mega-menu[open] {
   display: grid;
 }
 
-/* Backdrop overlay — starts below the header, not covering it */
+/* Backdrop overlay — starts below the header */
 .mega-menu::after {
   content: "";
-  background: rgba(0, 0, 0, 0.15);
+  background: rgba(0, 0, 0, 0.12);
+  mix-blend-mode: multiply;
   pointer-events: none;
   position: fixed;
   inset: 0;
@@ -522,6 +516,7 @@
    Mega menu promo cards
    ============================ */
 
+/* Promo container — flex, grows to fill remaining space */
 .mega-menu-promo {
   display: flex;
   gap: 1rem;
@@ -535,21 +530,23 @@
   display: none;
 }
 
+/* Promo card — Stretch pattern: fixed width + height constraints */
 .mega-menu-promo__card {
   flex: 0 0 auto;
-  width: clamp(200px, calc((100vw - 800px) / var(--promo-count, 2)), 300px);
+  width: clamp(160px, 18vw, 260px);
+  min-width: 140px;
   text-decoration: none;
   color: inherit;
 }
 
 .mega-menu-promo__image-wrap {
-  aspect-ratio: 3 / 4;
   overflow: hidden;
 }
 
+/* Image: fixed height like Stretch (275px), object-fit cover */
 .mega-menu-promo__image {
   width: 100%;
-  height: 100%;
+  height: 275px;
   object-fit: cover;
   transition: transform var(--duration-base) var(--ease-dior);
 }
