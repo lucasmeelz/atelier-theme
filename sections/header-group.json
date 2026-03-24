@@ -53,7 +53,7 @@
         "show_country_flag": true,
         "show_locale_selector": false,
         "icon_size": 18,
-        "show_announcement": true,
+        "show_announcement": false,
         "announcement_text": "Free shipping on orders over $150",
         "announcement_link": "",
         "announcement_color_scheme": ""
