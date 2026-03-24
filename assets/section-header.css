@@ -855,11 +855,7 @@
 }
 
 .header-drawer__link > span:first-child {
-  flex: 1;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  flex: 1 1 auto;
 }
 
 .header-drawer__link svg {
@@ -906,8 +902,7 @@
 }
 
 .header-drawer__back span {
-  overflow: hidden;
-  text-overflow: ellipsis;
+  flex: 1 1 auto;
 }
 
 .header-drawer__back svg {
