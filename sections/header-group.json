@@ -13,7 +13,28 @@
   "sections": {
     "header": {
       "type": "header",
-      "settings": {}
+      "settings": {
+        "color_scheme": "",
+        "desktop_layout": "logo_center_nav_split",
+        "mobile_layout": "logo_center_split",
+        "enable_sticky": true,
+        "hide_on_scroll": false,
+        "logo_width": 120,
+        "logo_width_mobile": 90,
+        "menu": "menu-2",
+        "menu_open_trigger": "hover",
+        "transparent_header": true,
+        "transparent_header_text_color": "#0a0a0a",
+        "show_search": true,
+        "show_country_selector": true,
+        "show_country_flag": true,
+        "show_locale_selector": false,
+        "icon_size": 18,
+        "show_announcement": false,
+        "announcement_text": "Free shipping on orders over $150",
+        "announcement_link": "",
+        "announcement_color_scheme": ""
+      }
     }
   },
   "order": [
