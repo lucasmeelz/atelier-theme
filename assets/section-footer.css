@@ -1,5 +1,10 @@
 /* Footer — Ecrin theme */
 
+/* Full width — override Skeleton grid */
+.shopify-section-group-footer-group > .shopify-section > * {
+  grid-column: 1 / -1;
+}
+
 .footer {
   border-top: 1px solid rgb(var(--color-border));
 }

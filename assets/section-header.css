@@ -37,12 +37,17 @@
   margin: 0;
 }
 
-/* ===== SECTION WRAPPER — sticky ===== */
+/* ===== SECTION WRAPPER — sticky + full width ===== */
 
 .shopify-section-header {
   position: sticky;
   top: 0;
   z-index: 100;
+}
+
+/* Override Skeleton grid — header must be edge-to-edge */
+.shopify-section-header > * {
+  grid-column: 1 / -1;
 }
 
 /* ===== HEADER COMPONENT ===== */
@@ -100,8 +105,15 @@
 
 .header__wrapper {
   background-color: rgb(var(--color-background));
+  border-bottom: 1px solid rgb(var(--color-border));
   transition: background-color var(--duration-base) var(--ease-ecrin),
-              color var(--duration-base) var(--ease-ecrin);
+              color var(--duration-base) var(--ease-ecrin),
+              border-color var(--duration-base) var(--ease-ecrin);
+}
+
+/* No border when transparent */
+.header--is-transparent .header__wrapper {
+  border-bottom-color: transparent;
 }
 
 .header__inner {
