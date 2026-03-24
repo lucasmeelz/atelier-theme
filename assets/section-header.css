@@ -916,7 +916,7 @@
 
 /* Secondary links */
 .header-drawer__secondary {
-  padding: 24px 20px 8px;
+  padding: 24px 16px 8px;
   border-top: 1px solid rgb(var(--color-border));
   margin-top: auto;
 }
@@ -939,7 +939,7 @@
 
 /* Localization */
 .header-drawer__localization {
-  padding: 16px 20px 24px;
+  padding: 16px 16px 24px;
 }
 
 .header-drawer__locale-selector {
