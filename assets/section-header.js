@@ -12,17 +12,19 @@ class HeaderComponent extends HTMLElement {
     this.hideOnScroll = this.dataset.hideOnScroll === 'true';
     this.menuTriggerType = this.dataset.menuTrigger || 'hover';
 
-    this.openPanel = null;
+    this.openPanelIndex = null;
     this.lastScrollY = 0;
+    this.closeTimeout = null;
 
     this.setupTransparentHeader();
     this.setupStickyBehavior();
     this.setupDesktopNav();
     this.setupSearchToggle();
+    this.setupOverlay();
     this.updateHeaderHeight();
 
     window.addEventListener('resize', this.updateHeaderHeight.bind(this));
-    document.addEventListener('shopify:section:load', this.handleSectionLoad.bind(this));
+    document.addEventListener('shopify:section:load', () => this.updateHeaderHeight());
   }
 
   updateHeaderHeight() {
@@ -38,11 +40,7 @@ class HeaderComponent extends HTMLElement {
     this.transparentObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            this.classList.add('header--is-transparent');
-          } else {
-            this.classList.remove('header--is-transparent');
-          }
+          this.classList.toggle('header--is-transparent', entry.isIntersecting);
         });
       },
       { threshold: 0 }
@@ -56,10 +54,10 @@ class HeaderComponent extends HTMLElement {
     if (!this.hideOnScroll) return;
 
     this.scrollHandler = () => {
-      const currentY = window.scrollY;
-      const delta = currentY - this.lastScrollY;
+      var currentY = window.scrollY;
+      var delta = currentY - this.lastScrollY;
 
-      if (delta > 5 && currentY > 100 && !this.openPanel) {
+      if (delta > 5 && currentY > 100 && !this.openPanelIndex) {
         this.classList.add('is-hidden');
       } else if (delta < -5) {
         this.classList.remove('is-hidden');
@@ -73,130 +71,120 @@ class HeaderComponent extends HTMLElement {
 
   /* --- Desktop navigation --- */
   setupDesktopNav() {
-    const triggers = this.querySelectorAll('[data-menu-trigger-index]');
-    const panels = this.querySelectorAll('[data-menu-panel]');
+    var navItems = this.querySelectorAll('.header__nav-item--has-dropdown');
+    var panels = this.querySelectorAll('[data-menu-panel]');
 
-    if (!triggers.length) return;
+    if (!navItems.length) return;
 
-    const openDelay = 80;
-    const closeDelay = 200;
-    let openTimeout = null;
-    let closeTimeout = null;
+    var self = this;
 
-    const openPanel = (index) => {
-      clearTimeout(closeTimeout);
-      clearTimeout(openTimeout);
+    navItems.forEach(function(item) {
+      var trigger = item.querySelector('[data-menu-trigger-index]');
+      if (!trigger) return;
+      var index = trigger.dataset.menuTriggerIndex;
 
-      openTimeout = setTimeout(() => {
-        this.closePanels();
-        const panel = this.querySelector(`[data-menu-panel="${index}"]`);
-        const trigger = this.querySelector(`[data-menu-trigger-index="${index}"]`);
-        if (!panel || !trigger) return;
-
-        panel.hidden = false;
-        requestAnimationFrame(() => {
-          panel.classList.add('is-open');
-          trigger.setAttribute('aria-expanded', 'true');
+      if (self.menuTriggerType === 'hover') {
+        item.addEventListener('mouseenter', function() {
+          clearTimeout(self.closeTimeout);
+          self.openDropdown(index);
         });
 
-        this.openPanel = index;
-        if (this.overlay) this.overlay.classList.add('is-visible');
-      }, openDelay);
-    };
-
-    const scheduleClose = () => {
-      clearTimeout(openTimeout);
-      closeTimeout = setTimeout(() => {
-        this.closePanels();
-      }, closeDelay);
-    };
-
-    const cancelClose = () => {
-      clearTimeout(closeTimeout);
-    };
-
-    if (this.menuTriggerType === 'hover') {
-      /* Event delegation on nav items */
-      const navList = this.querySelector('.header__nav-list');
-      if (navList) {
-        navList.addEventListener('mouseenter', (e) => {
-          const item = e.target.closest('.header__nav-item--has-dropdown');
-          if (item) {
-            const trigger = item.querySelector('[data-menu-trigger-index]');
-            if (trigger) openPanel(trigger.dataset.menuTriggerIndex);
-          }
-        }, true);
-
-        navList.addEventListener('mouseleave', () => {
-          scheduleClose();
+        item.addEventListener('mouseleave', function() {
+          self.scheduleClose();
         });
       }
 
-      /* Keep open when hovering panel */
-      panels.forEach((panel) => {
-        panel.addEventListener('mouseenter', cancelClose);
-        panel.addEventListener('mouseleave', scheduleClose);
-      });
-    }
-
-    /* Click trigger (always supported for accessibility) */
-    triggers.forEach((trigger) => {
-      trigger.addEventListener('click', (e) => {
-        const index = trigger.dataset.menuTriggerIndex;
-        if (this.openPanel === index) {
-          this.closePanels();
+      /* Click always works (accessibility) */
+      trigger.addEventListener('click', function() {
+        if (self.openPanelIndex === index) {
+          self.closeAllDropdowns();
         } else {
-          openPanel(index);
+          self.openDropdown(index);
         }
       });
     });
 
+    /* Keep dropdown open when hovering over it */
+    panels.forEach(function(panel) {
+      panel.addEventListener('mouseenter', function() {
+        clearTimeout(self.closeTimeout);
+      });
+      panel.addEventListener('mouseleave', function() {
+        self.scheduleClose();
+      });
+    });
+
     /* Close on Escape */
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && this.openPanel) {
-        this.closePanels();
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        self.closeAllDropdowns();
+        self.closeSearch();
       }
     });
-
-    /* Close on overlay click */
-    if (this.overlay) {
-      this.overlay.addEventListener('click', () => {
-        this.closePanels();
-        this.closeSearch();
-      });
-    }
   }
 
-  closePanels() {
-    const panels = this.querySelectorAll('[data-menu-panel]');
-    const triggers = this.querySelectorAll('[data-menu-trigger-index]');
+  openDropdown(index) {
+    /* Close others first */
+    this.closeAllDropdowns(true);
 
-    panels.forEach((panel) => {
+    var panel = this.querySelector('[data-menu-panel="' + index + '"]');
+    var trigger = this.querySelector('[data-menu-trigger-index="' + index + '"]');
+    if (!panel || !trigger) return;
+
+    panel.removeAttribute('hidden');
+    /* Force reflow before adding class for transition */
+    panel.offsetHeight;
+    panel.classList.add('is-open');
+    trigger.setAttribute('aria-expanded', 'true');
+
+    this.openPanelIndex = index;
+    if (this.overlay) this.overlay.classList.add('is-visible');
+  }
+
+  scheduleClose() {
+    var self = this;
+    clearTimeout(this.closeTimeout);
+    this.closeTimeout = setTimeout(function() {
+      self.closeAllDropdowns();
+    }, 250);
+  }
+
+  closeAllDropdowns(skipOverlay) {
+    clearTimeout(this.closeTimeout);
+
+    this.querySelectorAll('[data-menu-panel]').forEach(function(panel) {
       panel.classList.remove('is-open');
-      setTimeout(() => { panel.hidden = true; }, 350);
+      /* Wait for transition then hide */
+      setTimeout(function() {
+        if (!panel.classList.contains('is-open')) {
+          panel.setAttribute('hidden', '');
+        }
+      }, 350);
     });
 
-    triggers.forEach((trigger) => {
+    this.querySelectorAll('[data-menu-trigger-index]').forEach(function(trigger) {
       trigger.setAttribute('aria-expanded', 'false');
     });
 
-    this.openPanel = null;
-    if (this.overlay) this.overlay.classList.remove('is-visible');
+    this.openPanelIndex = null;
+    if (!skipOverlay && this.overlay) {
+      this.overlay.classList.remove('is-visible');
+    }
   }
 
   /* --- Search --- */
   setupSearchToggle() {
-    const toggles = this.querySelectorAll('[data-search-toggle]');
+    var toggles = this.querySelectorAll('[data-search-toggle]');
     this.searchPanel = this.querySelector('[data-search-panel]');
     if (!toggles.length || !this.searchPanel) return;
 
-    toggles.forEach((toggle) => {
-      toggle.addEventListener('click', () => {
-        const isOpen = this.searchPanel.classList.contains('is-open');
-        if (isOpen) {
-          this.closeSearch();
+    var self = this;
+    toggles.forEach(function(toggle) {
+      toggle.addEventListener('click', function() {
+        if (self.searchPanel.classList.contains('is-open')) {
+          self.closeSearch();
         } else {
-          this.openSearch();
+          self.openSearch();
         }
       });
     });
@@ -204,17 +192,18 @@ class HeaderComponent extends HTMLElement {
 
   openSearch() {
     if (!this.searchPanel) return;
-    this.closePanels();
-    this.searchPanel.hidden = false;
-    requestAnimationFrame(() => {
-      this.searchPanel.classList.add('is-open');
-    });
+    this.closeAllDropdowns();
+
+    this.searchPanel.removeAttribute('hidden');
+    this.searchPanel.offsetHeight;
+    this.searchPanel.classList.add('is-open');
+
     if (this.overlay) this.overlay.classList.add('is-visible');
 
-    const input = this.searchPanel.querySelector('[data-predictive-search-input]');
-    if (input) setTimeout(() => input.focus(), 100);
+    var input = this.searchPanel.querySelector('[data-predictive-search-input]');
+    if (input) setTimeout(function() { input.focus(); }, 100);
 
-    this.querySelectorAll('[data-search-toggle]').forEach((t) => {
+    this.querySelectorAll('[data-search-toggle]').forEach(function(t) {
       t.setAttribute('aria-expanded', 'true');
     });
   }
@@ -222,16 +211,30 @@ class HeaderComponent extends HTMLElement {
   closeSearch() {
     if (!this.searchPanel) return;
     this.searchPanel.classList.remove('is-open');
-    setTimeout(() => { this.searchPanel.hidden = true; }, 350);
-    if (this.overlay && !this.openPanel) this.overlay.classList.remove('is-visible');
+    var panel = this.searchPanel;
+    setTimeout(function() {
+      if (!panel.classList.contains('is-open')) {
+        panel.setAttribute('hidden', '');
+      }
+    }, 350);
 
-    this.querySelectorAll('[data-search-toggle]').forEach((t) => {
+    if (!this.openPanelIndex && this.overlay) {
+      this.overlay.classList.remove('is-visible');
+    }
+
+    this.querySelectorAll('[data-search-toggle]').forEach(function(t) {
       t.setAttribute('aria-expanded', 'false');
     });
   }
 
-  handleSectionLoad() {
-    this.updateHeaderHeight();
+  /* --- Overlay --- */
+  setupOverlay() {
+    if (!this.overlay) return;
+    var self = this;
+    this.overlay.addEventListener('click', function() {
+      self.closeAllDropdowns();
+      self.closeSearch();
+    });
   }
 
   disconnectedCallback() {
@@ -250,39 +253,41 @@ class HeaderDrawer extends HTMLElement {
     this.panel = this.querySelector('.header-drawer__panel');
     this.overlay = this.querySelector('.header-drawer__overlay');
     this.level1 = this.querySelector('.header-drawer__level--1');
-    this.currentLevel = 1;
     this.scrollPosition = 0;
 
+    var self = this;
+
     /* Open toggles (from header) */
-    document.querySelectorAll('[data-drawer-toggle]').forEach((toggle) => {
-      toggle.addEventListener('click', () => this.open());
+    document.querySelectorAll('[data-drawer-toggle]').forEach(function(toggle) {
+      toggle.addEventListener('click', function() { self.open(); });
     });
 
     /* Close buttons */
-    this.querySelectorAll('[data-drawer-close]').forEach((btn) => {
-      btn.addEventListener('click', () => this.close());
+    this.querySelectorAll('[data-drawer-close]').forEach(function(btn) {
+      btn.addEventListener('click', function() { self.close(); });
     });
 
-    /* Level navigation */
-    this.querySelectorAll('[data-open-level]').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const targetId = btn.dataset.targetPanel;
-        const level = parseInt(btn.dataset.openLevel, 10);
-        this.openLevel(targetId, level);
+    /* Level navigation — open */
+    this.querySelectorAll('[data-open-level]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var targetId = btn.dataset.targetPanel;
+        var level = parseInt(btn.dataset.openLevel, 10);
+        self.openLevel(targetId, level);
       });
     });
 
-    this.querySelectorAll('[data-close-level]').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const level = parseInt(btn.dataset.closeLevel, 10);
-        this.closeLevel(level);
+    /* Level navigation — close/back */
+    this.querySelectorAll('[data-close-level]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var level = parseInt(btn.dataset.closeLevel, 10);
+        self.closeLevel(level);
       });
     });
 
     /* Escape key */
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && this.getAttribute('aria-hidden') === 'false') {
-        this.close();
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && self.getAttribute('aria-hidden') === 'false') {
+        self.close();
       }
     });
   }
@@ -291,18 +296,17 @@ class HeaderDrawer extends HTMLElement {
     this.scrollPosition = window.scrollY;
     document.body.style.overflow = 'hidden';
     document.body.style.position = 'fixed';
-    document.body.style.top = `-${this.scrollPosition}px`;
+    document.body.style.top = '-' + this.scrollPosition + 'px';
     document.body.style.width = '100%';
 
     this.setAttribute('aria-hidden', 'false');
 
-    document.querySelectorAll('[data-drawer-toggle]').forEach((t) => {
+    document.querySelectorAll('[data-drawer-toggle]').forEach(function(t) {
       t.setAttribute('aria-expanded', 'true');
     });
 
-    /* Focus first link */
-    const firstLink = this.querySelector('.header-drawer__link');
-    if (firstLink) setTimeout(() => firstLink.focus(), 400);
+    var firstLink = this.querySelector('.header-drawer__link');
+    if (firstLink) setTimeout(function() { firstLink.focus(); }, 400);
   }
 
   close() {
@@ -314,27 +318,23 @@ class HeaderDrawer extends HTMLElement {
     document.body.style.width = '';
     window.scrollTo(0, this.scrollPosition);
 
-    document.querySelectorAll('[data-drawer-toggle]').forEach((t) => {
+    document.querySelectorAll('[data-drawer-toggle]').forEach(function(t) {
       t.setAttribute('aria-expanded', 'false');
     });
 
-    /* Reset all levels after animation */
-    setTimeout(() => {
-      this.resetLevels();
-    }, 600);
+    var self = this;
+    setTimeout(function() { self.resetLevels(); }, 600);
   }
 
   openLevel(targetId, level) {
-    const targetPanel = this.querySelector(`#${targetId}`);
+    var targetPanel = this.querySelector('#' + targetId);
     if (!targetPanel) return;
 
-    /* Shift level 1 left */
     if (level === 2 && this.level1) {
       this.level1.classList.add('is-shifted');
     }
 
-    /* Hide other panels at the same level */
-    this.querySelectorAll(`.header-drawer__level--${level}`).forEach((p) => {
+    this.querySelectorAll('.header-drawer__level--' + level).forEach(function(p) {
       if (p.id !== targetId) {
         p.classList.remove('is-open');
         p.setAttribute('aria-hidden', 'true');
@@ -343,32 +343,25 @@ class HeaderDrawer extends HTMLElement {
 
     targetPanel.classList.add('is-open');
     targetPanel.setAttribute('aria-hidden', 'false');
-    this.currentLevel = level;
   }
 
   closeLevel(level) {
-    /* Close all panels at this level */
-    this.querySelectorAll(`.header-drawer__level--${level}`).forEach((p) => {
+    this.querySelectorAll('.header-drawer__level--' + level).forEach(function(p) {
       p.classList.remove('is-open');
       p.setAttribute('aria-hidden', 'true');
     });
 
-    /* If closing level 2, unshift level 1 */
     if (level === 2 && this.level1) {
       this.level1.classList.remove('is-shifted');
     }
-
-    /* If closing level 3, keep level 2 open */
-    this.currentLevel = level - 1;
   }
 
   resetLevels() {
     if (this.level1) this.level1.classList.remove('is-shifted');
-    this.querySelectorAll('.header-drawer__level--2, .header-drawer__level--3').forEach((p) => {
+    this.querySelectorAll('.header-drawer__level--2, .header-drawer__level--3').forEach(function(p) {
       p.classList.remove('is-open');
       p.setAttribute('aria-hidden', 'true');
     });
-    this.currentLevel = 1;
   }
 }
 
@@ -389,127 +382,105 @@ class PredictiveSearch extends HTMLElement {
 
     if (!this.input) return;
 
-    this.input.addEventListener('input', () => {
-      clearTimeout(this.debounceTimer);
-      const query = this.input.value.trim();
+    var self = this;
 
-      if (this.clearBtn) {
-        this.clearBtn.hidden = query.length === 0;
+    this.input.addEventListener('input', function() {
+      clearTimeout(self.debounceTimer);
+      var query = self.input.value.trim();
+
+      if (self.clearBtn) {
+        self.clearBtn.hidden = query.length === 0;
       }
 
       if (query.length < 2) {
-        this.hideResults();
+        self.hideResults();
         return;
       }
 
-      this.debounceTimer = setTimeout(() => {
-        this.fetchResults(query);
+      self.debounceTimer = setTimeout(function() {
+        self.fetchResults(query);
       }, 300);
     });
 
     if (this.clearBtn) {
-      this.clearBtn.addEventListener('click', () => {
-        this.input.value = '';
-        this.clearBtn.hidden = true;
-        this.hideResults();
-        this.input.focus();
+      this.clearBtn.addEventListener('click', function() {
+        self.input.value = '';
+        self.clearBtn.hidden = true;
+        self.hideResults();
+        self.input.focus();
       });
     }
   }
 
-  async fetchResults(query) {
+  fetchResults(query) {
+    var self = this;
     this.showLoading();
 
-    try {
-      const response = await fetch(
-        `${window.Shopify.routes.root}search/suggest.json?q=${encodeURIComponent(query)}&resources[type]=product,article,page&resources[limit]=6`
-      );
-
+    fetch(
+      window.Shopify.routes.root + 'search/suggest.json?q=' + encodeURIComponent(query) + '&resources[type]=product,article,page&resources[limit]=6'
+    )
+    .then(function(response) {
       if (!response.ok) throw new Error('Search failed');
-
-      const data = await response.json();
-      this.renderResults(data, query);
-    } catch (error) {
-      this.hideResults();
-    }
+      return response.json();
+    })
+    .then(function(data) {
+      self.renderResults(data, query);
+    })
+    .catch(function() {
+      self.hideResults();
+    });
   }
 
   renderResults(data, query) {
-    const resources = data.resources.results;
-    const products = resources.products || [];
-    const articles = resources.articles || [];
-    const pages = resources.pages || [];
-    const hasResults = products.length || articles.length || pages.length;
+    var resources = data.resources.results;
+    var products = resources.products || [];
+    var articles = resources.articles || [];
+    var pages = resources.pages || [];
+    var hasResults = products.length || articles.length || pages.length;
 
     if (!hasResults) {
       this.showNoResults(query);
       return;
     }
 
-    let html = '';
+    var html = '';
 
     if (products.length) {
       html += '<div class="predictive-search__group">';
-      html += `<h3 class="predictive-search__group-title label">${window.ecrinStrings?.searchProducts || 'Products'}</h3>`;
+      html += '<h3 class="predictive-search__group-title label">Products</h3>';
       html += '<ul class="predictive-search__list">';
-      products.forEach((product) => {
-        const image = product.featured_image?.url
-          ? `<img src="${product.featured_image.url}&width=100" alt="${product.featured_image.alt || product.title}" width="50" height="50" loading="lazy" class="predictive-search__item-image">`
+      products.forEach(function(product) {
+        var image = product.featured_image && product.featured_image.url
+          ? '<img src="' + product.featured_image.url + '&width=100" alt="" width="50" height="50" loading="lazy" class="predictive-search__item-image">'
           : '';
-        html += `<li class="predictive-search__item">
-          <a href="${product.url}" class="predictive-search__item-link">
-            ${image}
-            <div class="predictive-search__item-info">
-              <span class="predictive-search__item-title">${product.title}</span>
-              <span class="predictive-search__item-price">${this.formatMoney(product.price)}</span>
-            </div>
-          </a>
-        </li>`;
+        html += '<li class="predictive-search__item">'
+          + '<a href="' + product.url + '" class="predictive-search__item-link">'
+          + image
+          + '<div class="predictive-search__item-info">'
+          + '<span class="predictive-search__item-title">' + product.title + '</span>'
+          + '</div></a></li>';
       });
       html += '</ul></div>';
     }
 
     if (articles.length) {
       html += '<div class="predictive-search__group">';
-      html += `<h3 class="predictive-search__group-title label">${window.ecrinStrings?.searchArticles || 'Articles'}</h3>`;
+      html += '<h3 class="predictive-search__group-title label">Articles</h3>';
       html += '<ul class="predictive-search__list">';
-      articles.forEach((article) => {
-        html += `<li class="predictive-search__item">
-          <a href="${article.url}" class="predictive-search__item-link">
-            <span class="predictive-search__item-title">${article.title}</span>
-          </a>
-        </li>`;
+      articles.forEach(function(article) {
+        html += '<li class="predictive-search__item">'
+          + '<a href="' + article.url + '" class="predictive-search__item-link">'
+          + '<span class="predictive-search__item-title">' + article.title + '</span>'
+          + '</a></li>';
       });
       html += '</ul></div>';
     }
 
-    if (pages.length) {
-      html += '<div class="predictive-search__group">';
-      html += `<h3 class="predictive-search__group-title label">${window.ecrinStrings?.searchPages || 'Pages'}</h3>`;
-      html += '<ul class="predictive-search__list">';
-      pages.forEach((page) => {
-        html += `<li class="predictive-search__item">
-          <a href="${page.url}" class="predictive-search__item-link">
-            <span class="predictive-search__item-title">${page.title}</span>
-          </a>
-        </li>`;
-      });
-      html += '</ul></div>';
-    }
-
-    /* View all link */
-    html += `<a href="${window.Shopify.routes.root}search?q=${encodeURIComponent(query)}" class="predictive-search__view-all btn--link">
-      <span class="btn__label">${window.ecrinStrings?.searchViewAll || 'View all results'}</span>
-    </a>`;
+    html += '<a href="' + window.Shopify.routes.root + 'search?q=' + encodeURIComponent(query) + '" class="predictive-search__view-all">'
+      + 'View all results</a>';
 
     if (this.content) this.content.innerHTML = html;
     this.showResults();
-  }
-
-  formatMoney(cents) {
-    return window.Shopify?.currency?.active
-      ? (cents / 100).toLocaleString(undefined, { style: 'currency', currency: window.Shopify.currency.active })
-      : '$' + (cents / 100).toFixed(2);
   }
 
   showResults() {
@@ -532,8 +503,8 @@ class PredictiveSearch extends HTMLElement {
     if (this.content) this.content.hidden = true;
     if (this.noResults) {
       this.noResults.hidden = false;
-      const p = this.noResults.querySelector('p');
-      if (p) p.textContent = `No results found for "${query}"`;
+      var p = this.noResults.querySelector('p');
+      if (p) p.textContent = 'No results found for "' + query + '"';
     }
   }
 
