@@ -1,62 +1,68 @@
 {% comment %}
-  Mega menu promo cards — Atelier theme
-  Renders up to 4 promo image/product cards inside the mega menu.
+  Mega menu promo cards — 2 images max.
   Params:
-    block {Block}  The mega_menu block with promo settings
+    block {Block}  The mega_menu block with image_1/image_2 settings
 {% endcomment %}
 
-{%- assign promo_count = 0 -%}
+{%- assign has_promos = false -%}
+{%- if block.settings.image_1 != blank or block.settings.image_2 != blank -%}
+  {%- assign has_promos = true -%}
+{%- endif -%}
 
-{%- capture promo_cards -%}
-  {%- for i in (1..4) -%}
-    {%- liquid
-      assign img_key = 'promo_' | append: i | append: '_image'
-      assign heading_key = 'promo_' | append: i | append: '_heading'
-      assign link_key = 'promo_' | append: i | append: '_link'
-
-      assign promo_image = block.settings[img_key]
-      assign promo_heading = block.settings[heading_key]
-      assign promo_link = block.settings[link_key]
-    -%}
-
-    {%- if promo_image != blank or promo_heading != blank -%}
-      {%- assign promo_count = promo_count | plus: 1 -%}
-
-      {%- if promo_link != blank -%}
-        <a href="{{ promo_link }}" class="mega-menu-promo__card">
+{%- if has_promos -%}
+  <div class="mega-menu-promo">
+    {%- if block.settings.image_1 != blank -%}
+      {%- assign img1_focal = block.settings.image_1.presentation.focal_point -%}
+      {%- assign img1_style = 'object-position: ' | append: img1_focal -%}
+      {%- if block.settings.image_1_url != blank -%}
+        <a href="{{ block.settings.image_1_url }}" class="mega-menu-promo__card">
       {%- else -%}
         <div class="mega-menu-promo__card">
       {%- endif -%}
-
-        {%- if promo_image != blank -%}
-          {%- assign promo_focal = promo_image.presentation.focal_point -%}
-          {%- assign promo_style = 'object-position: ' | append: promo_focal -%}
-          <div class="mega-menu-promo__image-wrap">
-            {{ promo_image | image_url: width: 600 | image_tag:
-              widths: '300, 400, 600',
-              sizes: '280px',
-              loading: 'lazy',
-              class: 'mega-menu-promo__image',
-              style: promo_style
-            }}
-          </div>
+        <div class="mega-menu-promo__image-wrap">
+          {{ block.settings.image_1 | image_url: width: 600 | image_tag:
+            widths: '300, 400, 600',
+            sizes: '280px',
+            loading: 'lazy',
+            class: 'mega-menu-promo__image',
+            style: img1_style
+          }}
+        </div>
+        {%- if block.settings.image_1_label != blank -%}
+          <p class="mega-menu-promo__caption">{{ block.settings.image_1_label | escape }}</p>
         {%- endif -%}
-
-        {%- if promo_heading != blank -%}
-          <p class="mega-menu-promo__caption">{{ promo_heading | escape }}</p>
-        {%- endif -%}
-
-      {%- if promo_link != blank -%}
+      {%- if block.settings.image_1_url != blank -%}
         </a>
       {%- else -%}
         </div>
       {%- endif -%}
     {%- endif -%}
-  {%- endfor -%}
-{%- endcapture -%}
 
-{%- if promo_count > 0 -%}
-  <div class="mega-menu-promo" style="--promo-count: {{ promo_count }}">
-    {{ promo_cards }}
+    {%- if block.settings.image_2 != blank -%}
+      {%- assign img2_focal = block.settings.image_2.presentation.focal_point -%}
+      {%- assign img2_style = 'object-position: ' | append: img2_focal -%}
+      {%- if block.settings.image_2_url != blank -%}
+        <a href="{{ block.settings.image_2_url }}" class="mega-menu-promo__card">
+      {%- else -%}
+        <div class="mega-menu-promo__card">
+      {%- endif -%}
+        <div class="mega-menu-promo__image-wrap">
+          {{ block.settings.image_2 | image_url: width: 600 | image_tag:
+            widths: '300, 400, 600',
+            sizes: '280px',
+            loading: 'lazy',
+            class: 'mega-menu-promo__image',
+            style: img2_style
+          }}
+        </div>
+        {%- if block.settings.image_2_label != blank -%}
+          <p class="mega-menu-promo__caption">{{ block.settings.image_2_label | escape }}</p>
+        {%- endif -%}
+      {%- if block.settings.image_2_url != blank -%}
+        </a>
+      {%- else -%}
+        </div>
+      {%- endif -%}
+    {%- endif -%}
   </div>
 {%- endif -%}

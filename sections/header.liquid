@@ -1,6 +1,5 @@
 {{ 'section-header.css' | asset_url | stylesheet_tag }}
 
-{% comment %} Add sticky class directly to section wrapper via Liquid {% endcomment %}
 {%- if section.settings.sticky_header -%}
   <style>
     #shopify-section-{{ section.id }} {
@@ -13,11 +12,10 @@
 
 {%- style -%}
   html {
-    scroll-padding-top: var(--header-height, 64px);
+    scroll-padding-top: var(--header-computed-height, 64px);
     scroll-behavior: smooth;
   }
 
-  /* Mobile layout grid */
   #shopify-section-{{ section.id }} .header__bar {
     {%- case section.settings.mobile_layout -%}
       {%- when 'logo_center' -%}
@@ -27,7 +25,6 @@
     {%- endcase -%}
   }
 
-  /* Desktop layout grid */
   @media screen and (min-width: 990px) {
     #shopify-section-{{ section.id }} .header__bar {
       {%- case section.settings.desktop_layout -%}
@@ -41,7 +38,6 @@
     }
   }
 
-  /* Logo width */
   {%- if section.settings.logo != blank -%}
     #shopify-section-{{ section.id }} .header__logo-image {
       max-width: {{ section.settings.logo_width | times: 0.7 }}px;
@@ -78,7 +74,6 @@
   data-transparent="{{ section.settings.transparent_header }}"
 >
   <div class="header__bar">
-    {% comment %} Primary nav — hamburger (+ optional search on split layout) {% endcomment %}
     <nav class="header__primary-nav">
       <button
         class="header__hamburger"
@@ -93,41 +88,38 @@
       </button>
     </nav>
 
-    {% comment %} Logo {% endcomment %}
     <a href="{{ routes.root_url }}" class="header__logo">
-        {%- if section.settings.logo != blank -%}
-          {%- liquid
-            assign logo_alt = section.settings.logo.alt | default: shop.name
-            assign logo_mobile_width = section.settings.logo_width | times: 0.7 | round
-            assign logo_sizes = '(max-width: 749px) ' | append: logo_mobile_width | append: 'px, ' | append: section.settings.logo_width | append: 'px'
-          -%}
-          <img
-            srcset="{{ section.settings.logo | image_url: width: 100 }} 100w,
-                    {{ section.settings.logo | image_url: width: 150 }} 150w,
-                    {{ section.settings.logo | image_url: width: 200 }} 200w,
-                    {{ section.settings.logo | image_url: width: 300 }} 300w"
-            src="{{ section.settings.logo | image_url: width: 200 }}"
-            sizes="{{ logo_sizes }}"
-            alt="{{ logo_alt | escape }}"
-            loading="eager"
-            fetchpriority="high"
-            class="header__logo-image"
-            width="{{ section.settings.logo.width }}"
-            height="{{ section.settings.logo.height }}"
-          >
-        {%- else -%}
-          <span class="header__logo-text">{{ shop.name }}</span>
-        {%- endif -%}
+      {%- if section.settings.logo != blank -%}
+        {%- liquid
+          assign logo_alt = section.settings.logo.alt | default: shop.name
+          assign logo_mobile_width = section.settings.logo_width | times: 0.7 | round
+          assign logo_sizes = '(max-width: 749px) ' | append: logo_mobile_width | append: 'px, ' | append: section.settings.logo_width | append: 'px'
+        -%}
+        <img
+          srcset="{{ section.settings.logo | image_url: width: 100 }} 100w,
+                  {{ section.settings.logo | image_url: width: 150 }} 150w,
+                  {{ section.settings.logo | image_url: width: 200 }} 200w,
+                  {{ section.settings.logo | image_url: width: 300 }} 300w"
+          src="{{ section.settings.logo | image_url: width: 200 }}"
+          sizes="{{ logo_sizes }}"
+          alt="{{ logo_alt | escape }}"
+          loading="eager"
+          fetchpriority="high"
+          class="header__logo-image"
+          width="{{ section.settings.logo.width }}"
+          height="{{ section.settings.logo.height }}"
+        >
+      {%- else -%}
+        <span class="header__logo-text">{{ shop.name }}</span>
+      {%- endif -%}
     </a>
 
-    {% comment %} Desktop nav — inline layout (mega mode only) {% endcomment %}
     {%- if desktop_layout == 'logo_left_nav_inline' and menu_style == 'mega' -%}
       <nav class="header__nav header__nav--inline" aria-label="{{ 'header.navigation' | t | default: 'Main navigation' }}">
         {%- render 'header-desktop-nav', menu: section.settings.menu, blocks: section.blocks, color_scheme: section.settings.color_scheme, open_trigger: section.settings.menu_open_trigger -%}
       </nav>
     {%- endif -%}
 
-    {% comment %} Secondary nav — icons {% endcomment %}
     <nav class="header__secondary-nav">
       {%- if section.settings.show_search -%}
         <button class="header__icon-btn header__search-trigger" aria-label="{{ 'header.open_search' | t }}">
@@ -135,7 +127,7 @@
         </button>
       {%- endif -%}
 
-      {%- if shop.customer_accounts_enabled -%}
+      {%- if section.settings.show_account -%}
         <a href="{{ routes.account_url }}" class="header__icon-btn" aria-label="{{ 'header.account' | t }}">
           {%- render 'icon', name: 'account' -%}
         </a>
@@ -156,14 +148,12 @@
     </nav>
   </div>
 
-  {% comment %} Desktop nav — below logo (mega mode only) {% endcomment %}
   {%- if desktop_layout != 'logo_left_nav_inline' and menu_style == 'mega' -%}
     <nav class="header__nav header__nav--below" aria-label="{{ 'header.navigation' | t | default: 'Main navigation' }}">
       {%- render 'header-desktop-nav', menu: section.settings.menu, blocks: section.blocks, color_scheme: section.settings.color_scheme, open_trigger: section.settings.menu_open_trigger -%}
     </nav>
   {%- endif -%}
 
-  {% comment %} Search panel {% endcomment %}
   {%- if section.settings.show_search -%}
     <div class="header__search-panel" hidden>
       <div class="header__search-inner">
@@ -182,15 +172,11 @@
   {%- endif -%}
 </header-element>
 
-{% comment %} ==========================================
-   Drawer — multi-panel navigation (always present)
-   Pattern: Theme-example-1 + Theme-example-2
-   ========================================== {% endcomment %}
+{% comment %} Drawer — always present {% endcomment %}
 <header-drawer>
   <div class="header__drawer" id="header-drawer">
     <div class="header__drawer-panels">
 
-      {% comment %} Main panel — L1 links {% endcomment %}
       <div class="header__drawer-panel header__drawer-panel--main is-active" data-panel="main">
         <div class="header__drawer-panel-header">
           <button class="header__drawer-close" aria-label="{{ 'header.close_menu' | t }}">
@@ -216,9 +202,8 @@
           </ul>
         </nav>
 
-        {% comment %} Drawer footer — account + social {% endcomment %}
         <div class="header__drawer-footer">
-          {%- if shop.customer_accounts_enabled -%}
+          {%- if section.settings.show_account -%}
             <a href="{{ routes.account_url }}" class="header__drawer-footer-link">
               {%- render 'icon', name: 'account', size: 16 -%}
               <span>{{ 'header.account' | t }}</span>
@@ -227,7 +212,6 @@
         </div>
       </div>
 
-      {% comment %} Secondary panels — one per L1 with children {% endcomment %}
       {%- for link in section.settings.menu.links -%}
         {%- if link.links.size > 0 -%}
           <div class="header__drawer-panel" data-panel="panel-{{ forloop.index }}">
@@ -265,11 +249,13 @@
                 {%- endfor -%}
               </ul>
 
-              {% comment %} Promo images for this L1 {% endcomment %}
+              {% comment %} Mega images in drawer {% endcomment %}
               {%- liquid
                 assign drawer_mega_block = nil
+                assign link_title_down = link.title | strip | downcase
                 for block in section.blocks
-                  if block.type == 'mega_menu' and block.settings.menu_item == link.title
+                  assign block_title_down = block.settings.menu_item | strip | downcase
+                  if block.type == 'mega_menu' and block_title_down == link_title_down
                     assign drawer_mega_block = block
                     break
                   endif
@@ -374,7 +360,7 @@
       "id": "transparent_header",
       "label": "t:labels.transparent_header",
       "info": "t:labels.transparent_header_info",
-      "default": true
+      "default": false
     },
     {
       "type": "header",
@@ -387,12 +373,6 @@
       "default": "main-menu"
     },
     {
-      "type": "link_list",
-      "id": "customer_account_menu",
-      "label": "t:labels.customer_account_menu",
-      "default": "customer-account-main-menu"
-    },
-    {
       "type": "checkbox",
       "id": "show_search",
       "label": "t:header.show_search",
@@ -400,9 +380,15 @@
     },
     {
       "type": "checkbox",
+      "id": "show_account",
+      "label": "t:header.show_account",
+      "default": true
+    },
+    {
+      "type": "checkbox",
       "id": "show_wishlist",
       "label": "t:labels.show_wishlist",
-      "default": true
+      "default": false
     }
   ],
   "blocks": [
@@ -416,22 +402,14 @@
           "label": "t:header.mega_menu_item_title",
           "info": "t:header.mega_menu_item_info"
         },
-        { "type": "header", "content": "t:header.promo_1_header" },
-        { "type": "image_picker", "id": "promo_1_image", "label": "t:header.promo_image" },
-        { "type": "text", "id": "promo_1_heading", "label": "t:header.promo_heading" },
-        { "type": "url", "id": "promo_1_link", "label": "t:header.promo_link" },
-        { "type": "header", "content": "t:header.promo_2_header" },
-        { "type": "image_picker", "id": "promo_2_image", "label": "t:header.promo_image" },
-        { "type": "text", "id": "promo_2_heading", "label": "t:header.promo_heading" },
-        { "type": "url", "id": "promo_2_link", "label": "t:header.promo_link" },
-        { "type": "header", "content": "t:header.promo_3_header" },
-        { "type": "image_picker", "id": "promo_3_image", "label": "t:header.promo_image" },
-        { "type": "text", "id": "promo_3_heading", "label": "t:header.promo_heading" },
-        { "type": "url", "id": "promo_3_link", "label": "t:header.promo_link" },
-        { "type": "header", "content": "t:header.promo_4_header" },
-        { "type": "image_picker", "id": "promo_4_image", "label": "t:header.promo_image" },
-        { "type": "text", "id": "promo_4_heading", "label": "t:header.promo_heading" },
-        { "type": "url", "id": "promo_4_link", "label": "t:header.promo_link" }
+        { "type": "header", "content": "t:header.mega_menu_image_1" },
+        { "type": "image_picker", "id": "image_1", "label": "t:header.mega_menu_image" },
+        { "type": "text", "id": "image_1_label", "label": "t:header.mega_menu_image_caption" },
+        { "type": "url", "id": "image_1_url", "label": "t:header.mega_menu_image_link" },
+        { "type": "header", "content": "t:header.mega_menu_image_2" },
+        { "type": "image_picker", "id": "image_2", "label": "t:header.mega_menu_image" },
+        { "type": "text", "id": "image_2_label", "label": "t:header.mega_menu_image_caption" },
+        { "type": "url", "id": "image_2_url", "label": "t:header.mega_menu_image_link" }
       ]
     }
   ]

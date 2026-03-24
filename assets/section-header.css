@@ -441,7 +441,7 @@
 /* Backdrop overlay — starts below the header */
 .mega-menu::after {
   content: "";
-  background: rgba(0, 0, 0, 0.12);
+  background: rgba(var(--overlay-color), var(--overlay-opacity-light));
   mix-blend-mode: multiply;
   pointer-events: none;
   position: fixed;
@@ -658,7 +658,7 @@
 }
 
 .header__drawer:not(.header__drawer--open) {
-  transition: transform var(--duration-fast) ease-in;
+  transition: transform var(--duration-fast) var(--ease-dior);
 }
 
 .header__drawer--open {
@@ -668,7 +668,7 @@
 .header__drawer-backdrop {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.48);
+  background-color: rgba(var(--overlay-color), var(--overlay-opacity-dark));
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   opacity: 0;
@@ -721,11 +721,11 @@
 }
 
 .header__drawer-panel.slide-out-left {
-  animation: slideOutLeft var(--duration-fast) ease-in forwards;
+  animation: slideOutLeft var(--duration-fast) var(--ease-dior) forwards;
 }
 
 .header__drawer-panel.slide-out-right {
-  animation: slideOutRight var(--duration-fast) ease-in forwards;
+  animation: slideOutRight var(--duration-fast) var(--ease-dior) forwards;
 }
 
 @keyframes slideInRight {

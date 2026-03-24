@@ -18,15 +18,11 @@
           "type": "mega_menu",
           "settings": {
             "menu_item": "Main 1",
-            "promo_1_image": "shopify://shop_images/portrait_3to4.jpg",
-            "promo_1_heading": "New Collection",
-            "promo_1_link": "",
-            "promo_2_heading": "",
-            "promo_2_link": "",
-            "promo_3_heading": "",
-            "promo_3_link": "",
-            "promo_4_heading": "",
-            "promo_4_link": ""
+            "image_1": "shopify://shop_images/portrait_3to4.jpg",
+            "image_1_label": "New Collection",
+            "image_1_url": "",
+            "image_2_label": "",
+            "image_2_url": ""
           }
         },
         "mega_menu_VWV8fR": {
@@ -60,9 +56,9 @@
         "sticky_header": true,
         "transparent_header": false,
         "menu": "menu-2",
-        "customer_account_menu": "customer-account-main-menu",
         "show_search": true,
-        "show_wishlist": true
+        "show_account": true,
+        "show_wishlist": false
       }
     }
   },

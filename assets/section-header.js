@@ -192,7 +192,7 @@ customElements.define('header-element', HeaderElement);
 
 /* ============================
    HeaderDrawer
-   Multi-panel navigation (inspired by Theme-example-1 + 2)
+   Multi-panel navigation
    ============================ */
 class HeaderDrawer extends HTMLElement {
   connectedCallback() {
