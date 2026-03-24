@@ -20,16 +20,16 @@
             "menu_item": "MAIN 1",
             "promo_1_image": "shopify://shop_images/landscape_4to3.jpg",
             "promo_1_heading": "",
-            "promo_1_subheading": "",
+            "promo_1_subheading": "ddd",
             "promo_1_link": "",
             "promo_2_image": "shopify://shop_images/square_1.jpg",
-            "promo_2_heading": "",
+            "promo_2_heading": "ddd",
             "promo_2_subheading": "",
             "promo_2_link": "",
             "promo_3_heading": "",
             "promo_3_subheading": "",
             "promo_3_link": "",
-            "promo_layout": "1"
+            "promo_layout": "3"
           }
         }
       },
