@@ -287,10 +287,21 @@ class HeaderDrawer extends HTMLElement {
 
     var self = this;
 
-    /* Open toggles */
-    document.querySelectorAll('[data-drawer-toggle]').forEach(function(toggle) {
-      toggle.addEventListener('click', function() { self.open(); });
-    });
+    /* Open toggles — defer to ensure toggle buttons are in the DOM
+       (drawer element may be parsed before the header buttons) */
+    function bindToggles() {
+      document.querySelectorAll('[data-drawer-toggle]').forEach(function(toggle) {
+        if (!toggle._drawerBound) {
+          toggle.addEventListener('click', function() { self.open(); });
+          toggle._drawerBound = true;
+        }
+      });
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bindToggles);
+    } else {
+      requestAnimationFrame(bindToggles);
+    }
 
     /* Close buttons + overlay */
     this.querySelectorAll('[data-drawer-close]').forEach(function(btn) {
