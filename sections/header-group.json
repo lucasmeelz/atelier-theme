@@ -38,7 +38,7 @@
       ],
       "settings": {
         "color_scheme": "",
-        "desktop_layout": "drawer",
+        "desktop_layout": "logo_center_nav_split",
         "mobile_layout": "logo_center_split",
         "enable_sticky": true,
         "hide_on_scroll": false,
@@ -53,7 +53,7 @@
         "show_country_flag": true,
         "show_locale_selector": false,
         "icon_size": 18,
-        "show_announcement": false,
+        "show_announcement": true,
         "announcement_text": "Free shipping on orders over $150",
         "announcement_link": "",
         "announcement_color_scheme": ""
