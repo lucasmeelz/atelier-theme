@@ -357,6 +357,13 @@ class HeaderDrawer extends HTMLElement {
       this.level1.classList.add('is-shifted');
     }
 
+    if (level === 3) {
+      // Shift the currently open level-2 panel left
+      this.querySelectorAll('.header-drawer__level--2.is-open').forEach(function(p) {
+        p.classList.add('is-shifted');
+      });
+    }
+
     this.querySelectorAll('.header-drawer__level--' + level).forEach(function(p) {
       if (p.id !== targetId) {
         p.classList.remove('is-open');
@@ -376,6 +383,13 @@ class HeaderDrawer extends HTMLElement {
 
     if (level === 2 && this.level1) {
       this.level1.classList.remove('is-shifted');
+    }
+
+    if (level === 3) {
+      // Un-shift level-2 panel when coming back from level 3
+      this.querySelectorAll('.header-drawer__level--2').forEach(function(p) {
+        p.classList.remove('is-shifted');
+      });
     }
   }
 
