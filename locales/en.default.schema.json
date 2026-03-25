@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "settings_schema": {
     "colors": {
@@ -150,5 +159,59 @@
   },
   "accessibility": {
     "skip_to_content": "Skip to content"
+  },
+  "sections": {
+    "hero": {
+      "name": "Hero banner",
+      "media": "Media",
+      "media_type": "Media type",
+      "media_type_image": "Image",
+      "media_type_video": "Video",
+      "image": "Image",
+      "image_mobile": "Mobile image",
+      "image_mobile_info": "Uses a different image on mobile for art direction.",
+      "video_file": "Video file",
+      "video_url": "Video URL",
+      "video_url_info": "Supports YouTube and Vimeo URLs.",
+      "overlay_opacity": "Overlay opacity",
+      "layout": "Layout",
+      "height": "Section height",
+      "height_full": "Full screen",
+      "height_large": "Large (80vh)",
+      "height_medium": "Medium (60vh)",
+      "height_small": "Small (40vh)",
+      "text_position": "Content position",
+      "position_top_left": "Top left",
+      "position_top_center": "Top center",
+      "position_middle_left": "Middle left",
+      "position_middle_center": "Middle center",
+      "position_bottom_left": "Bottom left",
+      "position_bottom_center": "Bottom center",
+      "content": "Content",
+      "subheading": "Subheading",
+      "subheading_info": "Small uppercase text above the heading.",
+      "heading": "Heading",
+      "heading_size": "Heading size",
+      "heading_medium": "Medium",
+      "heading_large": "Large",
+      "heading_cinematic": "Cinematic",
+      "text": "Description",
+      "buttons": "Buttons",
+      "button_label": "First button label",
+      "button_link": "First button link",
+      "button_style": "First button style",
+      "button_outline_white": "Outline white",
+      "button_filled_white": "Filled white",
+      "button_filled_dark": "Filled dark",
+      "button_label_2": "Second button label",
+      "button_link_2": "Second button link",
+      "button_style_2": "Second button style",
+      "options": "Options",
+      "show_scroll_indicator": "Show scroll indicator",
+      "enable_parallax": "Enable parallax effect",
+      "enable_parallax_info": "Subtle depth effect as the page scrolls.",
+      "color_scheme": "Color scheme",
+      "preset_name": "Hero banner"
+    }
   }
 }
