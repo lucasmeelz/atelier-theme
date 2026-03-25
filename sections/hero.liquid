@@ -147,8 +147,8 @@
           <div class="hero__buttons">
             {%- if button_label != blank -%}
               <a href="{{ button_link | default: '#' }}" class="btn btn--{{ button_style }}">
-                <span class="btn__text">{{ button_label }}</span>
-                <span class="btn__text" aria-hidden="true">{{ button_label }}</span>
+                <span class="btn__label">{{ button_label }}</span>
+                <span class="btn__fill" aria-hidden="true"></span>
               </a>
             {%- endif -%}
             {%- if button_label_2 != blank -%}
