@@ -24,9 +24,26 @@
         "show_scroll_indicator": true,
         "enable_parallax": true
       }
+    },
+    "featured-collection": {
+      "type": "featured-collection",
+      "settings": {
+        "heading": "Featured collection",
+        "heading_size": "h2",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "image_ratio": "portrait",
+        "show_secondary_image": true,
+        "show_quick_add": true,
+        "button_label": "View all",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
     }
   },
   "order": [
-    "hero"
+    "hero",
+    "featured-collection"
   ]
 }
