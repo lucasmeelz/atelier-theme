@@ -50,10 +50,8 @@
   </div>
 {%- endif -%}
 
-{%- comment -%} Scroll sentinel for transparent header {%- endcomment -%}
-{%- if is_transparent -%}
-  <div class="header__sentinel" data-header-sentinel aria-hidden="true"></div>
-{%- endif -%}
+{%- comment -%} Scroll sentinel for transparent header + sticky shadow {%- endcomment -%}
+<div class="header__sentinel" data-header-sentinel aria-hidden="true"></div>
 
 <header-component
   class="header{% if is_sticky %} header--sticky{% endif %}{% if is_transparent %} header--transparent{% endif %}{% if hide_on_scroll %} header--hide-on-scroll{% endif %}"
