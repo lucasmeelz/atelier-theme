@@ -26,10 +26,11 @@
             "promo_2_heading": "",
             "promo_2_subheading": "",
             "promo_2_link": "",
+            "promo_3_image": "shopify://shop_images/landscape_4to3.jpg",
             "promo_3_heading": "",
             "promo_3_subheading": "",
             "promo_3_link": "",
-            "promo_layout": "1",
+            "promo_layout": "3",
             "promo_ratio": "3/4"
           }
         }
