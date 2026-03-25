@@ -1,0 +1,149 @@
+/* ===================================
+   Image with Text — Section Styles
+   =================================== */
+
+.image-with-text {
+  padding-top: var(--section-padding-top, 60px);
+  padding-bottom: var(--section-padding-bottom, 60px);
+}
+
+/* ===================================
+   Grid — 2-column layout (desktop)
+   =================================== */
+.image-with-text__grid {
+  display: grid;
+  gap: 24px;
+}
+
+/* Mobile: stacked */
+@media screen and (min-width: 990px) {
+  .image-with-text__grid {
+    grid-template-columns: var(--iwt-image-width, 50%) 1fr;
+    gap: 48px;
+  }
+
+  /* Reverse layout: text first */
+  .image-with-text__grid--text_first {
+    grid-template-columns: 1fr var(--iwt-image-width, 50%);
+  }
+
+  .image-with-text__grid--text_first .image-with-text__media {
+    order: 2;
+  }
+
+  .image-with-text__grid--text_first .image-with-text__content {
+    order: 1;
+  }
+
+  /* Vertical alignment */
+  .image-with-text__grid--align-top {
+    align-items: start;
+  }
+
+  .image-with-text__grid--align-middle {
+    align-items: center;
+  }
+
+  .image-with-text__grid--align-bottom {
+    align-items: end;
+  }
+}
+
+/* ===================================
+   Media column
+   =================================== */
+.image-with-text__media-wrapper {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--card-border-radius, 0);
+  background-color: rgb(var(--color-background-2, 245, 244, 240));
+}
+
+.image-with-text__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Placeholder */
+.image-with-text__placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+}
+
+.image-with-text__placeholder-svg {
+  width: 60%;
+  max-width: 300px;
+  opacity: 0.25;
+}
+
+/* ===================================
+   Content column
+   =================================== */
+.image-with-text__content {
+  display: flex;
+  align-items: center;
+}
+
+.image-with-text__content-inner {
+  width: 100%;
+  max-width: 540px;
+}
+
+/* Desktop: add horizontal padding for breathing room */
+@media screen and (min-width: 990px) {
+  .image-with-text__content-inner {
+    padding: 0 24px;
+  }
+}
+
+/* Label */
+.image-with-text__label {
+  margin: 0 0 0.75rem;
+}
+
+/* Heading */
+.image-with-text__heading {
+  font-family: var(--font-heading-family, serif);
+  font-weight: var(--font-heading-weight, 300);
+  font-style: var(--font-heading-style, normal);
+  line-height: 1.1;
+  margin: 0;
+}
+
+h2.image-with-text__heading {
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+}
+
+h3.image-with-text__heading {
+  font-size: clamp(1.375rem, 2.5vw, 1.875rem);
+}
+
+h4.image-with-text__heading {
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+}
+
+/* Body text */
+.image-with-text__text {
+  margin-top: 1rem;
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: rgb(var(--color-text-subdued, 107, 107, 107));
+}
+
+.image-with-text__text p {
+  margin: 0;
+}
+
+.image-with-text__text p + p {
+  margin-top: 0.75rem;
+}
+
+/* Button */
+.image-with-text__button {
+  margin-top: 1.5rem;
+}
