@@ -394,6 +394,31 @@
         "link": "Link"
       },
       "preset_name": "Multicolumn"
+    },
+    "newsletter": {
+      "name": "Newsletter",
+      "instructions": "Subscribers are added to your \"accepted marketing\" customer list.",
+      "content_header": "Content",
+      "heading": "Heading",
+      "heading_size": "Heading size",
+      "heading_large": "Large",
+      "heading_medium": "Medium",
+      "heading_small": "Small",
+      "subheading": "Description",
+      "button_label": "Button label",
+      "disclaimer": "Disclaimer text",
+      "disclaimer_info": "Legal opt-in notice. Leave blank to hide.",
+      "layout_header": "Layout",
+      "layout": "Layout",
+      "layout_centered": "Centered",
+      "layout_split": "Image and form side by side",
+      "background_image": "Background image",
+      "overlay_opacity": "Overlay opacity",
+      "style_header": "Style",
+      "color_scheme": "Color scheme",
+      "padding_top": "Top padding",
+      "padding_bottom": "Bottom padding",
+      "preset_name": "Newsletter"
     }
   }
 }

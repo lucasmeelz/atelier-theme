@@ -1,0 +1,212 @@
+/* ===================================
+   Newsletter — Section Styles
+   =================================== */
+
+.newsletter {
+  position: relative;
+  padding-top: var(--section-padding-top, 60px);
+  padding-bottom: var(--section-padding-bottom, 60px);
+}
+
+/* ===================================
+   Background image (centered layout)
+   =================================== */
+.newsletter--has-bg {
+  color: #ffffff;
+}
+
+.newsletter__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.newsletter__bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.newsletter__overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, var(--newsletter-overlay-opacity, 0.4));
+}
+
+.newsletter--has-bg .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* ===================================
+   Grid layouts
+   =================================== */
+.newsletter__grid--centered {
+  text-align: center;
+  max-width: 640px;
+  margin-inline: auto;
+}
+
+.newsletter__grid--split {
+  display: grid;
+  gap: 32px;
+}
+
+@media screen and (min-width: 990px) {
+  .newsletter__grid--split {
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+}
+
+/* ===================================
+   Media (split layout)
+   =================================== */
+.newsletter__media-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--card-border-radius, 0);
+}
+
+/* ===================================
+   Content
+   =================================== */
+.newsletter__content-inner {
+  max-width: 480px;
+}
+
+.newsletter__grid--centered .newsletter__content-inner {
+  max-width: none;
+}
+
+/* Heading */
+.newsletter__heading {
+  font-family: var(--font-heading-family, serif);
+  font-weight: var(--font-heading-weight, 300);
+  font-style: var(--font-heading-style, normal);
+  line-height: 1.1;
+  margin: 0 0 0.75rem;
+}
+
+h2.newsletter__heading {
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+}
+
+h3.newsletter__heading {
+  font-size: clamp(1.375rem, 2.5vw, 1.875rem);
+}
+
+h4.newsletter__heading {
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+}
+
+/* Subheading */
+.newsletter__subheading {
+  margin-bottom: 1.5rem;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  opacity: 0.8;
+}
+
+.newsletter__subheading p {
+  margin: 0;
+}
+
+/* ===================================
+   Form
+   =================================== */
+.newsletter__form {
+  margin-top: 1.5rem;
+}
+
+.newsletter__field-group {
+  display: flex;
+  gap: 0;
+  max-width: 480px;
+}
+
+.newsletter__grid--centered .newsletter__field-group {
+  margin-inline: auto;
+}
+
+.newsletter__input {
+  flex: 1;
+  min-width: 0;
+  height: 48px;
+  padding: 0 16px;
+  border: 1px solid currentColor;
+  border-right: none;
+  background-color: transparent;
+  color: inherit;
+  font-family: var(--font-body-family, sans-serif);
+  font-size: 0.875rem;
+  outline: none;
+  transition: border-color var(--duration-fast, 200ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
+}
+
+.newsletter__input::placeholder {
+  color: inherit;
+  opacity: 0.5;
+}
+
+.newsletter__input:focus {
+  border-color: currentColor;
+}
+
+/* Without bg: dark border */
+.newsletter:not(.newsletter--has-bg) .newsletter__input {
+  border-color: rgb(var(--color-border, 226, 224, 219));
+}
+
+.newsletter:not(.newsletter--has-bg) .newsletter__input:focus {
+  border-color: rgb(var(--color-text, 10, 10, 10));
+}
+
+.newsletter__submit {
+  flex-shrink: 0;
+  height: 48px;
+  border-radius: 0;
+}
+
+/* ===================================
+   Messages
+   =================================== */
+.newsletter__success {
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
+  color: #2d7d46;
+}
+
+.newsletter--has-bg .newsletter__success {
+  color: #7ddf9b;
+}
+
+.newsletter__error {
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
+  color: #c44;
+}
+
+/* ===================================
+   Disclaimer
+   =================================== */
+.newsletter__disclaimer {
+  margin-top: 1rem;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  opacity: 0.6;
+}
+
+.newsletter__disclaimer p {
+  margin: 0;
+}
+
+.newsletter__disclaimer a {
+  color: inherit;
+  text-decoration: underline;
+}

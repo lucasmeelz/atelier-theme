@@ -90,6 +90,19 @@
         "padding_top": 40,
         "padding_bottom": 40
       }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "heading": "Stay in the know",
+        "heading_size": "h2",
+        "subheading": "<p>Sign up for exclusive access to new collections, special offers, and style inspiration delivered to your inbox.</p>",
+        "button_label": "Subscribe",
+        "disclaimer": "<p>By signing up, you agree to our <a href=\"#\">privacy policy</a>.</p>",
+        "layout": "centered",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
     }
   },
   "order": [
@@ -97,6 +110,7 @@
     "featured-collection",
     "image-with-text",
     "rich-text",
-    "multicolumn"
+    "multicolumn",
+    "newsletter"
   ]
 }
