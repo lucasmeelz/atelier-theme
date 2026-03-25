@@ -423,7 +423,8 @@
 
 /* Mega dropdown — links + promo images grid */
 .header__dropdown--mega .header__dropdown-inner {
-  grid-template-columns: minmax(240px, 1fr) 2fr;
+  grid-template-columns: minmax(200px, 280px) 1fr;
+  gap: 40px;
 }
 
 /* Dropdown links */
