@@ -3,16 +3,12 @@
    =================================== */
 
 /* Base layout — grid stacking for media/overlay/content */
-/* Pull hero up behind the header so it truly fills the viewport */
-.section-hero {
-  margin-top: calc(-1 * var(--header-height, 57px));
-}
-
+/* Hero fills viewport: height = 100vh minus header space */
 .hero {
   position: relative;
   display: grid;
   grid-template: 1fr / 1fr;
-  height: var(--hero-height, 100svh);
+  height: var(--hero-height, calc(100svh - var(--header-height, 0px)));
   overflow: hidden;
   width: 100%;
 }

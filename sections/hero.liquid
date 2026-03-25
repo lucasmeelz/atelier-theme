@@ -31,7 +31,7 @@
 
   case height
     when 'full'
-      assign hero_height = '100vh'
+      assign hero_height = 'calc(100svh - var(--header-height, 0px))'
     when 'large'
       assign hero_height = '80vh'
     when 'medium'
