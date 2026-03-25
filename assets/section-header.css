@@ -482,7 +482,7 @@
 
 .mega-promo {
   display: grid;
-  gap: 16px;
+  gap: 12px;
 }
 
 .mega-promo--1 { grid-template-columns: 1fr; }
