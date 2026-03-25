@@ -402,17 +402,14 @@
   gap: 32px;
 }
 
-/* Simple dropdown — no promo images, compact centered layout */
-.header__dropdown:not(.header__dropdown--mega) {
-  max-width: 320px;
-  left: auto;
-  right: auto;
-  width: auto;
-  min-width: 240px;
+/* Simple dropdown — no promo images, clean centered layout */
+.header__dropdown:not(.header__dropdown--mega) .header__dropdown-inner {
+  max-width: 480px;
 }
 
-.header__dropdown:not(.header__dropdown--mega) .header__dropdown-inner {
-  padding: 0 24px;
+.header__dropdown:not(.header__dropdown--mega) .header__dropdown-links {
+  columns: 2;
+  column-gap: 48px;
 }
 
 /* Mega dropdown — links + promo images grid */
