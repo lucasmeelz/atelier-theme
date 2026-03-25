@@ -58,9 +58,9 @@
   width: 100%;
 }
 
-/* Scrolled state — subtle shadow when header is sticky */
+/* Scrolled state — shadow when header is sticky */
 .header--scrolled .header__wrapper {
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06), 0 4px 16px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08), 0 4px 20px rgba(0, 0, 0, 0.06);
   border-bottom-color: transparent;
 }
 
