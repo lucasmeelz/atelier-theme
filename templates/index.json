@@ -40,10 +40,27 @@
         "padding_top": 60,
         "padding_bottom": 60
       }
+    },
+    "image-with-text": {
+      "type": "image-with-text",
+      "settings": {
+        "layout": "image_first",
+        "desktop_image_width": "medium",
+        "vertical_alignment": "middle",
+        "label": "Our Story",
+        "heading": "<p>Crafted with care</p>",
+        "heading_size": "h2",
+        "text": "<p>Each piece in our collection tells a story of meticulous craftsmanship and timeless design, created for those who appreciate the finer details.</p>",
+        "button_label": "Learn more",
+        "button_style": "primary",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
     }
   },
   "order": [
     "hero",
-    "featured-collection"
+    "featured-collection",
+    "image-with-text"
   ]
 }
