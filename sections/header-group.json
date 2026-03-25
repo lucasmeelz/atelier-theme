@@ -38,8 +38,8 @@
       ],
       "settings": {
         "color_scheme": "",
-        "desktop_layout": "drawer",
-        "mobile_layout": "logo_center_split",
+        "desktop_layout": "logo_center_nav_split",
+        "mobile_layout": "logo_left_menu_right",
         "enable_sticky": true,
         "hide_on_scroll": false,
         "logo_width": 120,
