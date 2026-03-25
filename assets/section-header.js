@@ -267,6 +267,21 @@ class HeaderComponent extends HTMLElement {
     });
   }
 
+  /* --- Cart toggle (open cart drawer if it exists, else fallback to /cart) --- */
+  setupCartToggle() {
+    var cartToggle = this.querySelector('[data-cart-toggle]');
+    if (!cartToggle) return;
+
+    cartToggle.addEventListener('click', function(e) {
+      var cartDrawer = document.querySelector('cart-drawer');
+      if (cartDrawer && typeof cartDrawer.open === 'function') {
+        e.preventDefault();
+        cartDrawer.open();
+      }
+      /* If no cart-drawer component, the <a href="/cart"> navigates normally */
+    });
+  }
+
   /* --- Escape key --- */
   setupEscapeKey() {
     var self = this;
