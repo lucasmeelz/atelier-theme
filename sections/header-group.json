@@ -30,7 +30,7 @@
             "promo_3_heading": "",
             "promo_3_subheading": "",
             "promo_3_link": "",
-            "promo_layout": "2",
+            "promo_layout": "1",
             "promo_ratio": "3/4"
           }
         }
@@ -40,7 +40,7 @@
       ],
       "settings": {
         "color_scheme": "",
-        "desktop_layout": "logo_center_nav_split",
+        "desktop_layout": "drawer",
         "mobile_layout": "logo_center_split",
         "enable_sticky": true,
         "hide_on_scroll": false,
