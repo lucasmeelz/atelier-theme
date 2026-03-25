@@ -499,6 +499,7 @@
   position: relative;
   overflow: hidden;
   border-radius: var(--card-border-radius);
+  width: 220px;
 }
 
 .mega-promo__link {
