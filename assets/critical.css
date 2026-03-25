@@ -13,6 +13,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100svh;
+  overflow-x: clip;
 }
 
 html:has(dialog[scroll-lock][open], details[scroll-lock][open]) {
