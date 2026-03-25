@@ -408,12 +408,13 @@
   gap: 32px;
 }
 
-/* Simple dropdown — no promo images, clean centered layout */
+/* Simple dropdown — no promo images, centered layout */
 .header__dropdown:not(.header__dropdown--mega) .header__dropdown-inner {
-  max-width: 480px;
+  max-width: 600px;
+  margin-inline: auto;
 }
 
-.header__dropdown:not(.header__dropdown--mega) .header__dropdown-links {
+.header__dropdown:not(.header__dropdown--mega) .header__dropdown-links ul {
   columns: 2;
   column-gap: 48px;
 }
