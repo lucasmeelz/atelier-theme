@@ -772,6 +772,8 @@
 
 /* Drawer header */
 .header-drawer__header {
+  position: relative;
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -779,6 +781,7 @@
   padding: 12px 16px;
   border-bottom: 1px solid rgb(var(--color-border));
   min-height: 56px;
+  background-color: rgb(var(--color-background, 255, 255, 255));
 }
 
 @media screen and (min-width: 480px) {
