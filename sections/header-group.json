@@ -29,7 +29,8 @@
             "promo_3_heading": "",
             "promo_3_subheading": "",
             "promo_3_link": "",
-            "promo_layout": "2"
+            "promo_layout": "2",
+            "promo_ratio": "1/1"
           }
         }
       },
@@ -40,7 +41,7 @@
         "color_scheme": "",
         "desktop_layout": "logo_center_nav_split",
         "mobile_layout": "logo_center_split",
-        "enable_sticky": false,
+        "enable_sticky": true,
         "hide_on_scroll": false,
         "logo_width": 120,
         "logo_width_mobile": 90,
