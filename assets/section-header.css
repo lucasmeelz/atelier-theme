@@ -412,8 +412,13 @@
 
 /* Simple dropdown — no promo images, centered layout */
 .header__dropdown:not(.header__dropdown--mega) .header__dropdown-inner {
+  display: flex;
+  justify-content: center;
+}
+
+.header__dropdown:not(.header__dropdown--mega) .header__dropdown-links {
+  width: 100%;
   max-width: 600px;
-  margin-inline: auto;
 }
 
 .header__dropdown:not(.header__dropdown--mega) .header__dropdown-links ul {
