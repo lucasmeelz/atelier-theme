@@ -58,6 +58,12 @@
   width: 100%;
 }
 
+/* Scrolled state — subtle shadow when header is sticky */
+.header--scrolled .header__wrapper {
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06), 0 4px 16px rgba(0, 0, 0, 0.04);
+  border-bottom-color: transparent;
+}
+
 .header--hide-on-scroll {
   transition: transform var(--duration-base) var(--ease-ecrin);
 }
@@ -93,12 +99,12 @@
 
 /* Sentinel — must be outside sticky context to work with IntersectionObserver */
 .header__sentinel {
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: relative;
   width: 100%;
   height: 1px;
+  margin-top: -1px;
   pointer-events: none;
+  z-index: -1;
 }
 
 /* ===== HEADER WRAPPER ===== */
