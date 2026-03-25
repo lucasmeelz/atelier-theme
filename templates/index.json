@@ -63,12 +63,31 @@
         "padding_top": 80,
         "padding_bottom": 80
       }
+    },
+    "multicolumn": {
+      "type": "multicolumn",
+      "blocks": {
+        "col1": { "type": "column", "settings": { "icon": "shipping", "heading": "Free shipping", "text": "<p>On all orders over $150. Fast, reliable delivery worldwide.</p>" } },
+        "col2": { "type": "column", "settings": { "icon": "return", "heading": "Easy returns", "text": "<p>30-day return policy. No questions asked.</p>" } },
+        "col3": { "type": "column", "settings": { "icon": "lock", "heading": "Secure payment", "text": "<p>Your data is protected with industry-leading encryption.</p>" } }
+      },
+      "block_order": ["col1", "col2", "col3"],
+      "settings": {
+        "heading": "",
+        "columns_desktop": 3,
+        "columns_mobile": "1",
+        "image_width": "medium",
+        "column_alignment": "center",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
     }
   },
   "order": [
     "hero",
     "featured-collection",
     "image-with-text",
-    "rich-text"
+    "rich-text",
+    "multicolumn"
   ]
 }
