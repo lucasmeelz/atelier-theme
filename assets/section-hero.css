@@ -7,7 +7,7 @@
   position: relative;
   display: grid;
   grid-template: 1fr / 1fr;
-  min-height: var(--hero-height, 100vh);
+  height: var(--hero-height, 100vh);
   overflow: hidden;
   width: 100%;
 }
