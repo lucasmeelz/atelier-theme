@@ -402,6 +402,20 @@
   gap: 32px;
 }
 
+/* Simple dropdown — no promo images, compact centered layout */
+.header__dropdown:not(.header__dropdown--mega) {
+  max-width: 320px;
+  left: auto;
+  right: auto;
+  width: auto;
+  min-width: 240px;
+}
+
+.header__dropdown:not(.header__dropdown--mega) .header__dropdown-inner {
+  padding: 0 24px;
+}
+
+/* Mega dropdown — links + promo images grid */
 .header__dropdown--mega .header__dropdown-inner {
   grid-template-columns: minmax(240px, 1fr) 2fr;
 }
