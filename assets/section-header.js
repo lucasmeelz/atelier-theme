@@ -24,6 +24,7 @@ class HeaderComponent extends HTMLElement {
     this.setupSearchToggle();
     this.setupOverlay();
     this.setupEscapeKey();
+    this.setupCartToggle();
     this.updateHeaderHeight();
 
     window.addEventListener('resize', this.updateHeaderHeight.bind(this));

@@ -234,7 +234,7 @@
           </a>
         {%- endif -%}
 
-        <a href="{{ routes.cart_url }}" class="header__icon btn--icon header__icon--cart" aria-label="{{ 'header.cart_count' | t: count: cart.item_count }}">
+        <a href="{{ routes.cart_url }}" class="header__icon btn--icon header__icon--cart" aria-label="{{ 'header.cart_count' | t: count: cart.item_count }}" data-cart-toggle>
           {%- if settings.cart_icon == 'bag' -%}
             {%- render 'icon', name: 'bag', size: icon_size -%}
           {%- else -%}
