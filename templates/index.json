@@ -56,11 +56,28 @@
         "padding_top": 60,
         "padding_bottom": 60
       }
+    },
+    "rich-text": {
+      "type": "rich-text",
+      "blocks": {
+        "subheading": { "type": "subheading", "settings": { "text": "Our Philosophy" } },
+        "heading": { "type": "heading", "settings": { "text": "Designed for those who notice the details", "size": "h2" } },
+        "text": { "type": "text", "settings": { "text": "<p>Every texture, every stitch, every silhouette is considered. We believe luxury lives in the quiet confidence of exceptional craft — not in logos or trends, but in the feeling of something made with genuine care.</p>" } },
+        "button": { "type": "button", "settings": { "text": "Our story", "style": "outline" } }
+      },
+      "block_order": ["subheading", "heading", "text", "button"],
+      "settings": {
+        "content_width": "md",
+        "text_alignment": "center",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
     }
   },
   "order": [
     "hero",
     "featured-collection",
-    "image-with-text"
+    "image-with-text",
+    "rich-text"
   ]
 }
