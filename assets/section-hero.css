@@ -212,48 +212,39 @@
   flex-wrap: wrap;
 }
 
-/* Button styles specific to hero (on dark/light backgrounds) */
-.hero--light .btn--outline-white {
-  color: #ffffff;
+/* Button styles specific to hero */
+.hero .btn--outline-white {
+  color: currentColor;
+  border-color: currentColor;
+  background-color: transparent;
+}
+
+.hero .btn--outline-white:hover {
+  background-color: currentColor;
+}
+
+.hero .btn--outline-white:hover .btn__label {
+  color: rgb(var(--color-background, 255, 255, 255));
+}
+
+.hero .btn--filled-white {
+  background-color: #ffffff;
+  color: rgb(var(--color-text, 10, 10, 10));
   border-color: #ffffff;
 }
 
-.hero--light .btn--outline-white:hover {
-  background-color: #ffffff;
-  color: rgb(var(--color-text, 10, 10, 10));
-}
-
-.hero--light .btn--filled-white {
-  background-color: #ffffff;
-  color: rgb(var(--color-text, 10, 10, 10));
-  border-color: #ffffff;
-}
-
-.hero--light .btn--filled-white:hover {
+.hero .btn--filled-white:hover {
   background-color: rgba(255, 255, 255, 0.85);
 }
 
-.hero--light .btn--filled-dark {
+.hero .btn--filled-dark {
   background-color: rgb(var(--color-text, 10, 10, 10));
   color: #ffffff;
   border-color: rgb(var(--color-text, 10, 10, 10));
 }
 
-.hero--dark .btn--outline-white {
-  color: rgb(var(--color-text, 10, 10, 10));
-  border-color: rgb(var(--color-text, 10, 10, 10));
-}
-
-.hero--dark .btn--filled-white {
-  background-color: rgb(var(--color-background, 255, 255, 255));
-  color: rgb(var(--color-text, 10, 10, 10));
-  border-color: rgb(var(--color-border, 226, 224, 219));
-}
-
-.hero--dark .btn--filled-dark {
-  background-color: rgb(var(--color-text, 10, 10, 10));
-  color: #ffffff;
-  border-color: rgb(var(--color-text, 10, 10, 10));
+.hero .btn--filled-dark:hover {
+  opacity: 0.85;
 }
 
 /* ===================================
