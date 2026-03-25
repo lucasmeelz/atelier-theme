@@ -90,6 +90,7 @@
       "unavailable": "Pickup currently unavailable"
     },
     "variant_sold_out_or_unavailable": "Variant sold out or unavailable",
+    "placeholder_title": "Example product title",
     "payment_terms": "Shop Pay Installments",
     "inventory": {
       "in_stock": "In stock",
