@@ -19,9 +19,9 @@
           "settings": {
             "menu_item": "Main 1",
             "promo_1_image": "shopify://shop_images/landscape_4to3.jpg",
-            "promo_1_heading": "",
-            "promo_1_subheading": "",
-            "promo_1_link": "",
+            "promo_1_heading": "aa",
+            "promo_1_subheading": "zz",
+            "promo_1_link": "#",
             "promo_2_image": "shopify://shop_images/square_1.jpg",
             "promo_2_heading": "",
             "promo_2_subheading": "",
