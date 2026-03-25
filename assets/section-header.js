@@ -18,6 +18,7 @@ class HeaderComponent extends HTMLElement {
     this.hideTimeouts = new Set();
 
     this.setupTransparentHeader();
+    this.setupStickyIndicator();
     this.setupStickyBehavior();
     this.setupDesktopNav();
     this.setupSearchToggle();
