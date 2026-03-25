@@ -53,7 +53,7 @@
   data-parallax="{{ enable_parallax }}"
   data-section-id="{{ section.id }}"
 >
-  <div class="hero hero--{{ color_scheme }}">
+  <div class="hero full-width color-{{ color_scheme }}" data-color-scheme="{{ color_scheme }}">
     {%- comment -%} Media layer {%- endcomment -%}
     <div class="hero__media">
       {%- if media_type == 'video' -%}
