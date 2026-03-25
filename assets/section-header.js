@@ -55,6 +55,23 @@ class HeaderComponent extends HTMLElement {
     this.transparentObserver.observe(this.sentinel);
   }
 
+  /* --- Sticky shadow — visual feedback when scrolled --- */
+  setupStickyIndicator() {
+    if (!this.sentinel) return;
+
+    var self = this;
+    this.stickyObserver = new IntersectionObserver(
+      function(entries) {
+        entries.forEach(function(entry) {
+          self.classList.toggle('header--scrolled', !entry.isIntersecting);
+        });
+      },
+      { threshold: 0 }
+    );
+
+    this.stickyObserver.observe(this.sentinel);
+  }
+
   /* --- Sticky hide-on-scroll --- */
   setupStickyBehavior() {
     if (!this.hideOnScroll) return;
