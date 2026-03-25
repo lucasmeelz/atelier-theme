@@ -9,12 +9,24 @@
  */
 {
   "sections": {
-    "main": {
-      "type": "hello-world",
-      "settings": {}
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "media_type": "image",
+        "overlay_opacity": 20,
+        "height": "full",
+        "text_position": "bottom-left",
+        "subheading": "New Collection",
+        "heading": "The art of refinement",
+        "heading_size": "large",
+        "button_label": "Discover",
+        "button_style": "outline-white",
+        "show_scroll_indicator": true,
+        "enable_parallax": true
+      }
     }
   },
   "order": [
-    "main"
+    "hero"
   ]
 }
