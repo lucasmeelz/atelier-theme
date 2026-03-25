@@ -428,8 +428,9 @@
 
 /* Mega dropdown — links + promo images grid */
 .header__dropdown--mega .header__dropdown-inner {
-  grid-template-columns: minmax(200px, 280px) 1fr;
-  gap: 40px;
+  grid-template-columns: minmax(200px, 280px) auto;
+  gap: 48px;
+  justify-content: start;
 }
 
 /* Dropdown links */
