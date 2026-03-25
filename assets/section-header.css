@@ -1050,7 +1050,7 @@
 
 .header-drawer__editorial-img {
   width: 100%;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: var(--promo-ratio, 3 / 4);
   object-fit: cover;
 }
 
