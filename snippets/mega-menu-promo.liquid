@@ -6,6 +6,7 @@
 
 {%- liquid
   assign layout = block.settings.promo_layout | default: '2'
+  assign promo_ratio = block.settings.promo_ratio | default: '3/4'
   assign has_promo_1 = false
   assign has_promo_2 = false
   assign has_promo_3 = false
@@ -32,7 +33,7 @@
         {%- if block.settings.promo_1_link != blank -%}
           <a href="{{ block.settings.promo_1_link }}" class="mega-promo__link">
         {%- endif -%}
-          <div class="mega-promo__image">
+          <div class="mega-promo__image" style="aspect-ratio: {{ promo_ratio }}">
             {{ block.settings.promo_1_image | image_url: width: 800 | image_tag:
               loading: 'lazy',
               widths: '300,400,600,800',
@@ -61,7 +62,7 @@
         {%- if block.settings.promo_2_link != blank -%}
           <a href="{{ block.settings.promo_2_link }}" class="mega-promo__link">
         {%- endif -%}
-          <div class="mega-promo__image">
+          <div class="mega-promo__image" style="aspect-ratio: {{ promo_ratio }}">
             {{ block.settings.promo_2_image | image_url: width: 800 | image_tag:
               loading: 'lazy',
               widths: '300,400,600,800',
@@ -90,7 +91,7 @@
         {%- if block.settings.promo_3_link != blank -%}
           <a href="{{ block.settings.promo_3_link }}" class="mega-promo__link">
         {%- endif -%}
-          <div class="mega-promo__image">
+          <div class="mega-promo__image" style="aspect-ratio: {{ promo_ratio }}">
             {{ block.settings.promo_3_image | image_url: width: 800 | image_tag:
               loading: 'lazy',
               widths: '300,400,600,800',
