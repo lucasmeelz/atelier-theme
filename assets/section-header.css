@@ -365,9 +365,9 @@
   z-index: 99;
   max-height: calc(80vh - var(--header-height, 72px));
   overflow-y: auto;
-  background-color: rgb(var(--color-background));
-  color: rgb(var(--color-text));
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  background-color: rgb(var(--color-background, 255, 255, 255));
+  color: rgb(var(--color-text, 10, 10, 10));
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   opacity: 0;
   visibility: hidden;
   transform: translateY(-6px);
@@ -536,8 +536,8 @@
 }
 
 .header__overlay.is-visible {
-  background: rgba(0,0,0,0.3);
-  backdrop-filter: blur(var(--backdrop-blur));
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(var(--backdrop-blur, 2px));
   pointer-events: auto;
 }
 
