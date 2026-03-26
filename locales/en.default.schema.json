@@ -606,7 +606,18 @@
         "custom_liquid": "Custom Liquid",
         "liquid_code": "Liquid code",
         "sku": "SKU",
-        "payment_terms": "Shop Pay Installments"
+        "payment_terms": "Shop Pay Installments",
+        "before_after": "Before/After comparison",
+        "before_after_heading": "Heading",
+        "image_before": "Before image",
+        "image_after": "After image",
+        "label_before": "Before label",
+        "label_after": "After label",
+        "ingredient_list": "Materials & Ingredients",
+        "ingredient_heading": "Heading",
+        "ingredient_items": "Items",
+        "ingredient_items_info": "Separate items with |. Use Name:Description format. Example: Italian leather:Premium full-grain calfskin|Silk lining:100% natural",
+        "ingredient_icon": "Icon"
       },
       "show_sticky_atc": "Show sticky add-to-cart",
       "show_sticky_atc_desc": "A compact bar appears at the bottom when the main button scrolls out of view."
