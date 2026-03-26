@@ -1078,6 +1078,77 @@
       ]
     },
     {
+      "type": "before_after",
+      "name": "t:sections.main_product.blocks.before_after",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:sections.main_product.blocks.before_after_heading"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_before",
+          "label": "t:sections.main_product.blocks.image_before"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_after",
+          "label": "t:sections.main_product.blocks.image_after"
+        },
+        {
+          "type": "text",
+          "id": "label_before",
+          "label": "t:sections.main_product.blocks.label_before",
+          "default": "Before"
+        },
+        {
+          "type": "text",
+          "id": "label_after",
+          "label": "t:sections.main_product.blocks.label_after",
+          "default": "After"
+        }
+      ]
+    },
+    {
+      "type": "ingredient_list",
+      "name": "t:sections.main_product.blocks.ingredient_list",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:sections.main_product.blocks.ingredient_heading",
+          "default": "Materials & Composition"
+        },
+        {
+          "type": "textarea",
+          "id": "ingredients",
+          "label": "t:sections.main_product.blocks.ingredient_items",
+          "info": "t:sections.main_product.blocks.ingredient_items_info",
+          "default": "Italian leather: Premium full-grain calfskin|Gold hardware: 18k gold-plated brass|Lining: Microfiber suede"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "t:sections.main_product.blocks.ingredient_icon",
+          "options": [
+            { "value": "none", "label": "t:sections.main_product.blocks.icon_none" },
+            { "value": "leaf", "label": "t:sections.main_product.blocks.icon_leaf" },
+            { "value": "diamond", "label": "t:sections.main_product.blocks.icon_diamond" }
+          ],
+          "default": "none"
+        },
+        {
+          "type": "checkbox",
+          "id": "default_open",
+          "label": "t:sections.main_product.blocks.default_open",
+          "default": false
+        }
+      ]
+    },
+    {
       "type": "custom_liquid",
       "name": "t:sections.main_product.blocks.custom_liquid",
       "settings": [
