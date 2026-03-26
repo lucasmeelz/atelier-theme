@@ -10,6 +10,8 @@
   assign products_to_show = section.settings.products_to_show
   assign columns_desktop = section.settings.columns_desktop
   assign image_ratio = section.settings.image_ratio
+  assign show_secondary_image = section.settings.show_secondary_image
+  assign show_vendor = section.settings.show_vendor
   assign color_scheme = section.settings.color_scheme
   assign padding_top = section.settings.padding_top
   assign padding_bottom = section.settings.padding_bottom
@@ -46,8 +48,8 @@
             {%- render 'card-product',
               product: product,
               image_ratio: image_ratio,
-              show_secondary_image: true,
-              show_vendor: false,
+              show_secondary_image: show_secondary_image,
+              show_vendor: show_vendor,
               show_quick_add: true,
               columns: columns_desktop,
               lazy: true,
