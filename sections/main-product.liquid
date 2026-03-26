@@ -609,15 +609,13 @@
                   {%- if block.settings.heading != blank -%}
                     <details class="product__collapsible"{% if block.settings.default_open %} open{% endif %}>
                       <summary class="product__collapsible-trigger">
-                        <span class="product__collapsible-trigger-layout">
-                          {%- if block.settings.icon != 'none' -%}
-                            <span class="product__collapsible-icon">
-                              {%- render 'icon', name: block.settings.icon, size: 18 -%}
-                            </span>
-                          {%- endif -%}
-                          <span class="product__collapsible-label">{{ block.settings.heading }}</span>
-                          <span class="product__collapsible-chevron">{%- render 'icon', name: 'chevron-down', size: 16 -%}</span>
-                        </span>
+                        {%- if block.settings.icon != 'none' -%}
+                          <span class="product__collapsible-icon">
+                            {%- render 'icon', name: block.settings.icon, size: 18 -%}
+                          </span>
+                        {%- endif -%}
+                        <span class="product__collapsible-label">{{ block.settings.heading }}</span>
+                        <span class="product__collapsible-chevron">{%- render 'icon', name: 'chevron-down', size: 16 -%}</span>
                       </summary>
                       <div class="product__collapsible-content">
                         <ul class="product__ingredients-list">
