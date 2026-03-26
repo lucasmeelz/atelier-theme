@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
@@ -19,7 +28,7 @@
         "heading_size": "large",
         "text": "",
         "button_label": "Discover",
-        "button_link": "#",
+        "button_link": "shopify://products/pre-order",
         "button_style": "filled-dark",
         "button_label_2": "",
         "button_link_2": "",
@@ -35,28 +44,32 @@
           "type": "item",
           "settings": {
             "text": "Free shipping worldwide",
-            "icon": "none"
+            "icon": "none",
+            "link": ""
           }
         },
         "item2": {
           "type": "item",
           "settings": {
             "text": "New collection available",
-            "icon": "none"
+            "icon": "none",
+            "link": ""
           }
         },
         "item3": {
           "type": "item",
           "settings": {
             "text": "Exclusive designs",
-            "icon": "none"
+            "icon": "none",
+            "link": ""
           }
         },
         "item4": {
           "type": "item",
           "settings": {
             "text": "Handcrafted with care",
-            "icon": "none"
+            "icon": "none",
+            "link": ""
           }
         }
       },
@@ -67,13 +80,15 @@
         "item4"
       ],
       "settings": {
-        "separator": "\u00b7",
+        "separator": "·",
         "speed": "medium",
         "direction": "left",
         "text_size": "large",
         "pause_on_hover": true,
         "show_borders": true,
-        "color_scheme": ""
+        "color_scheme": "",
+        "padding_top": 16,
+        "padding_bottom": 16
       }
     },
     "featured-collection": {
@@ -108,6 +123,8 @@
         "layout": "image_first",
         "desktop_image_width": "medium",
         "vertical_alignment": "middle",
+        "mobile_layout": "image_first",
+        "full_width": false,
         "label": "Our Story",
         "heading": "<p>Crafted with care</p>",
         "heading_size": "h2",
@@ -156,7 +173,7 @@
         "text": {
           "type": "text",
           "settings": {
-            "text": "<p>Every texture, every stitch, every silhouette is considered. We believe luxury lives in the quiet confidence of exceptional craft \u2014 not in logos or trends, but in the feeling of something made with genuine care.</p>"
+            "text": "<p>Every texture, every stitch, every silhouette is considered. We believe luxury lives in the quiet confidence of exceptional craft — not in logos or trends, but in the feeling of something made with genuine care.</p>"
           }
         },
         "button": {
@@ -261,21 +278,24 @@
           "type": "item",
           "settings": {
             "text": "Free shipping worldwide",
-            "icon": "none"
+            "icon": "none",
+            "link": ""
           }
         },
         "item_dz6jrG": {
           "type": "item",
           "settings": {
             "text": "New collection available",
-            "icon": "none"
+            "icon": "none",
+            "link": ""
           }
         },
         "item_98irpV": {
           "type": "item",
           "settings": {
             "text": "Exclusive designs",
-            "icon": "none"
+            "icon": "none",
+            "link": ""
           }
         }
       },
@@ -286,12 +306,15 @@
       ],
       "name": "t:sections.marquee.preset_name",
       "settings": {
-        "separator": "\u00b7",
+        "separator": "·",
         "speed": "medium",
         "direction": "left",
         "text_size": "medium",
         "pause_on_hover": true,
-        "color_scheme": ""
+        "show_borders": true,
+        "color_scheme": "",
+        "padding_top": 16,
+        "padding_bottom": 16
       }
     }
   },
