@@ -228,8 +228,11 @@
 .product__info {
   display: flex;
   flex-direction: column;
+  align-items: stretch;
   gap: 0;
   width: 100%;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 /* ===================================
