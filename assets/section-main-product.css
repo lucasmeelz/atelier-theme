@@ -632,7 +632,7 @@ h3.product__title {
 }
 
 /* When no icon: 2-column grid (label + chevron) */
-.product__collapsible-trigger-layout:not(:has(.product__collapsible-icon)) {
+.product__collapsible-trigger-layout--no-icon {
   grid-template-columns: 1fr auto;
 }
 
@@ -709,17 +709,13 @@ h3.product__title {
 }
 
 .product__share-btn-layout {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr;
   align-items: center;
   gap: 8px;
 }
 
-.product__share-btn-layout svg {
-  flex: 0 0 auto;
-}
-
 .product__share-btn-layout span {
-  flex: 0 1 auto;
   white-space: nowrap;
 }
 
