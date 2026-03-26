@@ -183,20 +183,43 @@ if (!customElements.get('main-product')) {
     }
 
     _updatePrice(variant) {
-      const priceEl = this.querySelector('[data-product-price]');
-      if (!priceEl) return;
+      // Update price client-side from variant data (avoids hot-reload conflicts)
+      const priceEl = this.querySelector('.price__current');
+      const compareEl = this.querySelector('.price__compare');
 
-      // Use Shopify's section rendering API for dynamic price updates
-      fetch(`${this.dataset.productUrl}?variant=${variant.id}&section_id=${this.dataset.sectionId}`)
-        .then(res => res.text())
-        .then(html => {
-          const doc = new DOMParser().parseFromString(html, 'text/html');
-          const newPrice = doc.querySelector('[data-product-price]');
-          if (newPrice) {
-            priceEl.innerHTML = newPrice.innerHTML;
-          }
-        })
-        .catch(() => {});
+      if (priceEl) {
+        priceEl.textContent = this._formatMoney(variant.price);
+      }
+      if (compareEl) {
+        if (variant.compare_at_price && variant.compare_at_price > variant.price) {
+          compareEl.textContent = this._formatMoney(variant.compare_at_price);
+          compareEl.hidden = false;
+        } else {
+          compareEl.hidden = true;
+        }
+      }
+
+      // Update on-sale class
+      const priceWrapper = this.querySelector('[data-product-price]');
+      if (priceWrapper) {
+        priceWrapper.classList.toggle('price--on-sale',
+          variant.compare_at_price && variant.compare_at_price > variant.price
+        );
+      }
+    }
+
+    _formatMoney(cents) {
+      // Use Shopify's money format from global settings
+      const amount = (cents / 100).toFixed(2);
+      const format = window.Shopify?.currency?.active || 'EUR';
+      try {
+        return new Intl.NumberFormat(document.documentElement.lang || 'en', {
+          style: 'currency',
+          currency: format
+        }).format(cents / 100);
+      } catch (e) {
+        return '€' + amount;
+      }
     }
 
     _updateBuyButton(variant) {
