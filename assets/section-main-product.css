@@ -797,7 +797,8 @@ h3.product__title {
 .product__highlights-item svg {
   flex-shrink: 0;
   width: 18px;
-  height: 14px;
+  height: 18px;
+  opacity: 0.5;
 }
 
 .product__highlights-item > span {
