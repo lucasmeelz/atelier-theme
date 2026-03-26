@@ -659,6 +659,7 @@ h3.product__title {
 .product__share {
   margin-bottom: 16px;
   width: 100%;
+  border-top: 1px solid rgb(var(--color-border, 226, 224, 219));
 }
 
 .product__share-btn {
@@ -667,6 +668,7 @@ h3.product__title {
   gap: 8px;
   font-size: 0.8125rem;
   padding: 12px 0;
+  text-align: left;
 }
 
 .product__share-success {
