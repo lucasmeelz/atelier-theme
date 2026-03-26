@@ -18,6 +18,8 @@
   assign button_label = section.settings.button_label
   assign button_link = section.settings.button_link
   assign button_style = section.settings.button_style
+  assign mobile_layout = section.settings.mobile_layout | default: 'image_first'
+  assign full_width = section.settings.full_width
   assign color_scheme = section.settings.color_scheme
   assign padding_top = section.settings.padding_top
   assign padding_bottom = section.settings.padding_bottom
@@ -54,9 +56,9 @@
 
 <div
   id="Section-{{ section.id }}"
-  class="image-with-text color-{{ color_scheme }}"
+  class="image-with-text color-{{ color_scheme }}{% if mobile_layout == 'text_first' %} image-with-text--mobile-text-first{% endif %}"
 >
-  <div class="container">
+  <div class="{% if full_width %}image-with-text--full-width{% else %}container{% endif %}">
     <div class="image-with-text__grid image-with-text__grid--{{ layout }} image-with-text__grid--align-{{ vertical_alignment }}">
 
       {%- comment -%} Image column {%- endcomment -%}
@@ -173,6 +175,22 @@
         { "value": "bottom", "label": "t:sections.image_with_text.align_bottom" }
       ],
       "default": "middle"
+    },
+    {
+      "type": "select",
+      "id": "mobile_layout",
+      "label": "t:sections.image_with_text.mobile_layout",
+      "options": [
+        { "value": "image_first", "label": "t:sections.image_with_text.mobile_image_first" },
+        { "value": "text_first", "label": "t:sections.image_with_text.mobile_text_first" }
+      ],
+      "default": "image_first"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "t:sections.image_with_text.full_width",
+      "default": false
     },
     {
       "type": "header",

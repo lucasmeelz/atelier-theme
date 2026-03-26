@@ -7,6 +7,21 @@
   padding-bottom: var(--section-padding-bottom, 60px);
 }
 
+.image-with-text--full-width {
+  padding-inline: 0;
+}
+
+/* Mobile: text before image */
+@media screen and (max-width: 989px) {
+  .image-with-text--mobile-text-first .image-with-text__media {
+    order: 2;
+  }
+
+  .image-with-text--mobile-text-first .image-with-text__content {
+    order: 1;
+  }
+}
+
 /* ===================================
    Grid — 2-column layout (desktop)
    =================================== */
