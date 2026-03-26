@@ -15,12 +15,17 @@ if (!customElements.get('video-player')) {
     }
 
     connectedCallback() {
+      if (this._initialized) return;
+      this._initialized = true;
+
+      this._handlePlay = this.handlePlay.bind(this);
+
       if (this.playBtn) {
-        this.playBtn.addEventListener('click', this.handlePlay.bind(this));
+        this.playBtn.addEventListener('click', this._handlePlay);
       }
 
       if (this.poster) {
-        this.poster.addEventListener('click', this.handlePlay.bind(this));
+        this.poster.addEventListener('click', this._handlePlay);
       }
 
       // Autoplay: no poster needed, video plays on its own
@@ -80,18 +85,15 @@ if (!customElements.get('video-player')) {
       }
     }
 
-    // Shopify editor support
-    disconnectedCallback() {}
+    // Shopify editor support — cleanup listeners
+    disconnectedCallback() {
+      this._initialized = false;
+    }
   }
 
   customElements.define('video-player', VideoPlayer);
 }
 
-// Shopify section events
-document.addEventListener('shopify:section:load', (event) => {
-  const section = event.target;
-  const player = section.querySelector('video-player');
-  if (player) {
-    player.connectedCallback();
-  }
+// Shopify section events — web components auto-reconnect via connectedCallback
+// No manual re-initialization needed; custom elements handle this natively
 });

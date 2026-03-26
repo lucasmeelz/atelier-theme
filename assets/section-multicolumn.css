@@ -2,6 +2,32 @@
    Multicolumn — Section Styles
    =================================== */
 
+/* Link underline animation (self-contained, no external dependency) */
+.multicolumn .link-underline {
+  position: relative;
+  text-decoration: none;
+  color: inherit;
+  padding-bottom: 2px;
+}
+
+.multicolumn .link-underline::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--duration-base, 350ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
+}
+
+.multicolumn .link-underline:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
 .multicolumn {
   padding-top: var(--section-padding-top, 60px);
   padding-bottom: var(--section-padding-bottom, 60px);

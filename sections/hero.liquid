@@ -154,8 +154,8 @@
             {%- endif -%}
             {%- if button_label_2 != blank -%}
               <a href="{{ button_link_2 | default: '#' }}" class="btn btn--{{ button_style_2 }}">
-                <span class="btn__text">{{ button_label_2 }}</span>
-                <span class="btn__text" aria-hidden="true">{{ button_label_2 }}</span>
+                <span class="btn__label">{{ button_label_2 }}</span>
+                <span class="btn__fill" aria-hidden="true"></span>
               </a>
             {%- endif -%}
           </div>
@@ -179,6 +179,9 @@
   "name": "t:sections.hero.name",
   "tag": "section",
   "class": "section-hero",
+  "disabled_on": {
+    "groups": ["header", "custom.overlay"]
+  },
   "settings": [
     {
       "type": "header",

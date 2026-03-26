@@ -12,7 +12,7 @@
    Background image (centered layout)
    =================================== */
 .newsletter--has-bg {
-  color: #ffffff;
+  color: rgb(var(--color-background, 255, 255, 255));
 }
 
 .newsletter__bg {
@@ -179,17 +179,17 @@ h4.newsletter__heading {
 .newsletter__success {
   margin-top: 0.75rem;
   font-size: 0.875rem;
-  color: #2d7d46;
+  color: var(--color-success, #2d7d46);
 }
 
 .newsletter--has-bg .newsletter__success {
-  color: #7ddf9b;
+  color: var(--color-success-on-dark, #7ddf9b);
 }
 
 .newsletter__error {
   margin-top: 0.75rem;
   font-size: 0.875rem;
-  color: #c44;
+  color: var(--color-error, #c44);
 }
 
 /* ===================================

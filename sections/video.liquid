@@ -35,10 +35,9 @@
   assign is_youtube = false
   assign is_vimeo = false
   if has_external
-    assign external_url_lower = external_url | downcase
-    if external_url_lower contains 'youtube.com' or external_url_lower contains 'youtu.be'
+    if external_url.type == 'youtube'
       assign is_youtube = true
-    elsif external_url_lower contains 'vimeo.com'
+    elsif external_url.type == 'vimeo'
       assign is_vimeo = true
     endif
   endif
@@ -113,12 +112,8 @@
           {%- else -%}
             <div class="video-section__iframe-wrap" data-iframe-wrap>
               {%- if is_youtube -%}
-                {%- assign yt_id = external_url | split: 'v=' | last | split: '&' | first -%}
-                {%- if external_url contains 'youtu.be/' -%}
-                  {%- assign yt_id = external_url | split: 'youtu.be/' | last | split: '?' | first -%}
-                {%- endif -%}
                 <iframe
-                  src="https://www.youtube.com/embed/{{ yt_id }}?autoplay={{ autoplay | default: 0 }}&mute={{ autoplay | default: 0 }}&loop={{ autoplay | default: 0 }}&controls={{ show_controls | default: 1 }}&rel=0&modestbranding=1&playsinline=1"
+                  src="https://www.youtube.com/embed/{{ external_url.id }}?autoplay={{ autoplay | default: 0 }}&mute={{ autoplay | default: 0 }}&loop={{ autoplay | default: 0 }}&controls={{ show_controls | default: 1 }}&rel=0&modestbranding=1&playsinline=1"
                   allow="autoplay; encrypted-media"
                   allowfullscreen
                   loading="lazy"
@@ -126,9 +121,8 @@
                   class="video-section__iframe"
                 ></iframe>
               {%- elsif is_vimeo -%}
-                {%- assign vimeo_id = external_url | split: 'vimeo.com/' | last | split: '?' | first | split: '/' | first -%}
                 <iframe
-                  src="https://player.vimeo.com/video/{{ vimeo_id }}?autoplay={{ autoplay | default: 0 }}&muted={{ autoplay | default: 0 }}&loop={{ autoplay | default: 0 }}&controls={{ show_controls | default: 1 }}&playsinline=1"
+                  src="https://player.vimeo.com/video/{{ external_url.id }}?autoplay={{ autoplay | default: 0 }}&muted={{ autoplay | default: 0 }}&loop={{ autoplay | default: 0 }}&controls={{ show_controls | default: 1 }}&playsinline=1"
                   allow="autoplay; encrypted-media"
                   allowfullscreen
                   loading="lazy"
@@ -160,6 +154,9 @@
   "name": "t:sections.video.name",
   "tag": "section",
   "class": "section-video",
+  "disabled_on": {
+    "groups": ["header", "custom.overlay"]
+  },
   "settings": [
     {
       "type": "header",

@@ -74,6 +74,7 @@
               image_ratio: image_ratio,
               show_secondary_image: show_secondary_image,
               show_vendor: show_vendor,
+              show_rating: show_rating,
               show_quick_add: show_quick_add,
               columns: columns_desktop,
               lazy: true,
@@ -127,6 +128,9 @@
   "name": "t:sections.featured_collection.name",
   "tag": "section",
   "class": "section-featured-collection",
+  "disabled_on": {
+    "groups": ["header", "custom.overlay"]
+  },
   "settings": [
     {
       "type": "header",

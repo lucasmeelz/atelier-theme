@@ -205,7 +205,7 @@ h3.featured-collection__heading {
 
 .card-product__badge--sold-out {
   background-color: rgb(var(--color-sold-out-badge-bg, 107, 107, 107));
-  color: #ffffff;
+  color: rgb(var(--color-background, 255, 255, 255));
 }
 
 /* Quick add button */
