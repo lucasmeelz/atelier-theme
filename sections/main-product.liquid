@@ -349,6 +349,8 @@
                       class="btn btn--primary btn--full product__add-to-cart"
                       {% unless current_variant.available %}disabled{% endunless %}
                       data-add-to-cart
+                      data-add-text="{{ 'product.add_to_cart' | t }}"
+                      data-sold-out-text="{{ 'product.sold_out' | t }}"
                     >
                       <span class="btn__label" data-add-to-cart-text>
                         {%- if current_variant.available -%}
