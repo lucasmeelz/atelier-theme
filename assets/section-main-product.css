@@ -785,19 +785,18 @@ h3.product__title {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 8px;
-  padding: 6px 0;
+  gap: 10px;
+  padding: 8px 0;
   font-size: 0.8125rem;
   line-height: 1.4;
   text-align: left;
   width: 100%;
   max-width: 100%;
-  overflow: hidden;
 }
 
 .product__highlights-item svg {
   flex-shrink: 0;
-  width: 14px;
+  width: 18px;
   height: 14px;
 }
 
