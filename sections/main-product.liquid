@@ -413,6 +413,24 @@
                   </details>
                 {%- endif -%}
 
+              {%- comment -%} === SKU === {%- endcomment -%}
+              {%- when 'sku' -%}
+                {%- if current_variant.sku != blank -%}
+                  <p class="product__sku" data-product-sku {{ block.shopify_attributes }}>
+                    <span class="product__sku-label label">{{ 'product.sku' | t }}:</span>
+                    <span data-sku-value>{{ current_variant.sku }}</span>
+                  </p>
+                {%- endif -%}
+
+              {%- comment -%} === PAYMENT TERMS (Shop Pay Installments) === {%- endcomment -%}
+              {%- when 'payment_terms' -%}
+                <div class="product__payment-terms" {{ block.shopify_attributes }}>
+                  {%- form 'product', product, id: 'ProductPaymentTerms' -%}
+                    <input type="hidden" name="id" value="{{ current_variant.id }}">
+                    {{ form | payment_terms }}
+                  {%- endform -%}
+                </div>
+
               {%- comment -%} === SHARE === {%- endcomment -%}
               {%- when 'share' -%}
                 <div class="product__share" {{ block.shopify_attributes }}>
