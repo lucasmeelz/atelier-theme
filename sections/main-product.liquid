@@ -441,8 +441,10 @@
               {%- when 'share' -%}
                 <div class="product__share" {{ block.shopify_attributes }}>
                   <button type="button" class="product__share-btn btn--link" data-share-button aria-label="{{ 'product.share' | t }}">
-                    {%- render 'icon', name: 'share', size: 18 -%}
-                    <span>{{ 'product.share' | t }}</span>
+                    <span class="product__share-btn-layout">
+                      {%- render 'icon', name: 'share', size: 18 -%}
+                      <span>{{ 'product.share' | t }}</span>
+                    </span>
                   </button>
                   <p class="product__share-success visually-hidden" data-share-success role="status">
                     {{ 'product.link_copied' | t }}
@@ -605,13 +607,15 @@
                   {%- if block.settings.heading != blank -%}
                     <details class="product__collapsible"{% if block.settings.default_open %} open{% endif %}>
                       <summary class="product__collapsible-trigger">
-                        {%- if block.settings.icon != 'none' -%}
-                          <span class="product__collapsible-icon">
-                            {%- render 'icon', name: block.settings.icon, size: 18 -%}
-                          </span>
-                        {%- endif -%}
-                        <span>{{ block.settings.heading }}</span>
-                        {%- render 'icon', name: 'chevron-down', size: 16 -%}
+                        <span class="product__collapsible-trigger-layout">
+                          {%- if block.settings.icon != 'none' -%}
+                            <span class="product__collapsible-icon">
+                              {%- render 'icon', name: block.settings.icon, size: 18 -%}
+                            </span>
+                          {%- endif -%}
+                          <span class="product__collapsible-label">{{ block.settings.heading }}</span>
+                          <span class="product__collapsible-chevron">{%- render 'icon', name: 'chevron-down', size: 16 -%}</span>
+                        </span>
                       </summary>
                       <div class="product__collapsible-content">
                         <ul class="product__ingredients-list">
