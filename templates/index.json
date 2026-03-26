@@ -120,6 +120,22 @@
         "padding_bottom": 60
       }
     },
+    "video": {
+      "type": "video",
+      "settings": {
+        "heading": "Our Craftsmanship",
+        "heading_size": "h2",
+        "external_video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+        "description": "",
+        "autoplay": false,
+        "show_controls": true,
+        "video_ratio": "21-9",
+        "full_width": true,
+        "color_scheme": "",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
     "rich-text": {
       "type": "rich-text",
       "blocks": {
@@ -276,17 +292,6 @@
         "text_size": "medium",
         "pause_on_hover": true,
         "color_scheme": ""
-      }
-    },
-    "video": {
-      "type": "video",
-      "settings": {
-        "heading": "Our Craftsmanship",
-        "heading_size": "h2",
-        "video_ratio": "16-9",
-        "full_width": false,
-        "padding_top": 60,
-        "padding_bottom": 60
       }
     }
   },
