@@ -277,6 +277,17 @@
         "pause_on_hover": true,
         "color_scheme": ""
       }
+    },
+    "video": {
+      "type": "video",
+      "settings": {
+        "heading": "Our Craftsmanship",
+        "heading_size": "h2",
+        "video_ratio": "16-9",
+        "full_width": false,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
     }
   },
   "order": [
@@ -284,6 +295,7 @@
     "marquee",
     "featured-collection",
     "image-with-text",
+    "video",
     "rich-text",
     "multicolumn",
     "newsletter",
