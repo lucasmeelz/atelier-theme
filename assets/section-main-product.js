@@ -23,6 +23,7 @@ if (!customElements.get('main-product')) {
       this._initAddToCart();
       this._initShare();
       this._initZoom();
+      this._initStickyATC();
     }
 
     /* ===================================
@@ -401,10 +402,39 @@ if (!customElements.get('main-product')) {
     }
 
     /* ===================================
+       Sticky Add-to-Cart
+       =================================== */
+    _initStickyATC() {
+      const stickyBar = this.querySelector('[data-sticky-atc]');
+      const mainATCBtn = this.querySelector('[data-add-to-cart]');
+      if (!stickyBar || !mainATCBtn) return;
+
+      stickyBar.hidden = false;
+
+      const observer = new IntersectionObserver(([entry]) => {
+        stickyBar.classList.toggle('is-visible', !entry.isIntersecting);
+      }, { threshold: 0 });
+
+      observer.observe(mainATCBtn);
+      this._stickyObserver = observer;
+
+      // Sticky ATC click → trigger main form submit
+      const stickyBtn = stickyBar.querySelector('[data-sticky-atc-button]');
+      if (stickyBtn) {
+        stickyBtn.addEventListener('click', () => {
+          mainATCBtn.click();
+        });
+      }
+    }
+
+    /* ===================================
        Cleanup
        =================================== */
     disconnectedCallback() {
       this._initialized = false;
+      if (this._stickyObserver) {
+        this._stickyObserver.disconnect();
+      }
     }
   }
 
