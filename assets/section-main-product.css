@@ -312,12 +312,12 @@ h3.product__title {
 
 .product__badge--sale {
   background-color: rgb(var(--color-accent, 184, 148, 106));
-  color: #fff;
+  color: rgb(var(--color-background, 255, 255, 255));
 }
 
 .product__badge--sold-out {
   background-color: rgb(var(--color-text-subdued, 107, 107, 107));
-  color: #fff;
+  color: rgb(var(--color-background, 255, 255, 255));
 }
 
 /* ===================================
@@ -381,7 +381,7 @@ h3.product__title {
   margin-bottom: 10px;
   font-size: 0.8125rem;
   font-weight: 500;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
@@ -664,7 +664,7 @@ h3.product__title {
 }
 
 .product__collapsible-content {
-  padding: 0 0 20px;
+  padding: 8px 0 24px;
   font-size: 0.875rem;
   line-height: 1.6;
 }
@@ -711,7 +711,7 @@ h3.product__title {
 
 .product__pickup-item svg {
   flex-shrink: 0;
-  color: #2d7d46;
+  color: rgb(var(--color-accent, 45, 125, 70));
   margin-top: 2px;
 }
 
