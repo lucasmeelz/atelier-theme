@@ -402,9 +402,15 @@
                 -%}
                 {%- if block.settings.heading != blank -%}
                   <details class="product__collapsible" {{ block.shopify_attributes }}>
+                    {%- liquid
+                      assign has_tab_icon = false
+                      if block.settings.icon != 'none' and block.settings.icon != blank
+                        assign has_tab_icon = true
+                      endif
+                    -%}
                     <summary class="product__collapsible-trigger">
-                      <span class="product__collapsible-trigger-layout">
-                        {%- if block.settings.icon != 'none' and block.settings.icon != blank -%}
+                      <span class="product__collapsible-trigger-layout{% unless has_tab_icon %} product__collapsible-trigger-layout--no-icon{% endunless %}">
+                        {%- if has_tab_icon -%}
                           <span class="product__collapsible-icon">
                             {%- render 'icon', name: block.settings.icon, size: 18 -%}
                           </span>
