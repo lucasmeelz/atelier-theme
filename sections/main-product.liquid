@@ -376,9 +376,9 @@
                   {%- if block.settings.collapsible -%}
                     <details class="product__collapsible" {{ block.shopify_attributes }}{% if block.settings.default_open %} open{% endif %}>
                       <summary class="product__collapsible-trigger">
-                        <span class="product__collapsible-trigger-inner">
-                          <span>{{ 'product.description' | t }}</span>
-                          {%- render 'icon', name: 'chevron-down', size: 16 -%}
+                        <span class="product__collapsible-trigger-layout">
+                          <span class="product__collapsible-label">{{ 'product.description' | t }}</span>
+                          <span class="product__collapsible-chevron">{%- render 'icon', name: 'chevron-down', size: 16 -%}</span>
                         </span>
                       </summary>
                       <div class="product__collapsible-content rte">
@@ -403,14 +403,14 @@
                 {%- if block.settings.heading != blank -%}
                   <details class="product__collapsible" {{ block.shopify_attributes }}>
                     <summary class="product__collapsible-trigger">
-                      <span class="product__collapsible-trigger-inner">
+                      <span class="product__collapsible-trigger-layout">
                         {%- if block.settings.icon != 'none' and block.settings.icon != blank -%}
                           <span class="product__collapsible-icon">
                             {%- render 'icon', name: block.settings.icon, size: 18 -%}
                           </span>
                         {%- endif -%}
-                        <span>{{ block.settings.heading }}</span>
-                        {%- render 'icon', name: 'chevron-down', size: 16 -%}
+                        <span class="product__collapsible-label">{{ block.settings.heading }}</span>
+                        <span class="product__collapsible-chevron">{%- render 'icon', name: 'chevron-down', size: 16 -%}</span>
                       </span>
                     </summary>
                     <div class="product__collapsible-content rte">
