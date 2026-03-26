@@ -1,8 +1,8 @@
 {%- comment -%}
-  Featured Collection — Product grid section
-  Displays products from a selected collection in a responsive grid
-  Supports: 2-5 columns desktop, 1-2 mobile, image ratios, secondary image hover,
-  vendor, rating, quick add, view all button
+  Featured Collection — Product grid/carousel section
+  Desktop: grid or horizontal carousel with navigation arrows
+  Mobile: horizontal swipe with scroll-snap (peek effect)
+  Supports: image ratios, secondary image hover, vendor, rating, quick add
 {%- endcomment -%}
 
 {{ 'section-featured-collection.css' | asset_url | stylesheet_tag }}
@@ -12,6 +12,8 @@
   assign products_to_show = section.settings.products_to_show
   assign columns_desktop = section.settings.columns_desktop
   assign columns_mobile = section.settings.columns_mobile
+  assign desktop_layout = section.settings.desktop_layout
+  assign mobile_layout = section.settings.mobile_layout
   assign image_ratio = section.settings.image_ratio
   assign show_secondary_image = section.settings.show_secondary_image
   assign show_vendor = section.settings.show_vendor
@@ -25,9 +27,15 @@
   assign color_scheme = section.settings.color_scheme
   assign padding_top = section.settings.padding_top
   assign padding_bottom = section.settings.padding_bottom
+  assign full_width = section.settings.full_width
 
   if collection == blank
     assign placeholder_count = products_to_show
+  endif
+
+  assign show_nav = false
+  if desktop_layout == 'carousel' and products_to_show > columns_desktop
+    assign show_nav = true
   endif
 -%}
 
@@ -44,9 +52,9 @@
   id="Section-{{ section.id }}"
   class="featured-collection color-{{ color_scheme }}"
 >
-  <div class="container">
-    {%- comment -%} Header — heading + subheading + view all {%- endcomment -%}
-    {%- if heading != blank or subheading != blank or button_label != blank -%}
+  <div class="{% if full_width %}featured-collection--full-width{% else %}container{% endif %}">
+    {%- comment -%} Header — heading + subheading + nav arrows + view all {%- endcomment -%}
+    {%- if heading != blank or subheading != blank or button_label != blank or show_nav -%}
       <div class="featured-collection__header">
         <div class="featured-collection__header-text">
           {%- if subheading != blank -%}
@@ -56,62 +64,85 @@
             <{{ heading_size }} class="featured-collection__heading">{{ heading }}</{{ heading_size }}>
           {%- endif -%}
         </div>
-        {%- if button_label != blank -%}
-          <a href="{{ button_link | default: collection.url | default: routes.all_products_collection_url }}" class="featured-collection__view-all link-underline">
-            {{ button_label }}
-          </a>
-        {%- endif -%}
+        <div class="featured-collection__header-actions">
+          {%- if show_nav -%}
+            <div class="featured-collection__nav no-js-hidden" aria-label="{{ 'accessibility.navigation' | t }}">
+              <button
+                class="featured-collection__nav-btn featured-collection__nav-btn--prev"
+                aria-label="{{ 'accessibility.previous_slide' | t }}"
+                disabled
+              >
+                {%- render 'icon', name: 'chevron-left', size: 20 -%}
+              </button>
+              <button
+                class="featured-collection__nav-btn featured-collection__nav-btn--next"
+                aria-label="{{ 'accessibility.next_slide' | t }}"
+              >
+                {%- render 'icon', name: 'chevron-right', size: 20 -%}
+              </button>
+            </div>
+          {%- endif -%}
+          {%- if button_label != blank -%}
+            <a href="{{ button_link | default: collection.url | default: routes.all_products_collection_url }}" class="featured-collection__view-all link-underline">
+              {{ button_label }}
+            </a>
+          {%- endif -%}
+        </div>
       </div>
     {%- endif -%}
 
-    {%- comment -%} Product grid {%- endcomment -%}
-    <div class="featured-collection__grid">
-      {%- if collection != blank -%}
-        {%- for product in collection.products limit: products_to_show -%}
-          <div class="featured-collection__item">
-            {%- render 'card-product',
-              product: product,
-              image_ratio: image_ratio,
-              show_secondary_image: show_secondary_image,
-              show_vendor: show_vendor,
-              show_rating: show_rating,
-              show_quick_add: show_quick_add,
-              columns: columns_desktop,
-              lazy: true,
-              section_id: section.id
-            -%}
-          </div>
-        {%- endfor -%}
-      {%- else -%}
-        {%- comment -%} Placeholder products when no collection selected {%- endcomment -%}
-        {%- for i in (1..products_to_show) -%}
-          <div class="featured-collection__item">
-            <div class="card-product">
-              <div class="card-product__media">
-                <div class="card-product__media-wrapper"{% if image_ratio != 'adapt' %} style="--card-image-ratio: {% case image_ratio %}{% when 'portrait' %}3 / 4{% when 'square' %}1 / 1{% when 'landscape' %}4 / 3{% endcase %};"{% endif %}>
-                  <div class="card-product__placeholder">
-                    {%- capture placeholder_name -%}product-{{ i | modulo: 6 | plus: 1 }}{%- endcapture -%}
-                    {{ placeholder_name | placeholder_svg_tag: 'card-product__placeholder-svg' }}
+    {%- comment -%} Product scroller / grid {%- endcomment -%}
+    <product-scroller
+      class="featured-collection__scroller{% if desktop_layout == 'carousel' %} featured-collection__scroller--carousel{% endif %}{% if mobile_layout == 'swipe' %} featured-collection__scroller--swipe-mobile{% endif %}"
+      data-desktop-layout="{{ desktop_layout }}"
+    >
+      <div class="featured-collection__track" data-track>
+        {%- if collection != blank -%}
+          {%- for product in collection.products limit: products_to_show -%}
+            <div class="featured-collection__item" data-index="{{ forloop.index0 }}">
+              {%- render 'card-product',
+                product: product,
+                image_ratio: image_ratio,
+                show_secondary_image: show_secondary_image,
+                show_vendor: show_vendor,
+                show_rating: show_rating,
+                show_quick_add: show_quick_add,
+                columns: columns_desktop,
+                lazy: true,
+                section_id: section.id
+              -%}
+            </div>
+          {%- endfor -%}
+        {%- else -%}
+          {%- for i in (1..products_to_show) -%}
+            <div class="featured-collection__item" data-index="{{ forloop.index0 }}">
+              <div class="card-product">
+                <div class="card-product__media">
+                  <div class="card-product__media-wrapper"{% if image_ratio != 'adapt' %} style="--card-image-ratio: {% case image_ratio %}{% when 'portrait' %}3 / 4{% when 'square' %}1 / 1{% when 'landscape' %}4 / 3{% endcase %};"{% endif %}>
+                    <div class="card-product__placeholder">
+                      {%- capture placeholder_name -%}product-{{ i | modulo: 6 | plus: 1 }}{%- endcapture -%}
+                      {{ placeholder_name | placeholder_svg_tag: 'card-product__placeholder-svg' }}
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="card-product__info">
-                <h3 class="card-product__title">
-                  <a href="#">{{ 'product.placeholder_title' | t }}</a>
-                </h3>
-                <div class="price">
-                  <div class="price__regular">
-                    <span class="price__current">{{ 9999 | money }}</span>
+                <div class="card-product__info">
+                  <h3 class="card-product__title">
+                    <a href="#">{{ 'product.placeholder_title' | t }}</a>
+                  </h3>
+                  <div class="price">
+                    <div class="price__regular">
+                      <span class="price__current">{{ 9999 | money }}</span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        {%- endfor -%}
-      {%- endif -%}
-    </div>
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+    </product-scroller>
 
-    {%- comment -%} Mobile view all button (shown below grid on mobile) {%- endcomment -%}
+    {%- comment -%} Mobile view all button {%- endcomment -%}
     {%- if button_label != blank -%}
       <div class="featured-collection__footer">
         <a href="{{ button_link | default: collection.url | default: routes.all_products_collection_url }}" class="btn btn--outline-dark">
@@ -122,6 +153,8 @@
     {%- endif -%}
   </div>
 </div>
+
+<script src="{{ 'section-featured-collection.js' | asset_url }}" defer="defer"></script>
 
 {% schema %}
 {
@@ -180,6 +213,26 @@
       "content": "t:sections.featured_collection.layout_header"
     },
     {
+      "type": "select",
+      "id": "desktop_layout",
+      "label": "t:sections.featured_collection.desktop_layout",
+      "options": [
+        { "value": "grid", "label": "t:sections.featured_collection.layout_grid" },
+        { "value": "carousel", "label": "t:sections.featured_collection.layout_carousel" }
+      ],
+      "default": "grid"
+    },
+    {
+      "type": "select",
+      "id": "mobile_layout",
+      "label": "t:sections.featured_collection.mobile_layout",
+      "options": [
+        { "value": "swipe", "label": "t:sections.featured_collection.mobile_swipe" },
+        { "value": "grid", "label": "t:sections.featured_collection.mobile_grid" }
+      ],
+      "default": "swipe"
+    },
+    {
       "type": "range",
       "id": "columns_desktop",
       "label": "t:sections.featured_collection.columns_desktop",
@@ -192,9 +245,10 @@
       "type": "select",
       "id": "columns_mobile",
       "label": "t:sections.featured_collection.columns_mobile",
+      "info": "t:sections.featured_collection.columns_mobile_info",
       "options": [
-        { "value": "1", "label": "t:sections.featured_collection.columns_1" },
-        { "value": "2", "label": "t:sections.featured_collection.columns_2" }
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
       ],
       "default": "2"
     },
@@ -209,6 +263,12 @@
         { "value": "landscape", "label": "t:sections.featured_collection.ratio_landscape" }
       ],
       "default": "portrait"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "t:sections.featured_collection.full_width",
+      "default": false
     },
     {
       "type": "header",
