@@ -12,6 +12,25 @@
     "main": {
       "type": "main-product",
       "blocks": {
+        "ingredient_list_qhJD7L": {
+          "type": "ingredient_list",
+          "settings": {
+            "heading": "Materials & Composition",
+            "ingredients": "Italian leather: Premium full-grain calfskin|Gold hardware: 18k gold-plated brass|Lining: Microfiber suede",
+            "icon": "none",
+            "default_open": false
+          }
+        },
+        "product_highlights_WGkFi9": {
+          "type": "product_highlights",
+          "settings": {
+            "heading": "Key features",
+            "source": "manual",
+            "highlights": "Premium materials, Handcrafted, Timeless design",
+            "metafield_key": "",
+            "icon": "checkmark"
+          }
+        },
         "vendor": {
           "type": "vendor",
           "settings": {}
@@ -32,7 +51,8 @@
           "type": "variant_picker",
           "settings": {
             "picker_type": "buttons",
-            "swatch_shape": "circle"
+            "swatch_shape": "circle",
+            "size_chart_page": ""
           }
         },
         "buy_buttons": {
@@ -49,7 +69,9 @@
             "icon_2": "return",
             "text_2": "Easy returns",
             "icon_3": "lock",
-            "text_3": "Secure payment"
+            "text_3": "Secure payment",
+            "icon_4": "none",
+            "text_4": ""
           }
         },
         "description": {
@@ -63,6 +85,8 @@
           "type": "collapsible_tab",
           "settings": {
             "heading": "Shipping & Returns",
+            "content": "",
+            "page": "",
             "icon": "shipping"
           }
         },
@@ -72,6 +96,8 @@
         }
       },
       "block_order": [
+        "ingredient_list_qhJD7L",
+        "product_highlights_WGkFi9",
         "vendor",
         "title",
         "price",
@@ -86,8 +112,12 @@
         "media_size": 55,
         "media_position": "left",
         "gallery_layout": "stacked",
+        "thumbnail_position": "below",
         "enable_zoom": true,
+        "enable_video_loop": false,
         "sticky_info": true,
+        "show_sticky_atc": true,
+        "color_scheme": "",
         "padding_top": 40,
         "padding_bottom": 40
       }
