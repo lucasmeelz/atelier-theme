@@ -110,7 +110,7 @@
       ],
       "settings": {
         "media_size": 55,
-        "media_position": "left",
+        "media_position": "right",
         "gallery_layout": "stacked",
         "thumbnail_position": "below",
         "enable_zoom": true,
