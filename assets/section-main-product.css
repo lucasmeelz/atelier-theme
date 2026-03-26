@@ -595,7 +595,10 @@ h3.product__title {
    No uppercase by default (safe for narrow containers),
    uppercase only on wide desktop */
 .product__collapsible-trigger {
-  display: block;
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
   width: 100%;
   padding: 16px 0;
   cursor: pointer;
@@ -632,8 +635,10 @@ h3.product__title {
   }
 }
 
-.product__collapsible-trigger::-webkit-details-marker {
+.product__collapsible-trigger::-webkit-details-marker,
+.product__collapsible-trigger::marker {
   display: none;
+  content: '';
 }
 
 .product__collapsible-trigger-inner svg:last-child {
