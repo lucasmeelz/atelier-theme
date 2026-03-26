@@ -591,11 +591,14 @@ h3.product__title {
   border-bottom: 1px solid rgb(var(--color-border, 226, 224, 219));
 }
 
+/* Collapsible trigger — mobile-first approach
+   No uppercase by default (safe for narrow containers),
+   uppercase only on wide desktop */
 .product__collapsible-trigger {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  gap: 8px;
   width: 100%;
   padding: 16px 0;
   cursor: pointer;
@@ -603,8 +606,8 @@ h3.product__title {
   font-family: var(--font-body-family, sans-serif);
   font-size: 0.8125rem;
   font-weight: 500;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .product__collapsible-trigger > span:not(.product__collapsible-icon) {
@@ -613,13 +616,12 @@ h3.product__title {
   line-height: 1.3;
 }
 
-@media screen and (max-width: 749px) {
+@media screen and (min-width: 990px) {
   .product__collapsible-trigger {
-    font-size: 0.75rem;
-    gap: 8px;
-    letter-spacing: 0;
-    text-transform: none;
-    font-weight: 500;
+    font-size: 0.8125rem;
+    gap: 10px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
   }
 }
 
