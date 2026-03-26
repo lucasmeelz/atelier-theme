@@ -33,10 +33,8 @@
         "button_label_2": "",
         "button_link_2": "",
         "button_style_2": "filled-white",
-        "enable_transparent_header": true,
         "show_scroll_indicator": true,
-        "enable_parallax": true,
-        "color_scheme": ""
+        "enable_parallax": true
       }
     },
     "marquee": {
@@ -83,8 +81,8 @@
         "direction": "left",
         "text_size": "large",
         "pause_on_hover": true,
-        "color_scheme": "",
-        "show_borders": true
+        "show_borders": true,
+        "color_scheme": ""
       }
     },
     "featured-collection": {
