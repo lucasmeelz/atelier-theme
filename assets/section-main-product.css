@@ -618,6 +618,10 @@ h3.product__title {
   flex-shrink: 0;
 }
 
+.product__collapsible:not([open]) .product__collapsible-content {
+  display: none;
+}
+
 .product__collapsible-content {
   padding: 0 0 20px;
   font-size: 0.875rem;
