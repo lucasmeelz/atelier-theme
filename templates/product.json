@@ -112,7 +112,7 @@
         "media_size": 55,
         "media_position": "left",
         "gallery_layout": "thumbnail_slider",
-        "thumbnail_position": "below",
+        "thumbnail_position": "beside",
         "enable_zoom": true,
         "enable_video_loop": false,
         "sticky_info": true,
