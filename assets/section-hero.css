@@ -8,9 +8,15 @@
   position: relative;
   display: grid;
   grid-template: 1fr / 1fr;
-  height: var(--hero-height, calc(100svh - var(--header-height, 0px)));
+  height: var(--hero-height-mobile, var(--hero-height, calc(100svh - var(--header-height, 0px))));
   overflow: hidden;
   width: 100%;
+}
+
+@media screen and (min-width: 990px) {
+  .hero {
+    height: var(--hero-height, calc(100svh - var(--header-height, 0px)));
+  }
 }
 
 .hero > * {
@@ -77,12 +83,8 @@
    =================================== */
 .hero__overlay {
   z-index: 1;
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, var(--hero-overlay-opacity, 0.2)) 0%,
-    rgba(0, 0, 0, calc(var(--hero-overlay-opacity, 0.2) * 0.4)) 40%,
-    transparent 100%
-  );
+  background-color: var(--hero-overlay-color, #000000);
+  opacity: var(--hero-overlay-opacity, 0.2);
   pointer-events: none;
 }
 
@@ -147,6 +149,47 @@
 .hero__content--middle-center .hero__buttons,
 .hero__content--bottom-center .hero__buttons {
   justify-content: center;
+}
+
+/* Content alignment override (text-align independent of position) */
+.hero__content--align-center {
+  text-align: center;
+}
+
+.hero__content--align-center .hero__buttons {
+  justify-content: center;
+}
+
+.hero__content--align-left {
+  text-align: left;
+}
+
+/* Mobile position override */
+@media screen and (max-width: 989px) {
+  .hero__content--mobile-bottom-left {
+    align-self: end;
+    justify-self: start;
+  }
+
+  .hero__content--mobile-bottom-center {
+    align-self: end;
+    justify-self: center;
+    text-align: center;
+  }
+
+  .hero__content--mobile-bottom-center .hero__buttons {
+    justify-content: center;
+  }
+
+  .hero__content--mobile-middle-center {
+    align-self: center;
+    justify-self: center;
+    text-align: center;
+  }
+
+  .hero__content--mobile-middle-center .hero__buttons {
+    justify-content: center;
+  }
 }
 
 /* ===================================

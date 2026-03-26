@@ -25,6 +25,11 @@
   assign button_label_2 = section.settings.button_label_2
   assign button_link_2 = section.settings.button_link_2
   assign button_style_2 = section.settings.button_style_2
+  assign overlay_color = section.settings.overlay_color | default: '#000000'
+  assign height_mobile = section.settings.height_mobile
+  assign text_position_mobile = section.settings.text_position_mobile | default: 'auto'
+  assign content_alignment = section.settings.content_alignment | default: 'left'
+  assign enable_transparent_header = section.settings.enable_transparent_header
   assign show_scroll = section.settings.show_scroll_indicator
   assign enable_parallax = section.settings.enable_parallax
   assign color_scheme = section.settings.color_scheme
@@ -39,12 +44,24 @@
     when 'small'
       assign hero_height = '40vh'
   endcase
+
+  assign hero_height_mobile = hero_height
+  case height_mobile
+    when 'full'
+      assign hero_height_mobile = '100svh'
+    when 'large'
+      assign hero_height_mobile = '80vh'
+    when 'medium'
+      assign hero_height_mobile = '60vh'
+  endcase
 -%}
 
 {%- style -%}
   #Hero-{{ section.id }} {
     --hero-height: {{ hero_height }};
+    --hero-height-mobile: {{ hero_height_mobile }};
     --hero-overlay-opacity: {{ overlay_opacity }};
+    --hero-overlay-color: {{ overlay_color }};
   }
 {%- endstyle -%}
 
@@ -54,7 +71,7 @@
   data-parallax="{{ enable_parallax }}"
   data-section-id="{{ section.id }}"
 >
-  <div class="hero color-{{ color_scheme }}" data-color-scheme="{{ color_scheme }}">
+  <div class="hero color-{{ color_scheme }}" data-color-scheme="{{ color_scheme }}"{% if enable_transparent_header %} data-transparent-header="true"{% endif %}>
     {%- comment -%} Media layer {%- endcomment -%}
     <div class="hero__media">
       {%- if media_type == 'video' -%}
@@ -130,7 +147,7 @@
     <div class="hero__overlay" aria-hidden="true"></div>
 
     {%- comment -%} Content {%- endcomment -%}
-    <div class="hero__content hero__content--{{ text_position }}">
+    <div class="hero__content hero__content--{{ text_position }} hero__content--align-{{ content_alignment }}{% if text_position_mobile != 'auto' %} hero__content--mobile-{{ text_position_mobile }}{% endif %}">
       <div class="hero__content-inner">
         {%- if subheading != blank -%}
           <p class="hero__subheading label">{{ subheading }}</p>
@@ -221,6 +238,12 @@
       "info": "t:sections.hero.video_url_info"
     },
     {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "t:sections.hero.overlay_color",
+      "default": "#000000"
+    },
+    {
       "type": "range",
       "id": "overlay_opacity",
       "label": "t:sections.hero.overlay_opacity",
@@ -248,6 +271,19 @@
     },
     {
       "type": "select",
+      "id": "height_mobile",
+      "label": "t:sections.hero.height_mobile",
+      "options": [
+        { "value": "auto", "label": "t:sections.hero.height_mobile_auto" },
+        { "value": "full", "label": "t:sections.hero.height_full" },
+        { "value": "large", "label": "t:sections.hero.height_large" },
+        { "value": "medium", "label": "t:sections.hero.height_medium" }
+      ],
+      "default": "auto",
+      "info": "t:sections.hero.height_mobile_info"
+    },
+    {
+      "type": "select",
       "id": "text_position",
       "label": "t:sections.hero.text_position",
       "options": [
@@ -259,6 +295,29 @@
         { "value": "bottom-center", "label": "t:sections.hero.position_bottom_center" }
       ],
       "default": "bottom-left"
+    },
+    {
+      "type": "select",
+      "id": "text_position_mobile",
+      "label": "t:sections.hero.text_position_mobile",
+      "options": [
+        { "value": "auto", "label": "t:sections.hero.position_auto" },
+        { "value": "bottom-left", "label": "t:sections.hero.position_bottom_left" },
+        { "value": "bottom-center", "label": "t:sections.hero.position_bottom_center" },
+        { "value": "middle-center", "label": "t:sections.hero.position_middle_center" }
+      ],
+      "default": "auto",
+      "info": "t:sections.hero.text_position_mobile_info"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "t:sections.hero.content_alignment",
+      "options": [
+        { "value": "left", "label": "t:sections.hero.align_left" },
+        { "value": "center", "label": "t:sections.hero.align_center" }
+      ],
+      "default": "left"
     },
     {
       "type": "header",
@@ -342,6 +401,13 @@
     {
       "type": "header",
       "content": "t:sections.hero.options"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_transparent_header",
+      "label": "t:sections.hero.enable_transparent_header",
+      "default": true,
+      "info": "t:sections.hero.enable_transparent_header_info"
     },
     {
       "type": "checkbox",
