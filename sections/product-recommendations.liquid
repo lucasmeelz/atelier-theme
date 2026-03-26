@@ -85,6 +85,9 @@
   "name": "t:sections.product_recommendations.name",
   "tag": "section",
   "class": "section-product-recommendations",
+  "disabled_on": {
+    "groups": ["header", "custom.overlay"]
+  },
   "settings": [
     {
       "type": "text",
@@ -120,6 +123,18 @@
         { "value": "square", "label": "t:sections.product_recommendations.ratio_square" }
       ],
       "default": "portrait"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secondary_image",
+      "label": "t:sections.product_recommendations.show_secondary_image",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "t:sections.product_recommendations.show_vendor",
+      "default": false
     },
     {
       "type": "color_scheme",
