@@ -653,7 +653,9 @@ h3.product__title {
 .product__share-btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
+  width: 100%;
   font-size: 0.8125rem;
 }
 
