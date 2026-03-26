@@ -76,7 +76,7 @@
         "item4"
       ],
       "settings": {
-        "separator": "·",
+        "separator": "\u00b7",
         "speed": "medium",
         "direction": "left",
         "text_size": "large",
@@ -165,7 +165,7 @@
         "text": {
           "type": "text",
           "settings": {
-            "text": "<p>Every texture, every stitch, every silhouette is considered. We believe luxury lives in the quiet confidence of exceptional craft — not in logos or trends, but in the feeling of something made with genuine care.</p>"
+            "text": "<p>Every texture, every stitch, every silhouette is considered. We believe luxury lives in the quiet confidence of exceptional craft \u2014 not in logos or trends, but in the feeling of something made with genuine care.</p>"
           }
         },
         "button": {
@@ -295,16 +295,21 @@
       ],
       "name": "t:sections.marquee.preset_name",
       "settings": {
-        "separator": "·",
+        "separator": "\u00b7",
         "speed": "medium",
         "direction": "left",
         "text_size": "medium",
         "pause_on_hover": true,
         "color_scheme": ""
       }
+    },
+    "icon-test": {
+      "type": "icon-test",
+      "settings": {}
     }
   },
   "order": [
+    "icon-test",
     "hero",
     "marquee",
     "featured-collection",
