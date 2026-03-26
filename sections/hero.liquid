@@ -29,10 +29,9 @@
   assign height_mobile = section.settings.height_mobile
   assign text_position_mobile = section.settings.text_position_mobile | default: 'auto'
   assign content_alignment = section.settings.content_alignment | default: 'left'
-  assign enable_transparent_header = section.settings.enable_transparent_header
   assign show_scroll = section.settings.show_scroll_indicator
   assign enable_parallax = section.settings.enable_parallax
-  assign color_scheme = section.settings.color_scheme
+  assign color_scheme = 'scheme-1'
 
   case height
     when 'full'
@@ -71,7 +70,7 @@
   data-parallax="{{ enable_parallax }}"
   data-section-id="{{ section.id }}"
 >
-  <div class="hero color-{{ color_scheme }}" data-color-scheme="{{ color_scheme }}"{% if enable_transparent_header %} data-transparent-header="true"{% endif %}>
+  <div class="hero color-{{ color_scheme }}">
     {%- comment -%} Media layer {%- endcomment -%}
     <div class="hero__media">
       {%- if media_type == 'video' -%}
@@ -404,13 +403,6 @@
     },
     {
       "type": "checkbox",
-      "id": "enable_transparent_header",
-      "label": "t:sections.hero.enable_transparent_header",
-      "default": true,
-      "info": "t:sections.hero.enable_transparent_header_info"
-    },
-    {
-      "type": "checkbox",
       "id": "show_scroll_indicator",
       "label": "t:sections.hero.show_scroll_indicator",
       "default": true
@@ -421,12 +413,6 @@
       "label": "t:sections.hero.enable_parallax",
       "default": true,
       "info": "t:sections.hero.enable_parallax_info"
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:sections.hero.color_scheme",
-      "default": "scheme-1"
     }
   ],
   "presets": [
