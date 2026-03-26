@@ -440,3 +440,72 @@ if (!customElements.get('main-product')) {
 
   customElements.define('main-product', MainProduct);
 }
+
+/* ===================================
+   Before/After Slider — Web Component
+   =================================== */
+if (!customElements.get('before-after-slider')) {
+  class BeforeAfterSlider extends HTMLElement {
+    connectedCallback() {
+      this.container = this.querySelector('.before-after__container');
+      this.handle = this.querySelector('.before-after__handle');
+      if (!this.container || !this.handle) return;
+
+      this._onPointerDown = this._onPointerDown.bind(this);
+      this._onPointerMove = this._onPointerMove.bind(this);
+      this._onPointerUp = this._onPointerUp.bind(this);
+
+      this.handle.addEventListener('pointerdown', this._onPointerDown);
+      this.container.addEventListener('pointerdown', this._onPointerDown);
+
+      // Keyboard support
+      this.handle.addEventListener('keydown', (e) => {
+        const step = 2;
+        const current = parseFloat(getComputedStyle(this).getPropertyValue('--position')) || 50;
+        if (e.key === 'ArrowLeft') {
+          this._setPosition(Math.max(0, current - step));
+        } else if (e.key === 'ArrowRight') {
+          this._setPosition(Math.min(100, current + step));
+        }
+      });
+    }
+
+    _onPointerDown(e) {
+      e.preventDefault();
+      this._dragging = true;
+      this._updateFromEvent(e);
+      document.addEventListener('pointermove', this._onPointerMove);
+      document.addEventListener('pointerup', this._onPointerUp);
+    }
+
+    _onPointerMove(e) {
+      if (!this._dragging) return;
+      this._updateFromEvent(e);
+    }
+
+    _onPointerUp() {
+      this._dragging = false;
+      document.removeEventListener('pointermove', this._onPointerMove);
+      document.removeEventListener('pointerup', this._onPointerUp);
+    }
+
+    _updateFromEvent(e) {
+      const rect = this.container.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const pct = Math.min(100, Math.max(0, (x / rect.width) * 100));
+      this._setPosition(pct);
+    }
+
+    _setPosition(pct) {
+      this.style.setProperty('--position', pct + '%');
+      this.handle.setAttribute('aria-valuenow', Math.round(pct));
+    }
+
+    disconnectedCallback() {
+      document.removeEventListener('pointermove', this._onPointerMove);
+      document.removeEventListener('pointerup', this._onPointerUp);
+    }
+  }
+
+  customElements.define('before-after-slider', BeforeAfterSlider);
+}
