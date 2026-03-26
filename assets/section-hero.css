@@ -7,7 +7,8 @@
 .hero {
   position: relative;
   display: grid;
-  grid-template: 1fr / 1fr;
+  grid-template-columns: 1fr;
+  grid-template-rows: minmax(0, 1fr);
   height: var(--hero-height-mobile, var(--hero-height, calc(100svh - var(--header-height, 0px))));
   overflow: hidden;
   width: 100%;
@@ -97,6 +98,7 @@
   display: flex;
   padding: 48px var(--page-margin, 20px);
   pointer-events: none;
+  overflow: hidden;
 }
 
 .hero__content > * {
@@ -231,7 +233,7 @@
 }
 
 .hero__heading--cinematic {
-  font-size: clamp(3rem, 8vw, 7rem);
+  font-size: clamp(2.5rem, 6vw, 5rem);
 }
 
 /* Body text */
