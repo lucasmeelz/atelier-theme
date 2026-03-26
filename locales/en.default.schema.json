@@ -459,7 +459,11 @@
       "size_medium": "Medium",
       "size_large": "Large",
       "pause_on_hover": "Pause on hover",
+      "show_borders": "Show border lines",
+      "show_borders_info": "Top and bottom borders for visual separation.",
       "color_scheme": "Color scheme",
+      "padding_top": "Top padding",
+      "padding_bottom": "Bottom padding",
       "blocks": {
         "item": "Text item",
         "text": "Text",
@@ -470,7 +474,9 @@
         "icon_shipping": "Shipping",
         "icon_gift": "Gift",
         "icon_leaf": "Leaf",
-        "icon_checkmark": "Checkmark"
+        "icon_diamond": "Diamond",
+        "icon_checkmark": "Checkmark",
+        "link": "Link"
       },
       "preset_name": "Scrolling text"
     },

@@ -4,8 +4,25 @@
 
 .marquee {
   overflow: hidden;
-  padding: 16px 0;
+  padding-top: var(--marquee-padding-top, 16px);
+  padding-bottom: var(--marquee-padding-bottom, 16px);
   white-space: nowrap;
+}
+
+.marquee--bordered {
+  border-top: 1px solid rgb(var(--color-border, 226, 224, 219));
+  border-bottom: 1px solid rgb(var(--color-border, 226, 224, 219));
+}
+
+/* Link items */
+.marquee__item--link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.marquee__item--link:hover .marquee__text {
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 /* ===================================
