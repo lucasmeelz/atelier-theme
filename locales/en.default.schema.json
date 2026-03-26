@@ -604,8 +604,25 @@
         "complementary_collection": "Collection",
         "complementary_limit": "Products to show",
         "custom_liquid": "Custom Liquid",
-        "liquid_code": "Liquid code"
-      }
+        "liquid_code": "Liquid code",
+        "sku": "SKU",
+        "payment_terms": "Shop Pay Installments"
+      },
+      "show_sticky_atc": "Show sticky add-to-cart",
+      "show_sticky_atc_desc": "A compact bar appears at the bottom when the main button scrolls out of view."
+    },
+    "product_recommendations": {
+      "name": "Product recommendations",
+      "heading": "Heading",
+      "products_to_show": "Products to show",
+      "columns_desktop": "Columns on desktop",
+      "image_ratio": "Image ratio",
+      "ratio_natural": "Natural",
+      "ratio_portrait": "Portrait",
+      "ratio_square": "Square",
+      "color_scheme": "Color scheme",
+      "padding_top": "Top padding",
+      "padding_bottom": "Bottom padding"
     }
   }
 }
