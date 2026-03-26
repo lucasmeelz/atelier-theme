@@ -12,6 +12,22 @@
     "main": {
       "type": "main-product",
       "blocks": {
+        "vendor": {
+          "type": "vendor",
+          "settings": {}
+        },
+        "title": {
+          "type": "title",
+          "settings": {
+            "heading_size": "h1"
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "show_tax_notice": false
+          }
+        },
         "ingredient_list_qhJD7L": {
           "type": "ingredient_list",
           "settings": {
@@ -29,22 +45,6 @@
             "highlights": "Premium materials, Handcrafted, Timeless design",
             "metafield_key": "",
             "icon": "checkmark"
-          }
-        },
-        "vendor": {
-          "type": "vendor",
-          "settings": {}
-        },
-        "title": {
-          "type": "title",
-          "settings": {
-            "heading_size": "h1"
-          }
-        },
-        "price": {
-          "type": "price",
-          "settings": {
-            "show_tax_notice": false
           }
         },
         "variant_picker": {
@@ -96,11 +96,11 @@
         }
       },
       "block_order": [
-        "ingredient_list_qhJD7L",
-        "product_highlights_WGkFi9",
         "vendor",
         "title",
         "price",
+        "ingredient_list_qhJD7L",
+        "product_highlights_WGkFi9",
         "variant_picker",
         "buy_buttons",
         "trust",
