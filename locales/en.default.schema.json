@@ -631,6 +631,8 @@
       "ratio_natural": "Natural",
       "ratio_portrait": "Portrait",
       "ratio_square": "Square",
+      "show_secondary_image": "Show second image on hover",
+      "show_vendor": "Show vendor",
       "color_scheme": "Color scheme",
       "padding_top": "Top padding",
       "padding_bottom": "Bottom padding"
