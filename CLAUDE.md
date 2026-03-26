@@ -138,10 +138,45 @@ chore(scope): description
 
 ---
 
-## VERIFICATION (before any commit)
+## VERIFICATION — HARNESS QA PROCESS (MANDATORY before any commit)
 
-1. `shopify theme check` → 0 errors
-2. Visual preview on dev store (desktop + mobile)
-3. Each setting shows readable label in theme editor
-4. Zero "translation missing" in rendered HTML
-5. Conditional elements display when enabled
+### Step 1: Code Validation
+1. `shopify theme check` → 0 errors (warnings OK)
+2. Each setting in schema has a corresponding Liquid usage + CSS rule
+3. Zero "translation missing" in rendered HTML
+
+### Step 2: Visual QA — Use SEPARATE EVALUATOR AGENT
+**CRITICAL: Never self-evaluate.** Spawn a dedicated evaluator agent with browser access (Playwright or Chrome MCP) to test the live page. The coder is biased positive toward their own work.
+
+The evaluator grades on 4 criteria (each scored 1-5, all must be >= 4):
+
+**Visual Quality (HIGH):**
+- Layout coherent, grid alignment, spacing consistency
+- Typography hierarchy clear (sizes, weights, families)
+- No text truncation, overflow, or clipping at ANY viewport
+- Icons properly sized and aligned with adjacent text
+- Colors from CSS variables, no hardcoded hex values
+
+**Responsiveness (HIGH):**
+- Mobile 375px: no horizontal overflow, touch targets 44px+, text readable
+- Desktop 1440px: proper grid, proportional spacing
+- All breakpoints: images properly sized, no layout breaks
+
+**Functionality (HIGH):**
+- Every click/tap produces expected result
+- Forms submit, drawers open, tabs toggle, animations play
+- Variant picker updates price/image/URL/button state
+- Add-to-cart flow works end-to-end (ATC → drawer → badge)
+
+**Settings Completeness (CRITICAL):**
+- EVERY schema setting produces a VISIBLE change when value is modified
+- Each option in a select/dropdown is visually distinct from other options
+- Dead settings (no visible effect) = P0 bug, must fix before commit
+
+### Step 3: Fix → Re-evaluate Loop
+- Fix all issues scored below 4
+- Re-run evaluator until all criteria >= 4
+- Only then commit and push
+
+### Step 4: Benchmark
+Before building any new section: read Theme-example-1 and Theme-example-2 code to understand premium settings level. Not to copy, but to match or exceed.

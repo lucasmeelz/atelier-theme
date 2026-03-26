@@ -685,18 +685,25 @@ h3.product__title {
 .product__trust {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px 24px;
+  gap: 12px 20px;
   padding: 16px 0;
   border-top: 1px solid rgb(var(--color-border, 226, 224, 219));
   margin-bottom: 12px;
 }
 
+@media screen and (max-width: 989px) {
+  .product__trust {
+    gap: 8px 16px;
+  }
+}
+
 .product__trust-item {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   font-size: 0.75rem;
   color: rgb(var(--color-text-subdued, 107, 107, 107));
+  white-space: nowrap;
 }
 
 .product__trust-item svg {

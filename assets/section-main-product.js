@@ -414,12 +414,31 @@ if (!customElements.get('main-product')) {
 
       stickyBar.hidden = false;
 
-      const observer = new IntersectionObserver(([entry]) => {
-        stickyBar.classList.toggle('is-visible', !entry.isIntersecting);
-      }, { threshold: 0 });
+      // Use scroll-based detection instead of IntersectionObserver
+      // because sticky info column keeps ATC in viewport on desktop
+      const checkVisibility = () => {
+        const rect = mainATCBtn.getBoundingClientRect();
+        const isAboveViewport = rect.bottom < 0;
+        const isBelowViewport = rect.top > window.innerHeight;
+        const isHidden = isAboveViewport || isBelowViewport;
+        stickyBar.classList.toggle('is-visible', isHidden);
+      };
 
-      observer.observe(mainATCBtn);
-      this._stickyObserver = observer;
+      // Throttled scroll listener
+      let ticking = false;
+      const onScroll = () => {
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            checkVisibility();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      };
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      this._stickyScrollHandler = onScroll;
+      checkVisibility();
 
       // Sticky ATC click → trigger main form submit
       const stickyBtn = stickyBar.querySelector('[data-sticky-atc-button]');
@@ -435,8 +454,8 @@ if (!customElements.get('main-product')) {
        =================================== */
     disconnectedCallback() {
       this._initialized = false;
-      if (this._stickyObserver) {
-        this._stickyObserver.disconnect();
+      if (this._stickyScrollHandler) {
+        window.removeEventListener('scroll', this._stickyScrollHandler);
       }
     }
   }
