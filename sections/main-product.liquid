@@ -553,6 +553,82 @@
                 </div>
 
               {%- comment -%} === CUSTOM LIQUID === {%- endcomment -%}
+              {%- comment -%} === BEFORE/AFTER SLIDER (innovative) === {%- endcomment -%}
+              {%- when 'before_after' -%}
+                {%- if block.settings.image_before != blank and block.settings.image_after != blank -%}
+                  <div class="product__before-after" {{ block.shopify_attributes }}>
+                    {%- if block.settings.heading != blank -%}
+                      <h3 class="product__before-after-heading label">{{ block.settings.heading }}</h3>
+                    {%- endif -%}
+                    <before-after-slider class="before-after" style="--position: 50%;">
+                      <div class="before-after__container">
+                        <div class="before-after__image before-after__image--before">
+                          {{ block.settings.image_before | image_url: width: 800 | image_tag:
+                            loading: 'lazy',
+                            widths: '400,600,800',
+                            class: 'before-after__img',
+                            alt: block.settings.label_before | default: 'Before'
+                          }}
+                          <span class="before-after__label before-after__label--before">{{ block.settings.label_before | default: 'Before' }}</span>
+                        </div>
+                        <div class="before-after__image before-after__image--after" style="clip-path: inset(0 0 0 var(--position));">
+                          {{ block.settings.image_after | image_url: width: 800 | image_tag:
+                            loading: 'lazy',
+                            widths: '400,600,800',
+                            class: 'before-after__img',
+                            alt: block.settings.label_after | default: 'After'
+                          }}
+                          <span class="before-after__label before-after__label--after">{{ block.settings.label_after | default: 'After' }}</span>
+                        </div>
+                        <div class="before-after__handle" aria-label="Drag to compare" role="slider" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" tabindex="0">
+                          <div class="before-after__handle-line"></div>
+                          <div class="before-after__handle-circle">
+                            {%- render 'icon', name: 'chevron-left', size: 12 -%}
+                            {%- render 'icon', name: 'chevron-right', size: 12 -%}
+                          </div>
+                          <div class="before-after__handle-line"></div>
+                        </div>
+                      </div>
+                    </before-after-slider>
+                  </div>
+                {%- endif -%}
+
+              {%- comment -%} === INGREDIENT LIST (innovative) === {%- endcomment -%}
+              {%- when 'ingredient_list' -%}
+                <div class="product__ingredients" {{ block.shopify_attributes }}>
+                  {%- if block.settings.heading != blank -%}
+                    <details class="product__collapsible"{% if block.settings.default_open %} open{% endif %}>
+                      <summary class="product__collapsible-trigger">
+                        {%- if block.settings.icon != 'none' -%}
+                          <span class="product__collapsible-icon">
+                            {%- render 'icon', name: block.settings.icon, size: 18 -%}
+                          </span>
+                        {%- endif -%}
+                        <span>{{ block.settings.heading }}</span>
+                        {%- render 'icon', name: 'chevron-down', size: 16 -%}
+                      </summary>
+                      <div class="product__collapsible-content">
+                        <ul class="product__ingredients-list">
+                          {%- assign items = block.settings.ingredients | split: '|' -%}
+                          {%- for item in items -%}
+                            {%- assign parts = item | split: ':' -%}
+                            {%- assign name = parts[0] | strip -%}
+                            {%- assign desc = parts[1] | strip | default: '' -%}
+                            {%- if name != blank -%}
+                              <li class="product__ingredients-item">
+                                <span class="product__ingredients-name">{{ name }}</span>
+                                {%- if desc != blank -%}
+                                  <span class="product__ingredients-desc">{{ desc }}</span>
+                                {%- endif -%}
+                              </li>
+                            {%- endif -%}
+                          {%- endfor -%}
+                        </ul>
+                      </div>
+                    </details>
+                  {%- endif -%}
+                </div>
+
               {%- when 'custom_liquid' -%}
                 {%- if block.settings.liquid != blank -%}
                   <div class="product__custom-liquid" {{ block.shopify_attributes }}>
