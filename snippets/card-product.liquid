@@ -149,13 +149,14 @@
         assign rating_count = product.metafields.reviews.rating_count.value | default: 0
         assign rating_decimal = rating_value | modulo: 1 | times: 100 | round
         assign rating_whole = rating_value | floor
+        assign rating_partial_index = rating_whole | plus: 1
       -%}
       <div class="card-product__rating" role="img" aria-label="{{ 'product.rating_label' | t: rating: rating_value, max: rating_max }}">
         <span class="card-product__stars" style="--rating: {{ rating_value }}; --rating-max: {{ rating_max }};" aria-hidden="true">
           {%- for i in (1..5) -%}
             {%- if i <= rating_whole -%}
               <span class="card-product__star card-product__star--full">&#9733;</span>
-            {%- elsif i == rating_whole | plus: 1 and rating_decimal > 0 -%}
+            {%- elsif i == rating_partial_index and rating_decimal > 0 -%}
               <span class="card-product__star card-product__star--partial" style="--fill: {{ rating_decimal }}%;">&#9733;</span>
             {%- else -%}
               <span class="card-product__star card-product__star--empty">&#9733;</span>

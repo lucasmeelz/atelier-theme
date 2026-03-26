@@ -92,7 +92,15 @@
       "out_of_stock": "Out of stock"
     },
     "recommendations": "You may also like",
-    "complementary": "Pairs well with"
+    "complementary": "Pairs well with",
+    "link_copied": "Link copied to clipboard",
+    "size_chart": "Size chart",
+    "tax_included": "Tax included.",
+    "shipping_calculated": "Shipping calculated at checkout.",
+    "pickup_available": "Pickup available",
+    "media_label": "Image {{ index }}",
+    "rating_label": "{{ rating }} out of {{ max }} stars",
+    "variant": "Variant"
   },
   "collection": {
     "products_count": "{{ count }} products",
