@@ -419,6 +419,36 @@
       "padding_top": "Top padding",
       "padding_bottom": "Bottom padding",
       "preset_name": "Newsletter"
+    },
+    "marquee": {
+      "name": "Scrolling text",
+      "separator": "Separator between items",
+      "speed": "Scrolling speed",
+      "speed_slow": "Slow",
+      "speed_medium": "Medium",
+      "speed_fast": "Fast",
+      "direction": "Scrolling direction",
+      "direction_left": "Right to left",
+      "direction_right": "Left to right",
+      "text_size": "Text size",
+      "size_small": "Small",
+      "size_medium": "Medium",
+      "size_large": "Large",
+      "pause_on_hover": "Pause on hover",
+      "color_scheme": "Color scheme",
+      "blocks": {
+        "item": "Text item",
+        "text": "Text",
+        "icon": "Icon",
+        "icon_none": "None",
+        "icon_star": "Star",
+        "icon_heart": "Heart",
+        "icon_shipping": "Shipping",
+        "icon_gift": "Gift",
+        "icon_leaf": "Leaf",
+        "icon_checkmark": "Checkmark"
+      },
+      "preset_name": "Scrolling text"
     }
   }
 }

@@ -1,0 +1,112 @@
+/* ===================================
+   Marquee — Continuous scrolling text
+   =================================== */
+
+.marquee {
+  overflow: hidden;
+  padding: 16px 0;
+  white-space: nowrap;
+}
+
+/* ===================================
+   Track — animated container
+   =================================== */
+.marquee__track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll var(--marquee-duration, 25s) linear infinite;
+  animation-direction: var(--marquee-direction, normal);
+}
+
+/* Pause on hover */
+[data-pause-on-hover="true"]:hover .marquee__track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.333%);
+  }
+}
+
+/* ===================================
+   Content — repeated 3x for seamless loop
+   =================================== */
+.marquee__content {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* ===================================
+   Items
+   =================================== */
+.marquee__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px;
+}
+
+.marquee__icon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.marquee__text {
+  font-family: var(--font-body-family, sans-serif);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* Text sizes */
+.marquee--small .marquee__text {
+  font-size: 0.6875rem;
+}
+
+.marquee--medium .marquee__text {
+  font-size: 0.8125rem;
+}
+
+.marquee--large .marquee__text {
+  font-size: 1.125rem;
+  letter-spacing: 0.08em;
+}
+
+.marquee--large .marquee__icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Separator */
+.marquee__separator {
+  padding: 0 8px;
+  opacity: 0.4;
+  font-size: 1.25em;
+}
+
+/* ===================================
+   Reduced motion — show static text
+   =================================== */
+@media (prefers-reduced-motion: reduce) {
+  .marquee__track {
+    animation: none;
+    overflow: hidden;
+  }
+
+  /* Show only first copy, hide duplicates */
+  .marquee__content[aria-hidden="true"] {
+    display: none;
+  }
+
+  .marquee__content {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px 0;
+  }
+}

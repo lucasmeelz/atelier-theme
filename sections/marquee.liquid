@@ -1,0 +1,165 @@
+{%- comment -%}
+  Marquee — Continuous scrolling text ticker
+  Uses CSS animation for smooth infinite scroll
+  Respects prefers-reduced-motion (shows static text)
+{%- endcomment -%}
+
+{{ 'section-marquee.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign speed = section.settings.speed
+  assign direction = section.settings.direction
+  assign text_size = section.settings.text_size
+  assign separator = section.settings.separator
+  assign pause_on_hover = section.settings.pause_on_hover
+  assign color_scheme = section.settings.color_scheme
+
+  case speed
+    when 'slow'
+      assign duration = '40s'
+    when 'medium'
+      assign duration = '25s'
+    when 'fast'
+      assign duration = '15s'
+  endcase
+
+  assign anim_direction = 'normal'
+  if direction == 'right'
+    assign anim_direction = 'reverse'
+  endif
+-%}
+
+{%- style -%}
+  #Section-{{ section.id }} {
+    --marquee-duration: {{ duration }};
+    --marquee-direction: {{ anim_direction }};
+  }
+{%- endstyle -%}
+
+<div
+  id="Section-{{ section.id }}"
+  class="marquee color-{{ color_scheme }} marquee--{{ text_size }}"
+  data-pause-on-hover="{{ pause_on_hover }}"
+>
+  <div class="marquee__track motion-auto" aria-label="{{ 'accessibility.loading' | t }}">
+    {%- comment -%} Duplicate content 3x for seamless loop {%- endcomment -%}
+    {%- for repeat in (1..3) -%}
+      <div class="marquee__content" aria-hidden="{% if repeat > 1 %}true{% else %}false{% endif %}">
+        {%- for block in section.blocks -%}
+          {%- if block.settings.text != blank -%}
+            <span class="marquee__item" {{ block.shopify_attributes }}>
+              {%- if block.settings.icon != 'none' and block.settings.icon != blank -%}
+                <span class="marquee__icon">
+                  {%- render 'icon', name: block.settings.icon, size: 20 -%}
+                </span>
+              {%- endif -%}
+              <span class="marquee__text">{{ block.settings.text }}</span>
+            </span>
+            {%- if separator != blank -%}
+              <span class="marquee__separator" aria-hidden="true">{{ separator }}</span>
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.marquee.name",
+  "tag": "section",
+  "class": "section-marquee",
+  "settings": [
+    {
+      "type": "text",
+      "id": "separator",
+      "label": "t:sections.marquee.separator",
+      "default": "·"
+    },
+    {
+      "type": "select",
+      "id": "speed",
+      "label": "t:sections.marquee.speed",
+      "options": [
+        { "value": "slow", "label": "t:sections.marquee.speed_slow" },
+        { "value": "medium", "label": "t:sections.marquee.speed_medium" },
+        { "value": "fast", "label": "t:sections.marquee.speed_fast" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "direction",
+      "label": "t:sections.marquee.direction",
+      "options": [
+        { "value": "left", "label": "t:sections.marquee.direction_left" },
+        { "value": "right", "label": "t:sections.marquee.direction_right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "text_size",
+      "label": "t:sections.marquee.text_size",
+      "options": [
+        { "value": "small", "label": "t:sections.marquee.size_small" },
+        { "value": "medium", "label": "t:sections.marquee.size_medium" },
+        { "value": "large", "label": "t:sections.marquee.size_large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_on_hover",
+      "label": "t:sections.marquee.pause_on_hover",
+      "default": true
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.marquee.color_scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "t:sections.marquee.blocks.item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "t:sections.marquee.blocks.text",
+          "default": "Free shipping worldwide"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "t:sections.marquee.blocks.icon",
+          "options": [
+            { "value": "none", "label": "t:sections.marquee.blocks.icon_none" },
+            { "value": "star", "label": "t:sections.marquee.blocks.icon_star" },
+            { "value": "heart", "label": "t:sections.marquee.blocks.icon_heart" },
+            { "value": "shipping", "label": "t:sections.marquee.blocks.icon_shipping" },
+            { "value": "gift", "label": "t:sections.marquee.blocks.icon_gift" },
+            { "value": "leaf", "label": "t:sections.marquee.blocks.icon_leaf" },
+            { "value": "checkmark", "label": "t:sections.marquee.blocks.icon_checkmark" }
+          ],
+          "default": "none"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.marquee.preset_name",
+      "blocks": [
+        { "type": "item", "settings": { "text": "Free shipping worldwide" } },
+        { "type": "item", "settings": { "text": "New collection available" } },
+        { "type": "item", "settings": { "text": "Exclusive designs" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
