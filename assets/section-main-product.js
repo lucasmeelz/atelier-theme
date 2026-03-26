@@ -335,14 +335,17 @@ if (!customElements.get('main-product')) {
 
         const item = await res.json();
 
-        // Open cart drawer
+        // Open cart drawer with refreshed contents
         const cartDrawer = document.querySelector('cart-drawer');
         if (cartDrawer && typeof cartDrawer.open === 'function') {
-          // Refresh cart drawer contents
+          if (typeof cartDrawer.refreshDrawer === 'function') {
+            await cartDrawer.refreshDrawer();
+          }
+          cartDrawer.open();
+
+          // Update cart count badge
           const cartRes = await fetch(window.Shopify.routes.root + 'cart.js');
           const cart = await cartRes.json();
-          cartDrawer.open();
-          // Update cart count
           document.querySelectorAll('[data-cart-count]').forEach(el => {
             el.textContent = cart.item_count;
             el.hidden = cart.item_count === 0;
