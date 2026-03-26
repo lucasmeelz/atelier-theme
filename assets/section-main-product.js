@@ -185,7 +185,7 @@ if (!customElements.get('main-product')) {
 
     _updatePrice(variant) {
       // Update price client-side from variant data (avoids hot-reload conflicts)
-      const priceEl = this.querySelector('.price__current');
+      const priceEl = this.querySelector('.price__current') || this.querySelector('.price__from') || this.querySelector('.price .money');
       const compareEl = this.querySelector('.price__compare');
 
       if (priceEl) {
