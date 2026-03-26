@@ -613,6 +613,7 @@ h3.product__title {
   justify-content: space-between;
   gap: 8px;
   width: 100%;
+  flex-wrap: nowrap;
 }
 
 .product__collapsible-trigger-inner > span:not(.product__collapsible-icon) {
