@@ -376,7 +376,7 @@
                   {%- if block.settings.collapsible -%}
                     <details class="product__collapsible" {{ block.shopify_attributes }}{% if block.settings.default_open %} open{% endif %}>
                       <summary class="product__collapsible-trigger">
-                        <span class="product__collapsible-trigger-layout">
+                        <span class="product__collapsible-trigger-layout product__collapsible-trigger-layout--no-icon">
                           <span class="product__collapsible-label">{{ 'product.description' | t }}</span>
                           <span class="product__collapsible-chevron">{%- render 'icon', name: 'chevron-down', size: 16 -%}</span>
                         </span>
