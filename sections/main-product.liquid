@@ -407,15 +407,13 @@
                       endif
                     -%}
                     <summary class="product__collapsible-trigger">
-                      <span class="product__collapsible-trigger-layout{% unless has_tab_icon %} product__collapsible-trigger-layout--no-icon{% endunless %}">
-                        {%- if has_tab_icon -%}
-                          <span class="product__collapsible-icon">
-                            {%- render 'icon', name: block.settings.icon, size: 18 -%}
-                          </span>
-                        {%- endif -%}
-                        <span class="product__collapsible-label">{{ block.settings.heading }}</span>
-                        <span class="product__collapsible-chevron">{%- render 'icon', name: 'chevron-down', size: 16 -%}</span>
-                      </span>
+                      {%- if has_tab_icon -%}
+                        <span class="product__collapsible-icon">
+                          {%- render 'icon', name: block.settings.icon, size: 18 -%}
+                        </span>
+                      {%- endif -%}
+                      <span class="product__collapsible-label">{{ block.settings.heading }}</span>
+                      <span class="product__collapsible-chevron">{%- render 'icon', name: 'chevron-down', size: 16 -%}</span>
                     </summary>
                     <div class="product__collapsible-content rte">
                       {{ tab_content }}
