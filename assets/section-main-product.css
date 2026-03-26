@@ -50,7 +50,7 @@
 .product__media-list--stacked {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
 }
 
 /* Gallery — Thumbnail layouts */
@@ -875,7 +875,7 @@ h3.product__title {
     flex-direction: row;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-    gap: 4px;
+    gap: 8px;
     -webkit-overflow-scrolling: touch;
   }
 
