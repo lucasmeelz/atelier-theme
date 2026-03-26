@@ -1,19 +1,82 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
       "type": "hero",
       "settings": {
         "media_type": "image",
+        "video_url": "",
         "overlay_opacity": 20,
         "height": "full",
         "text_position": "bottom-left",
         "subheading": "New Collection",
         "heading": "The art of refinement",
         "heading_size": "large",
+        "text": "",
         "button_label": "Discover",
+        "button_link": "",
         "button_style": "outline-white",
+        "button_label_2": "",
+        "button_link_2": "",
+        "button_style_2": "filled-white",
         "show_scroll_indicator": true,
-        "enable_parallax": true
+        "enable_parallax": true,
+        "color_scheme": ""
+      }
+    },
+    "marquee": {
+      "type": "marquee",
+      "blocks": {
+        "item1": {
+          "type": "item",
+          "settings": {
+            "text": "Free shipping worldwide",
+            "icon": "none"
+          }
+        },
+        "item2": {
+          "type": "item",
+          "settings": {
+            "text": "New collection available",
+            "icon": "none"
+          }
+        },
+        "item3": {
+          "type": "item",
+          "settings": {
+            "text": "Exclusive designs",
+            "icon": "none"
+          }
+        },
+        "item4": {
+          "type": "item",
+          "settings": {
+            "text": "Handcrafted with care",
+            "icon": "none"
+          }
+        }
+      },
+      "block_order": [
+        "item1",
+        "item2",
+        "item3",
+        "item4"
+      ],
+      "settings": {
+        "separator": "·",
+        "speed": "medium",
+        "direction": "left",
+        "text_size": "small",
+        "pause_on_hover": true,
+        "color_scheme": ""
       }
     },
     "featured-collection": {
@@ -21,13 +84,19 @@
       "settings": {
         "heading": "Featured collection",
         "heading_size": "h2",
+        "subheading": "",
+        "collection": "",
         "products_to_show": 4,
         "columns_desktop": 4,
         "columns_mobile": "2",
         "image_ratio": "portrait",
         "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
         "show_quick_add": true,
         "button_label": "View all",
+        "button_link": "",
+        "color_scheme": "",
         "padding_top": 60,
         "padding_bottom": 60
       }
@@ -35,6 +104,7 @@
     "image-with-text": {
       "type": "image-with-text",
       "settings": {
+        "image_ratio": "adapt",
         "layout": "image_first",
         "desktop_image_width": "medium",
         "vertical_alignment": "middle",
@@ -43,7 +113,9 @@
         "heading_size": "h2",
         "text": "<p>Each piece in our collection tells a story of meticulous craftsmanship and timeless design, created for those who appreciate the finer details.</p>",
         "button_label": "Learn more",
+        "button_link": "",
         "button_style": "primary",
+        "color_scheme": "",
         "padding_top": 60,
         "padding_bottom": 60
       }
@@ -51,13 +123,46 @@
     "rich-text": {
       "type": "rich-text",
       "blocks": {
-        "subheading": { "type": "subheading", "settings": { "text": "Our Philosophy" } },
-        "heading": { "type": "heading", "settings": { "text": "Designed for those who notice the details", "size": "h2" } },
-        "text": { "type": "text", "settings": { "text": "<p>Every texture, every stitch, every silhouette is considered. We believe luxury lives in the quiet confidence of exceptional craft — not in logos or trends, but in the feeling of something made with genuine care.</p>" } },
-        "button": { "type": "button", "settings": { "text": "Our story", "style": "outline" } }
+        "subheading": {
+          "type": "subheading",
+          "settings": {
+            "text": "Our Philosophy"
+          }
+        },
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "text": "Designed for those who notice the details",
+            "size": "h2",
+            "html_tag": "h2"
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Every texture, every stitch, every silhouette is considered. We believe luxury lives in the quiet confidence of exceptional craft — not in logos or trends, but in the feeling of something made with genuine care.</p>"
+          }
+        },
+        "button": {
+          "type": "button",
+          "settings": {
+            "text": "Our story",
+            "url": "",
+            "open_in_new_tab": false,
+            "style": "outline",
+            "background": "",
+            "text_color": ""
+          }
+        }
       },
-      "block_order": ["subheading", "heading", "text", "button"],
+      "block_order": [
+        "subheading",
+        "heading",
+        "text",
+        "button"
+      ],
       "settings": {
+        "color_scheme": "",
         "content_width": "md",
         "text_alignment": "center",
         "padding_top": 80,
@@ -67,17 +172,53 @@
     "multicolumn": {
       "type": "multicolumn",
       "blocks": {
-        "col1": { "type": "column", "settings": { "icon": "shipping", "heading": "Free shipping", "text": "<p>On all orders over $150. Fast, reliable delivery worldwide.</p>" } },
-        "col2": { "type": "column", "settings": { "icon": "return", "heading": "Easy returns", "text": "<p>30-day return policy. No questions asked.</p>" } },
-        "col3": { "type": "column", "settings": { "icon": "lock", "heading": "Secure payment", "text": "<p>Your data is protected with industry-leading encryption.</p>" } }
+        "col1": {
+          "type": "column",
+          "settings": {
+            "icon": "shipping",
+            "heading": "Free shipping",
+            "text": "<p>On all orders over $150. Fast, reliable delivery worldwide.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "col2": {
+          "type": "column",
+          "settings": {
+            "icon": "return",
+            "heading": "Easy returns",
+            "text": "<p>30-day return policy. No questions asked.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "col3": {
+          "type": "column",
+          "settings": {
+            "icon": "lock",
+            "heading": "Secure payment",
+            "text": "<p>Your data is protected with industry-leading encryption.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        }
       },
-      "block_order": ["col1", "col2", "col3"],
+      "block_order": [
+        "col1",
+        "col2",
+        "col3"
+      ],
       "settings": {
+        "subheading": "",
         "heading": "",
+        "heading_size": "h2",
         "columns_desktop": 3,
         "columns_mobile": "1",
-        "image_width": "medium",
         "column_alignment": "center",
+        "image_width": "medium",
+        "image_ratio": "adapt",
+        "show_borders": false,
+        "color_scheme": "",
         "padding_top": 40,
         "padding_bottom": 40
       }
@@ -91,23 +232,50 @@
         "button_label": "Subscribe",
         "disclaimer": "<p>By signing up, you agree to our <a href=\"#\">privacy policy</a>.</p>",
         "layout": "centered",
+        "overlay_opacity": 40,
+        "color_scheme": "",
         "padding_top": 80,
         "padding_bottom": 80
       }
     },
-    "marquee": {
+    "marquee_9WHVaf": {
       "type": "marquee",
       "blocks": {
-        "item1": { "type": "item", "settings": { "text": "Free shipping worldwide" } },
-        "item2": { "type": "item", "settings": { "text": "New collection available" } },
-        "item3": { "type": "item", "settings": { "text": "Exclusive designs" } },
-        "item4": { "type": "item", "settings": { "text": "Handcrafted with care" } }
+        "item_A9yim6": {
+          "type": "item",
+          "settings": {
+            "text": "Free shipping worldwide",
+            "icon": "none"
+          }
+        },
+        "item_dz6jrG": {
+          "type": "item",
+          "settings": {
+            "text": "New collection available",
+            "icon": "none"
+          }
+        },
+        "item_98irpV": {
+          "type": "item",
+          "settings": {
+            "text": "Exclusive designs",
+            "icon": "none"
+          }
+        }
       },
-      "block_order": ["item1", "item2", "item3", "item4"],
+      "block_order": [
+        "item_A9yim6",
+        "item_dz6jrG",
+        "item_98irpV"
+      ],
+      "name": "t:sections.marquee.preset_name",
       "settings": {
         "separator": "·",
         "speed": "medium",
-        "text_size": "small"
+        "direction": "left",
+        "text_size": "medium",
+        "pause_on_hover": true,
+        "color_scheme": ""
       }
     }
   },
@@ -118,6 +286,7 @@
     "image-with-text",
     "rich-text",
     "multicolumn",
-    "newsletter"
+    "newsletter",
+    "marquee_9WHVaf"
   ]
 }
