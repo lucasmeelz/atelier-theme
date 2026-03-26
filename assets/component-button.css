@@ -110,6 +110,68 @@
   transform: translateY(0);
 }
 
+/* ===== OUTLINE (default text color border) ===== */
+
+.btn--outline {
+  background-color: transparent;
+  border-color: rgb(var(--color-text));
+  color: rgb(var(--color-text));
+}
+
+.btn--outline .btn__fill {
+  background-color: rgb(var(--color-text));
+}
+
+@media (hover: hover) {
+  [data-button-hover="slide-up"] .btn--outline:hover {
+    color: rgb(var(--color-background));
+  }
+
+  [data-button-hover="slide-up"] .btn--outline:hover .btn__fill {
+    transform: translateY(0);
+  }
+
+  [data-button-hover="fade"] .btn--outline:hover {
+    background-color: rgb(var(--color-text));
+    color: rgb(var(--color-background));
+  }
+}
+
+.btn--outline:active {
+  color: rgb(var(--color-background));
+}
+
+.btn--outline:active .btn__fill {
+  transform: translateY(0);
+}
+
+/* ===== OUTLINE DARK (for light backgrounds / FC footer) ===== */
+
+.btn--outline-dark {
+  background-color: transparent;
+  border-color: rgb(var(--color-text));
+  color: rgb(var(--color-text));
+}
+
+.btn--outline-dark .btn__fill {
+  background-color: rgb(var(--color-text));
+}
+
+@media (hover: hover) {
+  [data-button-hover="slide-up"] .btn--outline-dark:hover {
+    color: rgb(var(--color-background));
+  }
+
+  [data-button-hover="slide-up"] .btn--outline-dark:hover .btn__fill {
+    transform: translateY(0);
+  }
+
+  [data-button-hover="fade"] .btn--outline-dark:hover {
+    background-color: rgb(var(--color-text));
+    color: rgb(var(--color-background));
+  }
+}
+
 /* ===== OUTLINE WHITE (for dark backgrounds / hero overlays) ===== */
 
 .btn--outline-white {
