@@ -302,14 +302,9 @@
         "pause_on_hover": true,
         "color_scheme": ""
       }
-    },
-    "icon-test": {
-      "type": "icon-test",
-      "settings": {}
     }
   },
   "order": [
-    "icon-test",
     "hero",
     "marquee",
     "featured-collection",
