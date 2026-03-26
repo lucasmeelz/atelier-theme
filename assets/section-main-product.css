@@ -803,7 +803,7 @@ h3.product__title {
   flex-shrink: 0;
   width: 18px;
   height: 18px;
-  opacity: 0.5;
+  opacity: 0.7;
 }
 
 .product__highlights-item > span {
