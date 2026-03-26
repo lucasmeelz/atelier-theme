@@ -740,6 +740,7 @@ h3.product__title {
    =================================== */
 .product__highlights {
   margin-bottom: 20px;
+  width: 100%;
 }
 
 .product__highlights-heading {
