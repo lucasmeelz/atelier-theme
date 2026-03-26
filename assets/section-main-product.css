@@ -625,7 +625,6 @@ h3.product__title {
 
 .product__collapsible-trigger svg:last-child {
   flex-shrink: 0;
-  margin-left: auto;
   transition: transform var(--duration-fast) var(--ease-ecrin);
 }
 
