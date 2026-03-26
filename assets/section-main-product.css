@@ -603,7 +603,7 @@ h3.product__title {
   text-transform: uppercase;
 }
 
-.product__collapsible-trigger > span {
+.product__collapsible-trigger > span:not(.product__collapsible-icon) {
   flex: 1;
   min-width: 0;
   line-height: 1.3;
