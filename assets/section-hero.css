@@ -198,10 +198,23 @@
    Typography
    =================================== */
 
-/* Color — inherited from Shopify color scheme via .color-* class */
+/* Color — default white text on hero (image/video background) */
 .hero {
-  color: rgb(var(--color-text, 10, 10, 10));
+  color: #ffffff;
   background-color: transparent;
+}
+
+.hero__content,
+.hero__content h1,
+.hero__content h2,
+.hero__content h3,
+.hero__content p {
+  color: inherit;
+}
+
+/* When no image (placeholder), use theme text color */
+.hero:has(.hero__placeholder) {
+  color: rgb(var(--color-text, 10, 10, 10));
 }
 
 /* Subheading (label) */
