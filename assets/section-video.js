@@ -96,4 +96,3 @@ if (!customElements.get('video-player')) {
 
 // Shopify section events — web components auto-reconnect via connectedCallback
 // No manual re-initialization needed; custom elements handle this natively
-});
