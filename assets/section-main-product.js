@@ -252,7 +252,8 @@ if (!customElements.get('main-product')) {
     }
 
     _updateOptionLabels(options) {
-      const labels = this.querySelectorAll('[data-option-value]');
+      // Only update the label-value spans, NOT the button labels
+      const labels = this.querySelectorAll('.product-variant-picker__label-value[data-option-value]');
       labels.forEach(label => {
         const fieldset = label.closest('.product-variant-picker__option');
         if (fieldset) {
