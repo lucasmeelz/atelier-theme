@@ -625,8 +625,6 @@ h3.product__title {
 @media screen and (min-width: 990px) {
   .product__collapsible-trigger {
     font-size: 0.8125rem;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
   }
 
   .product__collapsible-trigger-inner {
