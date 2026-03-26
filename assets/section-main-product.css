@@ -667,15 +667,18 @@ h3.product__title {
   margin-bottom: 16px;
   width: 100%;
   border-top: 1px solid rgb(var(--color-border, 226, 224, 219));
+  text-align: left;
 }
 
 .product__share-btn {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 8px;
+  width: 100%;
   font-size: 0.8125rem;
   padding: 12px 0;
   text-align: left;
+  justify-content: flex-start;
 }
 
 .product__share-success {
