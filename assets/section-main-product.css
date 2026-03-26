@@ -365,7 +365,7 @@ h3.product__title {
    Block: Variant Picker
    =================================== */
 .product-variant-picker {
-  margin-bottom: 20px;
+  margin-bottom: 28px;
 }
 
 .product-variant-picker__option {
@@ -444,7 +444,8 @@ h3.product__title {
 .product-variant-picker__swatches {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 12px;
+  padding: 4px; /* prevent clipping of box-shadow/outline */
 }
 
 .product-variant-picker__swatch {
@@ -454,9 +455,9 @@ h3.product__title {
 
 .product-variant-picker__swatch-inner {
   display: block;
-  width: 28px;
-  height: 28px;
-  border: 1px solid rgba(var(--color-text, 10, 10, 10), 0.15);
+  width: 32px;
+  height: 32px;
+  border: 1.5px solid rgba(var(--color-text, 10, 10, 10), 0.15);
   transition: box-shadow var(--duration-fast) var(--ease-ecrin);
 }
 
@@ -559,7 +560,7 @@ h3.product__title {
    Block: Buy Buttons
    =================================== */
 .product__buy-buttons {
-  margin-bottom: 20px;
+  margin-bottom: 28px;
 }
 
 .product__add-to-cart {
@@ -601,8 +602,8 @@ h3.product__title {
 .product__collapsible-trigger {
   display: block;
   width: 100%;
-  min-height: 48px;
-  padding: 14px 0;
+  min-height: 52px;
+  padding: 16px 0;
   cursor: pointer;
   list-style: none;
   font-family: var(--font-body-family, sans-serif);
@@ -759,9 +760,9 @@ h3.product__title {
   display: flex;
   flex-wrap: wrap;
   gap: 12px 32px;
-  padding: 20px 0;
+  padding: 24px 0;
   border-top: 1px solid rgb(var(--color-border, 226, 224, 219));
-  margin-bottom: 16px;
+  margin-bottom: 8px;
 }
 
 @media screen and (max-width: 989px) {
@@ -790,7 +791,7 @@ h3.product__title {
    Block: Product Highlights (innovative)
    =================================== */
 .product__highlights {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   width: 100%;
 }
 
