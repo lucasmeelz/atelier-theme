@@ -50,7 +50,7 @@
         "variant_picker": {
           "type": "variant_picker",
           "settings": {
-            "picker_type": "buttons",
+            "picker_type": "swatch",
             "swatch_shape": "circle",
             "size_chart_page": ""
           }
