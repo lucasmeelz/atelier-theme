@@ -1,0 +1,19 @@
+{%- comment -%} Temporary icon test section — DELETE before submission {%- endcomment -%}
+<div style="padding: 40px; display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 12px;">
+  {%- assign icon_names = 'search,account,bag,cart,menu,close,chevron-down,chevron-left,chevron-right,chevron-up,arrow-right,arrow-left,plus,minus,heart,star,star-filled,share,lock,shipping,return,gift,leaf,checkmark,check,diamond,eco,certified,handmade,fabric,wash,dimensions,weight,palette,ruler,sparkle,crown,recycle,coupon,tag,warranty,clock,store,filter,grid,list,trash,play,pause,email,phone,globe,facebook,instagram,twitter,pinterest,linkedin,tiktok,youtube,chat,shield,info,credit-card,fingerprint,key,size-guide,zoom-in,eye,compare,express,box,pickup,tracking,water-drop,organic,vegan,cruelty-free,support,headphones,question,calendar,download,external-link,copy,award,percent,layers,feather,sun,moon' | split: ',' -%}
+  {%- for icon_name in icon_names -%}
+    <div style="display:flex;flex-direction:column;align-items:center;padding:10px;border:1px solid #eee;border-radius:4px;gap:6px;">
+      {%- render 'icon', name: icon_name, size: 24 -%}
+      <span style="font-size:9px;color:#666;text-align:center;word-break:break-all;">{{ icon_name }}</span>
+    </div>
+  {%- endfor -%}
+  <p style="grid-column:1/-1;font-size:12px;color:#999;margin-top:20px;">Total: {{ icon_names.size }} icons</p>
+</div>
+
+{% schema %}
+{
+  "name": "Icon test (temp)",
+  "tag": "section",
+  "presets": [{ "name": "Icon test" }]
+}
+{% endschema %}
