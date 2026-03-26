@@ -685,7 +685,7 @@ h3.product__title {
 .product__trust {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px 20px;
+  gap: 10px 24px;
   padding: 16px 0;
   border-top: 1px solid rgb(var(--color-border, 226, 224, 219));
   margin-bottom: 12px;
@@ -693,21 +693,23 @@ h3.product__title {
 
 @media screen and (max-width: 989px) {
   .product__trust {
-    gap: 8px 16px;
+    flex-direction: column;
+    gap: 8px;
   }
 }
 
 .product__trust-item {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   font-size: 0.75rem;
   color: rgb(var(--color-text-subdued, 107, 107, 107));
-  white-space: nowrap;
 }
 
 .product__trust-item svg {
   flex-shrink: 0;
+  width: 18px;
+  height: 18px;
   opacity: 0.7;
 }
 
