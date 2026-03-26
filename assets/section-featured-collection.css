@@ -501,3 +501,45 @@ h3.featured-collection__heading {
   width: auto;
   padding: 0 2px;
 }
+
+/* ===================================
+   Product Card — Star Rating
+   =================================== */
+.card-product__rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.card-product__stars {
+  display: flex;
+  gap: 1px;
+  line-height: 1;
+}
+
+.card-product__star {
+  font-size: 0.75rem;
+  color: rgb(var(--color-accent, 184, 148, 106));
+}
+
+.card-product__star--empty {
+  opacity: 0.25;
+}
+
+.card-product__star--partial {
+  position: relative;
+  color: transparent;
+  background: linear-gradient(
+    to right,
+    rgb(var(--color-accent, 184, 148, 106)) var(--fill, 50%),
+    rgba(var(--color-accent, 184, 148, 106), 0.25) var(--fill, 50%)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.card-product__rating-count {
+  font-size: 0.6875rem;
+  color: rgb(var(--color-text-subdued, 107, 107, 107));
+}

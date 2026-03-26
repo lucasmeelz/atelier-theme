@@ -96,6 +96,7 @@
   position: relative;
   z-index: 2;
   display: flex;
+  flex-direction: column;
   padding: 48px var(--page-margin, 20px);
   pointer-events: none;
   overflow: hidden;
@@ -110,39 +111,43 @@
 }
 
 /* Position variants — 6 positions */
+/* With flex-direction: column —
+   justify-content = vertical axis (top/middle/bottom)
+   align-items = horizontal axis (left/center) */
+
 .hero__content--top-left {
-  align-items: flex-start;
   justify-content: flex-start;
+  align-items: flex-start;
   text-align: left;
 }
 
 .hero__content--top-center {
-  align-items: flex-start;
-  justify-content: center;
+  justify-content: flex-start;
+  align-items: center;
   text-align: center;
 }
 
 .hero__content--middle-left {
-  align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
+  align-items: flex-start;
   text-align: left;
 }
 
 .hero__content--middle-center {
-  align-items: center;
   justify-content: center;
+  align-items: center;
   text-align: center;
 }
 
 .hero__content--bottom-left {
-  align-items: flex-end;
-  justify-content: flex-start;
+  justify-content: flex-end;
+  align-items: flex-start;
   text-align: left;
 }
 
 .hero__content--bottom-center {
-  align-items: flex-end;
-  justify-content: center;
+  justify-content: flex-end;
+  align-items: center;
   text-align: center;
 }
 

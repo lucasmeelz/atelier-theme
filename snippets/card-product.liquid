@@ -7,6 +7,7 @@
     show_vendor         {Boolean}   Override global setting
     show_quick_add      {Boolean}   Override global setting
     show_color_swatches {Boolean}   Override global setting
+    show_rating         {Boolean}   Show star rating from product metafields
     columns             {Number}    Grid columns (for responsive image sizes)
     lazy                {Boolean}   Lazy load images (default: true)
     section_id          {String}    Parent section ID
@@ -140,6 +141,32 @@
     </h3>
 
     {%- render 'price', product: product, show_badges: false -%}
+
+    {%- if show_rating and product.metafields.reviews.rating.value != blank -%}
+      {%- liquid
+        assign rating_value = product.metafields.reviews.rating.value.rating
+        assign rating_max = product.metafields.reviews.rating.value.scale_max | default: 5.0
+        assign rating_count = product.metafields.reviews.rating_count.value | default: 0
+        assign rating_decimal = rating_value | modulo: 1 | times: 100 | round
+        assign rating_whole = rating_value | floor
+      -%}
+      <div class="card-product__rating" role="img" aria-label="{{ 'product.rating_label' | t: rating: rating_value, max: rating_max }}">
+        <span class="card-product__stars" style="--rating: {{ rating_value }}; --rating-max: {{ rating_max }};" aria-hidden="true">
+          {%- for i in (1..5) -%}
+            {%- if i <= rating_whole -%}
+              <span class="card-product__star card-product__star--full">&#9733;</span>
+            {%- elsif i == rating_whole | plus: 1 and rating_decimal > 0 -%}
+              <span class="card-product__star card-product__star--partial" style="--fill: {{ rating_decimal }}%;">&#9733;</span>
+            {%- else -%}
+              <span class="card-product__star card-product__star--empty">&#9733;</span>
+            {%- endif -%}
+          {%- endfor -%}
+        </span>
+        {%- if rating_count > 0 -%}
+          <span class="card-product__rating-count">({{ rating_count }})</span>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
 
     {%- comment -%} Color swatches {%- endcomment -%}
     {%- if swatches_visible -%}
