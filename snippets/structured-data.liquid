@@ -1,0 +1,70 @@
+{%- comment -%}
+  JSON-LD structured data for SEO
+  Outputs Product schema on product pages
+  Outputs Organization schema on all pages
+{%- endcomment -%}
+
+{%- if request.page_type == 'product' -%}
+  {%- liquid
+    assign current_variant = product.selected_or_first_available_variant
+  -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": {{ product.title | json }},
+      "url": "{{ shop.url }}{{ product.url }}",
+      "description": {{ product.description | strip_html | truncate: 5000 | json }},
+      {%- if product.featured_image -%}
+        "image": [
+          "{{ product.featured_image | image_url: width: 1200 }}"
+          {%- for image in product.images offset: 1 limit: 4 -%}
+            ,"{{ image | image_url: width: 1200 }}"
+          {%- endfor -%}
+        ],
+      {%- endif -%}
+      "brand": {
+        "@type": "Brand",
+        "name": {{ product.vendor | json }}
+      },
+      "sku": {{ current_variant.sku | json }},
+      {%- if current_variant.barcode != blank -%}
+        "gtin": {{ current_variant.barcode | json }},
+      {%- endif -%}
+      "offers": {
+        "@type": "AggregateOffer",
+        "priceCurrency": {{ cart.currency.iso_code | json }},
+        "lowPrice": {{ product.price_min | money_without_currency | json }},
+        "highPrice": {{ product.price_max | money_without_currency | json }},
+        "offerCount": {{ product.variants.size }},
+        "availability": "https://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}",
+        "url": "{{ shop.url }}{{ product.url }}"
+      }
+      {%- if product.metafields.reviews.rating.value != blank -%}
+        ,"aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": {{ product.metafields.reviews.rating.value.rating | json }},
+          "ratingCount": {{ product.metafields.reviews.rating_count | json }},
+          "bestRating": "5",
+          "worstRating": "1"
+        }
+      {%- endif -%}
+    }
+  </script>
+{%- endif -%}
+
+{%- if request.page_type == 'index' -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": {{ shop.name | json }},
+      "url": "{{ shop.url }}",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "{{ shop.url }}/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+  </script>
+{%- endif -%}
