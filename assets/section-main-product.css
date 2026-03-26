@@ -650,15 +650,16 @@ h3.product__title {
    =================================== */
 .product__share {
   margin-bottom: 16px;
+  width: 100%;
 }
 
 .product__share-btn {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  justify-content: center;
   gap: 8px;
   width: 100%;
   font-size: 0.8125rem;
+  padding: 12px 0;
 }
 
 .product__share-success {
