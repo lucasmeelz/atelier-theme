@@ -813,3 +813,127 @@ h3.product__title {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* ===================================
+   Block: SKU
+   =================================== */
+.product__sku {
+  font-size: 0.75rem;
+  color: rgb(var(--color-text-subdued, 107, 107, 107));
+  margin-bottom: 12px;
+}
+
+.product__sku-label {
+  font-size: 0.6875rem;
+}
+
+/* ===================================
+   Block: Payment Terms
+   =================================== */
+.product__payment-terms {
+  margin-bottom: 16px;
+}
+
+.product__payment-terms .shopify-payment-terms {
+  font-size: 0.8125rem;
+}
+
+/* ===================================
+   Sticky Add-to-Cart Bar
+   =================================== */
+.product__sticky-atc {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background-color: rgb(var(--color-background, 255, 255, 255));
+  border-top: 1px solid rgb(var(--color-border, 226, 224, 219));
+  padding: 12px 0;
+  transform: translateY(100%);
+  transition: transform var(--duration-base, 350ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
+}
+
+.product__sticky-atc.is-visible {
+  transform: translateY(0);
+}
+
+.product__sticky-atc-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.product__sticky-atc-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.product__sticky-atc-img {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border-radius: var(--card-border-radius, 0);
+}
+
+.product__sticky-atc-title {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 300px;
+}
+
+.product__sticky-atc-price {
+  font-size: 0.75rem;
+  color: rgb(var(--color-text-subdued, 107, 107, 107));
+  margin: 2px 0 0;
+}
+
+.product__sticky-atc-btn {
+  flex-shrink: 0;
+  min-height: 40px;
+  padding: 8px 24px;
+}
+
+/* Hide sticky on mobile — always show regular ATC */
+@media screen and (max-width: 989px) {
+  .product__sticky-atc {
+    display: none;
+  }
+}
+
+/* ===================================
+   Product Recommendations
+   =================================== */
+.product-recommendations__header {
+  margin-bottom: 24px;
+}
+
+.product-recommendations__heading {
+  font-family: var(--font-heading-family, serif);
+  font-weight: var(--font-heading-weight, 300);
+  font-style: var(--font-heading-style, normal);
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  line-height: 1.2;
+  margin: 0;
+}
+
+.product-recommendations__grid {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns-desktop, 4), 1fr);
+  gap: 24px;
+}
+
+@media screen and (max-width: 989px) {
+  .product-recommendations__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+}
