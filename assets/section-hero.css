@@ -242,11 +242,11 @@
 }
 
 .hero__heading--large {
-  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-size: clamp(2.25rem, 5vw, 4rem);
 }
 
 .hero__heading--cinematic {
-  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-size: clamp(2.75rem, 7vw, 5.5rem);
 }
 
 /* Body text */

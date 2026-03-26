@@ -52,7 +52,7 @@
 
 <div
   id="Section-{{ section.id }}"
-  class="video-section color-{{ color_scheme }}"
+  class="video-section color-{{ color_scheme }}{% if full_width %} full-width{% endif %}"
 >
   <div class="{% if full_width %}video-section--full-width{% else %}container{% endif %}">
     {%- if heading != blank -%}

@@ -50,7 +50,7 @@
 
 <div
   id="Section-{{ section.id }}"
-  class="featured-collection color-{{ color_scheme }}"
+  class="featured-collection color-{{ color_scheme }}{% if full_width %} full-width{% endif %}"
 >
   <div class="{% if full_width %}featured-collection--full-width{% else %}container{% endif %}">
     {%- comment -%} Header — heading + subheading + nav arrows + view all {%- endcomment -%}
