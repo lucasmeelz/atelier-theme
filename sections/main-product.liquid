@@ -409,7 +409,7 @@
                       endif
                     -%}
                     <summary class="product__collapsible-trigger">
-                      <span class="product__collapsible-title">
+                      <span class="product__collapsible-title{% if has_tab_icon %} product__collapsible-title--has-icon{% endif %}">
                         {%- if has_tab_icon -%}
                           <span class="product__collapsible-icon">
                             {%- render 'icon', name: block.settings.icon, size: 18 -%}
@@ -613,7 +613,7 @@
                   {%- if block.settings.heading != blank -%}
                     <details class="product__collapsible"{% if block.settings.default_open %} open{% endif %}>
                       <summary class="product__collapsible-trigger">
-                        <span class="product__collapsible-title">
+                        <span class="product__collapsible-title{% if block.settings.icon != 'none' %} product__collapsible-title--has-icon{% endif %}">
                           {%- if block.settings.icon != 'none' -%}
                             <span class="product__collapsible-icon">
                               {%- render 'icon', name: block.settings.icon, size: 18 -%}

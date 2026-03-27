@@ -625,19 +625,25 @@ h3.product__title {
   content: '';
 }
 
-/* Title group: icon + label wrapped together (immune to editor wrappers) */
+/* Title group */
 .product__collapsible-title {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
+  display: block;
 }
 
-/* Icon (optional) */
+/* When title has an icon, add left padding for the icon */
+.product__collapsible-title--has-icon {
+  padding-left: 28px;
+}
+
+/* Icon (optional): absolute positioned left */
 .product__collapsible-icon {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
 }
 
 /* Label text */
