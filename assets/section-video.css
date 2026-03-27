@@ -9,7 +9,12 @@
 
 .video-section--full-width {
   padding-inline: 0;
-  max-width: 100%;
+  max-width: none;
+  width: 100%;
+}
+
+.video-section--full-width .video-section__player {
+  border-radius: 0;
 }
 
 /* ===================================
