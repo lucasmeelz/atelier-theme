@@ -604,12 +604,11 @@ h3.product__title {
    to prevent collapse in the Shopify editor iframe context.
    ------------------------------------------------------------------- */
 .product__collapsible-trigger {
-  display: flex;
+  display: block;
   position: relative;
-  align-items: center;
   width: 100%;
   min-height: 52px;
-  padding: 16px 0;
+  padding: 16px 40px 16px 0;
   cursor: pointer;
   list-style: none;
   font-family: var(--font-body-family, sans-serif);
@@ -617,7 +616,7 @@ h3.product__title {
   font-weight: 500;
   letter-spacing: 0;
   text-transform: none;
-  line-height: 1;
+  line-height: 1.3;
 }
 
 .product__collapsible-trigger::-webkit-details-marker,
@@ -628,11 +627,9 @@ h3.product__title {
 
 /* Title group: icon + label wrapped together (immune to editor wrappers) */
 .product__collapsible-title {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 10px;
-  flex: 1;
-  min-width: 0;
 }
 
 /* Icon (optional) */
@@ -654,15 +651,18 @@ h3.product__title {
 
 /* Chevron: pushed to the right edge */
 .product__collapsible-chevron {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: auto;
   transition: transform var(--duration-fast) var(--ease-ecrin);
 }
 
 .product__collapsible[open] .product__collapsible-chevron {
-  transform: rotate(180deg);
+  transform: translateY(-50%) rotate(180deg);
 }
 
 @media screen and (min-width: 990px) {
