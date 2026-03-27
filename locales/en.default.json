@@ -24,7 +24,10 @@
     "of": "of",
     "increase_quantity": "Increase quantity for {{ title }}",
     "decrease_quantity": "Decrease quantity for {{ title }}",
-    "remove_item": "Remove {{ title }}"
+    "remove_item": "Remove {{ title }}",
+    "pagination": "Pagination",
+    "previous": "Previous page",
+    "next": "Next page"
   },
   "header": {
     "navigation": "Main navigation",
@@ -112,9 +115,17 @@
     "variant": "Variant"
   },
   "collection": {
+    "product_count": "{{ count }} products",
     "products_count": "{{ count }} products",
     "no_products": "No products found.",
+    "empty": "No products found. Try removing some filters.",
+    "continue_shopping": "Continue shopping",
     "filter": "Filter",
+    "filter_apply": "Apply filters",
+    "filter_clear": "Clear",
+    "filter_clear_all": "Clear all",
+    "filter_from": "From",
+    "filter_to": "To",
     "sort_by": "Sort by",
     "clear_all": "Clear all",
     "apply": "Apply",
