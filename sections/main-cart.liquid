@@ -1,0 +1,235 @@
+{%- comment -%}
+  Main Cart — Full cart page
+  Line items with quantity, totals, notes, checkout
+{%- endcomment -%}
+
+{{ 'section-main-cart.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign show_notes = section.settings.show_notes
+  assign show_payment_icons = section.settings.show_payment_icons
+  assign color_scheme = section.settings.color_scheme
+-%}
+
+<div id="Section-{{ section.id }}" class="main-cart color-{{ color_scheme }}">
+  <div class="container">
+    <h1 class="main-cart__title">{{ 'cart.title' | t }}</h1>
+
+    {%- if cart.item_count > 0 -%}
+      <form action="{{ routes.cart_url }}" method="post" id="cart-form">
+        <div class="main-cart__grid">
+
+          {%- comment -%} Line items column {%- endcomment -%}
+          <div class="main-cart__items">
+            <div class="main-cart__header">
+              <span class="main-cart__header-product">{{ 'cart.product' | t }}</span>
+              <span class="main-cart__header-quantity">{{ 'cart.quantity' | t }}</span>
+              <span class="main-cart__header-total">{{ 'cart.total' | t }}</span>
+            </div>
+
+            {%- for item in cart.items -%}
+              <div class="main-cart__item" data-line-item-key="{{ item.key }}">
+                <div class="main-cart__item-media">
+                  {%- if item.image -%}
+                    <a href="{{ item.url }}">
+                      {{ item.image | image_url: width: 200 | image_tag:
+                        loading: 'lazy',
+                        widths: '100,150,200',
+                        class: 'main-cart__item-img',
+                        alt: item.title
+                      }}
+                    </a>
+                  {%- endif -%}
+                </div>
+
+                <div class="main-cart__item-details">
+                  <a href="{{ item.url }}" class="main-cart__item-title">{{ item.product.title }}</a>
+                  {%- if item.product.has_only_default_variant == false -%}
+                    <p class="main-cart__item-variant">{{ item.variant.title }}</p>
+                  {%- endif -%}
+                  {%- if item.selling_plan_allocation -%}
+                    <p class="main-cart__item-plan">{{ item.selling_plan_allocation.selling_plan.name }}</p>
+                  {%- endif -%}
+                  <div class="main-cart__item-price">
+                    {%- if item.original_price != item.final_price -%}
+                      <s class="main-cart__item-price-compare">{{ item.original_price | money }}</s>
+                    {%- endif -%}
+                    <span>{{ item.final_price | money }}</span>
+                  </div>
+
+                  {%- comment -%} Mobile quantity + remove {%- endcomment -%}
+                  <div class="main-cart__item-actions-mobile">
+                    <div class="main-cart__quantity">
+                      <button
+                        type="button"
+                        class="main-cart__quantity-btn"
+                        aria-label="{{ 'accessibility.decrease_quantity' | t: title: item.title }}"
+                        data-action="decrease"
+                        data-key="{{ item.key }}"
+                      >−</button>
+                      <input
+                        type="number"
+                        name="updates[]"
+                        value="{{ item.quantity }}"
+                        min="0"
+                        class="main-cart__quantity-input"
+                        aria-label="{{ 'cart.quantity' | t }}"
+                        data-key="{{ item.key }}"
+                      >
+                      <button
+                        type="button"
+                        class="main-cart__quantity-btn"
+                        aria-label="{{ 'accessibility.increase_quantity' | t: title: item.title }}"
+                        data-action="increase"
+                        data-key="{{ item.key }}"
+                      >+</button>
+                    </div>
+                    <a href="{{ item.url_to_remove }}" class="main-cart__item-remove">
+                      {{ 'cart.remove' | t }}
+                    </a>
+                  </div>
+                </div>
+
+                {%- comment -%} Desktop quantity {%- endcomment -%}
+                <div class="main-cart__item-quantity-desktop">
+                  <div class="main-cart__quantity">
+                    <button type="button" class="main-cart__quantity-btn" data-action="decrease" data-key="{{ item.key }}">−</button>
+                    <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" class="main-cart__quantity-input" data-key="{{ item.key }}">
+                    <button type="button" class="main-cart__quantity-btn" data-action="increase" data-key="{{ item.key }}">+</button>
+                  </div>
+                  <a href="{{ item.url_to_remove }}" class="main-cart__item-remove">
+                    {{ 'cart.remove' | t }}
+                  </a>
+                </div>
+
+                {%- comment -%} Desktop total {%- endcomment -%}
+                <div class="main-cart__item-total-desktop">
+                  {{ item.final_line_price | money }}
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+
+          {%- comment -%} Summary column {%- endcomment -%}
+          <div class="main-cart__summary">
+            {%- if show_notes -%}
+              <details class="main-cart__notes">
+                <summary class="main-cart__notes-toggle">
+                  {{ 'cart.note' | t }}
+                </summary>
+                <div class="main-cart__notes-content">
+                  <textarea name="note" class="main-cart__notes-textarea" placeholder="{{ 'cart.note_placeholder' | t }}">{{ cart.note }}</textarea>
+                </div>
+              </details>
+            {%- endif -%}
+
+            <div class="main-cart__totals">
+              <div class="main-cart__subtotal">
+                <span>{{ 'cart.subtotal' | t }}</span>
+                <span class="main-cart__subtotal-price">{{ cart.total_price | money }}</span>
+              </div>
+
+              {%- if cart.cart_level_discount_applications.size > 0 -%}
+                {%- for discount in cart.cart_level_discount_applications -%}
+                  <div class="main-cart__discount">
+                    <span>{{ discount.title }}</span>
+                    <span>-{{ discount.total_allocated_amount | money }}</span>
+                  </div>
+                {%- endfor -%}
+              {%- endif -%}
+
+              <p class="main-cart__taxes-note">
+                {%- if cart.taxes_included and shop.shipping_policy.body != blank -%}
+                  {{ 'cart.taxes_included_shipping_at_checkout_html' | t: link: shop.shipping_policy.url }}
+                {%- elsif cart.taxes_included -%}
+                  {{ 'cart.taxes_included_but_shipping_at_checkout' | t }}
+                {%- elsif shop.shipping_policy.body != blank -%}
+                  {{ 'cart.taxes_and_shipping_at_checkout_html' | t: link: shop.shipping_policy.url }}
+                {%- else -%}
+                  {{ 'cart.taxes_and_shipping_at_checkout' | t }}
+                {%- endif -%}
+              </p>
+            </div>
+
+            <button type="submit" name="checkout" class="btn btn--primary main-cart__checkout">
+              {{ 'cart.checkout' | t }}
+            </button>
+
+            {%- if additional_checkout_buttons -%}
+              <div class="main-cart__dynamic-checkout">
+                {{ content_for_additional_checkout_buttons }}
+              </div>
+            {%- endif -%}
+
+            {%- if show_payment_icons -%}
+              <div class="main-cart__payment-icons">
+                {%- for type in shop.enabled_payment_types -%}
+                  {{ type | payment_type_svg_tag: class: 'main-cart__payment-icon' }}
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+          </div>
+
+        </div>
+      </form>
+
+    {%- else -%}
+      <div class="main-cart__empty">
+        <p>{{ 'cart.empty' | t }}</p>
+        <a href="{{ routes.all_products_collection_url }}" class="btn btn--primary">
+          {{ 'cart.continue_shopping' | t }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<script>
+  /* Quantity +/- handlers */
+  document.querySelectorAll('.main-cart__quantity-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var key = this.dataset.key;
+      var input = this.closest('.main-cart__quantity').querySelector('input[data-key="' + key + '"]');
+      if (!input) return;
+      var current = parseInt(input.value, 10);
+      if (this.dataset.action === 'increase') {
+        input.value = current + 1;
+      } else if (this.dataset.action === 'decrease' && current > 0) {
+        input.value = current - 1;
+      }
+      /* Auto-submit after 500ms debounce */
+      clearTimeout(window._cartUpdateTimeout);
+      window._cartUpdateTimeout = setTimeout(function() {
+        document.getElementById('cart-form').submit();
+      }, 500);
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Cart",
+  "tag": "section",
+  "class": "section-main-cart",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_notes",
+      "label": "Show cart notes",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "Show payment icons",
+      "default": true
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ]
+}
+{% endschema %}
