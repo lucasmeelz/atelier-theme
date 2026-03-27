@@ -376,10 +376,7 @@
                   {%- if block.settings.collapsible -%}
                     <details class="product__collapsible" {{ block.shopify_attributes }}{% if block.settings.default_open %} open{% endif %}>
                       <summary class="product__collapsible-trigger">
-                        <span class="product__collapsible-title">
-                          <span class="product__collapsible-label">{{ 'product.description' | t }}</span>
-                        </span>
-                        <span class="product__collapsible-chevron">{%- render 'icon', name: 'chevron-down', size: 16 -%}</span>
+                        {{ 'product.description' | t }}
                       </summary>
                       <div class="product__collapsible-content rte">
                         {{ product.description }}
@@ -409,15 +406,7 @@
                       endif
                     -%}
                     <summary class="product__collapsible-trigger">
-                      <span class="product__collapsible-title{% if has_tab_icon %} product__collapsible-title--has-icon{% endif %}">
-                        {%- if has_tab_icon -%}
-                          <span class="product__collapsible-icon">
-                            {%- render 'icon', name: block.settings.icon, size: 18 -%}
-                          </span>
-                        {%- endif -%}
-                        <span class="product__collapsible-label">{{ block.settings.heading }}</span>
-                      </span>
-                      <span class="product__collapsible-chevron">{%- render 'icon', name: 'chevron-down', size: 16 -%}</span>
+                      {{ block.settings.heading }}
                     </summary>
                     <div class="product__collapsible-content rte">
                       {{ tab_content }}
@@ -613,15 +602,7 @@
                   {%- if block.settings.heading != blank -%}
                     <details class="product__collapsible"{% if block.settings.default_open %} open{% endif %}>
                       <summary class="product__collapsible-trigger">
-                        <span class="product__collapsible-title{% if block.settings.icon != 'none' %} product__collapsible-title--has-icon{% endif %}">
-                          {%- if block.settings.icon != 'none' -%}
-                            <span class="product__collapsible-icon">
-                              {%- render 'icon', name: block.settings.icon, size: 18 -%}
-                            </span>
-                          {%- endif -%}
-                          <span class="product__collapsible-label">{{ block.settings.heading }}</span>
-                        </span>
-                        <span class="product__collapsible-chevron">{%- render 'icon', name: 'chevron-down', size: 16 -%}</span>
+                        {{ block.settings.heading }}
                       </summary>
                       <div class="product__collapsible-content">
                         <ul class="product__ingredients-list">
