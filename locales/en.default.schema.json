@@ -638,6 +638,55 @@
       "color_scheme": "Color scheme",
       "padding_top": "Top padding",
       "padding_bottom": "Bottom padding"
+    },
+    "collapsible_content": {
+      "name": "Collapsible content",
+      "heading": "Heading",
+      "heading_size": "Heading size",
+      "heading_large": "Large",
+      "heading_medium": "Medium",
+      "subheading": "Subheading",
+      "layout": "Layout",
+      "layout_contained": "Contained",
+      "layout_full_width": "Full width",
+      "open_first": "Open first item",
+      "color_scheme": "Color scheme",
+      "padding_top": "Top padding",
+      "padding_bottom": "Bottom padding",
+      "blocks": {
+        "row": "Collapsible row",
+        "heading": "Heading",
+        "content": "Content"
+      },
+      "preset_name": "Collapsible content"
+    },
+    "testimonials": {
+      "name": "Testimonials",
+      "content_header": "Content",
+      "subheading": "Subheading",
+      "heading": "Heading",
+      "heading_size": "Heading size",
+      "heading_large": "Large",
+      "heading_medium": "Medium",
+      "layout_header": "Layout",
+      "layout": "Layout",
+      "layout_grid": "Grid",
+      "layout_carousel": "Carousel",
+      "columns_desktop": "Number of columns on desktop",
+      "show_rating": "Show star rating",
+      "style_header": "Style",
+      "color_scheme": "Color scheme",
+      "padding_top": "Top padding",
+      "padding_bottom": "Bottom padding",
+      "blocks": {
+        "testimonial": "Testimonial",
+        "quote": "Quote",
+        "author": "Author name",
+        "role": "Author role",
+        "rating": "Rating",
+        "image": "Author image"
+      },
+      "preset_name": "Testimonials"
     }
   }
 }
