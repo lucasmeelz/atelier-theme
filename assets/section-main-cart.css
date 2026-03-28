@@ -203,11 +203,43 @@
   opacity: 1;
 }
 
-/* Mobile actions */
+/* Mobile actions — visible on mobile only */
 .main-cart__item-actions-mobile {
   display: flex;
   align-items: center;
   gap: 16px;
+}
+
+/* Remove link — ensure 44px touch target */
+.main-cart__item-remove {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgb(var(--color-text-subdued));
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Quantity buttons — ensure 44px touch target */
+.main-cart__quantity-btn {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+/* Desktop quantity — hidden on mobile */
+.main-cart__item-quantity-desktop {
+  display: none;
+}
+
+@media screen and (min-width: 990px) {
+  .main-cart__item-quantity-desktop {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
 }
 
 /* ===================================

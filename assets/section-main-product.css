@@ -1154,3 +1154,121 @@ h3.product__title {
     gap: 16px;
   }
 }
+
+/* ===================================
+   Variant Picker
+   =================================== */
+
+.product-variant-picker__option {
+  margin-bottom: 16px;
+}
+
+.product-variant-picker__option-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+
+/* Buttons variant */
+.product-variant-picker__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.product-variant-picker__button {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 8px 16px;
+  border: 1px solid rgb(var(--color-border));
+  background: transparent;
+  color: rgb(var(--color-text));
+  font-size: 0.8125rem;
+  cursor: pointer;
+  transition: border-color var(--duration-fast) var(--ease-ecrin),
+              background-color var(--duration-fast) var(--ease-ecrin);
+}
+
+.product-variant-picker__button.is-active {
+  border-color: rgb(var(--color-text));
+}
+
+.product-variant-picker__button.is-unavailable {
+  opacity: 0.4;
+  text-decoration: line-through;
+  cursor: not-allowed;
+}
+
+@media (hover: hover) {
+  .product-variant-picker__button:not(.is-unavailable):hover {
+    border-color: rgb(var(--color-text));
+  }
+}
+
+/* Swatch variant */
+.product-variant-picker__swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.product-variant-picker__swatch {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  padding: 3px;
+  border: 2px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  transition: border-color var(--duration-fast) var(--ease-ecrin);
+}
+
+/* Touch target: ensure 44px minimum via padding */
+.product-variant-picker__swatch::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 44px;
+  height: 44px;
+  transform: translate(-50%, -50%);
+}
+
+.product-variant-picker__swatch.is-active {
+  border-color: rgb(var(--color-text));
+}
+
+.product-variant-picker__swatches--circle .product-variant-picker__swatch {
+  border-radius: 50%;
+}
+
+.product-variant-picker__swatch-inner {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgba(var(--color-text), 0.15);
+}
+
+.product-variant-picker__swatches--circle .product-variant-picker__swatch-inner {
+  border-radius: 50%;
+}
+
+.product-variant-picker__swatch.is-unavailable {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Dropdown variant */
+.product-variant-picker__select {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid rgb(var(--color-border));
+  background: transparent;
+  color: rgb(var(--color-text));
+  font-size: 0.875rem;
+  border-radius: var(--input-border-radius, 0);
+}
