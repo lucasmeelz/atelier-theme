@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
@@ -8,24 +17,24 @@
         "image_mobile": "shopify://shop_images/portrait_3to4.jpg",
         "video_url": "",
         "overlay_color": "#000000",
-        "overlay_opacity": 20,
-        "height": "large",
-        "height_mobile": "auto",
-        "text_position": "bottom-left",
-        "text_position_mobile": "auto",
-        "content_alignment": "left",
-        "subheading": "New Collection",
-        "heading": "The art of refinement",
-        "heading_size": "large",
-        "text": "",
-        "button_label": "Discover",
+        "overlay_opacity": 50,
+        "height": "medium",
+        "height_mobile": "medium",
+        "text_position": "middle-center",
+        "text_position_mobile": "middle-center",
+        "content_alignment": "center",
+        "subheading": "QA Test Subheading",
+        "heading": "QA Test Heading Cinematic",
+        "heading_size": "cinematic",
+        "text": "<p>QA test description text to verify it renders correctly.</p>",
+        "button_label": "Primary Button",
         "button_link": "shopify://products/pre-order",
-        "button_style": "filled-dark",
-        "button_label_2": "",
+        "button_style": "outline-white",
+        "button_label_2": "Second Button",
         "button_link_2": "",
-        "button_style_2": "filled-white",
-        "show_scroll_indicator": true,
-        "enable_parallax": true
+        "button_style_2": "outline-white",
+        "show_scroll_indicator": false,
+        "enable_parallax": false
       }
     },
     "marquee": {
@@ -71,35 +80,35 @@
         "item4"
       ],
       "settings": {
-        "separator": "·",
-        "speed": "medium",
-        "direction": "left",
-        "text_size": "large",
-        "pause_on_hover": true,
-        "show_borders": true,
-        "color_scheme": "",
-        "padding_top": 16,
-        "padding_bottom": 16
+        "separator": "—",
+        "speed": "fast",
+        "direction": "right",
+        "text_size": "small",
+        "pause_on_hover": false,
+        "show_borders": false,
+        "color_scheme": "scheme-2",
+        "padding_top": 8,
+        "padding_bottom": 8
       }
     },
     "featured-collection": {
       "type": "featured-collection",
       "settings": {
-        "heading": "Featured collection",
-        "heading_size": "h2",
-        "subheading": "",
+        "heading": "QA Featured Collection",
+        "heading_size": "h3",
+        "subheading": "QA Subheading Test",
         "collection": "",
-        "products_to_show": 4,
+        "products_to_show": 6,
         "desktop_layout": "grid",
         "mobile_layout": "swipe",
-        "columns_desktop": 4,
-        "columns_mobile": "2",
-        "image_ratio": "portrait",
-        "full_width": false,
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "show_quick_add": true,
+        "columns_desktop": 3,
+        "columns_mobile": "1",
+        "image_ratio": "square",
+        "full_width": true,
+        "show_secondary_image": false,
+        "show_vendor": true,
+        "show_rating": true,
+        "show_quick_add": false,
         "button_label": "View all",
         "button_link": "",
         "color_scheme": "",
@@ -110,12 +119,12 @@
     "image-with-text": {
       "type": "image-with-text",
       "settings": {
-        "image_ratio": "adapt",
-        "layout": "image_first",
-        "desktop_image_width": "medium",
-        "vertical_alignment": "middle",
-        "mobile_layout": "image_first",
-        "full_width": false,
+        "image_ratio": "square",
+        "layout": "text_first",
+        "desktop_image_width": "large",
+        "vertical_alignment": "top",
+        "mobile_layout": "text_first",
+        "full_width": true,
         "label": "Our Story",
         "heading": "<p>Crafted with care</p>",
         "heading_size": "h2",
@@ -186,11 +195,11 @@
         "button"
       ],
       "settings": {
-        "color_scheme": "",
-        "content_width": "md",
-        "text_alignment": "center",
-        "padding_top": 80,
-        "padding_bottom": 80
+        "color_scheme": "scheme-2",
+        "content_width": "lg",
+        "text_alignment": "left",
+        "padding_top": 40,
+        "padding_bottom": 40
       }
     },
     "multicolumn": {
@@ -237,11 +246,11 @@
         "heading": "",
         "heading_size": "h2",
         "columns_desktop": 3,
-        "columns_mobile": "1",
-        "column_alignment": "center",
-        "image_width": "medium",
-        "image_ratio": "adapt",
-        "show_borders": false,
+        "columns_mobile": "2",
+        "column_alignment": "left",
+        "image_width": "full",
+        "image_ratio": "square",
+        "show_borders": true,
         "color_scheme": "",
         "padding_top": 40,
         "padding_bottom": 40
@@ -255,9 +264,9 @@
         "subheading": "<p>Sign up for exclusive access to new collections, special offers, and style inspiration delivered to your inbox.</p>",
         "button_label": "Subscribe",
         "disclaimer": "<p>By signing up, you agree to our <a href=\"#\">privacy policy</a>.</p>",
-        "layout": "centered",
-        "overlay_opacity": 40,
-        "color_scheme": "",
+        "layout": "split",
+        "overlay_opacity": 60,
+        "color_scheme": "scheme-3",
         "padding_top": 80,
         "padding_bottom": 80
       }
