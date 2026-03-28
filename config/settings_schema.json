@@ -454,6 +454,16 @@
       },
       {
         "type": "select",
+        "id": "card_hover_effect",
+        "label": "t:settings_schema.product_cards.hover_effect",
+        "options": [
+          { "value": "none", "label": "t:settings_schema.product_cards.none" },
+          { "value": "scale", "label": "t:settings_schema.product_cards.scale" }
+        ],
+        "default": "none"
+      },
+      {
+        "type": "select",
         "id": "product_card_swatch_shape",
         "label": "t:settings_schema.product_cards.swatch_shape",
         "options": [

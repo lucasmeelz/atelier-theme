@@ -110,6 +110,36 @@
   padding-bottom: 20px;
 }
 
+/* Sidebar layout wrapper */
+.collection__layout--sidebar {
+  display: block;
+}
+
+@media screen and (min-width: 990px) {
+  .collection__layout--sidebar {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+
+  .collection__filters--sidebar {
+    position: sticky;
+    top: 20px;
+    border-right: 1px solid rgb(var(--color-border, 226, 224, 219));
+    padding-right: 24px;
+  }
+}
+
+/* On mobile, sidebar filters use drawer behavior */
+@media screen and (max-width: 989px) {
+  .collection__filters--sidebar {
+    border-bottom: 1px solid rgb(var(--color-border, 226, 224, 219));
+    padding-bottom: 20px;
+    margin-bottom: 24px;
+  }
+}
+
 .collection__filter-form {
   display: grid;
   gap: 16px;
@@ -336,6 +366,7 @@
 
 /* Mobile column overrides */
 .collection__grid--mobile-1 { grid-template-columns: 1fr; }
+.collection__grid--mobile-2 { grid-template-columns: repeat(2, 1fr); }
 
 /* Desktop overrides */
 @media screen and (min-width: 990px) {

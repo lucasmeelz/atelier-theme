@@ -5,6 +5,7 @@
 {%- endcomment -%}
 
 {{ 'section-main-collection.css' | asset_url | stylesheet_tag }}
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
 
 {%- liquid
   assign products_per_page = section.settings.products_per_page
@@ -85,12 +86,17 @@
       </div>
     {%- endif -%}
 
-    {%- comment -%} Filters drawer {%- endcomment -%}
+    {%- comment -%} Layout wrapper for sidebar mode {%- endcomment -%}
+    {%- if filter_layout == 'sidebar' -%}
+      <div class="collection__layout collection__layout--sidebar">
+    {%- endif -%}
+
+    {%- comment -%} Filters {%- endcomment -%}
     {%- if show_filters and collection.filters.size > 0 -%}
       <div
         id="collection-filters-{{ section.id }}"
         class="collection__filters collection__filters--{{ filter_layout }}"
-        aria-hidden="true"
+        {% if filter_layout == 'drawer' %}aria-hidden="true"{% endif %}
       >
         <form id="collection-filter-form" class="collection__filter-form">
           {%- for filter in collection.filters -%}
@@ -265,6 +271,10 @@
           {%- endif -%}
         </ul>
       </nav>
+    {%- endif -%}
+
+    {%- if filter_layout == 'sidebar' -%}
+      </div>{%- comment -%} .collection__layout--sidebar {%- endcomment -%}
     {%- endif -%}
 
   </div>

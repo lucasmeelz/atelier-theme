@@ -22,11 +22,12 @@
   assign alignment = settings.product_card_info_alignment
   assign hover_effect = settings.card_hover_effect
   assign loading = 'lazy'
-  unless lazy == false
-    assign loading = 'lazy'
-  else
+  if lazy == false
     assign loading = 'eager'
-  endunless
+  endif
+
+  assign card_columns = columns | default: 4
+  assign card_sizes = '(min-width: 1200px) calc((100vw - 80px) / ' | append: card_columns | append: '), (min-width: 750px) calc((100vw - 40px) / 2), calc(100vw - 40px)'
 
   assign primary_image = product.featured_image
   assign secondary_image = nil
@@ -45,7 +46,7 @@
   endif
 -%}
 
-<div class="card-product{% if alignment %} card-product--{{ alignment }}{% endif %}" data-product-id="{{ product.id }}">
+<div class="card-product{% if alignment %} card-product--{{ alignment }}{% endif %}" data-product-id="{{ product.id }}"{% if hover_effect != blank and hover_effect != 'none' %} data-card-hover="{{ hover_effect }}"{% endif %}>
 
   {%- comment -%} Image container {%- endcomment -%}
   <div class="card-product__media">
@@ -67,7 +68,7 @@
           {{ primary_image | image_url: width: 800 | image_tag:
             loading: loading,
             widths: '300,400,500,600,800',
-            sizes: '(min-width: 1200px) calc((100vw - 80px) / ' | append: columns | default: 4 | append: '), (min-width: 750px) calc((100vw - 40px) / 2), calc(100vw - 40px)',
+            sizes: card_sizes,
             class: 'card-product__image card-product__image--primary',
             alt: primary_image.alt | default: product.title
           }}
@@ -76,7 +77,7 @@
             {{ secondary_image | image_url: width: 800 | image_tag:
               loading: 'lazy',
               widths: '300,400,500,600,800',
-              sizes: '(min-width: 1200px) calc((100vw - 80px) / ' | append: columns | default: 4 | append: '), (min-width: 750px) calc((100vw - 40px) / 2), calc(100vw - 40px)',
+              sizes: card_sizes,
               class: 'card-product__image card-product__image--secondary',
               alt: secondary_image.alt | default: product.title
             }}

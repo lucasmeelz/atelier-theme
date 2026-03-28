@@ -113,7 +113,6 @@
   },
   "collection": {
     "product_count": "{{ count }} products",
-    "products_count": "{{ count }} products",
     "no_products": "No products found.",
     "empty": "No products found. Try removing some filters.",
     "continue_shopping": "Continue shopping",

@@ -92,6 +92,8 @@
       "rating_info": "Requires a product reviews app.",
       "show_quick_add": "Show quick add",
       "show_color_swatches": "Show color swatches",
+      "hover_effect": "Hover effect",
+      "scale": "Zoom",
       "swatch_shape": "Swatch shape",
       "circle": "Circle",
       "square_shape": "Square",
