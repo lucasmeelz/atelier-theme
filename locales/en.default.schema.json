@@ -745,6 +745,26 @@
       "padding_top": "Top padding",
       "padding_bottom": "Bottom padding",
       "preset_name": "Blog posts"
+    },
+    "recently_viewed": {
+      "name": "Recently viewed",
+      "heading": "Heading",
+      "heading_size": "Heading size",
+      "heading_large": "Large",
+      "heading_medium": "Medium",
+      "products_to_show": "Products to show",
+      "columns_desktop": "Columns on desktop",
+      "image_ratio": "Image ratio",
+      "natural": "Natural",
+      "portrait": "Portrait",
+      "square": "Square",
+      "landscape": "Landscape",
+      "show_secondary": "Show second image on hover",
+      "show_vendor": "Show vendor",
+      "color_scheme": "Color scheme",
+      "padding_top": "Top padding",
+      "padding_bottom": "Bottom padding",
+      "preset_name": "Recently viewed"
     }
   }
 }
