@@ -161,6 +161,7 @@
 /* Content alignment override (text-align independent of position) */
 .hero__content--align-center {
   text-align: center;
+  align-items: center;
 }
 
 .hero__content--align-center .hero__buttons {
@@ -169,6 +170,7 @@
 
 .hero__content--align-left {
   text-align: left;
+  align-items: flex-start;
 }
 
 /* Mobile position override */
