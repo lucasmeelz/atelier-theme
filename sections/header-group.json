@@ -2,6 +2,27 @@
   "type": "header",
   "name": "t:general.header",
   "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "blocks": {
+        "announcement_1": {
+          "type": "announcement",
+          "settings": {
+            "text": "<p>Free shipping on orders over $150</p>",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "announcement_1"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "auto_rotate": true,
+        "auto_rotate_speed": 5,
+        "show_close_button": false
+      }
+    },
     "header": {
       "type": "header",
       "blocks": {
@@ -54,6 +75,7 @@
     }
   },
   "order": [
+    "announcement-bar",
     "header",
     "cart-drawer"
   ]

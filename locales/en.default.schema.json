@@ -676,6 +676,21 @@
       },
       "preset_name": "Collapsible content"
     },
+    "announcement_bar": {
+      "name": "Announcement bar",
+      "label": "Announcement",
+      "color_scheme": "Color scheme",
+      "auto_rotate": "Auto-rotate announcements",
+      "auto_rotate_speed": "Rotation speed",
+      "show_close_button": "Show close button",
+      "close": "Close announcement",
+      "blocks": {
+        "announcement": "Announcement",
+        "text": "Text",
+        "link": "Link"
+      },
+      "preset_name": "Announcement bar"
+    },
     "testimonials": {
       "name": "Testimonials",
       "content_header": "Content",
@@ -703,6 +718,33 @@
         "image": "Author image"
       },
       "preset_name": "Testimonials"
+    },
+    "blog_posts": {
+      "name": "Blog posts",
+      "content_header": "Content",
+      "subheading": "Subheading",
+      "heading": "Heading",
+      "heading_size": "Heading size",
+      "heading_large": "Large",
+      "heading_medium": "Medium",
+      "blog": "Blog",
+      "posts_to_show": "Posts to show",
+      "columns_desktop": "Columns on desktop",
+      "card_header": "Card",
+      "show_image": "Show image",
+      "image_ratio": "Image ratio",
+      "landscape": "Landscape",
+      "portrait": "Portrait",
+      "square": "Square",
+      "show_date": "Show date",
+      "show_author": "Show author",
+      "show_excerpt": "Show excerpt",
+      "button_label": "Button label",
+      "style_header": "Style",
+      "color_scheme": "Color scheme",
+      "padding_top": "Top padding",
+      "padding_bottom": "Bottom padding",
+      "preset_name": "Blog posts"
     }
   }
 }

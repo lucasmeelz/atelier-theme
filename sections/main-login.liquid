@@ -1,0 +1,114 @@
+{{ 'section-customers.css' | asset_url | stylesheet_tag }}
+
+<div class="customer color-{{ section.settings.color_scheme }}">
+  <div class="container">
+    <div class="customer__header">
+      <h1>{{ 'customer.login.title' | t }}</h1>
+    </div>
+
+    <div class="customer__form-wrapper">
+      {%- form 'customer_login', novalidate: 'novalidate' -%}
+        {%- if form.errors -%}
+          <div class="customer__form-errors" role="alert">
+            <p>{{ form.errors | default_errors }}</p>
+          </div>
+        {%- endif -%}
+
+        <div class="customer__form">
+          <div class="field">
+            <label for="CustomerEmail">{{ 'customer.login.email' | t }}</label>
+            <input
+              type="email"
+              name="customer[email]"
+              id="CustomerEmail"
+              autocomplete="email"
+              autocorrect="off"
+              autocapitalize="off"
+              required
+            >
+          </div>
+
+          <div class="field">
+            <label for="CustomerPassword">{{ 'customer.login.password' | t }}</label>
+            <input
+              type="password"
+              name="customer[password]"
+              id="CustomerPassword"
+              autocomplete="current-password"
+              required
+            >
+          </div>
+
+          <button type="submit" class="btn btn--primary">
+            {{ 'customer.login.submit' | t }}
+          </button>
+        </div>
+      {%- endform -%}
+
+      <div class="customer__form-footer">
+        <a href="#recover">{{ 'customer.login.forgot_password' | t }}</a>
+        <a href="{{ routes.account_register_url }}">{{ 'customer.login.create_account' | t }}</a>
+      </div>
+
+      {%- comment -%} Recover password form {%- endcomment -%}
+      <div id="recover" style="display:none;">
+        <div class="customer__header" style="margin-top:3rem;">
+          <h2 style="font-size:var(--heading-font-size,2.4rem);font-weight:400;letter-spacing:0.06em;text-transform:uppercase;">{{ 'customer.reset_password.title' | t }}</h2>
+        </div>
+
+        {%- form 'recover_customer_password' -%}
+          {%- if form.posted_successfully? -%}
+            <div class="customer__form-success">
+              <p>{{ 'customer.reset_password.success' | t }}</p>
+            </div>
+          {%- endif -%}
+
+          <div class="customer__form">
+            <div class="field">
+              <label for="RecoverEmail">{{ 'customer.reset_password.email' | t }}</label>
+              <input
+                type="email"
+                name="email"
+                id="RecoverEmail"
+                autocomplete="email"
+                autocorrect="off"
+                autocapitalize="off"
+                required
+              >
+            </div>
+
+            <button type="submit" class="btn btn--primary">
+              {{ 'customer.reset_password.submit' | t }}
+            </button>
+          </div>
+        {%- endform -%}
+
+        <div class="customer__form-footer">
+          <a href="#" onclick="document.getElementById('recover').style.display='none';return false;">{{ 'customer.login.cancel' | t }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  if (window.location.hash === '#recover') {
+    document.getElementById('recover').style.display = 'block';
+  }
+  document.querySelectorAll('a[href="#recover"]').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('recover').style.display = 'block';
+      window.location.hash = '#recover';
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Customer login",
+  "tag": "section",
+  "class": "section-customer-login",
+  "settings": []
+}
+{% endschema %}

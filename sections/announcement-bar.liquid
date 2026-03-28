@@ -1,0 +1,148 @@
+{%- comment -%}
+  Announcement Bar — Rotating promotional messages
+  CSS-only rotation for multiple messages.
+  Optional close button with sessionStorage persistence.
+{%- endcomment -%}
+
+{{ 'section-announcement-bar.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign color_scheme = section.settings.color_scheme
+  assign auto_rotate = section.settings.auto_rotate
+  assign rotate_speed = section.settings.auto_rotate_speed | default: 5
+  assign show_close = section.settings.show_close_button
+  assign block_count = section.blocks.size
+  assign total_duration = rotate_speed | times: block_count
+-%}
+
+{%- if block_count > 0 -%}
+  {%- style -%}
+    #Section-{{ section.id }} {
+      --announcement-total-duration: {{ total_duration }}s;
+    }
+    {%- if block_count > 1 and auto_rotate -%}
+      {%- for block in section.blocks -%}
+        #Section-{{ section.id }} .announcement-bar__message:nth-child({{ forloop.index }}) {
+          animation-delay: {{ forloop.index0 | times: rotate_speed }}s;
+        }
+      {%- endfor -%}
+    {%- endif -%}
+  {%- endstyle -%}
+
+  <div
+    id="Section-{{ section.id }}"
+    class="announcement-bar-section color-{{ color_scheme }}"
+    role="region"
+    aria-label="{{ 'sections.announcement_bar.label' | t }}"
+    {% if show_close %}data-announcement-bar{% endif %}
+  >
+    <div class="announcement-bar__messages{% if block_count > 1 and auto_rotate %} announcement-bar__messages--rotating announcement-bar__messages--count-{{ block_count }}{% endif %}">
+      {%- for block in section.blocks -%}
+        <div class="announcement-bar__message" {{ block.shopify_attributes }}>
+          {%- if block.settings.link != blank -%}
+            <a href="{{ block.settings.link }}" class="announcement-bar__link">
+              <span class="announcement-bar__text">{{ block.settings.text }}</span>
+            </a>
+          {%- else -%}
+            <span class="announcement-bar__text">{{ block.settings.text }}</span>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {%- if show_close -%}
+      <button
+        type="button"
+        class="announcement-bar__close"
+        aria-label="{{ 'sections.announcement_bar.close' | t }}"
+        onclick="this.closest('.announcement-bar-section').hidden=true;try{sessionStorage.setItem('ecrin:announcement-dismissed','1')}catch(e){}"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+      <script>
+        (function(){
+          try {
+            if (sessionStorage.getItem('ecrin:announcement-dismissed') === '1') {
+              var el = document.getElementById('Section-{{ section.id }}');
+              if (el) el.hidden = true;
+            }
+          } catch(e) {}
+        })();
+      </script>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "t:sections.announcement_bar.name",
+  "tag": "section",
+  "class": "section-announcement-bar",
+  "max_blocks": 5,
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.announcement_bar.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "auto_rotate",
+      "label": "t:sections.announcement_bar.auto_rotate",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "auto_rotate_speed",
+      "label": "t:sections.announcement_bar.auto_rotate_speed",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "default": 5
+    },
+    {
+      "type": "checkbox",
+      "id": "show_close_button",
+      "label": "t:sections.announcement_bar.show_close_button",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "announcement",
+      "name": "t:sections.announcement_bar.blocks.announcement",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "t:sections.announcement_bar.blocks.text",
+          "default": "<p>Welcome to our store</p>"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "t:sections.announcement_bar.blocks.link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.announcement_bar.preset_name",
+      "blocks": [
+        {
+          "type": "announcement",
+          "settings": {
+            "text": "<p>Free shipping on orders over $150</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,85 @@
+{{ 'section-customers.css' | asset_url | stylesheet_tag }}
+
+<div class="customer color-{{ section.settings.color_scheme }}">
+  <div class="container">
+    <div class="customer__header">
+      <h1>{{ 'customer.register.title' | t }}</h1>
+    </div>
+
+    <div class="customer__form-wrapper">
+      {%- form 'create_customer', novalidate: 'novalidate' -%}
+        {%- if form.errors -%}
+          <div class="customer__form-errors" role="alert">
+            <p>{{ form.errors | default_errors }}</p>
+          </div>
+        {%- endif -%}
+
+        <div class="customer__form">
+          <div class="field">
+            <label for="RegisterFirstName">{{ 'customer.register.first_name' | t }}</label>
+            <input
+              type="text"
+              name="customer[first_name]"
+              id="RegisterFirstName"
+              autocomplete="given-name"
+              {% if form.first_name %}value="{{ form.first_name }}"{% endif %}
+            >
+          </div>
+
+          <div class="field">
+            <label for="RegisterLastName">{{ 'customer.register.last_name' | t }}</label>
+            <input
+              type="text"
+              name="customer[last_name]"
+              id="RegisterLastName"
+              autocomplete="family-name"
+              {% if form.last_name %}value="{{ form.last_name }}"{% endif %}
+            >
+          </div>
+
+          <div class="field">
+            <label for="RegisterEmail">{{ 'customer.register.email' | t }}</label>
+            <input
+              type="email"
+              name="customer[email]"
+              id="RegisterEmail"
+              autocomplete="email"
+              autocorrect="off"
+              autocapitalize="off"
+              {% if form.email %}value="{{ form.email }}"{% endif %}
+              required
+            >
+          </div>
+
+          <div class="field">
+            <label for="RegisterPassword">{{ 'customer.register.password' | t }}</label>
+            <input
+              type="password"
+              name="customer[password]"
+              id="RegisterPassword"
+              autocomplete="new-password"
+              required
+            >
+          </div>
+
+          <button type="submit" class="btn btn--primary">
+            {{ 'customer.register.submit' | t }}
+          </button>
+        </div>
+      {%- endform -%}
+
+      <div class="customer__form-footer">
+        <a href="{{ routes.account_login_url }}">{{ 'customer.login.title' | t }}</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Customer register",
+  "tag": "section",
+  "class": "section-customer-register",
+  "settings": []
+}
+{% endschema %}
