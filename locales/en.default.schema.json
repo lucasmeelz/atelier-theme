@@ -765,6 +765,26 @@
       "padding_top": "Top padding",
       "padding_bottom": "Bottom padding",
       "preset_name": "Recently viewed"
+    },
+    "article": {
+      "image_header": "Featured image",
+      "show_featured_image": "Show featured image",
+      "image_layout": "Image layout",
+      "image_layout_contained": "Contained",
+      "image_layout_full_width": "Full width",
+      "content_header": "Content",
+      "show_date": "Show date",
+      "show_author": "Show author",
+      "show_tags": "Show tags",
+      "show_share": "Show share button",
+      "style_header": "Style",
+      "color_scheme": "Color scheme",
+      "padding_top": "Top padding",
+      "padding_bottom": "Bottom padding",
+      "back_to_blog": "Back to blog",
+      "copy_link": "Copy link",
+      "tags_label": "Article tags",
+      "comments_label": "Article comments"
     }
   }
 }

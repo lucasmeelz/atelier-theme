@@ -30,6 +30,7 @@
     "next": "Next page"
   },
   "header": {
+    "announcement": "Announcement",
     "navigation": "Main navigation",
     "open_menu": "Open navigation menu",
     "close_menu": "Close navigation menu",
@@ -121,6 +122,7 @@
     "variant": "Variant"
   },
   "collection": {
+    "active_filters": "active filters",
     "product_count": "{{ count }} products",
     "no_products": "No products found.",
     "empty": "No products found. Try removing some filters.",
@@ -338,5 +340,13 @@
   },
   "hero": {
     "scroll_down": "Scroll down"
+  },
+  "sections": {
+    "article": {
+      "back_to_blog": "Back to blog",
+      "copy_link": "Copy link",
+      "tags_label": "Article tags",
+      "comments_label": "Article comments"
+    }
   }
 }

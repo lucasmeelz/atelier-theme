@@ -49,7 +49,8 @@
                   {%- assign active_filter_count = active_filter_count | plus: filter.active_values.size -%}
                 {%- endfor -%}
                 {%- if active_filter_count > 0 -%}
-                  <span class="collection__filter-count">{{ active_filter_count }}</span>
+                  <span class="collection__filter-count" aria-hidden="true">{{ active_filter_count }}</span>
+                  <span class="visually-hidden">{{ active_filter_count }} {{ 'collection.active_filters' | t }}</span>
                 {%- endif -%}
               {%- endif -%}
             </button>

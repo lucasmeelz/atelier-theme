@@ -37,7 +37,7 @@
 
 {%- comment -%} Announcement bar {%- endcomment -%}
 {%- if show_announcement and announcement_text != blank -%}
-  <div class="announcement-bar color-{{ section.settings.announcement_color_scheme }}" role="region" aria-label="{{ 'header.navigation' | t }}">
+  <div class="announcement-bar color-{{ section.settings.announcement_color_scheme }}" role="region" aria-label="{{ 'header.announcement' | t }}">
     <div class="announcement-bar__inner container">
       {%- if section.settings.announcement_link != blank -%}
         <a href="{{ section.settings.announcement_link }}" class="announcement-bar__link">

@@ -162,7 +162,8 @@ a {
 
 /* ===== FOCUS STATES ===== */
 
-:focus {
+/* Remove outline on mouse click but keep it for keyboard */
+:focus:not(:focus-visible) {
   outline: none;
 }
 

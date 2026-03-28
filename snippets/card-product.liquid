@@ -61,7 +61,7 @@
           assign ratio_css = '4 / 3'
       endcase
     -%}
-    <a href="{{ product.url }}" class="card-product__media-link" aria-label="{{ product.title | escape }}" tabindex="-1">
+    <a href="{{ product.url }}" class="card-product__media-link" tabindex="-1" aria-hidden="true">
       <div class="card-product__media-wrapper"{% if ratio_css != blank %} style="--card-image-ratio: {{ ratio_css }};"{% endif %}>
 
         {%- if primary_image -%}
