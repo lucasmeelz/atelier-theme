@@ -330,15 +330,20 @@
    =================================== */
 .collection__grid {
   display: grid;
-  grid-template-columns: repeat(var(--grid-columns-mobile, 2), 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 16px;
 }
 
+/* Mobile column overrides */
+.collection__grid--mobile-1 { grid-template-columns: 1fr; }
+
+/* Desktop overrides */
 @media screen and (min-width: 990px) {
-  .collection__grid {
-    grid-template-columns: repeat(var(--grid-columns-desktop, 4), 1fr);
-    gap: 20px;
-  }
+  .collection__grid { grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .collection__grid--desktop-2 { grid-template-columns: repeat(2, 1fr); }
+  .collection__grid--desktop-3 { grid-template-columns: repeat(3, 1fr); }
+  .collection__grid--desktop-4 { grid-template-columns: repeat(4, 1fr); }
+  .collection__grid--desktop-5 { grid-template-columns: repeat(5, 1fr); }
 }
 
 /* Empty state */

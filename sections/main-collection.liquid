@@ -203,8 +203,7 @@
     {%- comment -%} Product grid {%- endcomment -%}
     <div
       id="collection-grid-{{ section.id }}"
-      class="collection__grid"
-      style="--grid-columns-desktop: {{ columns_desktop }}; --grid-columns-mobile: {{ columns_mobile }};"
+      class="collection__grid collection__grid--desktop-{{ columns_desktop }} collection__grid--mobile-{{ columns_mobile }}"
     >
       {%- if collection.products.size > 0 -%}
         {%- for product in collection.products -%}
