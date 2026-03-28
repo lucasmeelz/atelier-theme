@@ -97,7 +97,7 @@
       class="featured-collection__scroller{% if desktop_layout == 'carousel' %} featured-collection__scroller--carousel{% endif %}{% if mobile_layout == 'swipe' %} featured-collection__scroller--swipe-mobile{% endif %}"
       data-desktop-layout="{{ desktop_layout }}"
     >
-      <div class="featured-collection__track" data-track>
+      <div class="featured-collection__track" data-track {% if settings.stagger_products %}data-stagger-cards{% endif %}>
         {%- if collection != blank -%}
           {%- for product in collection.products limit: products_to_show -%}
             <div class="featured-collection__item" data-index="{{ forloop.index0 }}">
@@ -109,8 +109,7 @@
                 show_rating: show_rating,
                 show_quick_add: show_quick_add,
                 columns: columns_desktop,
-                lazy: true,
-                section_id: section.id
+                lazy: true
               -%}
             </div>
           {%- endfor -%}

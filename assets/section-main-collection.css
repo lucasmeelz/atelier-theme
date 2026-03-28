@@ -128,15 +128,22 @@
     top: 20px;
     border-right: 1px solid rgb(var(--color-border, 226, 224, 219));
     padding-right: 24px;
+    max-height: none;
+    overflow: visible;
+    margin-bottom: 0;
   }
 }
 
-/* On mobile, sidebar filters use drawer behavior */
+/* On mobile, sidebar filters collapse like drawer */
 @media screen and (max-width: 989px) {
   .collection__filters--sidebar {
     border-bottom: 1px solid rgb(var(--color-border, 226, 224, 219));
     padding-bottom: 20px;
     margin-bottom: 24px;
+  }
+
+  .collection__filters--sidebar[aria-hidden="false"] {
+    max-height: 2000px;
   }
 }
 
