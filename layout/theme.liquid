@@ -22,7 +22,10 @@
     {%- render 'structured-data' -%}
   </head>
 
-  <body>
+  <body
+    {% if settings.button_hover_effect != 'none' %}data-button-hover="{{ settings.button_hover_effect }}"{% endif %}
+    {% if settings.card_hover_effect != 'none' %}data-card-hover="{{ settings.card_hover_effect }}"{% endif %}
+  >
     <a class="skip-to-content" href="#main-content">
       {{- 'accessibility.skip_to_content' | t -}}
     </a>
