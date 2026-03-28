@@ -500,6 +500,19 @@
   },
 
   {
+    "name": "t:settings_schema.search.name",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_predictive_search",
+        "label": "t:settings_schema.search.enable_predictive_search",
+        "info": "t:settings_schema.search.predictive_search_info",
+        "default": true
+      }
+    ]
+  },
+
+  {
     "name": "t:settings_schema.cart.name",
     "settings": [
       {
@@ -535,6 +548,13 @@
         "label": "t:settings_schema.cart.free_shipping_minimum",
         "info": "t:settings_schema.cart.free_shipping_info",
         "default": "150"
+      },
+      { "type": "header", "content": "t:settings_schema.cart.cart_notes" },
+      {
+        "type": "checkbox",
+        "id": "enable_cart_note",
+        "label": "t:settings_schema.cart.enable_cart_note",
+        "default": true
       }
     ]
   },

@@ -114,6 +114,11 @@
       "sale_text": "Sale text only",
       "show_sold_out_badge": "Show sold out badge"
     },
+    "search": {
+      "name": "Search",
+      "enable_predictive_search": "Enable predictive search",
+      "predictive_search_info": "Show search suggestions as the customer types."
+    },
     "cart": {
       "name": "Cart",
       "cart_type": "Cart type",
@@ -125,7 +130,9 @@
       "free_shipping": "Free shipping bar",
       "show_free_shipping_bar": "Show free shipping progress bar",
       "free_shipping_minimum": "Free shipping minimum amount",
-      "free_shipping_info": "Enter the amount in your store currency without the symbol."
+      "free_shipping_info": "Enter the amount in your store currency without the symbol.",
+      "cart_notes": "Order notes",
+      "enable_cart_note": "Enable order notes"
     },
     "color_swatches": {
       "name": "Color swatches",
@@ -638,6 +645,15 @@
       "color_scheme": "Color scheme",
       "padding_top": "Top padding",
       "padding_bottom": "Bottom padding"
+    },
+    "custom_liquid": {
+      "name": "Custom Liquid",
+      "liquid": "Liquid code",
+      "liquid_info": "Add app snippets or other Liquid code to create custom content.",
+      "color_scheme": "Color scheme",
+      "padding_top": "Top padding",
+      "padding_bottom": "Bottom padding",
+      "preset_name": "Custom Liquid"
     },
     "collapsible_content": {
       "name": "Collapsible content",
