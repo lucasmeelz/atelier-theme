@@ -47,6 +47,9 @@
             "promo_2_heading": "",
             "promo_2_subheading": "",
             "promo_2_link": "",
+            "promo_3_heading": "",
+            "promo_3_subheading": "",
+            "promo_3_link": "",
             "promo_layout": "2",
             "promo_ratio": "3/4"
           }
@@ -61,6 +64,12 @@
         "mobile_layout": "logo_center_split",
         "enable_sticky": true,
         "hide_on_scroll": false,
+        "drawer_width": 370,
+        "drawer_width_expanded": 920,
+        "drawer_backdrop_blur": 8,
+        "show_wishlist_icon": false,
+        "wishlist_url": "",
+        "drawer_show_close_text": true,
         "logo_width": 120,
         "logo_width_mobile": 90,
         "menu": "menu-2",
@@ -80,7 +89,9 @@
     },
     "cart-drawer": {
       "type": "cart-drawer",
-      "settings": {}
+      "settings": {
+        "color_scheme": ""
+      }
     }
   },
   "order": [
