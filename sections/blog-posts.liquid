@@ -52,7 +52,7 @@
       </div>
     {%- endif -%}
 
-    <div class="blog-posts__grid">
+    <div class="blog-posts__grid"{% if settings.stagger_blog_posts %} data-stagger-cards{% endif %}>
       {%- if blog != blank -%}
         {%- for article in blog.articles limit: posts_to_show -%}
           <article class="blog-posts__card">

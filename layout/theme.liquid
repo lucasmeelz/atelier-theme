@@ -25,6 +25,7 @@
   <body
     {% if settings.button_hover_effect != 'none' %}data-button-hover="{{ settings.button_hover_effect }}"{% endif %}
     {% if settings.card_hover_effect != 'none' %}data-card-hover="{{ settings.card_hover_effect }}"{% endif %}
+    {% if settings.image_hover_effect != 'none' %}data-image-hover="{{ settings.image_hover_effect }}"{% endif %}
   >
     <a class="skip-to-content" href="#main-content">
       {{- 'accessibility.skip_to_content' | t -}}
@@ -42,6 +43,16 @@
     {%- if settings.scroll_reveal != 'none' -%}
       <script>
         (function() {
+          var animationType = '{{ settings.scroll_reveal }}';
+
+          /* Auto-apply .reveal to all sections inside main */
+          document.querySelectorAll('#main-content > section, #main-content > div > section').forEach(function(section) {
+            if (!section.classList.contains('reveal')) {
+              section.classList.add('reveal');
+              section.dataset.animation = animationType;
+            }
+          });
+
           var observer = new IntersectionObserver(function(entries) {
             entries.forEach(function(entry) {
               if (entry.isIntersecting) {
@@ -55,10 +66,15 @@
             observer.observe(el);
           });
 
-          document.addEventListener('shopify:section:load', function() {
-            document.querySelectorAll('.reveal:not(.is-visible)').forEach(function(el) {
-              observer.observe(el);
-            });
+          document.addEventListener('shopify:section:load', function(e) {
+            var section = e.target;
+            if (!section.classList.contains('reveal')) {
+              section.classList.add('reveal');
+              section.dataset.animation = animationType;
+            }
+            if (!section.classList.contains('is-visible')) {
+              observer.observe(section);
+            }
           });
         })();
       </script>

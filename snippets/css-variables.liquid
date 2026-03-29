@@ -140,4 +140,11 @@
       --color-foreground: {{ scheme.settings.text.red }}, {{ scheme.settings.text.green }}, {{ scheme.settings.text.blue }};
     }
   {%- endfor -%}
+
+  {%- comment -%} Page transition — only when enabled {%- endcomment -%}
+  {%- if settings.page_transition == 'none' -%}
+    @view-transition {
+      navigation: none;
+    }
+  {%- endif -%}
 {%- endstyle -%}
