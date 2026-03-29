@@ -31,6 +31,10 @@
   },
   "header": {
     "announcement": "Announcement",
+    "wishlist": "Wishlist",
+    "close_drawer": "Close",
+    "explore_category": "Explore {{ title }}",
+    "highlights": "Highlights",
     "navigation": "Main navigation",
     "open_menu": "Open navigation menu",
     "close_menu": "Close navigation menu",

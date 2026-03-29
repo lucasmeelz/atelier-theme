@@ -574,3 +574,253 @@ class PredictiveSearch extends HTMLElement {
 }
 
 customElements.define('predictive-search', PredictiveSearch);
+
+
+/* ===== LUXURY DRAWER (Dior-style two-panel navigation) ===== */
+
+class LuxuryDrawer extends HTMLElement {
+  connectedCallback() {
+    this.panel = this.querySelector('.header-drawer__panel');
+    this.navPanel = this.querySelector('.header-drawer__nav-panel');
+    this.editorialPanel = this.querySelector('.header-drawer__editorial-panel');
+    this.level1 = this.querySelector('.header-drawer__level--1');
+    this.scrollPosition = 0;
+    this.currentLevel = 1;
+    this.hamburger = null;
+
+    this.bindEvents();
+    this.setupLevelObserver();
+  }
+
+  bindEvents() {
+    var self = this;
+
+    /* Open toggles — delegate on document (drawer may parse before header buttons) */
+    document.addEventListener('click', function(e) {
+      var toggle = e.target.closest('[data-drawer-toggle]');
+      if (toggle) {
+        e.preventDefault();
+        self.hamburger = toggle;
+        self.open();
+      }
+    });
+
+    /* Close buttons + overlay */
+    this.querySelectorAll('[data-drawer-close]').forEach(function(btn) {
+      btn.addEventListener('click', function() { self.close(); });
+    });
+
+    var overlay = this.querySelector('.header-drawer__overlay');
+    if (overlay) {
+      overlay.addEventListener('click', function() { self.close(); });
+    }
+
+    /* Level navigation — open */
+    this.querySelectorAll('[data-open-level]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var targetId = btn.dataset.targetPanel;
+        var level = parseInt(btn.dataset.openLevel, 10);
+        var editorialIndex = btn.dataset.editorialIndex;
+
+        self.openLevel(targetId, level);
+
+        if (editorialIndex !== undefined) {
+          self.showEditorial(editorialIndex);
+        }
+      });
+    });
+
+    /* Level navigation — back */
+    this.querySelectorAll('[data-close-level]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        self.closeLevel(parseInt(btn.dataset.closeLevel, 10));
+      });
+    });
+
+    /* Escape key */
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && self.getAttribute('aria-hidden') === 'false') {
+        self.close();
+      }
+    });
+  }
+
+  /* --- Level observer: watch data-drawer-level changes and sync root data-level --- */
+  setupLevelObserver() {
+    this.updateDataLevel(1);
+  }
+
+  updateDataLevel(level) {
+    this.currentLevel = level;
+    this.setAttribute('data-level', String(level));
+
+    /* Show/hide editorial panel via CSS (driven by data-level on root) */
+  }
+
+  /* --- Open drawer --- */
+  open() {
+    this.scrollPosition = window.scrollY;
+    document.body.classList.add('drawer-open');
+    this.setAttribute('aria-hidden', 'false');
+
+    /* Close header search if open */
+    var header = document.querySelector('header-component');
+    if (header && typeof header.closeSearch === 'function') {
+      header.closeSearch();
+    }
+
+    document.querySelectorAll('[data-drawer-toggle]').forEach(function(t) {
+      t.setAttribute('aria-expanded', 'true');
+    });
+
+    /* Focus management: move focus to first link */
+    var self = this;
+    var speed = getComputedStyle(this).getPropertyValue('--drawer-speed');
+    var delay = parseInt(speed, 10) || 400;
+
+    setTimeout(function() {
+      var firstFocusable = self.querySelector(
+        '.header-drawer__level--1 a, .header-drawer__level--1 button'
+      );
+      if (firstFocusable) firstFocusable.focus();
+    }, delay);
+  }
+
+  /* --- Close drawer --- */
+  close() {
+    this.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('drawer-open');
+    window.scrollTo(0, this.scrollPosition);
+
+    document.querySelectorAll('[data-drawer-toggle]').forEach(function(t) {
+      t.setAttribute('aria-expanded', 'false');
+    });
+
+    /* Return focus to hamburger */
+    var hamburger = this.hamburger;
+    if (hamburger) {
+      setTimeout(function() { hamburger.focus(); }, 50);
+    }
+
+    /* Reset levels after transition completes */
+    var self = this;
+    var speed = getComputedStyle(this).getPropertyValue('--drawer-speed');
+    var delay = parseInt(speed, 10) || 400;
+
+    setTimeout(function() {
+      self.resetLevels();
+    }, delay + 200);
+  }
+
+  /* --- Open a sub-level --- */
+  openLevel(targetId, level) {
+    var targetPanel = this.querySelector('#' + targetId);
+    if (!targetPanel) return;
+
+    /* Shift the current level out */
+    if (level === 2 && this.level1) {
+      this.level1.classList.add('is-shifted');
+    }
+
+    if (level === 3) {
+      this.querySelectorAll('.header-drawer__level--2.is-open').forEach(function(p) {
+        p.classList.add('is-shifted');
+      });
+    }
+
+    /* Hide other panels at the same level */
+    this.querySelectorAll('.header-drawer__level--' + level).forEach(function(p) {
+      if (p.id !== targetId) {
+        p.classList.remove('is-open');
+        p.setAttribute('aria-hidden', 'true');
+      }
+    });
+
+    /* Show target */
+    targetPanel.classList.add('is-open');
+    targetPanel.setAttribute('aria-hidden', 'false');
+
+    /* Update root level attribute (drives editorial panel visibility via CSS) */
+    this.updateDataLevel(level);
+
+    /* Focus first item in new level */
+    setTimeout(function() {
+      var firstFocusable = targetPanel.querySelector('a, button');
+      if (firstFocusable) firstFocusable.focus();
+    }, 50);
+  }
+
+  /* --- Close a level (go back) --- */
+  closeLevel(level) {
+    var self = this;
+
+    this.querySelectorAll('.header-drawer__level--' + level).forEach(function(p) {
+      p.classList.remove('is-open');
+      p.setAttribute('aria-hidden', 'true');
+    });
+
+    if (level === 2 && this.level1) {
+      this.level1.classList.remove('is-shifted');
+    }
+
+    if (level === 3) {
+      this.querySelectorAll('.header-drawer__level--2').forEach(function(p) {
+        p.classList.remove('is-shifted');
+      });
+    }
+
+    /* Step data-level back */
+    this.updateDataLevel(level - 1);
+
+    /* Hide editorial images when returning to level 1 */
+    if (level - 1 < 2) {
+      this.hideAllEditorials();
+    }
+  }
+
+  /* --- Reset all levels to initial state --- */
+  resetLevels() {
+    if (this.level1) this.level1.classList.remove('is-shifted');
+
+    this.querySelectorAll(
+      '.header-drawer__level--2, .header-drawer__level--3'
+    ).forEach(function(p) {
+      p.classList.remove('is-open', 'is-shifted');
+      p.setAttribute('aria-hidden', 'true');
+    });
+
+    this.updateDataLevel(1);
+    this.hideAllEditorials();
+  }
+
+  /* --- Editorial panel: show group by index --- */
+  showEditorial(index) {
+    if (!this.editorialPanel) return;
+
+    var groups = this.editorialPanel.querySelectorAll('.drawer-luxury__editorial-group');
+    groups.forEach(function(group) {
+      group.classList.remove('is-active');
+    });
+
+    var target = this.editorialPanel.querySelector(
+      '.drawer-luxury__editorial-group[data-editorial-index="' + index + '"]'
+    );
+    if (target) {
+      target.classList.add('is-active');
+    }
+  }
+
+  hideAllEditorials() {
+    if (!this.editorialPanel) return;
+
+    this.editorialPanel.querySelectorAll('.drawer-luxury__editorial-group').forEach(function(g) {
+      g.classList.remove('is-active');
+    });
+  }
+
+  disconnectedCallback() {
+    /* Cleanup is handled by event delegation on document */
+  }
+}
+
+customElements.define('luxury-drawer', LuxuryDrawer);

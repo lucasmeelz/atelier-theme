@@ -1,0 +1,477 @@
+/* ============================================================
+   Luxury Drawer — Dior-style two-panel navigation
+   Loaded conditionally when drawer_luxury layout is active.
+   ============================================================ */
+
+/* --- CSS Variables (set on the root element) --- */
+.header-drawer--luxury {
+  --drawer-width: 370px;
+  --drawer-width-expanded: 920px;
+  --drawer-blur: 8px;
+  --drawer-speed: 400ms;
+}
+
+/* ===== OVERLAY ===== */
+
+.header-drawer--luxury .header-drawer__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(var(--drawer-blur, 8px));
+  -webkit-backdrop-filter: blur(var(--drawer-blur, 8px));
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--drawer-speed) ease, visibility var(--drawer-speed) ease;
+  pointer-events: none;
+}
+
+.header-drawer--luxury[aria-hidden="false"] .header-drawer__overlay {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* ===== PANEL (two-panel flex row) ===== */
+
+.header-drawer--luxury .header-drawer__panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: row;
+  width: var(--drawer-width);
+  max-width: 100vw;
+  background: var(--color-background, #fff);
+  transform: translateX(-100%);
+  transition: transform var(--drawer-speed) cubic-bezier(0.25, 0.1, 0.25, 1),
+              width var(--drawer-speed) cubic-bezier(0.25, 0.1, 0.25, 1);
+  will-change: transform, width;
+}
+
+.header-drawer--luxury[aria-hidden="false"] .header-drawer__panel {
+  transform: translateX(0);
+}
+
+/* Expand panel width when level 2+ is active */
+.header-drawer--luxury[data-level="2"] .header-drawer__panel,
+.header-drawer--luxury[data-level="3"] .header-drawer__panel {
+  width: var(--drawer-width-expanded);
+}
+
+/* ===== NAV PANEL (Level 1 — left side) ===== */
+
+.header-drawer__nav-panel {
+  flex: 0 0 var(--drawer-width);
+  width: var(--drawer-width);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ===== EDITORIAL PANEL (right side — visible at level 2+) ===== */
+
+.header-drawer__editorial-panel {
+  flex: 1 1 0%;
+  display: none;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  border-left: 1px solid var(--color-border, rgba(0, 0, 0, 0.08));
+}
+
+.header-drawer--luxury[data-level="2"] .header-drawer__editorial-panel,
+.header-drawer--luxury[data-level="3"] .header-drawer__editorial-panel {
+  display: block;
+}
+
+/* ===== LEVEL TRANSITIONS (horizontal slide) ===== */
+
+.header-drawer__level {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  visibility: hidden;
+  transition: transform var(--drawer-speed) cubic-bezier(0.25, 0.1, 0.25, 1),
+              visibility var(--drawer-speed) ease;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Level 1 is default visible */
+.header-drawer__level--1 {
+  position: relative;
+  transform: translateX(0);
+  visibility: visible;
+}
+
+/* When level 1 is shifted out (a deeper level is open) */
+.header-drawer__level--1.is-shifted {
+  transform: translateX(-100%);
+  visibility: hidden;
+}
+
+/* Active sub-levels slide in from right */
+.header-drawer__level.is-open {
+  transform: translateX(0);
+  visibility: visible;
+}
+
+/* Shifted sub-level (going deeper from level 2 to 3) */
+.header-drawer__level.is-shifted {
+  transform: translateX(-100%);
+  visibility: hidden;
+}
+
+/* ===== DRAWER HEADER ===== */
+
+.drawer-luxury__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--color-border, rgba(0, 0, 0, 0.08));
+  flex-shrink: 0;
+}
+
+.drawer-luxury__close {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-foreground, #1a1a1a);
+  padding: 0;
+  min-height: 44px;
+  min-width: 44px;
+  justify-content: center;
+}
+
+.drawer-luxury__close svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ===== NAV ITEMS (Dior pattern) ===== */
+
+.drawer-luxury__nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 8px 24px;
+}
+
+.drawer-luxury__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  min-height: 44px;
+  background: none;
+  border: none;
+  width: 100%;
+  cursor: pointer;
+  text-align: left;
+  color: var(--color-foreground, #1a1a1a);
+  text-decoration: none;
+  position: relative;
+}
+
+.drawer-luxury__item-label {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+}
+
+.drawer-luxury__chevron {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+  opacity: 0.5;
+  transition: opacity 300ms ease, transform 300ms ease;
+}
+
+.drawer-luxury__item:hover .drawer-luxury__chevron {
+  opacity: 1;
+  transform: translateX(2px);
+}
+
+/* Hover underline from left via ::after */
+.drawer-luxury__item::after {
+  content: '';
+  display: block;
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: currentColor;
+  transition: width 300ms cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.drawer-luxury__item:hover::after {
+  width: 100%;
+}
+
+/* ===== BACK BUTTON ===== */
+
+.drawer-luxury__back {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--color-foreground, #1a1a1a);
+  min-height: 44px;
+  width: 100%;
+  text-align: left;
+}
+
+.drawer-luxury__back svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.drawer-luxury__back:hover {
+  opacity: 0.7;
+}
+
+/* ===== "EXPLORE" LINK (top of Level 2) ===== */
+
+.drawer-luxury__explore {
+  display: inline-block;
+  margin: 4px 0 16px;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  color: var(--color-foreground, #1a1a1a);
+}
+
+.drawer-luxury__explore:hover {
+  opacity: 0.7;
+}
+
+/* ===== HIGHLIGHTS SECTION ===== */
+
+.drawer-luxury__highlights {
+  padding: 8px 0 16px;
+  border-top: 1px solid var(--color-border, rgba(0, 0, 0, 0.08));
+  margin-top: 8px;
+}
+
+.drawer-luxury__highlights-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-foreground-muted, #767676);
+  margin: 0 0 8px;
+  padding: 0;
+}
+
+.drawer-luxury__highlights-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.drawer-luxury__highlights-link {
+  display: block;
+  padding: 8px 0;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-foreground, #1a1a1a);
+  text-decoration: none;
+  min-height: 44px;
+  line-height: 28px;
+}
+
+.drawer-luxury__highlights-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ===== EDITORIAL IMAGE GRID ===== */
+
+.drawer-luxury__editorial-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  padding: 24px;
+}
+
+.drawer-luxury__editorial-card {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+  border-radius: 2px;
+}
+
+.drawer-luxury__editorial-card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 600ms cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.drawer-luxury__editorial-card:hover img {
+  transform: scale(1.03);
+}
+
+.drawer-luxury__editorial-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, transparent 100%);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1.3;
+  pointer-events: none;
+}
+
+/* Editorial groups — only show the one matching the active menu item */
+.drawer-luxury__editorial-group {
+  display: none;
+}
+
+.drawer-luxury__editorial-group.is-active {
+  display: block;
+}
+
+/* ===== DRAWER FOOTER ===== */
+
+.drawer-luxury__footer {
+  margin-top: auto;
+  padding: 24px;
+  border-top: 1px solid var(--color-border, rgba(0, 0, 0, 0.08));
+  flex-shrink: 0;
+}
+
+.drawer-luxury__footer-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.drawer-luxury__footer-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  color: var(--color-foreground, #1a1a1a);
+  text-decoration: none;
+}
+
+.drawer-luxury__footer-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.drawer-luxury__footer-link svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+/* ===== MOBILE (max-width: 989px) ===== */
+
+@media (max-width: 989px) {
+  .header-drawer--luxury .header-drawer__panel {
+    width: 100vw;
+  }
+
+  /* No width expansion on mobile */
+  .header-drawer--luxury[data-level="2"] .header-drawer__panel,
+  .header-drawer--luxury[data-level="3"] .header-drawer__panel {
+    width: 100vw;
+  }
+
+  .header-drawer__nav-panel {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+
+  /* Editorial panel hidden on mobile */
+  .header-drawer__editorial-panel {
+    display: none !important;
+  }
+}
+
+/* ===== REDUCED MOTION ===== */
+
+@media (prefers-reduced-motion: reduce) {
+  .header-drawer--luxury .header-drawer__overlay,
+  .header-drawer--luxury .header-drawer__panel,
+  .header-drawer__level,
+  .header-drawer__level--1,
+  .drawer-luxury__item::after,
+  .drawer-luxury__chevron,
+  .drawer-luxury__editorial-card img {
+    transition: none !important;
+  }
+
+  .header-drawer--luxury .header-drawer__panel,
+  .header-drawer__level,
+  .header-drawer__level--1 {
+    transform: none !important;
+  }
+
+  /* For the panel: use visibility toggle instead of slide */
+  .header-drawer--luxury[aria-hidden="true"] .header-drawer__panel {
+    visibility: hidden;
+  }
+
+  .header-drawer--luxury[aria-hidden="false"] .header-drawer__panel {
+    visibility: visible;
+  }
+
+  /* Levels: use visibility instead of transforms */
+  .header-drawer__level {
+    visibility: hidden;
+  }
+
+  .header-drawer__level--1 {
+    visibility: visible;
+  }
+
+  .header-drawer__level--1.is-shifted {
+    visibility: hidden;
+  }
+
+  .header-drawer__level.is-open {
+    visibility: visible;
+  }
+}
