@@ -26,21 +26,9 @@
 -%}
 
 {{ 'section-header.css' | asset_url | stylesheet_tag }}
-{%- if desktop_layout == 'drawer_luxury' -%}
-  {{ 'section-header-luxury.css' | asset_url | stylesheet_tag }}
-{%- endif -%}
 
 <style>
   .header__logo-image { max-width: {{ logo_width_mobile }}px; }
-
-  {%- if desktop_layout == 'drawer_luxury' -%}
-    .header-drawer--luxury {
-      --drawer-width: {{ section.settings.drawer_width }}px;
-      --drawer-width-expanded: {{ section.settings.drawer_width_expanded }}px;
-      --drawer-blur: {{ section.settings.drawer_backdrop_blur }}px;
-      --drawer-speed: 400ms;
-    }
-  {%- endif -%}
   @media screen and (min-width: 990px) {
     .header__logo-image { max-width: {{ logo_width }}px; }
   }
@@ -140,7 +128,7 @@
       </div>
 
       {%- comment -%} DESKTOP NAVIGATION {%- endcomment -%}
-      {%- if desktop_layout != 'drawer' and desktop_layout != 'drawer_luxury' -%}
+      {%- if desktop_layout != 'drawer' -%}
         <nav class="header__nav" aria-label="{{ 'header.navigation' | t }}">
           <ul class="header__nav-list" role="menubar">
             {%- for link in main_menu.links -%}
@@ -240,12 +228,6 @@
           </button>
         {%- endif -%}
 
-        {%- if section.settings.show_wishlist_icon and section.settings.wishlist_url != blank -%}
-          <a href="{{ section.settings.wishlist_url }}" class="header__icon btn--icon header__icon--desktop-only" aria-label="{{ 'header.wishlist' | t }}">
-            {%- render 'icon', name: 'heart', size: icon_size -%}
-          </a>
-        {%- endif -%}
-
         {%- if shop.customer_accounts_enabled -%}
           <a href="{{ routes.account_url }}" class="header__icon btn--icon header__icon--desktop-only" aria-label="{{ 'header.account' | t }}">
             {%- render 'icon', name: 'account', size: icon_size -%}
@@ -290,8 +272,7 @@
   transparent_logo: transparent_logo,
   show_country: show_country,
   show_language: show_language,
-  icon_size: icon_size,
-  layout: desktop_layout
+  icon_size: icon_size
 -%}
 
 <script src="{{ 'section-header.js' | asset_url }}" defer="defer"></script>
@@ -317,11 +298,10 @@
         { "value": "logo_left_nav_right", "label": "Logo left, navigation right" },
         { "value": "logo_left_nav_center", "label": "Logo left, navigation center" },
         { "value": "logo_center_nav_split", "label": "Logo center, navigation split" },
-        { "value": "drawer", "label": "Logo center, full drawer" },
-        { "value": "drawer_luxury", "label": "Luxury drawer (Dior-style)" }
+        { "value": "drawer", "label": "Logo center, full drawer" }
       ],
       "default": "logo_center_nav_split",
-      "info": "Full drawer: navigation in drawer on desktop. Luxury drawer: expanding two-panel drawer with editorial images."
+      "info": "Full drawer layout opens navigation in a drawer on desktop too."
     },
     {
       "type": "select",
@@ -347,50 +327,6 @@
       "label": "Hide when scrolling down",
       "info": "Header reappears when scrolling up.",
       "default": false
-    },
-
-    { "type": "header", "content": "Luxury drawer" },
-    {
-      "type": "paragraph",
-      "content": "These settings apply only when \"Luxury drawer\" layout is selected."
-    },
-    {
-      "type": "range",
-      "id": "drawer_width",
-      "label": "Drawer width",
-      "min": 280, "max": 450, "step": 10, "unit": "px",
-      "default": 370
-    },
-    {
-      "type": "range",
-      "id": "drawer_width_expanded",
-      "label": "Expanded drawer width (sub-menu)",
-      "min": 600, "max": 1100, "step": 20, "unit": "px",
-      "default": 920
-    },
-    {
-      "type": "range",
-      "id": "drawer_backdrop_blur",
-      "label": "Background blur",
-      "min": 0, "max": 20, "step": 1, "unit": "px",
-      "default": 8
-    },
-    {
-      "type": "checkbox",
-      "id": "show_wishlist_icon",
-      "label": "Show wishlist icon",
-      "default": false
-    },
-    {
-      "type": "url",
-      "id": "wishlist_url",
-      "label": "Wishlist link"
-    },
-    {
-      "type": "checkbox",
-      "id": "drawer_show_close_text",
-      "label": "Show \"Close\" text next to close icon",
-      "default": true
     },
 
     { "type": "header", "content": "Logo" },

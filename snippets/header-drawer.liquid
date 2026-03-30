@@ -6,24 +6,15 @@
 
 {%- liquid
   assign drawer_menu = menu
-  assign is_luxury = false
-  if layout == 'drawer_luxury'
-    assign is_luxury = true
-  endif
 -%}
 
-{%- if is_luxury -%}
-<luxury-drawer class="header-drawer header-drawer--luxury" id="header-drawer" aria-hidden="true" role="dialog" aria-modal="true" aria-label="{{ 'header.navigation' | t }}" data-level="1">
-{%- else -%}
 <header-drawer class="header-drawer" id="header-drawer" aria-hidden="true" role="dialog" aria-modal="true" aria-label="{{ 'header.navigation' | t }}">
-{%- endif -%}
   <div class="header-drawer__overlay" data-drawer-close aria-hidden="true"></div>
 
   <div class="header-drawer__panel">
 
     {%- comment -%} Drawer header {%- endcomment -%}
-    <div class="header-drawer__header{% if is_luxury %} header-drawer__header--luxury{% endif %}">
-      {%- unless is_luxury -%}
+    <div class="header-drawer__header">
         {%- if logo -%}
           <a href="{{ routes.root_url }}" class="header-drawer__logo" aria-label="{{ shop.name }}">
             <img
@@ -40,13 +31,8 @@
             {{ shop.name }}
           </a>
         {%- endif -%}
-      {%- endunless -%}
-
-      <button class="header-drawer__close{% unless is_luxury %} btn--icon{% endunless %}" data-drawer-close aria-label="{{ 'accessibility.close' | t }}">
+      <button class="header-drawer__close btn--icon" data-drawer-close aria-label="{{ 'accessibility.close' | t }}">
         {%- render 'icon', name: 'close', size: icon_size -%}
-        {%- if is_luxury and section.settings.drawer_show_close_text -%}
-          <span class="header-drawer__close-text">{{ 'header.close_drawer' | t }}</span>
-        {%- endif -%}
       </button>
     </div>
 
@@ -76,15 +62,10 @@
       </ul>
 
       {%- comment -%} Footer links (account, wishlist) {%- endcomment -%}
-      <div class="header-drawer__footer{% if is_luxury %} header-drawer__footer--luxury{% endif %}">
+      <div class="header-drawer__footer">
         {%- if shop.customer_accounts_enabled -%}
           <a href="{{ routes.account_url }}" class="header-drawer__footer-link">
             {{ 'header.account' | t }}
-          </a>
-        {%- endif -%}
-        {%- if is_luxury and section.settings.show_wishlist_icon and section.settings.wishlist_url != blank -%}
-          <a href="{{ section.settings.wishlist_url }}" class="header-drawer__footer-link">
-            {{ 'header.wishlist' | t }}
           </a>
         {%- endif -%}
       </div>
@@ -296,8 +277,4 @@
     {%- endfor -%}
 
   </div>
-{%- if is_luxury -%}
-</luxury-drawer>
-{%- else -%}
 </header-drawer>
-{%- endif -%}
