@@ -327,7 +327,7 @@
   background: none;
   color: inherit;
   font-family: var(--font-label-family);
-  font-size: var(--label-font-size);
+  font-size: max(var(--label-font-size), 13px);
   font-weight: 500;
   letter-spacing: var(--label-letter-spacing);
   text-transform: var(--label-text-transform);
