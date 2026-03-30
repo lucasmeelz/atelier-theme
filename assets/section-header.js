@@ -32,12 +32,13 @@ class HeaderComponent extends HTMLElement {
   }
 
   updateHeaderHeight() {
-    if (this.wrapper) {
-      document.documentElement.style.setProperty(
-        '--header-height',
-        this.wrapper.offsetHeight + 'px'
-      );
-    }
+    /* Measure the full header group (including announcement bar) for dropdown positioning */
+    var sectionGroup = this.closest('.shopify-section-group-header-group');
+    var totalHeight = sectionGroup ? sectionGroup.offsetHeight : (this.wrapper ? this.wrapper.offsetHeight : 0);
+    document.documentElement.style.setProperty(
+      '--header-height',
+      totalHeight + 'px'
+    );
   }
 
   /* --- Transparent header --- */

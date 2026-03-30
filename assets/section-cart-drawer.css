@@ -38,6 +38,7 @@
   flex-direction: column;
   background-color: rgb(var(--color-background));
   color: rgb(var(--color-text));
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.08);
   transform: translateX(100%);
   transition: transform var(--duration-slow) var(--ease-ecrin);
 }
