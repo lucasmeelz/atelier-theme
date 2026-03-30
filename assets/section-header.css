@@ -326,11 +326,11 @@
   border: none;
   background: none;
   color: inherit;
-  font-family: var(--font-label-family);
-  font-size: max(var(--label-font-size), 13px);
-  font-weight: 500;
-  letter-spacing: var(--label-letter-spacing);
-  text-transform: var(--label-text-transform);
+  font-family: var(--font-body-family);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: none;
   text-decoration: none;
   cursor: pointer;
   position: relative;
