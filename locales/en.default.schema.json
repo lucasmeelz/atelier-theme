@@ -783,6 +783,14 @@
       "padding_bottom": "Bottom padding",
       "preset_name": "Recently viewed"
     },
+    "featured_product": {
+      "name": "Featured product",
+      "product": "Product",
+      "buy_button": "Buy button",
+      "preset_name": "Featured product",
+      "placeholder_title": "Example product title",
+      "placeholder_text": "This area is used to describe your product details."
+    },
     "article": {
       "image_header": "Featured image",
       "show_featured_image": "Show featured image",

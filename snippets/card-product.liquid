@@ -179,20 +179,25 @@
             {%- for value in option.values -%}
               {%- liquid
                 assign swatch_color = value | downcase | replace: ' ', ''
-                assign swatch_image = value | handle | append: '.png' | file_url
                 assign swatch_style = ''
 
-                for swatch_line in settings.swatch_config
-                  assign swatch_parts = swatch_line | strip | split: ':'
-                  assign swatch_name = swatch_parts[0] | strip | downcase | replace: ' ', ''
-                  if swatch_name == swatch_color
-                    assign swatch_style = 'background-color: ' | append: swatch_parts[1] | strip
-                    break
+                if value.swatch.image
+                  assign swatch_img_url = value.swatch.image | image_url: width: 64
+                  assign swatch_style = 'background-image: url(' | append: swatch_img_url | append: '); background-size: cover; background-position: center;'
+                elsif value.swatch.color
+                  assign swatch_style = 'background-color: ' | append: value.swatch.color
+                else
+                  for swatch_line in settings.swatch_config
+                    assign swatch_parts = swatch_line | strip | split: ':'
+                    assign swatch_name = swatch_parts[0] | strip | downcase | replace: ' ', ''
+                    if swatch_name == swatch_color
+                      assign swatch_style = 'background-color: ' | append: swatch_parts[1] | strip
+                      break
+                    endif
+                  endfor
+                  if swatch_style == blank
+                    assign swatch_style = 'background-color: ' | append: value | downcase
                   endif
-                endfor
-
-                if swatch_style == blank
-                  assign swatch_style = 'background-color: ' | append: value | downcase
                 endif
               -%}
               <li class="card-product__swatch card-product__swatch--{{ settings.product_card_swatch_shape }}"

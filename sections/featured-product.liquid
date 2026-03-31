@@ -1,0 +1,230 @@
+{%- comment -%}
+  Featured Product — Standalone product section for any page
+  Supports app blocks (@app) as required by Theme Store
+{%- endcomment -%}
+
+{%- liquid
+  assign selected_product = section.settings.product
+  assign color_scheme = section.settings.color_scheme
+  assign padding_top = section.settings.padding_top
+  assign padding_bottom = section.settings.padding_bottom
+-%}
+
+{%- style -%}
+  #Section-{{ section.id }} {
+    --section-padding-top: {{ padding_top }}px;
+    --section-padding-bottom: {{ padding_bottom }}px;
+  }
+
+  .featured-product-section {
+    padding-top: var(--section-padding-top);
+    padding-bottom: var(--section-padding-bottom);
+  }
+
+  .featured-product__grid {
+    display: grid;
+    gap: 40px;
+    align-items: start;
+  }
+
+  @media screen and (min-width: 990px) {
+    .featured-product__grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+    }
+  }
+
+  .featured-product__media img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--card-border-radius, 0);
+  }
+
+  .featured-product__info {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .featured-product__vendor {
+    font-family: var(--font-label-family);
+    font-size: var(--label-font-size);
+    text-transform: var(--label-text-transform);
+    letter-spacing: var(--label-letter-spacing);
+    color: rgb(var(--color-text-subdued));
+  }
+
+  .featured-product__title {
+    margin: 0;
+  }
+
+  .featured-product__description {
+    color: rgb(var(--color-text-subdued));
+    line-height: var(--body-line-height);
+  }
+
+  .featured-product__btn {
+    align-self: start;
+    margin-top: 8px;
+  }
+{%- endstyle -%}
+
+<section
+  id="Section-{{ section.id }}"
+  class="featured-product-section color-{{ color_scheme }}"
+>
+  <div class="container">
+    {%- if selected_product != blank -%}
+      {%- assign product = selected_product -%}
+      {%- assign current_variant = product.selected_or_first_available_variant -%}
+      <div class="featured-product__grid">
+        <div class="featured-product__media">
+          {%- if product.featured_image -%}
+            {{ product.featured_image | image_url: width: 1200 | image_tag:
+              loading: 'lazy',
+              widths: '400,600,800,1000,1200',
+              sizes: '(min-width: 990px) 50vw, 100vw',
+              alt: product.featured_image.alt | default: product.title
+            }}
+          {%- else -%}
+            {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+          {%- endif -%}
+        </div>
+
+        <div class="featured-product__info">
+          {%- if product.vendor != blank -%}
+            <span class="featured-product__vendor">{{ product.vendor }}</span>
+          {%- endif -%}
+
+          <h2 class="featured-product__title h3">
+            <a href="{{ product.url }}">{{ product.title }}</a>
+          </h2>
+
+          {%- render 'price', product: product -%}
+
+          {%- if product.description != blank -%}
+            <div class="featured-product__description rte">
+              {{ product.description | strip_html | truncatewords: 40 }}
+            </div>
+          {%- endif -%}
+
+          {%- comment -%} Blocks (including @app) {%- endcomment -%}
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when '@app' -%}
+                <div {{ block.shopify_attributes }}>
+                  {% render block %}
+                </div>
+              {%- when 'buy_button' -%}
+                <div {{ block.shopify_attributes }}>
+                  {%- form 'product', product, id: 'FeaturedProductForm-{{ section.id }}' -%}
+                    <input type="hidden" name="id" value="{{ current_variant.id }}">
+                    <button
+                      type="submit"
+                      class="btn btn--primary featured-product__btn"
+                      {% unless current_variant.available %}disabled{% endunless %}
+                    >
+                      {%- if current_variant.available -%}
+                        {{ 'product.add_to_cart' | t }}
+                      {%- else -%}
+                        {{ 'product.sold_out' | t }}
+                      {%- endif -%}
+                    </button>
+
+                    {%- if block.settings.show_dynamic_checkout -%}
+                      <div class="product__dynamic-checkout">
+                        {{ form | payment_button }}
+                      </div>
+                    {%- endif -%}
+                  {%- endform -%}
+                </div>
+            {%- endcase -%}
+          {%- endfor -%}
+
+          <a href="{{ product.url }}" class="btn btn--outline featured-product__btn">
+            {{ 'product.view_full_details' | t }}
+          </a>
+        </div>
+      </div>
+
+    {%- else -%}
+      {%- comment -%} Placeholder {%- endcomment -%}
+      <div class="featured-product__grid">
+        <div class="featured-product__media">
+          {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        </div>
+        <div class="featured-product__info">
+          <h2 class="featured-product__title h3">{{ 'sections.featured_product.placeholder_title' | t }}</h2>
+          <p class="featured-product__description">{{ 'sections.featured_product.placeholder_text' | t }}</p>
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.featured_product.name",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "t:sections.featured_product.product"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.blog_posts.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "t:sections.blog_posts.padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "t:sections.blog_posts.padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "buy_button",
+      "name": "t:sections.featured_product.buy_button",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_dynamic_checkout",
+          "label": "t:sections.main_product.blocks.show_dynamic_checkout",
+          "default": true,
+          "info": "t:sections.main_product.blocks.dynamic_checkout_info"
+        }
+      ]
+    },
+    {
+      "type": "@app"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.featured_product.preset_name",
+      "blocks": [
+        { "type": "buy_button" }
+      ]
+    }
+  ]
+}
+{% endschema %}

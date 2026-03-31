@@ -56,6 +56,73 @@
     </header>
 
     {%- if search.performed -%}
+      {%- comment -%} Search Filters {%- endcomment -%}
+      {%- if search.filters.size > 0 and search.results_count > 0 -%}
+        <details class="search__filters" id="search-filters-{{ section.id }}">
+          <summary class="search__filter-toggle btn btn--outline">
+            {%- render 'icon', name: 'filter', size: 16 -%}
+            <span>{{ 'collection.filter' | t }}</span>
+          </summary>
+          <form class="search__filter-form" data-search-filters>
+            <input type="hidden" name="q" value="{{ search.terms | escape }}">
+            {%- for filter in search.filters -%}
+              <div class="search__filter-group">
+                <h3 class="search__filter-heading label">{{ filter.label }}</h3>
+                {%- case filter.type -%}
+                  {%- when 'list' -%}
+                    <ul class="search__filter-list">
+                      {%- for value in filter.values -%}
+                        <li class="search__filter-item">
+                          <label class="search__filter-checkbox">
+                            <input
+                              type="checkbox"
+                              name="{{ value.param_name }}"
+                              value="{{ value.value }}"
+                              {% if value.active %}checked{% endif %}
+                              {% if value.count == 0 and value.active == false %}disabled{% endif %}
+                            >
+                            <span>{{ value.label }} ({{ value.count }})</span>
+                          </label>
+                        </li>
+                      {%- endfor -%}
+                    </ul>
+                  {%- when 'price_range' -%}
+                    <div class="search__filter-price">
+                      <input
+                        type="number"
+                        name="{{ filter.min_value.param_name }}"
+                        value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"
+                        placeholder="{{ filter.range_min | money_without_currency | replace: ',', '' }}"
+                        min="{{ filter.range_min | money_without_currency | replace: ',', '' }}"
+                        max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                        class="search__filter-price-input"
+                      >
+                      <span>&ndash;</span>
+                      <input
+                        type="number"
+                        name="{{ filter.max_value.param_name }}"
+                        value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"
+                        placeholder="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                        min="{{ filter.range_min | money_without_currency | replace: ',', '' }}"
+                        max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                        class="search__filter-price-input"
+                      >
+                    </div>
+                {%- endcase -%}
+              </div>
+            {%- endfor -%}
+            <div class="search__filter-actions">
+              <button type="submit" class="btn btn--primary">{{ 'collection.apply' | t }}</button>
+              {%- if search.filters.size > 0 -%}
+                <a href="{{ routes.search_url }}?q={{ search.terms | url_encode }}" class="btn btn--outline">
+                  {{ 'collection.filter_clear_all' | t }}
+                </a>
+              {%- endif -%}
+            </div>
+          </form>
+        </details>
+      {%- endif -%}
+
       {%- if search.results_count == 0 -%}
         {%- comment -%} Empty State {%- endcomment -%}
         <div class="search__empty">

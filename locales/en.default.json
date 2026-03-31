@@ -107,6 +107,7 @@
       "available": "Pickup available at {{ location }}",
       "unavailable": "Pickup currently unavailable"
     },
+    "view_full_details": "View full details",
     "variant_sold_out_or_unavailable": "Variant sold out or unavailable",
     "placeholder_title": "Example product title",
     "payment_terms": "Shop Pay Installments",
@@ -347,6 +348,10 @@
     "scroll_down": "Scroll down"
   },
   "sections": {
+    "featured_product": {
+      "placeholder_title": "Example product title",
+      "placeholder_text": "This area is used to describe your product details."
+    },
     "announcement_bar": {
       "label": "Announcement",
       "close": "Close announcement"

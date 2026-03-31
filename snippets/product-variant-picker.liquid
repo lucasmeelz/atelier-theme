@@ -67,14 +67,24 @@
           </div>
 
         {%- elsif type == 'swatch' and is_color -%}
-          {%- comment -%} Color swatches {%- endcomment -%}
+          {%- comment -%} Color swatches (supports swatch.image + swatch.color) {%- endcomment -%}
           <div class="product-variant-picker__swatches product-variant-picker__swatches--{{ shape }}" role="radiogroup" aria-label="{{ option_name }}">
             {%- for value in option.values -%}
               {%- liquid
-                assign swatch_color = value | downcase | replace: ' ', ''
                 assign is_selected = false
                 if product.selected_or_first_available_variant.options[option_index] == value
                   assign is_selected = true
+                endif
+
+                assign swatch_style = ''
+                if value.swatch.image
+                  assign swatch_image = value.swatch.image | image_url: width: 100
+                  assign swatch_style = 'background-image: url(' | append: swatch_image | append: '); background-size: cover; background-position: center;'
+                elsif value.swatch.color
+                  assign swatch_style = 'background-color: ' | append: value.swatch.color | append: ';'
+                else
+                  assign swatch_color = value | downcase | replace: ' ', ''
+                  assign swatch_style = 'background-color: ' | append: swatch_color | append: ';'
                 endif
               -%}
               <label
@@ -92,7 +102,7 @@
                 >
                 <span
                   class="product-variant-picker__swatch-inner"
-                  style="background-color: {{ swatch_color }};"
+                  style="{{ swatch_style }}"
                 ></span>
               </label>
             {%- endfor -%}
