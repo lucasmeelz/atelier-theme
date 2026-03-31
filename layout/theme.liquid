@@ -15,6 +15,7 @@
 
     {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
     {{ 'component-button.css' | asset_url | stylesheet_tag }}
+    {{ 'component-quick-view.css' | asset_url | stylesheet_tag }}
 
     {%- if settings.page_transition == 'none' -%}
       <style>@view-transition { navigation: none; }</style>
@@ -43,6 +44,17 @@
     </main>
 
     {%- sections 'footer-group' -%}
+
+    <script src="{{ 'quick-view.js' | asset_url }}" defer></script>
+
+    {%- comment -%} Quick View modal (shared across pages) {%- endcomment -%}
+    <dialog class="quick-view-dialog" id="quick-view-modal" scroll-lock>
+      <div class="quick-view__inner">
+        <div class="quick-view__loading">
+          <div class="quick-view__spinner"></div>
+        </div>
+      </div>
+    </dialog>
 
     {%- comment -%} Scroll reveal animations {%- endcomment -%}
     {%- if settings.scroll_reveal != 'none' -%}

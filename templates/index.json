@@ -316,112 +316,6 @@
         "padding_top": 16,
         "padding_bottom": 16
       }
-    },
-    "atelier_process_nrMgja": {
-      "type": "atelier-process",
-      "blocks": {
-        "step_XPPpzj": {
-          "type": "step",
-          "settings": {
-            "heading": "Source",
-            "text": "We carefully select the finest raw materials from trusted artisans.",
-            "custom_number": ""
-          }
-        },
-        "step_jF4LgL": {
-          "type": "step",
-          "settings": {
-            "heading": "Craft",
-            "text": "Each piece is handcrafted with meticulous attention to detail.",
-            "custom_number": ""
-          }
-        },
-        "step_kMRf7U": {
-          "type": "step",
-          "settings": {
-            "heading": "Refine",
-            "text": "Multiple rounds of quality control ensure perfection.",
-            "custom_number": ""
-          }
-        },
-        "step_U78BMG": {
-          "type": "step",
-          "settings": {
-            "heading": "Deliver",
-            "text": "Beautifully packaged and shipped with care.",
-            "custom_number": ""
-          }
-        }
-      },
-      "block_order": [
-        "step_XPPpzj",
-        "step_jF4LgL",
-        "step_kMRf7U",
-        "step_U78BMG"
-      ],
-      "name": "t:sections.atelier_process.preset_name",
-      "settings": {
-        "heading": "Our process",
-        "subheading": "Craftsmanship",
-        "show_step_numbers": true,
-        "color_scheme": ""
-      }
-    },
-    "product_ritual_MBKKVg": {
-      "type": "product-ritual",
-      "blocks": {
-        "step_6VH9Bi": {
-          "type": "step",
-          "settings": {
-            "heading": "Cleanse",
-            "text": "Gently massage onto damp skin in circular motions.",
-            "duration": "1 min",
-            "product": ""
-          }
-        },
-        "step_8BeUbM": {
-          "type": "step",
-          "settings": {
-            "heading": "Tone",
-            "text": "Apply toner to a cotton pad and sweep across the face.",
-            "duration": "30 sec",
-            "product": ""
-          }
-        },
-        "step_frkH68": {
-          "type": "step",
-          "settings": {
-            "heading": "Step",
-            "text": "Describe how to apply or use this product.",
-            "duration": "",
-            "product": ""
-          }
-        },
-        "step_pJM9mn": {
-          "type": "step",
-          "settings": {
-            "heading": "Moisturize",
-            "text": "Warm a small amount between palms and press into skin.",
-            "duration": "1 min",
-            "product": ""
-          }
-        }
-      },
-      "block_order": [
-        "step_6VH9Bi",
-        "step_8BeUbM",
-        "step_frkH68",
-        "step_pJM9mn"
-      ],
-      "name": "t:sections.product_ritual.preset_name",
-      "settings": {
-        "heading": "The ritual",
-        "subheading": "How to use",
-        "media_position": "left",
-        "autoplay": false,
-        "autoplay_speed": 4000,
-        "color_scheme": ""
-      }
     }
   },
   "order": [
@@ -433,8 +327,6 @@
     "rich-text",
     "multicolumn",
     "newsletter",
-    "marquee_9WHVaf",
-    "atelier_process_nrMgja",
-    "product_ritual_MBKKVg"
+    "marquee_9WHVaf"
   ]
 }
