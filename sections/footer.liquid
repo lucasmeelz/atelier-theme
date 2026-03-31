@@ -196,6 +196,11 @@
         <p class="footer__copyright">
           &copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ powered_by_link }}
         </p>
+        {%- if section.settings.show_follow_on_shop -%}
+          <div class="footer__follow-on-shop">
+            {{ shop | login_button: action: 'follow' }}
+          </div>
+        {%- endif -%}
       </div>
 
       <div class="footer__bottom-right">
@@ -311,6 +316,13 @@
       "id": "show_payment_icons",
       "label": "Show payment icons",
       "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_follow_on_shop",
+      "label": "t:sections.footer.show_follow_on_shop",
+      "default": true,
+      "info": "t:sections.footer.follow_on_shop_info"
     }
   ],
   "blocks": [],

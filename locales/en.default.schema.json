@@ -433,6 +433,10 @@
       },
       "preset_name": "Multicolumn"
     },
+    "footer": {
+      "show_follow_on_shop": "Show Follow on Shop button",
+      "follow_on_shop_info": "Allow customers to follow your store on the Shop app."
+    },
     "contact_form": {
       "name": "Contact form",
       "heading": "Heading",

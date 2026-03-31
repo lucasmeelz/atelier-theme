@@ -67,6 +67,21 @@
             >
           </a>
         {% endif %}
+
+        <div id="qr-code" data-identifier="{{ gift_card.qr_identifier }}" style="margin-top: 24px;"></div>
+        <script src="{{ 'qrcode.js' | shopify_asset_url }}" defer="defer"></script>
+        <script defer="defer">
+          document.addEventListener('DOMContentLoaded', function() {
+            var el = document.getElementById('qr-code');
+            if (el && typeof QRCode !== 'undefined') {
+              new QRCode(el, {
+                text: el.dataset.identifier,
+                width: 160,
+                height: 160
+              });
+            }
+          });
+        </script>
       </div>
     </main>
   </body>
