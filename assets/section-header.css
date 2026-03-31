@@ -200,11 +200,11 @@
   .header__inner--mobile-logo_left_menu_right .header__logo { grid-column: 1; justify-self: start; }
   .header__inner--mobile-logo_left_menu_right .header__right { grid-column: 2; justify-self: end; }
 
-  /* Layout: Logo center, search + menu split */
+  /* Layout: Logo center, search + menu split — equal side columns for true centering */
   .header__inner--mobile-logo_center_split {
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: 1fr auto 1fr;
   }
-  .header__inner--mobile-logo_center_split .header__left { grid-column: 1; }
+  .header__inner--mobile-logo_center_split .header__left { grid-column: 1; justify-self: start; }
   .header__inner--mobile-logo_center_split .header__logo { grid-column: 2; justify-self: center; }
   .header__inner--mobile-logo_center_split .header__right { grid-column: 3; justify-self: end; }
 }

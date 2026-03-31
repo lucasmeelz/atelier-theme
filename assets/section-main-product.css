@@ -749,12 +749,14 @@ h3.product__title {
   }
 }
 
-.product__collapsible:not([open]) .product__collapsible-content {
-  display: none;
-}
-
 .product__collapsible-content {
-  padding: 0 0 28px;
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height var(--duration-slow, 600ms) var(--ease-ecrin, ease),
+              opacity var(--duration-base, 350ms) var(--ease-ecrin, ease),
+              padding var(--duration-base, 350ms) var(--ease-ecrin, ease);
+  padding: 0;
   font-size: 0.875rem;
   line-height: 1.7;
   color: rgb(var(--color-text-subdued, 107, 107, 107));
