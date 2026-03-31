@@ -664,11 +664,15 @@ h3.product__title {
 }
 
 .product__collapsible {
-  border-top: 1px solid rgb(var(--color-border, 226, 224, 219));
   width: 100%;
 }
 
-.product__collapsible:last-of-type {
+collapsible-details {
+  display: block;
+  border-top: 1px solid rgb(var(--color-border, 226, 224, 219));
+}
+
+collapsible-details:last-child {
   border-bottom: 1px solid rgb(var(--color-border, 226, 224, 219));
 }
 
@@ -747,10 +751,6 @@ h3.product__title {
   .product__collapsible-trigger {
     font-size: 0.8125rem;
   }
-}
-
-collapsible-details {
-  display: block;
 }
 
 .product__collapsible-content {
