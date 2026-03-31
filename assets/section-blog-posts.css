@@ -146,10 +146,4 @@
   margin-top: 40px;
 }
 
-/* --- Reduced motion --- */
-
-@media (prefers-reduced-motion: reduce) {
-  .blog-posts__card-image {
-    transition: none;
-  }
-}
+/* Hover/click transitions are never disabled per reduced-motion spec */

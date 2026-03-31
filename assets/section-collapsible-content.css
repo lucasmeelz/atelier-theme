@@ -133,14 +133,4 @@
   }
 }
 
-/* --- Reduced motion --- */
-
-@media (prefers-reduced-motion: reduce) {
-  .collapsible-content__item summary::after {
-    transition: none;
-  }
-
-  .collapsible-content__body {
-    transition: none;
-  }
-}
+/* Click/focus transitions are never disabled per reduced-motion spec */

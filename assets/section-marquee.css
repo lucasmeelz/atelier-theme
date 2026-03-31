@@ -112,18 +112,6 @@
    =================================== */
 @media (prefers-reduced-motion: reduce) {
   .marquee__track {
-    animation: none;
-    overflow: hidden;
-  }
-
-  /* Show only first copy, hide duplicates */
-  .marquee__content[aria-hidden="true"] {
-    display: none;
-  }
-
-  .marquee__content {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 4px 0;
+    animation-duration: 60s;
   }
 }

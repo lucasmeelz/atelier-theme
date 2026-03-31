@@ -183,7 +183,7 @@ a {
   text-transform: var(--label-text-transform);
   letter-spacing: var(--label-letter-spacing);
   text-decoration: none;
-  transform: translateY(-100%);
+  transform: translateY(calc(-100% - 2px));
   transition: transform var(--duration-fast) var(--ease-ecrin);
 }
 
@@ -438,8 +438,4 @@ main {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  [data-image-hover] img {
-    transition: none !important;
-  }
-}
+/* Hover transitions on images are never disabled per reduced-motion spec */

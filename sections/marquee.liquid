@@ -45,7 +45,7 @@
   style="--marquee-padding-top: {{ padding_top }}px; --marquee-padding-bottom: {{ padding_bottom }}px;"
   data-pause-on-hover="{{ pause_on_hover }}"
 >
-  <div class="marquee__track motion-auto" aria-label="{{ 'accessibility.loading' | t }}">
+  <div class="marquee__track" aria-label="{{ 'accessibility.loading' | t }}">
     {%- comment -%} Duplicate content 3x for seamless loop {%- endcomment -%}
     {%- for repeat in (1..3) -%}
       <div class="marquee__content" aria-hidden="{% if repeat > 1 %}true{% else %}false{% endif %}">

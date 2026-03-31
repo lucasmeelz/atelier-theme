@@ -18,8 +18,8 @@
   line-height: 1;
   color: rgb(var(--color-text));
   background-color: rgb(var(--color-background));
-  border-bottom: 1px solid rgb(var(--color-border));
 }
+
 
 .announcement-bar-section[hidden] {
   display: none;
