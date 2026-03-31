@@ -97,7 +97,7 @@
       <div
         id="collection-filters-{{ section.id }}"
         class="collection__filters collection__filters--{{ filter_layout }}"
-        aria-hidden="true"
+        aria-hidden="{% if filter_layout == 'sidebar' %}false{% else %}true{% endif %}"
       >
         <form id="collection-filter-form" class="collection__filter-form">
           {%- for filter in collection.filters -%}

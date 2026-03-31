@@ -191,6 +191,19 @@
   }
 }
 
+/* Show on keyboard focus */
+.card-product__quick-add-btn:focus-visible {
+  opacity: 1;
+  transform: translateY(0);
+  outline: 2px solid rgb(var(--color-accent, 184, 148, 106));
+  outline-offset: 2px;
+}
+
+.card-product__media:focus-within .card-product__quick-add-btn {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* Info section */
 .card-product__info {
   padding-block-start: 10px;
