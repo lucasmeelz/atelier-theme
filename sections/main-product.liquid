@@ -700,6 +700,72 @@
                   </div>
                 {%- endif -%}
 
+              {%- comment -%} === SIZE GUIDE MODAL === {%- endcomment -%}
+              {%- when 'size_guide' -%}
+                <div class="product__size-guide" {{ block.shopify_attributes }}>
+                  <button
+                    class="product__size-guide-btn"
+                    type="button"
+                    aria-haspopup="dialog"
+                    aria-controls="size-guide-dialog-{{ section.id }}"
+                  >
+                    {%- if block.settings.icon != 'none' -%}
+                      {%- render 'icon', name: block.settings.icon, size: 16 -%}
+                    {%- endif -%}
+                    <span>{{ block.settings.label }}</span>
+                  </button>
+
+                  {%- if block.settings.page != blank -%}
+                    <dialog class="product__size-guide-dialog" id="size-guide-dialog-{{ section.id }}" scroll-lock>
+                      <div class="product__size-guide-dialog-inner">
+                        <div class="product__size-guide-dialog-header">
+                          <h3 class="product__size-guide-dialog-title h4">{{ block.settings.label }}</h3>
+                          <button class="product__size-guide-dialog-close" type="button" aria-label="{{ 'accessibility.close' | t }}">
+                            {%- render 'icon', name: 'close', size: 20 -%}
+                          </button>
+                        </div>
+                        <div class="product__size-guide-dialog-body rte">
+                          {{ block.settings.page.content }}
+                        </div>
+                      </div>
+                    </dialog>
+                  {%- endif -%}
+                </div>
+
+              {%- comment -%} === ESTIMATED DELIVERY === {%- endcomment -%}
+              {%- when 'estimated_delivery' -%}
+                {%- if block.settings.text != blank -%}
+                  <div class="product__estimated-delivery" {{ block.shopify_attributes }}>
+                    {%- render 'icon', name: block.settings.icon, size: 18 -%}
+                    <span>{{ block.settings.text }}</span>
+                  </div>
+                {%- endif -%}
+
+              {%- comment -%} === STOCK LEVEL INDICATOR === {%- endcomment -%}
+              {%- when 'stock_level' -%}
+                {%- liquid
+                  assign current_variant = product.selected_or_first_available_variant
+                  assign threshold = block.settings.threshold
+                  assign show_count = block.settings.show_count
+                  assign inventory = current_variant.inventory_quantity
+                  assign inventory_policy = current_variant.inventory_policy
+                -%}
+                {%- if current_variant.inventory_management != blank and inventory_policy == 'deny' and inventory > 0 and inventory <= threshold -%}
+                  <div class="product__stock-level product__stock-level--low" {{ block.shopify_attributes }} data-stock-level>
+                    <span class="product__stock-dot"></span>
+                    {%- if show_count -%}
+                      <span>{{ 'product.stock_low_count' | t: count: inventory }}</span>
+                    {%- else -%}
+                      <span>{{ 'product.stock_low' | t }}</span>
+                    {%- endif -%}
+                  </div>
+                {%- elsif current_variant.inventory_management != blank and inventory_policy == 'deny' and inventory > threshold -%}
+                  <div class="product__stock-level product__stock-level--in-stock" {{ block.shopify_attributes }} data-stock-level>
+                    <span class="product__stock-dot"></span>
+                    <span>{{ 'product.in_stock' | t }}</span>
+                  </div>
+                {%- endif -%}
+
               {%- comment -%} === APP BLOCK === {%- endcomment -%}
               {%- when '@app' -%}
                 <div class="product__app-block" {{ block.shopify_attributes }}>
