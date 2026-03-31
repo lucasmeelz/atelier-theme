@@ -16,6 +16,10 @@
     {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
     {{ 'component-button.css' | asset_url | stylesheet_tag }}
 
+    {%- if settings.page_transition == 'none' -%}
+      <style>@view-transition { navigation: none; }</style>
+    {%- endif -%}
+
     {%- render 'meta-tags' -%}
 
     {{ content_for_header }}
@@ -23,6 +27,7 @@
   </head>
 
   <body
+    data-cart-type="{{ settings.cart_type }}"
     {% if settings.button_hover_effect != 'none' %}data-button-hover="{{ settings.button_hover_effect }}"{% endif %}
     {% if settings.card_hover_effect != 'none' %}data-card-hover="{{ settings.card_hover_effect }}"{% endif %}
     {% if settings.image_hover_effect != 'none' %}data-image-hover="{{ settings.image_hover_effect }}"{% endif %}

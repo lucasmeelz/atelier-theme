@@ -587,6 +587,24 @@
   },
 
   {
+    "name": "t:settings_schema.brand.name",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "t:settings_schema.brand.logo"
+      },
+      {
+        "type": "range",
+        "id": "logo_width",
+        "label": "t:settings_schema.brand.logo_width",
+        "min": 40, "max": 300, "step": 10, "unit": "px",
+        "default": 120
+      }
+    ]
+  },
+
+  {
     "name": "t:settings_schema.favicon.name",
     "settings": [
       {

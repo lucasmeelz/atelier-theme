@@ -1,70 +1,228 @@
-{% comment %}
-  This section is used in the search template to render search results for
-  products, articles, and pages.
+{%- comment -%}
+  Search — Results page with search form, product/article/page results
+  Supports: responsive grid, empty state, color scheme
+{%- endcomment -%}
 
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/search
-{% endcomment %}
+{{ 'section-search.css' | asset_url | stylesheet_tag }}
 
-<h1>{{ 'search.title' | t }}</h1>
+{%- liquid
+  assign color_scheme = section.settings.color_scheme
+  assign padding_top = section.settings.padding_top
+  assign padding_bottom = section.settings.padding_bottom
+  assign columns_desktop = section.settings.columns_desktop
+  assign show_vendor = section.settings.show_vendor
+  assign image_ratio = section.settings.image_ratio
+-%}
 
-<form action="{{ routes.search_url }}" method="get" role="search">
-  <input
-    type="search"
-    size="50"
-    name="q"
-    value="{{ search.terms | escape }}"
-    placeholder="{{ 'search.placeholder' | t }}"
-  >
-  <button type="submit">{{ 'search.submit' | t }}</button>
-</form>
+{%- style -%}
+  #Section-{{ section.id }} {
+    --section-padding-top: {{ padding_top }}px;
+    --section-padding-bottom: {{ padding_bottom }}px;
+    --search-columns: {{ columns_desktop }};
+  }
+{%- endstyle -%}
 
-{% if search.performed %}
-  {% if search.results_count == 0 %}
-    <p>{{ 'search.no_results_html' | t: terms: search.terms }}</p>
-  {% else %}
-    <p>{{ 'search.results_for_html' | t: terms: search.terms, count: search.results_count }}</p>
+<section
+  id="Section-{{ section.id }}"
+  class="search-section color-{{ color_scheme }}"
+>
+  <div class="container">
 
-    <div class="search-results">
-      {% paginate search.results by 20 %}
-        {% # Search result items may be an article, a page, or a product. %}
-        {% for result in search.results %}
-          <div class="search-result">
-            {% assign featured_image = result.featured_image | default: result.image %}
-            {% if featured_image %}
-              {% render 'image', class: 'search-result__image', image: featured_image, url: result.url, width: 400 %}
-            {% endif %}
-            <div class="search-result__content">
-              <p>
-                {{ result.title | link_to: result.url }}
-                {% if result.price %}
-                  {{ result.price | money_with_currency }}
-                {% endif %}
-              </p>
-            </div>
+    {%- comment -%} Search Form {%- endcomment -%}
+    <header class="search__header">
+      <h1 class="search__title h2">{{ 'search.title' | t }}</h1>
+
+      <form action="{{ routes.search_url }}" method="get" role="search" class="search__form">
+        <div class="search__input-wrapper">
+          <svg class="search__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="20" height="20">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input
+            type="search"
+            name="q"
+            class="search__input"
+            value="{{ search.terms | escape }}"
+            placeholder="{{ 'search.placeholder' | t }}"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+          >
+          <button type="submit" class="search__submit btn btn--primary">
+            {{ 'search.submit' | t }}
+          </button>
+        </div>
+      </form>
+    </header>
+
+    {%- if search.performed -%}
+      {%- if search.results_count == 0 -%}
+        {%- comment -%} Empty State {%- endcomment -%}
+        <div class="search__empty">
+          <p class="search__empty-text">{{ 'search.no_results' | t: terms: search.terms }}</p>
+          <a href="{{ routes.all_products_collection_url }}" class="btn btn--secondary">
+            {{ 'collection.continue_shopping' | t }}
+          </a>
+        </div>
+
+      {%- else -%}
+        {%- comment -%} Results Count {%- endcomment -%}
+        <p class="search__results-count">
+          {{ 'search.results_count' | t: terms: search.terms, count: search.results_count }}
+        </p>
+
+        {%- comment -%} Results Grid {%- endcomment -%}
+        {%- paginate search.results by 24 -%}
+          <div class="search__grid" {% if settings.stagger_products %}data-stagger-cards{% endif %}>
+            {%- for result in search.results -%}
+              <div class="search-card">
+                {%- assign featured_image = result.featured_image | default: result.image -%}
+                {%- if featured_image -%}
+                  <a href="{{ result.url }}" class="search-card__image-wrapper search-card__image-wrapper--{{ image_ratio }}" aria-label="{{ result.title }}">
+                    {{
+                      featured_image
+                      | image_url: width: 800
+                      | image_tag:
+                        class: 'search-card__image',
+                        loading: 'lazy',
+                        widths: '200, 400, 600, 800',
+                        sizes: '(min-width: 990px) calc(100vw / {{ columns_desktop }}), (min-width: 750px) 50vw, 100vw',
+                        alt: result.title
+                    }}
+                  </a>
+                {%- endif -%}
+
+                <div class="search-card__content">
+                  {%- if result.object_type -%}
+                    <span class="search-card__type">
+                      {%- case result.object_type -%}
+                        {%- when 'product' -%}{{ 'search.products' | t }}
+                        {%- when 'article' -%}{{ 'search.articles' | t }}
+                        {%- when 'page' -%}{{ 'search.pages' | t }}
+                      {%- endcase -%}
+                    </span>
+                  {%- endif -%}
+
+                  <h2 class="search-card__title h5">
+                    <a href="{{ result.url }}">{{ result.title }}</a>
+                  </h2>
+
+                  {%- if show_vendor and result.vendor -%}
+                    <span class="search-card__vendor">{{ result.vendor }}</span>
+                  {%- endif -%}
+
+                  {%- if result.price -%}
+                    <div class="search-card__price">
+                      {%- if result.compare_at_price > result.price -%}
+                        <s class="search-card__compare-price">{{ result.compare_at_price | money }}</s>
+                      {%- endif -%}
+                      <span>{{ result.price | money }}</span>
+                    </div>
+                  {%- endif -%}
+                </div>
+              </div>
+            {%- endfor -%}
           </div>
-        {% endfor %}
 
-        {{ paginate | default_pagination }}
-      {% endpaginate %}
-    </div>
-  {% endif %}
-{% endif %}
+          {%- if paginate.pages > 1 -%}
+            <nav class="search__pagination" aria-label="{{ 'accessibility.pagination' | t }}">
+              {%- if paginate.previous -%}
+                <a href="{{ paginate.previous.url }}" class="search__pagination-link" aria-label="{{ 'general.pagination.previous' | t }}">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="16" height="16">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                  </svg>
+                  {{ 'general.pagination.previous' | t }}
+                </a>
+              {%- endif -%}
 
-{% stylesheet %}
-  .search-results {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  }
-  .search-results .prev,
-  .search-results .page,
-  .search-results .next {
-    grid-column: 1 / -1;
-  }
-{% endstylesheet %}
+              <span class="search__pagination-current">
+                {{ 'general.pagination.page' | t: number: paginate.current_page }}
+              </span>
+
+              {%- if paginate.next -%}
+                <a href="{{ paginate.next.url }}" class="search__pagination-link" aria-label="{{ 'general.pagination.next' | t }}">
+                  {{ 'general.pagination.next' | t }}
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="16" height="16">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </a>
+              {%- endif -%}
+            </nav>
+          {%- endif -%}
+        {%- endpaginate -%}
+      {%- endif -%}
+    {%- endif -%}
+
+  </div>
+</section>
 
 {% schema %}
 {
   "name": "t:general.search",
-  "settings": []
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.blog_posts.layout_header"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "t:sections.blog_posts.columns_desktop",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "t:sections.blog_posts.image_ratio",
+      "options": [
+        { "value": "portrait", "label": "t:sections.blog_posts.portrait" },
+        { "value": "square", "label": "t:sections.blog_posts.square" },
+        { "value": "landscape", "label": "t:sections.blog_posts.landscape" }
+      ],
+      "default": "portrait"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "t:sections.featured_collection.show_vendor",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "t:sections.blog_posts.style_header"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.blog_posts.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "t:sections.blog_posts.padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "t:sections.blog_posts.padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 60
+    }
+  ]
 }
 {% endschema %}

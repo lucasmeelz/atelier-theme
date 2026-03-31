@@ -141,10 +141,4 @@
     }
   {%- endfor -%}
 
-  {%- comment -%} Page transition — only when enabled {%- endcomment -%}
-  {%- if settings.page_transition == 'none' -%}
-    @view-transition {
-      navigation: none;
-    }
-  {%- endif -%}
 {%- endstyle -%}

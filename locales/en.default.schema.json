@@ -143,6 +143,11 @@
       "name": "Social media",
       "accounts": "Accounts"
     },
+    "brand": {
+      "name": "Brand",
+      "logo": "Logo",
+      "logo_width": "Logo width"
+    },
     "favicon": {
       "name": "Favicon",
       "image": "Favicon image",

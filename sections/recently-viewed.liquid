@@ -87,10 +87,19 @@
 
       section.style.display = '';
 
+      function formatMoney(cents, format) {
+        var amount = (cents / 100).toFixed(2);
+        return format.replace(/\{\{\s*amount\s*\}\}/, amount)
+                     .replace(/\{\{\s*amount_no_decimals\s*\}\}/, Math.round(cents / 100))
+                     .replace(/\{\{\s*amount_with_comma_separator\s*\}\}/, amount.replace('.', ','))
+                     .replace(/\{\{\s*amount_no_decimals_with_comma_separator\s*\}\}/, Math.round(cents / 100));
+      }
+
       var imageRatio = '{{ image_ratio }}';
       var showSecondary = {{ show_secondary_image | json }};
       var showVendor = {{ show_vendor | json }};
       var columns = parseInt(section.dataset.columns, 10) || 4;
+      var moneyFormat = {{ shop.money_format | json }};
 
       /* Fetch each product and render a card */
       var fragment = document.createDocumentFragment();
@@ -104,8 +113,8 @@
             item.className = 'recently-viewed__item';
 
             var image = product.featured_image;
-            var price = (product.price / 100).toFixed(2).replace('.', ',');
-            var comparePrice = product.compare_at_price ? (product.compare_at_price / 100).toFixed(2).replace('.', ',') : null;
+            var price = formatMoney(product.price, moneyFormat);
+            var comparePrice = product.compare_at_price ? formatMoney(product.compare_at_price, moneyFormat) : null;
             var available = product.available;
 
             var ratioClass = '';
@@ -119,6 +128,9 @@
             html += '<div class="card-product__media-wrapper" ' + ratioClass + '>';
             if (image) {
               html += '<img src="' + image + '" alt="' + product.title + '" class="card-product__image card-product__image--primary" loading="lazy" width="400" height="400">';
+              if (showSecondary && product.images && product.images.length > 1) {
+                html += '<img src="' + product.images[1] + '" alt="" class="card-product__image card-product__image--secondary" loading="lazy" width="400" height="400">';
+              }
             }
             html += '</div></a>';
 
@@ -139,9 +151,9 @@
             }
             html += '<div class="card-product__price">';
             if (comparePrice) {
-              html += '<s class="card-product__price-compare">' + Shopify.currency.active + comparePrice + '</s> ';
+              html += '<s class="card-product__price-compare">' + comparePrice + '</s> ';
             }
-            html += '<span>' + Shopify.currency.active + price + '</span>';
+            html += '<span>' + price + '</span>';
             html += '</div>';
             html += '</div>'; /* close info */
             html += '</div>'; /* close card */

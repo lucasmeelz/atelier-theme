@@ -346,6 +346,10 @@
     "scroll_down": "Scroll down"
   },
   "sections": {
+    "announcement_bar": {
+      "label": "Announcement",
+      "close": "Close announcement"
+    },
     "article": {
       "back_to_blog": "Back to blog",
       "copy_link": "Copy link",
