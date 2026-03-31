@@ -56,6 +56,15 @@
                     {%- endif -%}
                     <span>{{ item.final_price | money }}</span>
                   </div>
+                  {%- if item.unit_price -%}
+                    <div class="main-cart__item-unit-price">
+                      {{ item.unit_price | money }} {{ 'product.unit_price_separator' | t }}
+                      {%- if item.unit_price_measurement.reference_value != 1 -%}
+                        {{ item.unit_price_measurement.reference_value }}
+                      {%- endif -%}
+                      {{ item.unit_price_measurement.reference_unit }}
+                    </div>
+                  {%- endif -%}
 
                   {%- comment -%} Mobile quantity + remove {%- endcomment -%}
                   <div class="main-cart__item-actions-mobile">

@@ -59,6 +59,9 @@
                 {%- if line_item.variant.title != 'Default Title' -%}
                   <br><small>{{ line_item.variant.title }}</small>
                 {%- endif -%}
+                {%- if line_item.selling_plan_allocation -%}
+                  <br><small>{{ line_item.selling_plan_allocation.selling_plan.name }}</small>
+                {%- endif -%}
               </span>
             </td>
             <td data-label="{{ 'customer.order.sku' | t }}">
@@ -70,6 +73,15 @@
                 {{ line_item.final_price | money }}
               {%- else -%}
                 {{ line_item.original_price | money }}
+              {%- endif -%}
+              {%- if line_item.unit_price -%}
+                <br><small>
+                  {{ line_item.unit_price | money }} {{ 'product.unit_price_separator' | t }}
+                  {%- if line_item.unit_price_measurement.reference_value != 1 -%}
+                    {{ line_item.unit_price_measurement.reference_value }}
+                  {%- endif -%}
+                  {{ line_item.unit_price_measurement.reference_unit }}
+                </small>
               {%- endif -%}
             </td>
             <td data-label="{{ 'customer.order.quantity' | t }}">

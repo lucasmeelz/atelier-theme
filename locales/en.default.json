@@ -97,6 +97,7 @@
     "share": "Share",
     "unit_price": "Unit price",
     "unit_price_separator": "per",
+    "selling_plan_save": "Save {{ amount }}",
     "compare_at_price": "Regular price",
     "price": "Sale price",
     "includes_tax": "Tax included.",

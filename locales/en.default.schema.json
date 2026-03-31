@@ -580,6 +580,7 @@
         "buy_buttons": "Buy buttons",
         "show_dynamic_checkout": "Show dynamic checkout button",
         "dynamic_checkout_info": "Using the payment methods available on your store, customers see their preferred option, like PayPal or Apple Pay.",
+        "show_installments": "Show Shop Pay Installments",
         "description": "Description",
         "collapsible": "Show as collapsible tab",
         "default_open": "Open by default",

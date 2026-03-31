@@ -344,6 +344,47 @@
                   {%- form 'product', product, id: 'ProductForm-{{ section.id }}', data-product-form: '' -%}
                     <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
 
+                    {%- comment -%} Selling plan selector (subscriptions) {%- endcomment -%}
+                    {%- if product.selling_plan_groups.size > 0 -%}
+                      <div class="product__selling-plan" data-selling-plan-wrapper>
+                        {%- for selling_plan_group in product.selling_plan_groups -%}
+                          <fieldset class="product__selling-plan-group">
+                            <legend class="product__selling-plan-legend label">
+                              {{ selling_plan_group.name }}
+                            </legend>
+                            <div class="product__selling-plan-options">
+                              {%- for selling_plan in selling_plan_group.selling_plans -%}
+                                <label class="product__selling-plan-option">
+                                  <input
+                                    type="radio"
+                                    name="selling_plan"
+                                    value="{{ selling_plan.id }}"
+                                    data-selling-plan-input
+                                    {% if forloop.first %}checked{% endif %}
+                                  >
+                                  <span class="product__selling-plan-label">
+                                    {{ selling_plan.name }}
+                                    {%- if selling_plan.price_adjustments.size > 0 -%}
+                                      {%- assign adjustment = selling_plan.price_adjustments[0] -%}
+                                      {%- if adjustment.value > 0 -%}
+                                        <span class="product__selling-plan-discount">
+                                          {%- if adjustment.value_type == 'percentage' -%}
+                                            ({{ 'product.selling_plan_save' | t: amount: adjustment.value | append: '%' }})
+                                          {%- elsif adjustment.value_type == 'fixed_amount' -%}
+                                            ({{ 'product.selling_plan_save' | t: amount: adjustment.value | money }})
+                                          {%- endif -%}
+                                        </span>
+                                      {%- endif -%}
+                                    {%- endif -%}
+                                  </span>
+                                </label>
+                              {%- endfor -%}
+                            </div>
+                          </fieldset>
+                        {%- endfor -%}
+                      </div>
+                    {%- endif -%}
+
                     <button
                       type="submit"
                       class="btn btn--primary btn--full product__add-to-cart"
@@ -368,6 +409,16 @@
                       </div>
                     {%- endif -%}
                   {%- endform -%}
+
+                  {%- comment -%} Shop Pay Installments {%- endcomment -%}
+                  {%- if block.settings.show_installments -%}
+                    <div class="product__installments">
+                      {%- form 'product', product, id: 'ProductInstallments-{{ section.id }}' -%}
+                        <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
+                        {{ form | payment_terms }}
+                      {%- endform -%}
+                    </div>
+                  {%- endif -%}
                 </div>
 
               {%- comment -%} === DESCRIPTION === {%- endcomment -%}
@@ -839,6 +890,12 @@
           "label": "t:sections.main_product.blocks.show_dynamic_checkout",
           "default": true,
           "info": "t:sections.main_product.blocks.dynamic_checkout_info"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_installments",
+          "label": "t:sections.main_product.blocks.show_installments",
+          "default": true
         }
       ]
     },

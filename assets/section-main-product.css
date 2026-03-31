@@ -577,6 +577,56 @@ h3.product__title {
 }
 
 /* ===================================
+   Selling Plans (Subscriptions)
+   =================================== */
+.product__selling-plan {
+  margin-bottom: 16px;
+}
+
+.product__selling-plan-group {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.product__selling-plan-legend {
+  margin-bottom: 8px;
+}
+
+.product__selling-plan-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.product__selling-plan-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: var(--body-font-size-desktop);
+}
+
+.product__selling-plan-option input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  accent-color: rgb(var(--color-text));
+  cursor: pointer;
+}
+
+.product__selling-plan-discount {
+  color: rgb(var(--color-accent));
+  font-size: 0.875em;
+}
+
+/* ===================================
+   Shop Pay Installments
+   =================================== */
+.product__installments {
+  margin-top: 8px;
+}
+
+/* ===================================
    Block: Description + Collapsible Tabs
    =================================== */
 .product__description {
