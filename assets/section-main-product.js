@@ -531,3 +531,102 @@ if (!customElements.get('before-after-slider')) {
 
   customElements.define('before-after-slider', BeforeAfterSlider);
 }
+
+/* ===================================
+   Collapsible Details — Animated
+   Wraps native <details> to add smooth open/close transitions
+   =================================== */
+if (!customElements.get('collapsible-details')) {
+  class CollapsibleDetails extends HTMLElement {
+    constructor() {
+      super();
+      this._animation = null;
+      this._isClosing = false;
+      this._isExpanding = false;
+    }
+
+    connectedCallback() {
+      this.details = this.querySelector('details');
+      this.summary = this.querySelector('summary');
+      this.content = this.querySelector('.product__collapsible-content');
+      if (!this.details || !this.summary || !this.content) return;
+
+      this._onClick = this._onClick.bind(this);
+      this.summary.addEventListener('click', this._onClick);
+    }
+
+    disconnectedCallback() {
+      if (this.summary) {
+        this.summary.removeEventListener('click', this._onClick);
+      }
+    }
+
+    _onClick(e) {
+      e.preventDefault();
+      this.details.style.overflow = 'hidden';
+
+      if (this._isClosing || !this.details.open) {
+        this._open();
+      } else if (this._isExpanding || this.details.open) {
+        this._close();
+      }
+    }
+
+    _close() {
+      this._isClosing = true;
+      const startHeight = this.details.offsetHeight + 'px';
+      const endHeight = this.summary.offsetHeight + 'px';
+
+      if (this._animation) this._animation.cancel();
+
+      this._animation = this.details.animate(
+        { height: [startHeight, endHeight] },
+        { duration: 400, easing: 'cubic-bezier(0.31, 0, 0.13, 1)' }
+      );
+
+      this.content.style.opacity = '0';
+
+      this._animation.onfinish = () => this._onCloseFinish();
+      this._animation.oncancel = () => { this._isClosing = false; };
+    }
+
+    _onCloseFinish() {
+      this.details.open = false;
+      this._isClosing = false;
+      this.details.style.height = '';
+      this.details.style.overflow = '';
+      this.content.style.opacity = '';
+    }
+
+    _open() {
+      this.details.style.height = this.details.offsetHeight + 'px';
+      this.details.open = true;
+      this._isExpanding = true;
+
+      window.requestAnimationFrame(() => {
+        const startHeight = this.details.offsetHeight + 'px';
+        const endHeight = (this.summary.offsetHeight + this.content.scrollHeight) + 'px';
+
+        if (this._animation) this._animation.cancel();
+
+        this._animation = this.details.animate(
+          { height: [startHeight, endHeight] },
+          { duration: 500, easing: 'cubic-bezier(0.31, 0, 0.13, 1)' }
+        );
+
+        this.content.style.opacity = '1';
+
+        this._animation.onfinish = () => this._onOpenFinish();
+        this._animation.oncancel = () => { this._isExpanding = false; };
+      });
+    }
+
+    _onOpenFinish() {
+      this._isExpanding = false;
+      this.details.style.height = '';
+      this.details.style.overflow = '';
+    }
+  }
+
+  customElements.define('collapsible-details', CollapsibleDetails);
+}

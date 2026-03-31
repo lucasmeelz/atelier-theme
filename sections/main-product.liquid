@@ -425,14 +425,16 @@
               {%- when 'description' -%}
                 {%- if product.description != blank -%}
                   {%- if block.settings.collapsible -%}
-                    <details class="product__collapsible" {{ block.shopify_attributes }}{% if block.settings.default_open %} open{% endif %}>
-                      <summary class="product__collapsible-trigger">
-                        {{ 'product.description' | t }}
-                      </summary>
-                      <div class="product__collapsible-content rte">
-                        {{ product.description }}
-                      </div>
-                    </details>
+                    <collapsible-details>
+                      <details class="product__collapsible" {{ block.shopify_attributes }}{% if block.settings.default_open %} open{% endif %}>
+                        <summary class="product__collapsible-trigger">
+                          {{ 'product.description' | t }}
+                        </summary>
+                        <div class="product__collapsible-content rte">
+                          {{ product.description }}
+                        </div>
+                      </details>
+                    </collapsible-details>
                   {%- else -%}
                     <div class="product__description rte" {{ block.shopify_attributes }}>
                       {{ product.description }}
@@ -449,25 +451,27 @@
                   endif
                 -%}
                 {%- if block.settings.heading != blank -%}
-                  <details class="product__collapsible" {{ block.shopify_attributes }}>
-                    {%- liquid
-                      assign has_tab_icon = false
-                      if block.settings.icon != 'none' and block.settings.icon != blank
-                        assign has_tab_icon = true
-                      endif
-                    -%}
-                    <summary class="product__collapsible-trigger">
-                      {%- if has_tab_icon -%}
-                        <span class="product__collapsible-icon">
-                          {%- render 'icon', name: block.settings.icon -%}
-                        </span>
-                      {%- endif -%}
-                      {{ block.settings.heading }}
-                    </summary>
-                    <div class="product__collapsible-content rte">
-                      {{ tab_content }}
-                    </div>
-                  </details>
+                  <collapsible-details>
+                    <details class="product__collapsible" {{ block.shopify_attributes }}>
+                      {%- liquid
+                        assign has_tab_icon = false
+                        if block.settings.icon != 'none' and block.settings.icon != blank
+                          assign has_tab_icon = true
+                        endif
+                      -%}
+                      <summary class="product__collapsible-trigger">
+                        {%- if has_tab_icon -%}
+                          <span class="product__collapsible-icon">
+                            {%- render 'icon', name: block.settings.icon -%}
+                          </span>
+                        {%- endif -%}
+                        {{ block.settings.heading }}
+                      </summary>
+                      <div class="product__collapsible-content rte">
+                        {{ tab_content }}
+                      </div>
+                    </details>
+                  </collapsible-details>
                 {%- endif -%}
 
               {%- comment -%} === SKU === {%- endcomment -%}
@@ -656,34 +660,36 @@
               {%- when 'ingredient_list' -%}
                 <div class="product__ingredients" {{ block.shopify_attributes }}>
                   {%- if block.settings.heading != blank -%}
-                    <details class="product__collapsible"{% if block.settings.default_open %} open{% endif %}>
-                      <summary class="product__collapsible-trigger">
-                        {%- if block.settings.icon != 'none' and block.settings.icon != blank -%}
-                          <span class="product__collapsible-icon">
-                            {%- render 'icon', name: block.settings.icon -%}
-                          </span>
-                        {%- endif -%}
-                        {{ block.settings.heading }}
-                      </summary>
-                      <div class="product__collapsible-content">
-                        <ul class="product__ingredients-list">
-                          {%- assign items = block.settings.ingredients | split: '|' -%}
-                          {%- for item in items -%}
-                            {%- assign parts = item | split: ':' -%}
-                            {%- assign name = parts[0] | strip -%}
-                            {%- assign desc = parts[1] | strip | default: '' -%}
-                            {%- if name != blank -%}
-                              <li class="product__ingredients-item">
-                                <span class="product__ingredients-name">{{ name }}</span>
-                                {%- if desc != blank -%}
-                                  <span class="product__ingredients-desc">{{ desc }}</span>
-                                {%- endif -%}
-                              </li>
-                            {%- endif -%}
-                          {%- endfor -%}
-                        </ul>
-                      </div>
-                    </details>
+                    <collapsible-details>
+                      <details class="product__collapsible"{% if block.settings.default_open %} open{% endif %}>
+                        <summary class="product__collapsible-trigger">
+                          {%- if block.settings.icon != 'none' and block.settings.icon != blank -%}
+                            <span class="product__collapsible-icon">
+                              {%- render 'icon', name: block.settings.icon -%}
+                            </span>
+                          {%- endif -%}
+                          {{ block.settings.heading }}
+                        </summary>
+                        <div class="product__collapsible-content">
+                          <ul class="product__ingredients-list">
+                            {%- assign items = block.settings.ingredients | split: '|' -%}
+                            {%- for item in items -%}
+                              {%- assign parts = item | split: ':' -%}
+                              {%- assign name = parts[0] | strip -%}
+                              {%- assign desc = parts[1] | strip | default: '' -%}
+                              {%- if name != blank -%}
+                                <li class="product__ingredients-item">
+                                  <span class="product__ingredients-name">{{ name }}</span>
+                                  {%- if desc != blank -%}
+                                    <span class="product__ingredients-desc">{{ desc }}</span>
+                                  {%- endif -%}
+                                </li>
+                              {%- endif -%}
+                            {%- endfor -%}
+                          </ul>
+                        </div>
+                      </details>
+                    </collapsible-details>
                   {%- endif -%}
                 </div>
 
@@ -954,6 +960,7 @@
             { "value": "checkmark", "label": "t:sections.main_product.blocks.icon_checkmark" },
             { "value": "diamond", "label": "t:sections.main_product.blocks.icon_diamond" },
             { "value": "star", "label": "t:sections.main_product.blocks.icon_star" },
+            { "value": "star-filled", "label": "t:sections.main_product.blocks.icon_star_filled" },
             { "value": "shield", "label": "t:sections.main_product.blocks.icon_shield" },
             { "value": "certified", "label": "t:sections.main_product.blocks.icon_certified" },
             { "value": "warranty", "label": "t:sections.main_product.blocks.icon_warranty" },
@@ -967,7 +974,41 @@
             { "value": "sparkle", "label": "t:sections.main_product.blocks.icon_sparkle" },
             { "value": "globe", "label": "t:sections.main_product.blocks.icon_globe" },
             { "value": "info", "label": "t:sections.main_product.blocks.icon_info" },
-            { "value": "clock", "label": "t:sections.main_product.blocks.icon_clock" }
+            { "value": "clock", "label": "t:sections.main_product.blocks.icon_clock" },
+            { "value": "palette", "label": "t:sections.main_product.blocks.icon_palette" },
+            { "value": "weight", "label": "t:sections.main_product.blocks.icon_weight" },
+            { "value": "dimensions", "label": "t:sections.main_product.blocks.icon_dimensions" },
+            { "value": "coupon", "label": "t:sections.main_product.blocks.icon_coupon" },
+            { "value": "store", "label": "t:sections.main_product.blocks.icon_store" },
+            { "value": "phone", "label": "t:sections.main_product.blocks.icon_phone" },
+            { "value": "email", "label": "t:sections.main_product.blocks.icon_email" },
+            { "value": "chat", "label": "t:sections.main_product.blocks.icon_chat" },
+            { "value": "tag", "label": "t:sections.main_product.blocks.icon_tag" },
+            { "value": "credit-card", "label": "t:sections.main_product.blocks.icon_credit_card" },
+            { "value": "fingerprint", "label": "t:sections.main_product.blocks.icon_fingerprint" },
+            { "value": "key", "label": "t:sections.main_product.blocks.icon_key" },
+            { "value": "size-guide", "label": "t:sections.main_product.blocks.icon_size_guide" },
+            { "value": "eye", "label": "t:sections.main_product.blocks.icon_eye" },
+            { "value": "compare", "label": "t:sections.main_product.blocks.icon_compare" },
+            { "value": "express", "label": "t:sections.main_product.blocks.icon_express" },
+            { "value": "box", "label": "t:sections.main_product.blocks.icon_box" },
+            { "value": "pickup", "label": "t:sections.main_product.blocks.icon_pickup" },
+            { "value": "tracking", "label": "t:sections.main_product.blocks.icon_tracking" },
+            { "value": "water-drop", "label": "t:sections.main_product.blocks.icon_water_drop" },
+            { "value": "organic", "label": "t:sections.main_product.blocks.icon_organic" },
+            { "value": "vegan", "label": "t:sections.main_product.blocks.icon_vegan" },
+            { "value": "cruelty-free", "label": "t:sections.main_product.blocks.icon_cruelty_free" },
+            { "value": "support", "label": "t:sections.main_product.blocks.icon_support" },
+            { "value": "headphones", "label": "t:sections.main_product.blocks.icon_headphones" },
+            { "value": "question", "label": "t:sections.main_product.blocks.icon_question" },
+            { "value": "calendar", "label": "t:sections.main_product.blocks.icon_calendar" },
+            { "value": "download", "label": "t:sections.main_product.blocks.icon_download" },
+            { "value": "award", "label": "t:sections.main_product.blocks.icon_award" },
+            { "value": "percent", "label": "t:sections.main_product.blocks.icon_percent" },
+            { "value": "layers", "label": "t:sections.main_product.blocks.icon_layers" },
+            { "value": "feather", "label": "t:sections.main_product.blocks.icon_feather" },
+            { "value": "sun", "label": "t:sections.main_product.blocks.icon_sun" },
+            { "value": "moon", "label": "t:sections.main_product.blocks.icon_moon" }
           ],
           "default": "none"
         }
