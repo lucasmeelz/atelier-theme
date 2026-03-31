@@ -250,6 +250,9 @@
   letter-spacing: 0.12em;
   text-transform: uppercase;
   transition: color var(--duration-fast) var(--ease-ecrin);
+  display: inline-block;
+  min-height: 24px;
+  line-height: 24px;
 }
 
 @media (hover: hover) {
