@@ -154,6 +154,14 @@
 <script>
   (function() {
     var sectionId = '{{ section.id }}';
+    var boundDocClick = null;
+    var boundDocKeydown = null;
+
+    function closeAllHotspots(section) {
+      section.querySelectorAll('.lookbook__hotspot').forEach(function(h) {
+        h.setAttribute('aria-expanded', 'false');
+      });
+    }
 
     function initLookbook() {
       var section = document.querySelector('#Section-' + sectionId);
@@ -170,40 +178,48 @@
           e.stopPropagation();
           var isOpen = hotspot.getAttribute('aria-expanded') === 'true';
 
-          /* Close all others first */
-          hotspots.forEach(function(h) {
-            h.setAttribute('aria-expanded', 'false');
-          });
+          closeAllHotspots(section);
 
           if (!isOpen) {
             hotspot.setAttribute('aria-expanded', 'true');
+            /* Focus first link in tooltip for keyboard users */
+            var firstLink = hotspot.querySelector('.lookbook__tooltip a');
+            if (firstLink) firstLink.focus();
           }
         });
       });
 
-      /* Close on click outside */
-      document.addEventListener('click', function(e) {
-        if (!e.target.closest('.lookbook__hotspot')) {
-          hotspots.forEach(function(h) {
-            h.setAttribute('aria-expanded', 'false');
-          });
-        }
-      });
+      /* Remove previous document-level listeners if re-initializing */
+      if (boundDocClick) document.removeEventListener('click', boundDocClick);
+      if (boundDocKeydown) document.removeEventListener('keydown', boundDocKeydown);
 
-      /* Close on Escape */
-      document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-          hotspots.forEach(function(h) {
-            h.setAttribute('aria-expanded', 'false');
-          });
+      boundDocClick = function(e) {
+        if (!e.target.closest('.lookbook__hotspot')) {
+          closeAllHotspots(section);
         }
-      });
+      };
+
+      boundDocKeydown = function(e) {
+        if (e.key === 'Escape') {
+          closeAllHotspots(section);
+        }
+      };
+
+      document.addEventListener('click', boundDocClick);
+      document.addEventListener('keydown', boundDocKeydown);
     }
 
     initLookbook();
 
     document.addEventListener('shopify:section:load', function(e) {
       if (e.detail.sectionId === sectionId) initLookbook();
+    });
+
+    document.addEventListener('shopify:section:unload', function(e) {
+      if (e.detail.sectionId === sectionId) {
+        if (boundDocClick) document.removeEventListener('click', boundDocClick);
+        if (boundDocKeydown) document.removeEventListener('keydown', boundDocKeydown);
+      }
     });
   })();
 </script>

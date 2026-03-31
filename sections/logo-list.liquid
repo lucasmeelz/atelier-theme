@@ -42,9 +42,10 @@
           {%- endif -%}
 
           {%- if block.settings.image != blank -%}
+            {%- assign logo_height_2x = logo_height | times: 2 -%}
             {{
               block.settings.image
-              | image_url: height: logo_height | times: 2
+              | image_url: height: logo_height_2x
               | image_tag:
                 alt: block.settings.image.alt | default: 'Logo',
                 loading: 'lazy',

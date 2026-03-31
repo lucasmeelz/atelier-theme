@@ -48,12 +48,9 @@
                 id: 'ritual-image-' | append: section.id | append: '-' | append: forloop.index0
             }}
           {%- else -%}
-            <img
-              src="{{ 'product-' | append: forloop.index | placeholder_svg_tag | split: 'src="' | last | split: '"' | first }}"
-              alt=""
-              class="product-ritual__media-image"
-              id="ritual-image-{{ section.id }}-{{ forloop.index0 }}"
-            >
+            <div class="product-ritual__media-image product-ritual__media-placeholder" id="ritual-image-{{ section.id }}-{{ forloop.index0 }}">
+              {{ 'product-' | append: forloop.index | placeholder_svg_tag: 'product-ritual__placeholder-svg' }}
+            </div>
           {%- endif -%}
         {%- endfor -%}
       </div>
@@ -134,7 +131,7 @@
 
     function initRitual() {
       var section = document.querySelector('#Section-' + sectionId);
-      if (!section) return;
+      if (!section) return function() {};
 
       var steps = Array.from(section.querySelectorAll('.product-ritual__step'));
       var images = Array.from(section.querySelectorAll('.product-ritual__media-image'));
@@ -203,12 +200,19 @@
           if (playing) stopAutoplay(); else startAutoplay();
         });
       }
+
+      /* Return cleanup function */
+      return function() { stopAutoplay(); };
     }
 
-    initRitual();
+    var cleanup = initRitual();
 
     document.addEventListener('shopify:section:load', function(e) {
-      if (e.detail.sectionId === sectionId) initRitual();
+      if (e.detail.sectionId === sectionId) cleanup = initRitual();
+    });
+
+    document.addEventListener('shopify:section:unload', function(e) {
+      if (e.detail.sectionId === sectionId && cleanup) cleanup();
     });
   })();
 </script>

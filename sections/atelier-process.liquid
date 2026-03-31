@@ -84,94 +84,66 @@
 </div>
 
 <script>
-  if (!customElements.get('atelier-scroller')) {
-    class AtelierScroller extends HTMLElement {
-      connectedCallback() {
-        this.track = this.querySelector('.atelier-process__track');
-        if (!this.track) return;
-
-        this.steps = Array.from(this.track.querySelectorAll('.atelier-process__step'));
-        this.prevBtn = this.querySelector('[data-prev]');
-        this.nextBtn = this.querySelector('[data-next]');
-        this.progressFill = this.querySelector('.atelier-process__progress-fill');
-        this.currentIndex = 0;
-
-        this._onScroll = this._debounce(this._updateState.bind(this), 100);
-        this.track.addEventListener('scroll', this._onScroll, { passive: true });
-
-        if (this.prevBtn) this.prevBtn.addEventListener('click', this._goToPrev.bind(this));
-        if (this.nextBtn) this.nextBtn.addEventListener('click', this._goToNext.bind(this));
-      }
-
-      disconnectedCallback() {
-        if (this.track) this.track.removeEventListener('scroll', this._onScroll);
-      }
-
-      _goToPrev() {
-        if (this.currentIndex > 0) this._scrollTo(this.currentIndex - 1);
-      }
-
-      _goToNext() {
-        if (this.currentIndex < this.steps.length - 1) this._scrollTo(this.currentIndex + 1);
-      }
-
-      _scrollTo(index) {
-        var step = this.steps[index];
-        if (!step) return;
-        var trackRect = this.track.getBoundingClientRect();
-        var stepRect = step.getBoundingClientRect();
-        var offset = stepRect.left - trackRect.left + this.track.scrollLeft;
-        var center = offset - (trackRect.width - stepRect.width) / 2;
-        this.track.scrollTo({ left: center, behavior: 'smooth' });
-      }
-
-      _updateState() {
-        var trackRect = this.track.getBoundingClientRect();
-        var trackCenter = trackRect.left + trackRect.width / 2;
-        var closest = 0;
-        var closestDist = Infinity;
-
-        this.steps.forEach(function(step, i) {
-          var rect = step.getBoundingClientRect();
-          var dist = Math.abs(rect.left + rect.width / 2 - trackCenter);
-          if (dist < closestDist) {
-            closestDist = dist;
-            closest = i;
-          }
-        });
-
-        this.currentIndex = closest;
-
-        if (this.prevBtn) this.prevBtn.disabled = closest === 0;
-        if (this.nextBtn) this.nextBtn.disabled = closest === this.steps.length - 1;
-
-        if (this.progressFill) {
-          var progress = ((closest + 1) / this.steps.length) * 100;
-          this.progressFill.style.width = progress + '%';
-        }
-      }
-
-      _debounce(fn, wait) {
-        var timer;
-        return function() {
-          clearTimeout(timer);
-          timer = setTimeout(fn, wait);
-        };
-      }
-    }
-
-    customElements.define('atelier-scroller', AtelierScroller);
-  }
-
-  /* Wrap section in custom element */
+  /* Initialize scroller for this section */
   (function() {
     var section = document.querySelector('#Section-{{ section.id }}');
-    if (section && !section.closest('atelier-scroller')) {
-      var wrapper = document.createElement('atelier-scroller');
-      section.parentNode.insertBefore(wrapper, section);
-      wrapper.appendChild(section);
-    }
+    if (section) initAtelierScroller(section);
+
+    document.addEventListener('shopify:section:load', function(e) {
+      if (e.detail.sectionId === '{{ section.id }}') {
+        var s = document.querySelector('#Section-{{ section.id }}');
+        if (s) initAtelierScroller(s);
+      }
+    });
   })();
+
+  function initAtelierScroller(section) {
+    var track = section.querySelector('.atelier-process__track');
+    if (!track) return;
+
+    var steps = Array.from(track.querySelectorAll('.atelier-process__step'));
+    var prevBtn = section.querySelector('[data-prev]');
+    var nextBtn = section.querySelector('[data-next]');
+    var progressFill = section.querySelector('.atelier-process__progress-fill');
+    var currentIndex = 0;
+
+    function debounce(fn, wait) {
+      var timer;
+      return function() { clearTimeout(timer); timer = setTimeout(fn, wait); };
+    }
+
+    function updateState() {
+      var trackRect = track.getBoundingClientRect();
+      var trackCenter = trackRect.left + trackRect.width / 2;
+      var closest = 0;
+      var closestDist = Infinity;
+
+      steps.forEach(function(step, i) {
+        var rect = step.getBoundingClientRect();
+        var dist = Math.abs(rect.left + rect.width / 2 - trackCenter);
+        if (dist < closestDist) { closestDist = dist; closest = i; }
+      });
+
+      currentIndex = closest;
+      if (prevBtn) prevBtn.disabled = closest === 0;
+      if (nextBtn) nextBtn.disabled = closest === steps.length - 1;
+      if (progressFill) progressFill.style.width = ((closest + 1) / steps.length) * 100 + '%';
+    }
+
+    function scrollTo(index) {
+      var step = steps[index];
+      if (!step) return;
+      var trackRect = track.getBoundingClientRect();
+      var stepRect = step.getBoundingClientRect();
+      var offset = stepRect.left - trackRect.left + track.scrollLeft;
+      var center = offset - (trackRect.width - stepRect.width) / 2;
+      track.scrollTo({ left: center, behavior: 'smooth' });
+    }
+
+    track.addEventListener('scroll', debounce(updateState, 100), { passive: true });
+    if (prevBtn) prevBtn.addEventListener('click', function() { if (currentIndex > 0) scrollTo(currentIndex - 1); });
+    if (nextBtn) nextBtn.addEventListener('click', function() { if (currentIndex < steps.length - 1) scrollTo(currentIndex + 1); });
+  }
 </script>
 
 {% schema %}

@@ -48,7 +48,17 @@
     <script src="{{ 'quick-view.js' | asset_url }}" defer></script>
 
     {%- comment -%} Quick View modal (shared across pages) {%- endcomment -%}
-    <dialog class="quick-view-dialog" id="quick-view-modal" scroll-lock>
+    <dialog
+      class="quick-view-dialog"
+      id="quick-view-modal"
+      scroll-lock
+      data-t-add-to-cart="{{ 'product.add_to_cart' | t | escape }}"
+      data-t-sold-out="{{ 'product.sold_out' | t | escape }}"
+      data-t-adding="{{ 'product.add_to_cart' | t | escape }}…"
+      data-t-close="{{ 'accessibility.close' | t | escape }}"
+      data-t-view-full="{{ 'product.view_full_details' | t | escape }}"
+      data-money-format="{{ shop.money_format | escape }}"
+    >
       <div class="quick-view__inner">
         <div class="quick-view__loading">
           <div class="quick-view__spinner"></div>
