@@ -676,18 +676,9 @@ collapsible-details:last-child {
   border-bottom: 1px solid rgb(var(--color-border, 226, 224, 219));
 }
 
-/* Spacing between product info sub-blocks */
-collapsible-details:first-child,
-collapsible-details + .product__ingredients {
-  margin-top: 8px;
-}
-
+/* Consistent spacing after collapsible group and between sub-blocks */
 collapsible-details + :not(collapsible-details),
 .product__ingredients + :not(collapsible-details) {
-  margin-top: 24px;
-}
-
-collapsible-details:last-child + :not(collapsible-details) {
   margin-top: 24px;
 }
 
