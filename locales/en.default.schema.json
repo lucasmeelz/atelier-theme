@@ -561,6 +561,27 @@
       "padding_bottom": "Bottom padding",
       "preset_name": "Newsletter"
     },
+    "product_ritual": {
+      "name": "Product ritual",
+      "heading": "Heading",
+      "subheading": "Subheading",
+      "media_position": "Media position",
+      "media_left": "Left",
+      "media_right": "Right",
+      "autoplay_header": "Autoplay",
+      "autoplay": "Enable autoplay",
+      "autoplay_info": "Automatically cycles through steps. Pauses on interaction.",
+      "autoplay_speed": "Speed between steps",
+      "color_scheme": "Color scheme",
+      "block_step": "Step",
+      "step_image": "Image",
+      "step_heading": "Heading",
+      "step_text": "Description",
+      "step_duration": "Duration",
+      "step_duration_info": "Optional. Example: 2 min",
+      "step_product": "Linked product",
+      "preset_name": "Product ritual"
+    },
     "atelier_process": {
       "name": "Atelier process",
       "heading": "Heading",

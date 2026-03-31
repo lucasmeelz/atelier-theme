@@ -1,0 +1,323 @@
+{%- comment -%}
+  Product Ritual — Interactive step-by-step usage guide
+  Clicking a step changes the main image. Optional autoplay cycles through steps.
+  Use cases: skincare routine, fragrance layering, care instructions, tasting guide
+{%- endcomment -%}
+
+{{ 'section-product-ritual.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign heading = section.settings.heading
+  assign subheading = section.settings.subheading
+  assign media_position = section.settings.media_position
+  assign autoplay = section.settings.autoplay
+  assign autoplay_speed = section.settings.autoplay_speed
+  assign color_scheme = section.settings.color_scheme
+-%}
+
+<div
+  id="Section-{{ section.id }}"
+  class="product-ritual section-spacing color-{{ color_scheme }}"
+  data-section-id="{{ section.id }}"
+>
+  <div class="container">
+    {%- if heading != blank or subheading != blank -%}
+      <div class="product-ritual__header">
+        {%- if subheading != blank -%}
+          <p class="product-ritual__subheading subheading">{{ subheading }}</p>
+        {%- endif -%}
+        {%- if heading != blank -%}
+          <h2 class="product-ritual__heading h2">{{ heading }}</h2>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="product-ritual__layout product-ritual__layout--media-{{ media_position }}">
+      {%- comment -%} Media — shows active step's image {%- endcomment -%}
+      <div class="product-ritual__media">
+        {%- for block in section.blocks -%}
+          {%- if block.settings.image != blank -%}
+            {{
+              block.settings.image
+              | image_url: width: 1200
+              | image_tag:
+                alt: block.settings.image.alt | default: block.settings.heading,
+                widths: '375, 750, 1000, 1200',
+                loading: 'lazy',
+                class: 'product-ritual__media-image',
+                id: 'ritual-image-' | append: section.id | append: '-' | append: forloop.index0
+            }}
+          {%- else -%}
+            <img
+              src="{{ 'product-' | append: forloop.index | placeholder_svg_tag | split: 'src="' | last | split: '"' | first }}"
+              alt=""
+              class="product-ritual__media-image"
+              id="ritual-image-{{ section.id }}-{{ forloop.index0 }}"
+            >
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+      {%- comment -%} Steps {%- endcomment -%}
+      <div class="product-ritual__steps-wrap">
+        <div class="product-ritual__steps" id="ritual-steps-{{ section.id }}">
+          {%- for block in section.blocks -%}
+            <div
+              class="product-ritual__step{% if forloop.first %} product-ritual__step--active{% endif %}"
+              data-step-index="{{ forloop.index0 }}"
+              role="button"
+              tabindex="0"
+              aria-label="{{ block.settings.heading }}"
+              {{ block.shopify_attributes }}
+            >
+              <span class="product-ritual__step-number">{{ forloop.index }}</span>
+              {%- if block.settings.heading != blank -%}
+                <h3 class="product-ritual__step-heading">{{ block.settings.heading }}</h3>
+              {%- endif -%}
+              {%- if block.settings.text != blank -%}
+                <p class="product-ritual__step-text">{{ block.settings.text }}</p>
+              {%- endif -%}
+              {%- if block.settings.duration != blank -%}
+                <span class="product-ritual__step-duration">
+                  {%- render 'icon', name: 'clock', size: 14 -%}
+                  {{ block.settings.duration }}
+                </span>
+              {%- endif -%}
+              {%- if block.settings.product != blank -%}
+                <a href="{{ block.settings.product.url }}" class="product-ritual__step-product">
+                  {%- if block.settings.product.featured_image -%}
+                    {{
+                      block.settings.product.featured_image
+                      | image_url: width: 56
+                      | image_tag:
+                        alt: block.settings.product.title,
+                        widths: '28, 56',
+                        loading: 'lazy',
+                        class: 'product-ritual__step-product-image'
+                    }}
+                  {%- endif -%}
+                  {{ block.settings.product.title }}
+                </a>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+
+        {%- if autoplay and section.blocks.size > 1 -%}
+          <div class="product-ritual__autoplay">
+            <button
+              class="product-ritual__autoplay-btn"
+              type="button"
+              data-autoplay-toggle
+              aria-label="{{ 'product_ritual.toggle_autoplay' | t }}"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-icon-pause style="display:none;">
+                <rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-icon-play>
+                <polygon points="5 3 19 12 5 21 5 3"/>
+              </svg>
+              <span data-autoplay-label>{{ 'product_ritual.play' | t }}</span>
+            </button>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    var sectionId = '{{ section.id }}';
+    var autoplayEnabled = {{ autoplay | json }};
+    var autoplaySpeed = {{ autoplay_speed | default: 4000 }};
+
+    function initRitual() {
+      var section = document.querySelector('#Section-' + sectionId);
+      if (!section) return;
+
+      var steps = Array.from(section.querySelectorAll('.product-ritual__step'));
+      var images = Array.from(section.querySelectorAll('.product-ritual__media-image'));
+      var autoplayBtn = section.querySelector('[data-autoplay-toggle]');
+      var playing = false;
+      var timer = null;
+      var currentIndex = 0;
+
+      function goTo(index) {
+        currentIndex = index;
+        steps.forEach(function(s, i) {
+          s.classList.toggle('product-ritual__step--active', i === index);
+        });
+        images.forEach(function(img, i) {
+          img.classList.toggle('product-ritual__media-image--active', i === index);
+        });
+      }
+
+      /* Activate first step */
+      goTo(0);
+
+      /* Click/keyboard navigation */
+      steps.forEach(function(step) {
+        step.addEventListener('click', function() {
+          goTo(parseInt(step.dataset.stepIndex, 10));
+          stopAutoplay();
+        });
+
+        step.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            goTo(parseInt(step.dataset.stepIndex, 10));
+            stopAutoplay();
+          }
+        });
+      });
+
+      /* Autoplay */
+      function startAutoplay() {
+        playing = true;
+        timer = setInterval(function() {
+          var next = (currentIndex + 1) % steps.length;
+          goTo(next);
+        }, autoplaySpeed);
+        updateAutoplayUI();
+      }
+
+      function stopAutoplay() {
+        playing = false;
+        if (timer) { clearInterval(timer); timer = null; }
+        updateAutoplayUI();
+      }
+
+      function updateAutoplayUI() {
+        if (!autoplayBtn) return;
+        var pauseIcon = autoplayBtn.querySelector('[data-icon-pause]');
+        var playIcon = autoplayBtn.querySelector('[data-icon-play]');
+        var label = autoplayBtn.querySelector('[data-autoplay-label]');
+        if (pauseIcon) pauseIcon.style.display = playing ? '' : 'none';
+        if (playIcon) playIcon.style.display = playing ? 'none' : '';
+        if (label) label.textContent = playing ? '{{ "product_ritual.pause" | t }}' : '{{ "product_ritual.play" | t }}';
+      }
+
+      if (autoplayBtn) {
+        autoplayBtn.addEventListener('click', function() {
+          if (playing) stopAutoplay(); else startAutoplay();
+        });
+      }
+    }
+
+    initRitual();
+
+    document.addEventListener('shopify:section:load', function(e) {
+      if (e.detail.sectionId === sectionId) initRitual();
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "t:sections.product_ritual.name",
+  "tag": "section",
+  "class": "section-product-ritual",
+  "disabled_on": {
+    "groups": ["header", "custom.overlay"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:sections.product_ritual.heading",
+      "default": "The ritual"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "t:sections.product_ritual.subheading",
+      "default": "How to use"
+    },
+    {
+      "type": "select",
+      "id": "media_position",
+      "label": "t:sections.product_ritual.media_position",
+      "options": [
+        { "value": "left", "label": "t:sections.product_ritual.media_left" },
+        { "value": "right", "label": "t:sections.product_ritual.media_right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.product_ritual.autoplay_header"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "t:sections.product_ritual.autoplay",
+      "info": "t:sections.product_ritual.autoplay_info",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "label": "t:sections.product_ritual.autoplay_speed",
+      "min": 2000,
+      "max": 8000,
+      "step": 500,
+      "unit": "ms",
+      "default": 4000
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.product_ritual.color_scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "t:sections.product_ritual.block_step",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.product_ritual.step_image"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:sections.product_ritual.step_heading",
+          "default": "Step"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "t:sections.product_ritual.step_text",
+          "default": "Describe how to apply or use this product."
+        },
+        {
+          "type": "text",
+          "id": "duration",
+          "label": "t:sections.product_ritual.step_duration",
+          "info": "t:sections.product_ritual.step_duration_info"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "t:sections.product_ritual.step_product"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.product_ritual.preset_name",
+      "blocks": [
+        { "type": "step", "settings": { "heading": "Cleanse", "text": "Gently massage onto damp skin in circular motions.", "duration": "1 min" } },
+        { "type": "step", "settings": { "heading": "Tone", "text": "Apply toner to a cotton pad and sweep across the face.", "duration": "30 sec" } },
+        { "type": "step", "settings": { "heading": "Moisturize", "text": "Warm a small amount between palms and press into skin.", "duration": "1 min" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
