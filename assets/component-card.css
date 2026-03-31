@@ -136,12 +136,12 @@
 
 .card-product__badge--sale {
   background-color: var(--color-sale-badge);
-  color: #fff;
+  color: rgb(var(--color-background, 255, 255, 255));
 }
 
 .card-product__badge--sold-out {
   background-color: var(--color-sold-out-badge);
-  color: #fff;
+  color: rgb(var(--color-background, 255, 255, 255));
 }
 
 /* Quick add button */

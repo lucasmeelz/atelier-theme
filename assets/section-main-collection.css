@@ -555,3 +555,26 @@ button.collection__filter-toggle.btn {
 .collection__pagination-link--next {
   border: none;
 }
+
+/* Focus-visible for interactive elements */
+.collection__filter-toggle:focus-visible {
+  outline: 2px solid rgb(var(--color-accent, 184, 148, 106));
+  outline-offset: 2px;
+}
+
+.collection__filter-checkbox:focus-visible {
+  outline: 2px solid rgb(var(--color-accent, 184, 148, 106));
+  outline-offset: 2px;
+}
+
+.collection__filter-group-title:focus-visible {
+  outline: 2px solid rgb(var(--color-accent, 184, 148, 106));
+  outline-offset: 2px;
+}
+
+/* Reduced-motion: disable autonomous filter animations */
+@media (prefers-reduced-motion: reduce) {
+  .collection__filters {
+    transition: none;
+  }
+}
