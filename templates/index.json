@@ -271,6 +271,120 @@
         "padding_bottom": 80
       }
     },
+    "split_screen_qa": {
+      "type": "split-screen",
+      "blocks": {
+        "panel_1": {
+          "type": "panel",
+          "settings": {
+            "heading": "Women",
+            "button_label": "Discover",
+            "button_link": "",
+            "overlay_opacity": 20,
+            "text_alignment": "center",
+            "text_color": "#ffffff",
+            "color_scheme": "scheme-1"
+          }
+        },
+        "panel_2": {
+          "type": "panel",
+          "settings": {
+            "heading": "Men",
+            "button_label": "Discover",
+            "button_link": "",
+            "overlay_opacity": 20,
+            "text_alignment": "center",
+            "text_color": "#ffffff",
+            "color_scheme": "scheme-1"
+          }
+        }
+      },
+      "block_order": ["panel_1", "panel_2"],
+      "settings": {
+        "reverse_panels": false,
+        "hover_effect": true
+      }
+    },
+    "logo_list_qa": {
+      "type": "logo-list",
+      "blocks": {
+        "l1": { "type": "logo", "settings": {} },
+        "l2": { "type": "logo", "settings": {} },
+        "l3": { "type": "logo", "settings": {} },
+        "l4": { "type": "logo", "settings": {} },
+        "l5": { "type": "logo", "settings": {} }
+      },
+      "block_order": ["l1", "l2", "l3", "l4", "l5"],
+      "settings": {
+        "heading": "As seen in",
+        "subheading": "Press",
+        "columns": 5,
+        "logo_height": 48,
+        "grayscale": true,
+        "show_dividers": false,
+        "color_scheme": "scheme-1"
+      }
+    },
+    "lookbook_qa": {
+      "type": "lookbook",
+      "blocks": {
+        "h1": { "type": "hotspot", "settings": { "position_x": 30, "position_y": 40 } },
+        "h2": { "type": "hotspot", "settings": { "position_x": 65, "position_y": 55 } }
+      },
+      "block_order": ["h1", "h2"],
+      "settings": {
+        "image_ratio": "landscape",
+        "overlay_opacity": 0,
+        "full_width": true,
+        "heading": "Shop the look",
+        "color_scheme": "scheme-1"
+      }
+    },
+    "countdown_qa": {
+      "type": "countdown",
+      "settings": {
+        "heading": "Limited time offer",
+        "end_date": "2026-12-31",
+        "end_time": "23:59",
+        "button_label": "Shop now",
+        "button_link": "",
+        "hide_when_expired": false,
+        "color_scheme": "scheme-1"
+      }
+    },
+    "atelier_qa": {
+      "type": "atelier-process",
+      "blocks": {
+        "s1": { "type": "step", "settings": { "heading": "Source", "text": "We carefully select the finest raw materials." } },
+        "s2": { "type": "step", "settings": { "heading": "Craft", "text": "Each piece is handcrafted with meticulous attention." } },
+        "s3": { "type": "step", "settings": { "heading": "Refine", "text": "Multiple rounds of quality control ensure perfection." } },
+        "s4": { "type": "step", "settings": { "heading": "Deliver", "text": "Beautifully packaged and shipped with care." } }
+      },
+      "block_order": ["s1", "s2", "s3", "s4"],
+      "settings": {
+        "heading": "Our process",
+        "subheading": "Craftsmanship",
+        "show_step_numbers": true,
+        "color_scheme": "scheme-1"
+      }
+    },
+    "ritual_qa": {
+      "type": "product-ritual",
+      "blocks": {
+        "r1": { "type": "step", "settings": { "heading": "Cleanse", "text": "Gently massage onto damp skin in circular motions.", "duration": "1 min" } },
+        "r2": { "type": "step", "settings": { "heading": "Tone", "text": "Apply toner to a cotton pad and sweep across the face.", "duration": "30 sec" } },
+        "r3": { "type": "step", "settings": { "heading": "Moisturize", "text": "Warm a small amount between palms and press into skin.", "duration": "1 min" } }
+      },
+      "block_order": ["r1", "r2", "r3"],
+      "settings": {
+        "heading": "The ritual",
+        "subheading": "How to use",
+        "media_position": "left",
+        "autoplay": false,
+        "autoplay_speed": 4000,
+        "color_scheme": "scheme-1"
+      }
+    },
     "marquee_9WHVaf": {
       "type": "marquee",
       "blocks": {
@@ -327,6 +441,12 @@
     "rich-text",
     "multicolumn",
     "newsletter",
+    "split_screen_qa",
+    "logo_list_qa",
+    "lookbook_qa",
+    "countdown_qa",
+    "atelier_qa",
+    "ritual_qa",
     "marquee_9WHVaf"
   ]
 }
