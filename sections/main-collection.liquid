@@ -137,12 +137,13 @@
                         <span class="collection__price-range-input-wrap">
                           <span>{{ cart.currency.symbol }}</span>
                           <input
-                            type="number"
+                            type="text"
+                            inputmode="decimal"
                             id="filter-{{ filter.param_name }}-gte"
                             name="{{ filter.min_value.param_name }}"
-                            value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"
-                            min="0"
-                            max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                            {%- if filter.min_value.value != nil and filter.min_value.value != 0 %}
+                              value="{{ filter.min_value.value | money_without_currency | strip }}"
+                            {%- endif %}
                             placeholder="0"
                           >
                         </span>
@@ -152,13 +153,14 @@
                         <span class="collection__price-range-input-wrap">
                           <span>{{ cart.currency.symbol }}</span>
                           <input
-                            type="number"
+                            type="text"
+                            inputmode="decimal"
                             id="filter-{{ filter.param_name }}-lte"
                             name="{{ filter.max_value.param_name }}"
-                            value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"
-                            min="0"
-                            max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
-                            placeholder="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                            {%- if filter.max_value.value != nil and filter.max_value.value != 0 %}
+                              value="{{ filter.max_value.value | money_without_currency | strip }}"
+                            {%- endif %}
+                            placeholder="{{ filter.range_max | money_without_currency | strip }}"
                           >
                         </span>
                       </div>
