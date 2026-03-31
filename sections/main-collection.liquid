@@ -246,39 +246,58 @@
 
     {%- comment -%} Pagination {%- endcomment -%}
     {%- if paginate.pages > 1 -%}
-      <nav class="collection__pagination" role="navigation" aria-label="{{ 'accessibility.pagination' | t }}">
-        <ul class="collection__pagination-list">
-          {%- if paginate.previous -%}
-            <li>
-              <a href="{{ paginate.previous.url }}" class="collection__pagination-link collection__pagination-link--prev" aria-label="{{ 'accessibility.previous' | t }}">
-                {%- render 'icon', name: 'chevron-left', size: 16 -%}
-              </a>
-            </li>
-          {%- endif -%}
+      {%- if section.settings.pagination_type == 'load_more' -%}
+        {%- if paginate.next -%}
+          <div class="collection__load-more">
+            <button
+              class="btn btn--outline collection__load-more-btn"
+              type="button"
+              data-next-url="{{ paginate.next.url }}"
+              data-section-id="{{ section.id }}"
+              aria-label="{{ 'collection.load_more' | t }}"
+            >
+              {{ 'collection.load_more' | t }}
+            </button>
+            <p class="collection__load-more-count">
+              {{ 'collection.showing_count' | t: current: paginate.current_offset | plus: paginate.page_size, total: paginate.items }}
+            </p>
+          </div>
+        {%- endif -%}
+      {%- else -%}
+        <nav class="collection__pagination" role="navigation" aria-label="{{ 'accessibility.pagination' | t }}">
+          <ul class="collection__pagination-list">
+            {%- if paginate.previous -%}
+              <li>
+                <a href="{{ paginate.previous.url }}" class="collection__pagination-link collection__pagination-link--prev" aria-label="{{ 'accessibility.previous' | t }}">
+                  {%- render 'icon', name: 'chevron-left', size: 16 -%}
+                </a>
+              </li>
+            {%- endif -%}
 
-          {%- for part in paginate.parts -%}
-            <li>
-              {%- if part.is_link -%}
-                <a href="{{ part.url }}" class="collection__pagination-link">{{ part.title }}</a>
-              {%- else -%}
-                {%- if part.title == paginate.current_page -%}
-                  <span class="collection__pagination-link collection__pagination-link--current" aria-current="page">{{ part.title }}</span>
+            {%- for part in paginate.parts -%}
+              <li>
+                {%- if part.is_link -%}
+                  <a href="{{ part.url }}" class="collection__pagination-link">{{ part.title }}</a>
                 {%- else -%}
-                  <span class="collection__pagination-link collection__pagination-link--gap">{{ part.title }}</span>
+                  {%- if part.title == paginate.current_page -%}
+                    <span class="collection__pagination-link collection__pagination-link--current" aria-current="page">{{ part.title }}</span>
+                  {%- else -%}
+                    <span class="collection__pagination-link collection__pagination-link--gap">{{ part.title }}</span>
+                  {%- endif -%}
                 {%- endif -%}
-              {%- endif -%}
-            </li>
-          {%- endfor -%}
+              </li>
+            {%- endfor -%}
 
-          {%- if paginate.next -%}
-            <li>
-              <a href="{{ paginate.next.url }}" class="collection__pagination-link collection__pagination-link--next" aria-label="{{ 'accessibility.next' | t }}">
-                {%- render 'icon', name: 'chevron-right', size: 16 -%}
-              </a>
-            </li>
-          {%- endif -%}
-        </ul>
-      </nav>
+            {%- if paginate.next -%}
+              <li>
+                <a href="{{ paginate.next.url }}" class="collection__pagination-link collection__pagination-link--next" aria-label="{{ 'accessibility.next' | t }}">
+                  {%- render 'icon', name: 'chevron-right', size: 16 -%}
+                </a>
+              </li>
+            {%- endif -%}
+          </ul>
+        </nav>
+      {%- endif -%}
     {%- endif -%}
 
     {%- if filter_layout == 'sidebar' -%}
@@ -526,6 +545,60 @@
 
     customElements.define('collection-filters', CollectionFilters);
   }
+
+  /* Load More button */
+  (function() {
+    document.addEventListener('click', function(e) {
+      var btn = e.target.closest('.collection__load-more-btn');
+      if (!btn) return;
+
+      var nextUrl = btn.dataset.nextUrl;
+      var sectionId = btn.dataset.sectionId;
+      if (!nextUrl || !sectionId) return;
+
+      btn.classList.add('collection__load-more-btn--loading');
+      btn.setAttribute('aria-busy', 'true');
+
+      var url = new URL(nextUrl, window.location.origin);
+      url.searchParams.set('sections', sectionId);
+
+      fetch(url.toString(), { headers: { 'Accept': 'application/json' } })
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+          var html = data[sectionId];
+          if (!html) return;
+
+          var parser = new DOMParser();
+          var doc = parser.parseFromString(html, 'text/html');
+
+          /* Append new product items to grid */
+          var grid = document.querySelector('#collection-grid-' + sectionId);
+          var newGrid = doc.querySelector('#collection-grid-' + sectionId);
+          if (grid && newGrid) {
+            var existingCount = grid.children.length;
+            Array.from(newGrid.children).forEach(function(item, i) {
+              item.style.setProperty('--stagger-index', existingCount + i);
+              grid.appendChild(item);
+            });
+          }
+
+          /* Replace load-more button with next page's or remove */
+          var newLoadMore = doc.querySelector('.collection__load-more');
+          var currentLoadMore = btn.closest('.collection__load-more');
+          if (newLoadMore && currentLoadMore) {
+            currentLoadMore.outerHTML = newLoadMore.outerHTML;
+          } else if (currentLoadMore) {
+            currentLoadMore.remove();
+          }
+
+          /* Update URL */
+          window.history.replaceState({}, '', nextUrl);
+        })
+        .catch(function() {
+          window.location.href = nextUrl;
+        });
+    });
+  })();
 </script>
 
 {% schema %}
