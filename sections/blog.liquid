@@ -61,6 +61,7 @@
 
     {%- comment -%} Articles Grid {%- endcomment -%}
     {%- paginate blog.articles by articles_per_page -%}
+      {%- capture blog_image_sizes -%}(min-width: 990px) calc(100vw / {{ columns_desktop }}), (min-width: 750px) 50vw, 100vw{%- endcapture -%}
       <div class="blog__grid" {% if settings.stagger_blog_posts %}data-stagger-cards{% endif %}>
         {%- for article in blog.articles -%}
           <article class="blog-card">
@@ -73,7 +74,7 @@
                     class: 'blog-card__image',
                     loading: 'lazy',
                     widths: '375, 550, 750, 1000, 1200',
-                    sizes: '(min-width: 990px) calc(100vw / {{ columns_desktop }}), (min-width: 750px) 50vw, 100vw',
+                    sizes: blog_image_sizes,
                     alt: article.image.alt | default: article.title
                 }}
               </a>

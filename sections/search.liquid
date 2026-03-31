@@ -72,6 +72,7 @@
         </p>
 
         {%- comment -%} Results Grid {%- endcomment -%}
+        {%- capture search_image_sizes -%}(min-width: 990px) calc(100vw / {{ columns_desktop }}), (min-width: 750px) 50vw, 100vw{%- endcapture -%}
         {%- paginate search.results by 24 -%}
           <div class="search__grid" {% if settings.stagger_products %}data-stagger-cards{% endif %}>
             {%- for result in search.results -%}
@@ -86,7 +87,7 @@
                         class: 'search-card__image',
                         loading: 'lazy',
                         widths: '200, 400, 600, 800',
-                        sizes: '(min-width: 990px) calc(100vw / {{ columns_desktop }}), (min-width: 750px) 50vw, 100vw',
+                        sizes: search_image_sizes,
                         alt: result.title
                     }}
                   </a>
