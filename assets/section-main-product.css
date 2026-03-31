@@ -676,10 +676,22 @@ collapsible-details:last-child {
   border-bottom: 1px solid rgb(var(--color-border, 226, 224, 219));
 }
 
-/* Consistent spacing after collapsible group and between sub-blocks */
-collapsible-details + :not(collapsible-details),
+/* Consistent spacing between product sub-blocks.
+   Collapsible wrappers (collapsible-details, .product__ingredients)
+   stack flush; all other blocks get 24px breathing room above. */
+collapsible-details + :not(collapsible-details):not(.product__ingredients) {
+  margin-top: 24px;
+}
+
 .product__ingredients + :not(collapsible-details) {
   margin-top: 24px;
+}
+
+/* Last collapsible group gets bottom border via last-child already;
+   ensure non-collapsible block after gets spacing too */
+.product__trust,
+.product__share {
+  margin-top: 0;
 }
 
 /* Collapsible trigger — robust approach
