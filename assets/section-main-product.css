@@ -676,6 +676,21 @@ collapsible-details:last-child {
   border-bottom: 1px solid rgb(var(--color-border, 226, 224, 219));
 }
 
+/* Spacing between product info sub-blocks */
+collapsible-details:first-child,
+collapsible-details + .product__ingredients {
+  margin-top: 8px;
+}
+
+collapsible-details + :not(collapsible-details),
+.product__ingredients + :not(collapsible-details) {
+  margin-top: 24px;
+}
+
+collapsible-details:last-child + :not(collapsible-details) {
+  margin-top: 24px;
+}
+
 /* Collapsible trigger — robust approach
    NEVER use display:flex on <summary> directly (unreliable across browsers
    and breaks inside Shopify editor iframe). Instead, <summary> is a plain
