@@ -74,7 +74,7 @@ button.collection__filter-toggle.btn {
   height: 18px;
   border-radius: 50%;
   background-color: rgb(var(--color-accent, 184, 148, 106));
-  color: #fff;
+  color: rgb(var(--color-background, 255, 255, 255));
   font-size: 0.625rem;
   font-weight: 600;
   margin-left: -4px;
@@ -119,9 +119,10 @@ button.collection__filter-toggle.btn {
   transition: border-color var(--duration-fast) var(--ease-ecrin);
 }
 
-.collection__sort-select:focus {
+.collection__sort-select:focus-visible {
   border-color: rgb(var(--color-text, 10, 10, 10));
-  outline: none;
+  outline: 2px solid rgb(var(--color-accent, 184, 148, 106));
+  outline-offset: 2px;
 }
 
 /* ===================================
