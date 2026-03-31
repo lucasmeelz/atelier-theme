@@ -561,6 +561,23 @@
       "padding_bottom": "Bottom padding",
       "preset_name": "Newsletter"
     },
+    "countdown": {
+      "name": "Countdown",
+      "heading": "Heading",
+      "message": "Description",
+      "timer_header": "Timer",
+      "end_date": "End date",
+      "end_date_info": "Format: YYYY-MM-DD (e.g. 2026-12-31)",
+      "end_time": "End time",
+      "end_time_info": "24-hour format (e.g. 23:59). Uses visitor's local time zone.",
+      "expired_message": "Expired message",
+      "hide_when_expired": "Hide section when expired",
+      "cta_header": "Call to action",
+      "button_label": "Button label",
+      "button_link": "Button link",
+      "color_scheme": "Color scheme",
+      "preset_name": "Countdown"
+    },
     "lookbook": {
       "name": "Lookbook",
       "image": "Image",
