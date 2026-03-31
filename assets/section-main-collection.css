@@ -483,6 +483,17 @@ button.collection__filter-toggle.btn {
   .collection__grid--desktop-5 { grid-template-columns: repeat(5, 1fr); }
 }
 
+/* AJAX loading state */
+.collection__grid--loading {
+  opacity: 0.4;
+  pointer-events: none;
+  transition: opacity var(--duration-base) var(--ease-ecrin);
+}
+
+collection-filters {
+  display: contents;
+}
+
 /* Empty state */
 .collection__empty {
   grid-column: 1 / -1;
