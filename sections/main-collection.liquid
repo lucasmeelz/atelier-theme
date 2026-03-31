@@ -63,27 +63,52 @@
           </p>
         </div>
 
-        {%- if show_sort -%}
+        {%- if show_sort or section.settings.show_view_toggle -%}
           <div class="collection__toolbar-right">
-            <div class="collection__sort">
-              <label for="sort-by-{{ section.id }}" class="collection__sort-label">
-                {{ 'collection.sort_by' | t }}
-              </label>
-              <select
-                id="sort-by-{{ section.id }}"
-                class="collection__sort-select"
-                aria-label="{{ 'collection.sort_by' | t }}"
-              >
-                {%- for option in collection.sort_options -%}
-                  <option
-                    value="{{ option.value }}"
-                    {% if collection.sort_by == option.value %}selected{% endif %}
-                  >
-                    {{ option.name }}
-                  </option>
-                {%- endfor -%}
-              </select>
-            </div>
+            {%- if show_sort -%}
+              <div class="collection__sort">
+                <label for="sort-by-{{ section.id }}" class="collection__sort-label">
+                  {{ 'collection.sort_by' | t }}
+                </label>
+                <select
+                  id="sort-by-{{ section.id }}"
+                  class="collection__sort-select"
+                  aria-label="{{ 'collection.sort_by' | t }}"
+                >
+                  {%- for option in collection.sort_options -%}
+                    <option
+                      value="{{ option.value }}"
+                      {% if collection.sort_by == option.value %}selected{% endif %}
+                    >
+                      {{ option.name }}
+                    </option>
+                  {%- endfor -%}
+                </select>
+              </div>
+            {%- endif -%}
+
+            {%- if section.settings.show_view_toggle -%}
+              <div class="collection__view-toggle" role="radiogroup" aria-label="{{ 'collection.view_as' | t }}">
+                <button
+                  class="collection__view-btn collection__view-btn--grid collection__view-btn--active"
+                  type="button"
+                  data-view="grid"
+                  aria-label="{{ 'collection.view_grid' | t }}"
+                  aria-pressed="true"
+                >
+                  {%- render 'icon', name: 'grid', size: 18 -%}
+                </button>
+                <button
+                  class="collection__view-btn collection__view-btn--list"
+                  type="button"
+                  data-view="list"
+                  aria-label="{{ 'collection.view_list' | t }}"
+                  aria-pressed="false"
+                >
+                  {%- render 'icon', name: 'list', size: 18 -%}
+                </button>
+              </div>
+            {%- endif -%}
           </div>
         {%- endif -%}
       </div>
@@ -442,7 +467,7 @@
         this.setAttribute('aria-busy', 'true');
 
         fetch(url.toString(), { headers: { 'Accept': 'application/json' } })
-          .then((function(res) { return res.json(); }).bind(this))
+          .then(function(res) { if (!res.ok) throw new Error(res.status); return res.json(); })
           .then((function(data) {
             var html = data[sectionId];
             if (!html) return;
@@ -545,6 +570,53 @@
 
     customElements.define('collection-filters', CollectionFilters);
   }
+
+  /* Grid/List view toggle */
+  (function() {
+    document.addEventListener('click', function(e) {
+      var btn = e.target.closest('.collection__view-btn');
+      if (!btn) return;
+
+      var view = btn.dataset.view;
+      var sectionEl = btn.closest('.main-collection');
+      if (!sectionEl) return;
+
+      var grid = sectionEl.querySelector('[class*="collection__grid"]');
+      if (!grid) return;
+
+      /* Update buttons */
+      sectionEl.querySelectorAll('.collection__view-btn').forEach(function(b) {
+        b.classList.remove('collection__view-btn--active');
+        b.setAttribute('aria-pressed', 'false');
+      });
+      btn.classList.add('collection__view-btn--active');
+      btn.setAttribute('aria-pressed', 'true');
+
+      /* Toggle grid class */
+      grid.classList.toggle('collection__grid--list-view', view === 'list');
+
+      /* Persist preference */
+      try { localStorage.setItem('ecrin-collection-view', view); } catch(e) {}
+    });
+
+    /* Restore preference on load */
+    try {
+      var saved = localStorage.getItem('ecrin-collection-view');
+      if (saved === 'list') {
+        document.querySelectorAll('.collection__grid').forEach(function(grid) {
+          grid.classList.add('collection__grid--list-view');
+        });
+        document.querySelectorAll('.collection__view-btn--list').forEach(function(btn) {
+          btn.classList.add('collection__view-btn--active');
+          btn.setAttribute('aria-pressed', 'true');
+        });
+        document.querySelectorAll('.collection__view-btn--grid').forEach(function(btn) {
+          btn.classList.remove('collection__view-btn--active');
+          btn.setAttribute('aria-pressed', 'false');
+        });
+      }
+    } catch(e) {}
+  })();
 
   /* Load More button */
   (function() {
@@ -708,6 +780,13 @@
         { "value": "load_more", "label": "t:sections.main_collection.pagination_load_more" }
       ],
       "default": "paginated"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_toggle",
+      "label": "t:sections.main_collection.show_view_toggle",
+      "info": "t:sections.main_collection.show_view_toggle_info",
+      "default": false
     },
     {
       "type": "header",
