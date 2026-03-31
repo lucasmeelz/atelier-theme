@@ -561,6 +561,26 @@
       "padding_bottom": "Bottom padding",
       "preset_name": "Newsletter"
     },
+    "lookbook": {
+      "name": "Lookbook",
+      "image": "Image",
+      "image_ratio": "Image ratio",
+      "ratio_auto": "Original",
+      "ratio_portrait": "Portrait (3:4)",
+      "ratio_square": "Square (1:1)",
+      "ratio_landscape": "Landscape (16:9)",
+      "ratio_cinematic": "Cinematic (21:9)",
+      "overlay_opacity": "Image overlay opacity",
+      "full_width": "Full width",
+      "heading": "Heading",
+      "subheading": "Subheading",
+      "color_scheme": "Color scheme",
+      "block_hotspot": "Product hotspot",
+      "product": "Product",
+      "position_x": "Horizontal position",
+      "position_y": "Vertical position",
+      "preset_name": "Lookbook"
+    },
     "marquee": {
       "name": "Scrolling text",
       "separator": "Separator between items",

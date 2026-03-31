@@ -159,6 +159,9 @@
   "collections": {
     "title": "Collections"
   },
+  "lookbook": {
+    "view_product": "View product"
+  },
   "blog": {
     "articles": "Articles",
     "read_more": "Read more",
