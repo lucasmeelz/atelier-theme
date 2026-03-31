@@ -561,6 +561,20 @@
       "padding_bottom": "Bottom padding",
       "preset_name": "Newsletter"
     },
+    "atelier_process": {
+      "name": "Atelier process",
+      "heading": "Heading",
+      "subheading": "Subheading",
+      "show_step_numbers": "Show step numbers",
+      "color_scheme": "Color scheme",
+      "block_step": "Step",
+      "step_image": "Image",
+      "step_heading": "Heading",
+      "step_text": "Description",
+      "custom_number": "Custom number",
+      "custom_number_info": "Leave blank to use automatic numbering.",
+      "preset_name": "Atelier process"
+    },
     "logo_list": {
       "name": "Logo list",
       "heading": "Heading",
