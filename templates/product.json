@@ -93,6 +93,23 @@
         "share": {
           "type": "share",
           "settings": {}
+        },
+        "size_guide_block": {
+          "type": "size_guide",
+          "settings": {
+            "label": "Size guide",
+            "page": ""
+          }
+        },
+        "estimated_delivery_block": {
+          "type": "estimated_delivery",
+          "settings": {
+            "text": "Estimated delivery: 3-5 business days"
+          }
+        },
+        "stock_level_block": {
+          "type": "stock_level",
+          "settings": {}
         }
       },
       "block_order": [
@@ -103,6 +120,9 @@
         "ingredient_list_qhJD7L",
         "product_highlights_WGkFi9",
         "variant_picker",
+        "size_guide_block",
+        "estimated_delivery_block",
+        "stock_level_block",
         "buy_buttons",
         "trust",
         "description",
