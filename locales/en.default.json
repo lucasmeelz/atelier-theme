@@ -215,7 +215,8 @@
     "expires_on": "Expires on {{ date }}",
     "use_at_checkout": "Use this gift card at checkout",
     "copy_code": "Copy code",
-    "code_copied": "Code copied"
+    "code_copied": "Code copied",
+    "continue_shopping": "Continue shopping"
   },
   "password": {
     "title": "Opening soon",

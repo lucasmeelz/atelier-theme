@@ -845,6 +845,8 @@
       "show_author": "Show author",
       "show_excerpt": "Show excerpt",
       "button_label": "Button label",
+      "layout_header": "Layout",
+      "show_tags": "Show tags",
       "style_header": "Style",
       "color_scheme": "Color scheme",
       "padding_top": "Top padding",
@@ -945,6 +947,31 @@
     },
     "main_addresses": {
       "name": "Customer addresses"
+    },
+    "list_collections": {
+      "name": "Collections list",
+      "heading": "Heading",
+      "heading_size": "Heading size",
+      "size_medium": "Medium",
+      "size_large": "Large",
+      "columns_desktop": "Columns on desktop",
+      "columns_mobile": "Columns on mobile",
+      "image_ratio": "Image ratio",
+      "ratio_portrait": "Portrait (3:4)",
+      "ratio_square": "Square (1:1)",
+      "ratio_landscape": "Landscape (4:3)",
+      "ratio_wide": "Wide (16:9)",
+      "show_product_count": "Show product count",
+      "color_scheme": "Color scheme",
+      "padding_top": "Top padding",
+      "padding_bottom": "Bottom padding"
+    },
+    "custom_section": {
+      "name": "Custom section",
+      "color_scheme": "Color scheme",
+      "padding_top": "Top padding",
+      "padding_bottom": "Bottom padding",
+      "preset_name": "Custom section"
     },
     "article": {
       "image_header": "Featured image",

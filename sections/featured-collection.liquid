@@ -30,10 +30,6 @@
   assign padding_bottom = section.settings.padding_bottom
   assign full_width = section.settings.full_width
 
-  if collection == blank
-    assign placeholder_count = products_to_show
-  endif
-
   assign show_nav = false
   if desktop_layout == 'carousel' and products_to_show > columns_desktop
     assign show_nav = true
