@@ -664,11 +664,15 @@ h3.product__title {
 }
 
 .product__collapsible {
-  border-top: 1px solid rgb(var(--color-border, 226, 224, 219));
   width: 100%;
 }
 
-.product__collapsible:last-of-type {
+collapsible-details {
+  display: block;
+  border-top: 1px solid rgb(var(--color-border, 226, 224, 219));
+}
+
+collapsible-details:last-child {
   border-bottom: 1px solid rgb(var(--color-border, 226, 224, 219));
 }
 
@@ -750,22 +754,16 @@ h3.product__title {
 }
 
 .product__collapsible-content {
-  overflow: hidden;
-  max-height: 0;
   opacity: 0;
-  transition: max-height var(--duration-slow, 600ms) var(--ease-ecrin, ease),
-              opacity var(--duration-base, 350ms) var(--ease-ecrin, ease),
-              padding var(--duration-base, 350ms) var(--ease-ecrin, ease);
-  padding: 0;
+  transition: opacity var(--duration-base, 350ms) var(--ease-ecrin, ease);
+  padding: 0 0 28px;
   font-size: 0.875rem;
   line-height: 1.7;
   color: rgb(var(--color-text-subdued, 107, 107, 107));
 }
 
 .product__collapsible[open] > .product__collapsible-content {
-  max-height: 800px;
   opacity: 1;
-  padding: 0 0 28px;
 }
 
 /* ===================================
