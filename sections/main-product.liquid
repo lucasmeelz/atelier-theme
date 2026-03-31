@@ -660,34 +660,36 @@
               {%- when 'ingredient_list' -%}
                 <div class="product__ingredients" {{ block.shopify_attributes }}>
                   {%- if block.settings.heading != blank -%}
-                    <details class="product__collapsible"{% if block.settings.default_open %} open{% endif %}>
-                      <summary class="product__collapsible-trigger">
-                        {%- if block.settings.icon != 'none' and block.settings.icon != blank -%}
-                          <span class="product__collapsible-icon">
-                            {%- render 'icon', name: block.settings.icon -%}
-                          </span>
-                        {%- endif -%}
-                        {{ block.settings.heading }}
-                      </summary>
-                      <div class="product__collapsible-content">
-                        <ul class="product__ingredients-list">
-                          {%- assign items = block.settings.ingredients | split: '|' -%}
-                          {%- for item in items -%}
-                            {%- assign parts = item | split: ':' -%}
-                            {%- assign name = parts[0] | strip -%}
-                            {%- assign desc = parts[1] | strip | default: '' -%}
-                            {%- if name != blank -%}
-                              <li class="product__ingredients-item">
-                                <span class="product__ingredients-name">{{ name }}</span>
-                                {%- if desc != blank -%}
-                                  <span class="product__ingredients-desc">{{ desc }}</span>
-                                {%- endif -%}
-                              </li>
-                            {%- endif -%}
-                          {%- endfor -%}
-                        </ul>
-                      </div>
-                    </details>
+                    <collapsible-details>
+                      <details class="product__collapsible"{% if block.settings.default_open %} open{% endif %}>
+                        <summary class="product__collapsible-trigger">
+                          {%- if block.settings.icon != 'none' and block.settings.icon != blank -%}
+                            <span class="product__collapsible-icon">
+                              {%- render 'icon', name: block.settings.icon -%}
+                            </span>
+                          {%- endif -%}
+                          {{ block.settings.heading }}
+                        </summary>
+                        <div class="product__collapsible-content">
+                          <ul class="product__ingredients-list">
+                            {%- assign items = block.settings.ingredients | split: '|' -%}
+                            {%- for item in items -%}
+                              {%- assign parts = item | split: ':' -%}
+                              {%- assign name = parts[0] | strip -%}
+                              {%- assign desc = parts[1] | strip | default: '' -%}
+                              {%- if name != blank -%}
+                                <li class="product__ingredients-item">
+                                  <span class="product__ingredients-name">{{ name }}</span>
+                                  {%- if desc != blank -%}
+                                    <span class="product__ingredients-desc">{{ desc }}</span>
+                                  {%- endif -%}
+                                </li>
+                              {%- endif -%}
+                            {%- endfor -%}
+                          </ul>
+                        </div>
+                      </details>
+                    </collapsible-details>
                   {%- endif -%}
                 </div>
 
