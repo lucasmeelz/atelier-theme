@@ -529,8 +529,16 @@ button.collection__filter-toggle.btn {
   transition: border-color var(--duration-fast, 200ms) ease, color var(--duration-fast, 200ms) ease;
 }
 
-.collection__pagination-link:hover {
+@media (hover: hover) {
+  .collection__pagination-link:hover {
+    border-color: rgb(var(--color-text, 10, 10, 10));
+  }
+}
+
+.collection__pagination-link:focus-visible {
   border-color: rgb(var(--color-text, 10, 10, 10));
+  outline: 2px solid rgb(var(--color-accent, 184, 148, 106));
+  outline-offset: 2px;
 }
 
 .collection__pagination-link--current {
