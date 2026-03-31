@@ -227,6 +227,7 @@
 
 .cart-drawer__quantity-input {
   width: 36px;
+  min-height: 36px;
   text-align: center;
   border: none;
   border-left: 1px solid rgb(var(--color-border));
@@ -282,6 +283,9 @@
 .cart-drawer__note-summary {
   cursor: pointer;
   list-style: none;
+  min-height: 36px;
+  display: flex;
+  align-items: center;
   color: rgb(var(--color-text-subdued));
 }
 
