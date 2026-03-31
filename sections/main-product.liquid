@@ -1281,6 +1281,83 @@
           "label": "t:sections.main_product.blocks.liquid_code"
         }
       ]
+    },
+    {
+      "type": "size_guide",
+      "name": "t:sections.main_product.blocks.size_guide",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "t:sections.main_product.blocks.size_guide_label",
+          "default": "Size guide"
+        },
+        {
+          "type": "page",
+          "id": "page",
+          "label": "t:sections.main_product.blocks.size_guide_page"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "t:sections.main_product.blocks.size_guide_icon",
+          "options": [
+            { "value": "none", "label": "t:sections.main_product.blocks.icon_none" },
+            { "value": "ruler", "label": "t:sections.main_product.blocks.icon_ruler" },
+            { "value": "size-guide", "label": "t:sections.main_product.blocks.icon_size_guide" }
+          ],
+          "default": "ruler"
+        }
+      ]
+    },
+    {
+      "type": "estimated_delivery",
+      "name": "t:sections.main_product.blocks.estimated_delivery",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "t:sections.main_product.blocks.delivery_text",
+          "default": "Estimated delivery: 3-5 business days"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "t:sections.main_product.blocks.delivery_icon",
+          "options": [
+            { "value": "shipping", "label": "t:sections.main_product.blocks.icon_shipping" },
+            { "value": "express", "label": "t:sections.main_product.blocks.icon_express" },
+            { "value": "box", "label": "t:sections.main_product.blocks.icon_box" },
+            { "value": "tracking", "label": "t:sections.main_product.blocks.icon_tracking" }
+          ],
+          "default": "shipping"
+        }
+      ]
+    },
+    {
+      "type": "stock_level",
+      "name": "t:sections.main_product.blocks.stock_level",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "range",
+          "id": "threshold",
+          "label": "t:sections.main_product.blocks.stock_threshold",
+          "info": "t:sections.main_product.blocks.stock_threshold_info",
+          "min": 1,
+          "max": 20,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "checkbox",
+          "id": "show_count",
+          "label": "t:sections.main_product.blocks.stock_show_count",
+          "default": true
+        }
+      ]
     }
   ],
   "settings": [
