@@ -561,6 +561,21 @@
       "padding_bottom": "Bottom padding",
       "preset_name": "Newsletter"
     },
+    "logo_list": {
+      "name": "Logo list",
+      "heading": "Heading",
+      "subheading": "Subheading",
+      "columns": "Columns on desktop",
+      "logo_height": "Logo height",
+      "grayscale": "Grayscale logos",
+      "grayscale_info": "Shows logos in grayscale. Full color appears on hover.",
+      "show_dividers": "Show dividers between logos",
+      "color_scheme": "Color scheme",
+      "block_logo": "Logo",
+      "logo_image": "Logo image",
+      "logo_link": "Link",
+      "preset_name": "Logo list"
+    },
     "countdown": {
       "name": "Countdown",
       "heading": "Heading",
