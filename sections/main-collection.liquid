@@ -97,7 +97,7 @@
       <div
         id="collection-filters-{{ section.id }}"
         class="collection__filters collection__filters--{{ filter_layout }}"
-        aria-hidden="true"
+        aria-hidden="{% if filter_layout == 'sidebar' %}false{% else %}true{% endif %}"
       >
         <form id="collection-filter-form" class="collection__filter-form">
           {%- for filter in collection.filters -%}
@@ -287,53 +287,56 @@
 {%- endpaginate -%}
 
 <script>
-  /* Sort select handler */
   (function() {
-    var sortSelect = document.querySelector('#sort-by-{{ section.id }}');
-    if (!sortSelect) return;
+    var sectionId = '{{ section.id }}';
 
-    sortSelect.addEventListener('change', function() {
-      var url = new URL(window.location.href);
-      url.searchParams.set('sort_by', this.value);
-      url.searchParams.delete('page');
-      window.location.href = url.toString();
-    });
-  })();
+    function initCollection() {
+      var sortSelect = document.querySelector('#sort-by-' + sectionId);
+      if (sortSelect) {
+        sortSelect.addEventListener('change', function() {
+          var url = new URL(window.location.href);
+          url.searchParams.set('sort_by', this.value);
+          url.searchParams.delete('page');
+          window.location.href = url.toString();
+        });
+      }
 
-  /* Filter form handler */
-  (function() {
-    var form = document.querySelector('#collection-filter-form');
-    if (!form) return;
+      var form = document.querySelector('#collection-filter-form');
+      if (form) {
+        form.addEventListener('submit', function(e) {
+          e.preventDefault();
+          var formData = new FormData(form);
+          var url = new URL(window.location.href);
 
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-      var formData = new FormData(form);
-      var url = new URL(window.location.href);
+          Array.from(url.searchParams.keys()).forEach(function(key) {
+            if (key.startsWith('filter.')) url.searchParams.delete(key);
+          });
 
-      /* Clear existing filter params */
-      Array.from(url.searchParams.keys()).forEach(function(key) {
-        if (key.startsWith('filter.')) url.searchParams.delete(key);
-      });
+          formData.forEach(function(value, key) {
+            if (value) url.searchParams.append(key, value);
+          });
 
-      /* Set new params */
-      formData.forEach(function(value, key) {
-        if (value) url.searchParams.append(key, value);
-      });
+          url.searchParams.delete('page');
+          window.location.href = url.toString();
+        });
+      }
 
-      url.searchParams.delete('page');
-      window.location.href = url.toString();
-    });
-
-    /* Filter toggle */
-    var toggle = document.querySelector('.collection__filter-toggle');
-    var filtersEl = document.querySelector('#collection-filters-{{ section.id }}');
-    if (toggle && filtersEl) {
-      toggle.addEventListener('click', function() {
-        var expanded = this.getAttribute('aria-expanded') === 'true';
-        this.setAttribute('aria-expanded', !expanded);
-        filtersEl.setAttribute('aria-hidden', expanded);
-      });
+      var toggle = document.querySelector('.collection__filter-toggle');
+      var filtersEl = document.querySelector('#collection-filters-' + sectionId);
+      if (toggle && filtersEl) {
+        toggle.addEventListener('click', function() {
+          var expanded = this.getAttribute('aria-expanded') === 'true';
+          this.setAttribute('aria-expanded', String(!expanded));
+          filtersEl.setAttribute('aria-hidden', String(expanded));
+        });
+      }
     }
+
+    initCollection();
+
+    document.addEventListener('shopify:section:load', function(e) {
+      if (e.detail.sectionId === sectionId) initCollection();
+    });
   })();
 </script>
 
