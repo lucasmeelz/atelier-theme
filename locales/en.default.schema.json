@@ -960,6 +960,9 @@
       "filter_drawer": "Drawer",
       "filter_sidebar": "Sidebar",
       "show_sort": "Enable sorting",
+      "pagination_type": "Pagination type",
+      "pagination_paginated": "Page numbers",
+      "pagination_load_more": "Load more button",
       "style_header": "Style",
       "color_scheme": "Color scheme"
     },
