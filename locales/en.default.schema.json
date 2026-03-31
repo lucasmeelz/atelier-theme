@@ -433,6 +433,13 @@
       },
       "preset_name": "Multicolumn"
     },
+    "contact_form": {
+      "name": "Contact form",
+      "heading": "Heading",
+      "text": "Description",
+      "show_phone": "Show phone field",
+      "preset_name": "Contact form"
+    },
     "newsletter": {
       "name": "Newsletter",
       "instructions": "Subscribers are added to your \"accepted marketing\" customer list.",
