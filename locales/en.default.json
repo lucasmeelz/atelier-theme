@@ -143,6 +143,8 @@
     "clear_all": "Clear all",
     "apply": "Apply",
     "results_count": "{{ count }} results",
+    "load_more": "Load more",
+    "showing_count": "Showing {{ current }} of {{ total }} products",
     "sort_options": {
       "manual": "Featured",
       "best_selling": "Best selling",
