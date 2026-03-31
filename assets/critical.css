@@ -323,15 +323,25 @@ main {
   transform: none;
 }
 
-/* Stagger children */
-.reveal.is-visible > [data-stagger] {
+/* Stagger children — auto-delay via custom property */
+.reveal [data-stagger] {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.reveal.is-visible [data-stagger] {
   animation: reveal-stagger var(--duration-slow) var(--ease-ecrin) both;
+  animation-delay: calc(var(--stagger-index, 0) * 80ms);
 }
 
 @keyframes reveal-stagger {
   from {
     opacity: 0;
     transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
   }
 }
 
@@ -346,7 +356,12 @@ main {
     transform: none;
   }
 
-  .reveal.is-visible > [data-stagger] {
+  .reveal [data-stagger] {
+    opacity: 1;
+    transform: none;
+  }
+
+  .reveal.is-visible [data-stagger] {
     animation: none;
   }
 }
