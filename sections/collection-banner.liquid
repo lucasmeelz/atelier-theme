@@ -71,7 +71,7 @@
 
 {% schema %}
 {
-  "name": "Collection banner",
+  "name": "t:sections.collection_banner.name",
   "tag": "section",
   "class": "section-collection-banner",
   "disabled_on": {
@@ -81,52 +81,52 @@
     {
       "type": "select",
       "id": "layout",
-      "label": "Layout",
+      "label": "t:sections.collection_banner.layout",
       "options": [
-        { "value": "plain", "label": "Plain (text only)" },
-        { "value": "background", "label": "Image background" },
-        { "value": "split", "label": "Image and text side by side" }
+        { "value": "plain", "label": "t:sections.collection_banner.layout_plain" },
+        { "value": "background", "label": "t:sections.collection_banner.layout_background" },
+        { "value": "split", "label": "t:sections.collection_banner.layout_split" }
       ],
       "default": "plain"
     },
     {
       "type": "checkbox",
       "id": "show_description",
-      "label": "Show collection description",
+      "label": "t:sections.collection_banner.show_description",
       "default": true
     },
     {
       "type": "select",
       "id": "title_size",
-      "label": "Title size",
+      "label": "t:sections.collection_banner.title_size",
       "options": [
-        { "value": "h1", "label": "Large" },
-        { "value": "h2", "label": "Medium" },
-        { "value": "h3", "label": "Small" }
+        { "value": "h1", "label": "t:sections.collection_banner.title_large" },
+        { "value": "h2", "label": "t:sections.collection_banner.title_medium" },
+        { "value": "h3", "label": "t:sections.collection_banner.title_small" }
       ],
       "default": "h1"
     },
     {
       "type": "range",
       "id": "overlay_opacity",
-      "label": "Image overlay opacity",
+      "label": "t:sections.collection_banner.overlay_opacity",
       "min": 0,
       "max": 80,
       "step": 5,
       "unit": "%",
       "default": 30,
-      "info": "Only applies to image background layout."
+      "info": "t:sections.collection_banner.overlay_opacity_info"
     },
     {
       "type": "color_scheme",
       "id": "color_scheme",
-      "label": "Color scheme",
+      "label": "t:sections.collection_banner.color_scheme",
       "default": "scheme-1"
     }
   ],
   "presets": [
     {
-      "name": "Collection banner"
+      "name": "t:sections.collection_banner.preset_name"
     }
   ]
 }

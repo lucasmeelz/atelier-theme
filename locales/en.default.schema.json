@@ -175,6 +175,75 @@
     "skip_to_content": "Skip to content"
   },
   "sections": {
+    "header": {
+      "color_scheme": "Color scheme",
+      "layout_header": "Layout",
+      "desktop_layout": "Desktop layout",
+      "layout_logo_left_nav_right": "Logo left, navigation right",
+      "layout_logo_left_nav_center": "Logo left, navigation center",
+      "layout_logo_center_nav_split": "Logo center, navigation split",
+      "layout_drawer": "Logo center, full drawer",
+      "desktop_layout_info": "Full drawer layout opens navigation in a drawer on desktop too.",
+      "mobile_layout": "Mobile layout",
+      "mobile_logo_left_menu_right": "Logo left, menu right",
+      "mobile_logo_center_split": "Logo center, search and menu split",
+      "sticky_header": "Sticky behavior",
+      "enable_sticky": "Enable sticky header",
+      "hide_on_scroll": "Hide when scrolling down",
+      "hide_on_scroll_info": "Header reappears when scrolling up.",
+      "logo_header": "Logo",
+      "logo": "Logo image",
+      "logo_info": "SVG or PNG with transparent background recommended.",
+      "logo_width": "Logo width on desktop",
+      "logo_width_mobile": "Logo width on mobile",
+      "transparent_logo": "Logo for transparent header",
+      "transparent_logo_info": "Usually a white version of your logo.",
+      "navigation_header": "Navigation",
+      "menu": "Main menu",
+      "menu_open_trigger": "Open desktop menu on",
+      "menu_hover": "Hover",
+      "menu_click": "Click",
+      "transparent_header_header": "Transparent header",
+      "enable_transparent": "Enable transparent header",
+      "enable_transparent_info": "Header sits on top of the first section when enabled.",
+      "transparent_text_color": "Text and icon color",
+      "search_header": "Search",
+      "show_search": "Show search icon",
+      "country_language_header": "Country and language",
+      "show_country_selector": "Show country/region selector",
+      "show_country_flag": "Show country flag",
+      "show_locale_selector": "Show language selector",
+      "icons_header": "Icons",
+      "icon_size": "Icon size",
+      "announcement_header": "Announcement bar",
+      "show_announcement": "Show announcement bar",
+      "announcement_text": "Announcement text",
+      "announcement_link": "Announcement link",
+      "announcement_color_scheme": "Announcement color scheme",
+      "blocks": {
+        "mega_menu": "Mega menu",
+        "menu_item": "Navigation item",
+        "menu_item_info": "Enter the exact name of the navigation item. This block adds promo images to that item's dropdown.",
+        "promo_1_header": "Promo image 1",
+        "promo_2_header": "Promo image 2",
+        "promo_3_header": "Promo image 3",
+        "promo_image": "Image",
+        "promo_image_info": "800 x 1000px recommended",
+        "promo_heading": "Heading",
+        "promo_subheading": "Subheading",
+        "promo_link": "Link",
+        "promo_layout": "Promo images layout",
+        "promo_layout_1": "1 large image",
+        "promo_layout_2": "2 images side by side",
+        "promo_layout_3": "3 images",
+        "promo_ratio": "Image ratio",
+        "ratio_portrait": "Portrait (3:4)",
+        "ratio_tall_portrait": "Tall portrait (4:5)",
+        "ratio_square": "Square (1:1)",
+        "ratio_landscape": "Landscape (4:3)",
+        "ratio_wide": "Wide (16:9)"
+      }
+    },
     "hero": {
       "name": "Hero banner",
       "media": "Media",
@@ -434,6 +503,25 @@
       "preset_name": "Multicolumn"
     },
     "footer": {
+      "color_scheme": "Color scheme",
+      "brand_header": "Brand",
+      "logo": "Logo image",
+      "logo_width": "Logo width",
+      "tagline": "Tagline",
+      "show_social": "Show social media icons",
+      "navigation_header": "Navigation",
+      "footer_menu_1": "Footer menu 1",
+      "footer_menu_1_heading": "Footer menu 1 heading",
+      "footer_menu_2": "Footer menu 2",
+      "footer_menu_2_heading": "Footer menu 2 heading",
+      "newsletter_header": "Newsletter",
+      "show_newsletter": "Show newsletter signup",
+      "newsletter_heading": "Newsletter heading",
+      "newsletter_text": "Newsletter description",
+      "bottom_bar_header": "Bottom bar",
+      "show_country_selector": "Show country/region selector",
+      "show_language_selector": "Show language selector",
+      "show_payment_icons": "Show payment icons",
       "show_follow_on_shop": "Show Follow on Shop button",
       "follow_on_shop_info": "Allow customers to follow your store on the Shop app."
     },
@@ -790,6 +878,73 @@
       "preset_name": "Featured product",
       "placeholder_title": "Example product title",
       "placeholder_text": "This area is used to describe your product details."
+    },
+    "main_collection": {
+      "name": "Product grid",
+      "grid_header": "Grid",
+      "products_per_page": "Products per page",
+      "columns_desktop": "Columns on desktop",
+      "columns_mobile": "Columns on mobile",
+      "image_ratio": "Product image ratio",
+      "ratio_natural": "Natural",
+      "ratio_portrait": "Portrait (3:4)",
+      "ratio_square": "Square (1:1)",
+      "ratio_landscape": "Landscape (4:3)",
+      "show_secondary_image": "Show second image on hover",
+      "show_vendor": "Show vendor",
+      "show_quick_add": "Show quick add button",
+      "filtering_header": "Filtering and sorting",
+      "show_filters": "Enable filters",
+      "show_filters_info": "Customize filters in Shopify Search & Discovery app.",
+      "filter_layout": "Filter layout",
+      "filter_drawer": "Drawer",
+      "filter_sidebar": "Sidebar",
+      "show_sort": "Enable sorting",
+      "style_header": "Style",
+      "color_scheme": "Color scheme"
+    },
+    "collection_banner": {
+      "name": "Collection banner",
+      "layout": "Layout",
+      "layout_plain": "Plain (text only)",
+      "layout_background": "Image background",
+      "layout_split": "Image and text side by side",
+      "show_description": "Show collection description",
+      "title_size": "Heading size",
+      "title_large": "Large",
+      "title_medium": "Medium",
+      "title_small": "Small",
+      "overlay_opacity": "Image overlay opacity",
+      "overlay_opacity_info": "Only applies to image background layout.",
+      "color_scheme": "Color scheme",
+      "preset_name": "Collection banner"
+    },
+    "main_cart": {
+      "name": "Cart",
+      "show_notes": "Show cart notes",
+      "show_payment_icons": "Show payment icons",
+      "color_scheme": "Color scheme"
+    },
+    "cart_drawer": {
+      "color_scheme": "Color scheme"
+    },
+    "main_account": {
+      "name": "Customer account"
+    },
+    "main_register": {
+      "name": "Customer register"
+    },
+    "main_login": {
+      "name": "Customer login"
+    },
+    "main_reset_password": {
+      "name": "Reset password"
+    },
+    "main_order": {
+      "name": "Customer order"
+    },
+    "main_addresses": {
+      "name": "Customer addresses"
     },
     "article": {
       "image_header": "Featured image",

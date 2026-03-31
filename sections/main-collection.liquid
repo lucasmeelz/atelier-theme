@@ -337,7 +337,7 @@
 
 {% schema %}
 {
-  "name": "Product grid",
+  "name": "t:sections.main_collection.name",
   "tag": "section",
   "class": "section-main-collection",
   "disabled_on": {
@@ -346,12 +346,12 @@
   "settings": [
     {
       "type": "header",
-      "content": "Grid"
+      "content": "t:sections.main_collection.grid_header"
     },
     {
       "type": "range",
       "id": "products_per_page",
-      "label": "Products per page",
+      "label": "t:sections.main_collection.products_per_page",
       "min": 8,
       "max": 48,
       "step": 4,
@@ -360,7 +360,7 @@
     {
       "type": "range",
       "id": "columns_desktop",
-      "label": "Columns on desktop",
+      "label": "t:sections.main_collection.columns_desktop",
       "min": 2,
       "max": 5,
       "step": 1,
@@ -369,7 +369,7 @@
     {
       "type": "select",
       "id": "columns_mobile",
-      "label": "Columns on mobile",
+      "label": "t:sections.main_collection.columns_mobile",
       "options": [
         { "value": "1", "label": "1" },
         { "value": "2", "label": "2" }
@@ -379,68 +379,68 @@
     {
       "type": "select",
       "id": "image_ratio",
-      "label": "Product image ratio",
+      "label": "t:sections.main_collection.image_ratio",
       "options": [
-        { "value": "natural", "label": "Natural" },
-        { "value": "portrait", "label": "Portrait (3:4)" },
-        { "value": "square", "label": "Square (1:1)" },
-        { "value": "landscape", "label": "Landscape (4:3)" }
+        { "value": "natural", "label": "t:sections.main_collection.ratio_natural" },
+        { "value": "portrait", "label": "t:sections.main_collection.ratio_portrait" },
+        { "value": "square", "label": "t:sections.main_collection.ratio_square" },
+        { "value": "landscape", "label": "t:sections.main_collection.ratio_landscape" }
       ],
       "default": "portrait"
     },
     {
       "type": "checkbox",
       "id": "show_secondary_image",
-      "label": "Show second image on hover",
+      "label": "t:sections.main_collection.show_secondary_image",
       "default": true
     },
     {
       "type": "checkbox",
       "id": "show_vendor",
-      "label": "Show vendor",
+      "label": "t:sections.main_collection.show_vendor",
       "default": false
     },
     {
       "type": "checkbox",
       "id": "show_quick_add",
-      "label": "Show quick add button",
+      "label": "t:sections.main_collection.show_quick_add",
       "default": true
     },
     {
       "type": "header",
-      "content": "Filtering and sorting"
+      "content": "t:sections.main_collection.filtering_header"
     },
     {
       "type": "checkbox",
       "id": "show_filters",
-      "label": "Enable filters",
-      "info": "Customize filters in Shopify Search & Discovery app.",
+      "label": "t:sections.main_collection.show_filters",
+      "info": "t:sections.main_collection.show_filters_info",
       "default": true
     },
     {
       "type": "select",
       "id": "filter_layout",
-      "label": "Filter layout",
+      "label": "t:sections.main_collection.filter_layout",
       "options": [
-        { "value": "drawer", "label": "Drawer" },
-        { "value": "sidebar", "label": "Sidebar" }
+        { "value": "drawer", "label": "t:sections.main_collection.filter_drawer" },
+        { "value": "sidebar", "label": "t:sections.main_collection.filter_sidebar" }
       ],
       "default": "drawer"
     },
     {
       "type": "checkbox",
       "id": "show_sort",
-      "label": "Enable sorting",
+      "label": "t:sections.main_collection.show_sort",
       "default": true
     },
     {
       "type": "header",
-      "content": "Style"
+      "content": "t:sections.main_collection.style_header"
     },
     {
       "type": "color_scheme",
       "id": "color_scheme",
-      "label": "Color scheme",
+      "label": "t:sections.main_collection.color_scheme",
       "default": "scheme-1"
     }
   ]
