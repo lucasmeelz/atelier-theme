@@ -609,7 +609,8 @@ collection-filters {
   color: rgb(var(--color-text, 10, 10, 10));
   text-decoration: none;
   border: 1px solid transparent;
-  transition: border-color var(--duration-fast, 200ms) ease, color var(--duration-fast, 200ms) ease;
+  transition: border-color var(--duration-fast, 200ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1)),
+              color var(--duration-fast, 200ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
 }
 
 @media (hover: hover) {
