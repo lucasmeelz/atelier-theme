@@ -400,9 +400,11 @@ h3.featured-collection__heading {
   color: inherit;
 }
 
-.card-product__title a:hover {
-  text-decoration: underline;
-  text-underline-offset: 2px;
+@media (hover: hover) {
+  .card-product__title a:hover {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
 }
 
 /* ===================================
