@@ -1589,5 +1589,5 @@ collapsible-details + :not(collapsible-details):not(.product__ingredients) {
 }
 
 .product__stock-level--in-stock .product__stock-dot {
-  background-color: #2d8a3e;
+  background-color: rgb(var(--color-success, 45, 138, 62));
 }
