@@ -125,7 +125,8 @@
     "pickup_available": "Pickup available",
     "media_label": "Image {{ index }}",
     "rating_label": "{{ rating }} out of {{ max }} stars",
-    "variant": "Variant"
+    "variant": "Variant",
+    "quick_view": "Choose options"
   },
   "collection": {
     "active_filters": "active filters",
@@ -143,6 +144,11 @@
     "clear_all": "Clear all",
     "apply": "Apply",
     "results_count": "{{ count }} results",
+    "load_more": "Load more",
+    "view_as": "View as",
+    "view_grid": "Grid view",
+    "view_list": "List view",
+    "showing_count": "Showing {{ current }} of {{ total }} products",
     "sort_options": {
       "manual": "Featured",
       "best_selling": "Best selling",
@@ -156,6 +162,20 @@
   },
   "collections": {
     "title": "Collections"
+  },
+  "product_ritual": {
+    "toggle_autoplay": "Toggle autoplay",
+    "play": "Play",
+    "pause": "Pause"
+  },
+  "countdown": {
+    "days": "Days",
+    "hours": "Hours",
+    "minutes": "Min",
+    "seconds": "Sec"
+  },
+  "lookbook": {
+    "view_product": "View product"
   },
   "blog": {
     "articles": "Articles",

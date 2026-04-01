@@ -483,6 +483,89 @@ button.collection__filter-toggle.btn {
   .collection__grid--desktop-5 { grid-template-columns: repeat(5, 1fr); }
 }
 
+/* ===================================
+   View Toggle (Grid/List)
+   =================================== */
+.collection__view-toggle {
+  display: flex;
+  gap: 2px;
+  border: 1px solid rgb(var(--color-border, 226, 224, 219));
+}
+
+.collection__view-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  color: rgb(var(--color-text-subdued, 107, 107, 107));
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-ecrin),
+              color var(--duration-fast) var(--ease-ecrin);
+}
+
+.collection__view-btn--active {
+  background-color: rgb(var(--color-text, 10, 10, 10));
+  color: rgb(var(--color-background, 255, 255, 255));
+}
+
+@media (hover: hover) {
+  .collection__view-btn:not(.collection__view-btn--active):hover {
+    color: rgb(var(--color-text, 10, 10, 10));
+  }
+}
+
+.collection__view-btn:focus-visible {
+  outline: 2px solid rgb(var(--color-accent, 184, 148, 106));
+  outline-offset: -2px;
+}
+
+/* List view — override grid layout */
+.collection__grid--list-view {
+  grid-template-columns: 1fr !important;
+  gap: 0 !important;
+}
+
+.collection__grid--list-view .collection__grid-item {
+  border-bottom: 1px solid rgb(var(--color-border, 226, 224, 219));
+  padding: 16px 0;
+}
+
+.collection__grid--list-view .card-product {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+@media screen and (min-width: 750px) {
+  .collection__grid--list-view .card-product {
+    grid-template-columns: 140px 1fr;
+    gap: 24px;
+  }
+}
+
+.collection__grid--list-view .card-product__media-wrapper {
+  aspect-ratio: 3 / 4;
+}
+
+.collection__grid--list-view .card-product__info {
+  padding-top: 0;
+}
+
+/* AJAX loading state */
+.collection__grid--loading {
+  opacity: 0.4;
+  pointer-events: none;
+  transition: opacity var(--duration-base) var(--ease-ecrin);
+}
+
+collection-filters {
+  display: contents;
+}
+
 /* Empty state */
 .collection__empty {
   grid-column: 1 / -1;
@@ -554,6 +637,52 @@ button.collection__filter-toggle.btn {
 .collection__pagination-link--prev,
 .collection__pagination-link--next {
   border: none;
+}
+
+/* ===================================
+   Load More
+   =================================== */
+.collection__load-more {
+  margin-top: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.collection__load-more-btn {
+  min-width: 200px;
+  position: relative;
+}
+
+.collection__load-more-btn--loading {
+  pointer-events: none;
+  color: transparent !important;
+}
+
+.collection__load-more-btn--loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 18px;
+  height: 18px;
+  margin: -9px 0 0 -9px;
+  border: 2px solid rgb(var(--color-text));
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: collection-spinner 600ms linear infinite;
+}
+
+@keyframes collection-spinner {
+  to { transform: rotate(360deg); }
+}
+
+.collection__load-more-count {
+  font-size: 0.75rem;
+  color: rgb(var(--color-text-subdued, 107, 107, 107));
+  letter-spacing: 0.04em;
+  margin: 0;
 }
 
 /* Focus-visible for interactive elements */

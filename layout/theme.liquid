@@ -15,6 +15,7 @@
 
     {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
     {{ 'component-button.css' | asset_url | stylesheet_tag }}
+    {{ 'component-quick-view.css' | asset_url | stylesheet_tag }}
 
     {%- if settings.page_transition == 'none' -%}
       <style>@view-transition { navigation: none; }</style>
@@ -44,6 +45,27 @@
 
     {%- sections 'footer-group' -%}
 
+    <script src="{{ 'quick-view.js' | asset_url }}" defer></script>
+
+    {%- comment -%} Quick View modal (shared across pages) {%- endcomment -%}
+    <dialog
+      class="quick-view-dialog"
+      id="quick-view-modal"
+      scroll-lock
+      data-t-add-to-cart="{{ 'product.add_to_cart' | t | escape }}"
+      data-t-sold-out="{{ 'product.sold_out' | t | escape }}"
+      data-t-adding="{{ 'product.add_to_cart' | t | escape }}…"
+      data-t-close="{{ 'accessibility.close' | t | escape }}"
+      data-t-view-full="{{ 'product.view_full_details' | t | escape }}"
+      data-money-format="{{ shop.money_format | escape }}"
+    >
+      <div class="quick-view__inner">
+        <div class="quick-view__loading">
+          <div class="quick-view__spinner"></div>
+        </div>
+      </div>
+    </dialog>
+
     {%- comment -%} Scroll reveal animations {%- endcomment -%}
     {%- if settings.scroll_reveal != 'none' -%}
       <script>
@@ -58,9 +80,17 @@
             }
           });
 
+          /* Index stagger children for incremental delay */
+          function indexStaggerChildren(root) {
+            root.querySelectorAll('[data-stagger]').forEach(function(child, i) {
+              child.style.setProperty('--stagger-index', i);
+            });
+          }
+
           var observer = new IntersectionObserver(function(entries) {
             entries.forEach(function(entry) {
               if (entry.isIntersecting) {
+                indexStaggerChildren(entry.target);
                 entry.target.classList.add('is-visible');
                 observer.unobserve(entry.target);
               }

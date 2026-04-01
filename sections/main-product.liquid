@@ -700,6 +700,72 @@
                   </div>
                 {%- endif -%}
 
+              {%- comment -%} === SIZE GUIDE MODAL === {%- endcomment -%}
+              {%- when 'size_guide' -%}
+                <div class="product__size-guide" {{ block.shopify_attributes }}>
+                  <button
+                    class="product__size-guide-btn"
+                    type="button"
+                    aria-haspopup="dialog"
+                    aria-controls="size-guide-dialog-{{ section.id }}"
+                  >
+                    {%- if block.settings.icon != 'none' -%}
+                      {%- render 'icon', name: block.settings.icon, size: 16 -%}
+                    {%- endif -%}
+                    <span>{{ block.settings.label }}</span>
+                  </button>
+
+                  {%- if block.settings.page != blank -%}
+                    <dialog class="product__size-guide-dialog" id="size-guide-dialog-{{ section.id }}" scroll-lock>
+                      <div class="product__size-guide-dialog-inner">
+                        <div class="product__size-guide-dialog-header">
+                          <h3 class="product__size-guide-dialog-title h4">{{ block.settings.label }}</h3>
+                          <button class="product__size-guide-dialog-close" type="button" aria-label="{{ 'accessibility.close' | t }}">
+                            {%- render 'icon', name: 'close', size: 20 -%}
+                          </button>
+                        </div>
+                        <div class="product__size-guide-dialog-body rte">
+                          {{ block.settings.page.content }}
+                        </div>
+                      </div>
+                    </dialog>
+                  {%- endif -%}
+                </div>
+
+              {%- comment -%} === ESTIMATED DELIVERY === {%- endcomment -%}
+              {%- when 'estimated_delivery' -%}
+                {%- if block.settings.text != blank -%}
+                  <div class="product__estimated-delivery" {{ block.shopify_attributes }}>
+                    {%- render 'icon', name: block.settings.icon, size: 18 -%}
+                    <span>{{ block.settings.text }}</span>
+                  </div>
+                {%- endif -%}
+
+              {%- comment -%} === STOCK LEVEL INDICATOR === {%- endcomment -%}
+              {%- when 'stock_level' -%}
+                {%- liquid
+                  assign current_variant = product.selected_or_first_available_variant
+                  assign threshold = block.settings.threshold
+                  assign show_count = block.settings.show_count
+                  assign inventory = current_variant.inventory_quantity
+                  assign inventory_policy = current_variant.inventory_policy
+                -%}
+                {%- if current_variant.inventory_management != blank and inventory_policy == 'deny' and inventory > 0 and inventory <= threshold -%}
+                  <div class="product__stock-level product__stock-level--low" {{ block.shopify_attributes }} data-stock-level>
+                    <span class="product__stock-dot"></span>
+                    {%- if show_count -%}
+                      <span>{{ 'product.inventory.low_stock' | t: count: inventory }}</span>
+                    {%- else -%}
+                      <span>{{ 'product.inventory.low_stock' | t: count: '' }}</span>
+                    {%- endif -%}
+                  </div>
+                {%- elsif current_variant.inventory_management != blank and inventory_policy == 'deny' and inventory > threshold -%}
+                  <div class="product__stock-level product__stock-level--in-stock" {{ block.shopify_attributes }} data-stock-level>
+                    <span class="product__stock-dot"></span>
+                    <span>{{ 'product.inventory.in_stock' | t }}</span>
+                  </div>
+                {%- endif -%}
+
               {%- comment -%} === APP BLOCK === {%- endcomment -%}
               {%- when '@app' -%}
                 <div class="product__app-block" {{ block.shopify_attributes }}>
@@ -1279,6 +1345,83 @@
           "type": "liquid",
           "id": "liquid",
           "label": "t:sections.main_product.blocks.liquid_code"
+        }
+      ]
+    },
+    {
+      "type": "size_guide",
+      "name": "t:sections.main_product.blocks.size_guide",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "t:sections.main_product.blocks.size_guide_label",
+          "default": "Size guide"
+        },
+        {
+          "type": "page",
+          "id": "page",
+          "label": "t:sections.main_product.blocks.size_guide_page"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "t:sections.main_product.blocks.size_guide_icon",
+          "options": [
+            { "value": "none", "label": "t:sections.main_product.blocks.icon_none" },
+            { "value": "ruler", "label": "t:sections.main_product.blocks.icon_ruler" },
+            { "value": "size-guide", "label": "t:sections.main_product.blocks.icon_size_guide" }
+          ],
+          "default": "ruler"
+        }
+      ]
+    },
+    {
+      "type": "estimated_delivery",
+      "name": "t:sections.main_product.blocks.estimated_delivery",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "t:sections.main_product.blocks.delivery_text",
+          "default": "Estimated delivery: 3-5 business days"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "t:sections.main_product.blocks.delivery_icon",
+          "options": [
+            { "value": "shipping", "label": "t:sections.main_product.blocks.icon_shipping" },
+            { "value": "express", "label": "t:sections.main_product.blocks.icon_express" },
+            { "value": "box", "label": "t:sections.main_product.blocks.icon_box" },
+            { "value": "tracking", "label": "t:sections.main_product.blocks.icon_tracking" }
+          ],
+          "default": "shipping"
+        }
+      ]
+    },
+    {
+      "type": "stock_level",
+      "name": "t:sections.main_product.blocks.stock_level",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "range",
+          "id": "threshold",
+          "label": "t:sections.main_product.blocks.stock_threshold",
+          "info": "t:sections.main_product.blocks.stock_threshold_info",
+          "min": 1,
+          "max": 20,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "checkbox",
+          "id": "show_count",
+          "label": "t:sections.main_product.blocks.stock_show_count",
+          "default": true
         }
       ]
     }

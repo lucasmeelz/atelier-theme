@@ -630,3 +630,38 @@ if (!customElements.get('collapsible-details')) {
 
   customElements.define('collapsible-details', CollapsibleDetails);
 }
+
+/* ===== SIZE GUIDE DIALOG ===== */
+
+(function() {
+  document.addEventListener('click', function(e) {
+    /* Open */
+    var openBtn = e.target.closest('.product__size-guide-btn');
+    if (openBtn) {
+      var dialog = openBtn.closest('.product__size-guide').querySelector('.product__size-guide-dialog');
+      if (dialog) dialog.showModal();
+      return;
+    }
+
+    /* Close */
+    var closeBtn = e.target.closest('.product__size-guide-dialog-close');
+    if (closeBtn) {
+      var dialog = closeBtn.closest('.product__size-guide-dialog');
+      if (dialog) dialog.close();
+      return;
+    }
+  });
+
+  /* Close on backdrop click */
+  document.addEventListener('click', function(e) {
+    if (e.target.matches('.product__size-guide-dialog')) {
+      var rect = e.target.querySelector('.product__size-guide-dialog-inner');
+      if (rect) {
+        var inner = rect.getBoundingClientRect();
+        if (e.clientX < inner.left || e.clientX > inner.right || e.clientY < inner.top || e.clientY > inner.bottom) {
+          e.target.close();
+        }
+      }
+    }
+  });
+})();

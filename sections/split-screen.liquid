@@ -1,0 +1,187 @@
+{%- comment -%}
+  Split Screen — Dual-panel editorial hero
+  Two side-by-side panels, each with image, overlay, heading, text, and CTA
+  Inspired by Dior/Jacquemus editorial layouts
+{%- endcomment -%}
+
+{{ 'section-split-screen.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign reverse = section.settings.reverse_panels
+  assign hover_effect = section.settings.hover_effect
+-%}
+
+<div
+  id="Section-{{ section.id }}"
+  class="split-screen{% if reverse %} split-screen--reverse{% endif %}"
+  {% if hover_effect %}data-hover-effect{% endif %}
+>
+  {%- for block in section.blocks -%}
+    {%- liquid
+      assign panel_image = block.settings.image
+      assign panel_overlay = block.settings.overlay_opacity | divided_by: 100.0
+      assign panel_heading = block.settings.heading
+      assign panel_subheading = block.settings.subheading
+      assign panel_text = block.settings.text
+      assign panel_button_label = block.settings.button_label
+      assign panel_button_link = block.settings.button_link
+      assign panel_text_alignment = block.settings.text_alignment
+      assign panel_text_color = block.settings.text_color
+      assign panel_color_scheme = block.settings.color_scheme
+    -%}
+
+    <div class="split-screen__panel color-{{ panel_color_scheme }}" {{ block.shopify_attributes }}>
+      {%- if panel_image != blank -%}
+        {{
+          panel_image
+          | image_url: width: 1500
+          | image_tag:
+            alt: panel_image.alt | default: panel_heading,
+            widths: '375, 750, 1000, 1500',
+            sizes: '(min-width: 750px) 50vw, 100vw',
+            loading: 'lazy',
+            class: 'split-screen__bg'
+        }}
+      {%- endif -%}
+
+      {%- if panel_overlay > 0 -%}
+        <div class="split-screen__overlay" style="--split-overlay: {{ panel_overlay }};"></div>
+      {%- endif -%}
+
+      <div
+        class="split-screen__content split-screen__content--{{ panel_text_alignment }}"
+        {% if panel_text_color != blank %}style="color: {{ panel_text_color }};"{% endif %}
+      >
+        {%- if panel_subheading != blank -%}
+          <p class="split-screen__subheading subheading">{{ panel_subheading }}</p>
+        {%- endif -%}
+
+        {%- if panel_heading != blank -%}
+          <h2 class="split-screen__heading h2">{{ panel_heading }}</h2>
+        {%- endif -%}
+
+        {%- if panel_text != blank -%}
+          <p class="split-screen__text">{{ panel_text }}</p>
+        {%- endif -%}
+
+        {%- if panel_button_label != blank -%}
+          <div class="split-screen__btn">
+            <a href="{{ panel_button_link }}" class="btn btn--primary">{{ panel_button_label }}</a>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endfor -%}
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.split_screen.name",
+  "tag": "section",
+  "class": "section-split-screen",
+  "disabled_on": {
+    "groups": ["header", "custom.overlay"]
+  },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "reverse_panels",
+      "label": "t:sections.split_screen.reverse_panels",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "hover_effect",
+      "label": "t:sections.split_screen.hover_effect",
+      "info": "t:sections.split_screen.hover_effect_info",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "panel",
+      "name": "t:sections.split_screen.block_panel",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.split_screen.panel_image"
+        },
+        {
+          "type": "range",
+          "id": "overlay_opacity",
+          "label": "t:sections.split_screen.overlay_opacity",
+          "min": 0,
+          "max": 70,
+          "step": 5,
+          "unit": "%",
+          "default": 20
+        },
+        {
+          "type": "header",
+          "content": "t:sections.split_screen.content_header"
+        },
+        {
+          "type": "text",
+          "id": "subheading",
+          "label": "t:sections.split_screen.subheading"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:sections.split_screen.heading",
+          "default": "Panel heading"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "t:sections.split_screen.text"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "t:sections.split_screen.button_label",
+          "default": "Shop now"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "t:sections.split_screen.button_link"
+        },
+        {
+          "type": "select",
+          "id": "text_alignment",
+          "label": "t:sections.split_screen.text_alignment",
+          "options": [
+            { "value": "left", "label": "t:sections.split_screen.align_left" },
+            { "value": "center", "label": "t:sections.split_screen.align_center" }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "t:sections.split_screen.text_color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color_scheme",
+          "id": "color_scheme",
+          "label": "t:sections.split_screen.color_scheme",
+          "default": "scheme-1"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.split_screen.preset_name",
+      "blocks": [
+        { "type": "panel", "settings": { "heading": "Women", "button_label": "Discover" } },
+        { "type": "panel", "settings": { "heading": "Men", "button_label": "Discover" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

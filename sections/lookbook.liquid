@@ -1,0 +1,332 @@
+{%- comment -%}
+  Lookbook — Shoppable image with positioned product hotspots
+  Desktop: interactive hotspots on image with tooltip product cards
+  Mobile: product list below image (better UX than tiny hotspots)
+{%- endcomment -%}
+
+{{ 'section-lookbook.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign image = section.settings.image
+  assign image_ratio = section.settings.image_ratio
+  assign overlay_opacity = section.settings.overlay_opacity | divided_by: 100.0
+  assign heading = section.settings.heading
+  assign subheading = section.settings.subheading
+  assign color_scheme = section.settings.color_scheme
+  assign full_width = section.settings.full_width
+-%}
+
+<div
+  id="Section-{{ section.id }}"
+  class="lookbook section-spacing color-{{ color_scheme }}"
+  data-section-id="{{ section.id }}"
+>
+  {%- if heading != blank or subheading != blank -%}
+    <div class="container lookbook__header">
+      {%- if subheading != blank -%}
+        <p class="lookbook__subheading subheading">{{ subheading }}</p>
+      {%- endif -%}
+      {%- if heading != blank -%}
+        <h2 class="lookbook__heading h3">{{ heading }}</h2>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  <div class="{% unless full_width %}container{% endunless %}">
+    <div class="lookbook__media lookbook__media--{{ image_ratio }}">
+      {%- if image != blank -%}
+        {{
+          image
+          | image_url: width: 2560
+          | image_tag:
+            alt: image.alt | default: heading,
+            widths: '375, 750, 1100, 1500, 2000, 2560',
+            sizes: '100vw',
+            loading: 'lazy',
+            class: 'lookbook__image'
+        }}
+      {%- else -%}
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'lookbook__image placeholder-svg' }}
+      {%- endif -%}
+
+      {%- if overlay_opacity > 0 -%}
+        <div class="lookbook__overlay" style="--lookbook-overlay: {{ overlay_opacity }}"></div>
+      {%- endif -%}
+
+      {%- comment -%} Hotspots — desktop only {%- endcomment -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'hotspot' -%}
+          {%- liquid
+            assign product = block.settings.product
+            assign pos_x = block.settings.position_x
+            assign pos_y = block.settings.position_y
+            assign tooltip_position = 'below'
+            if pos_y > 60
+              assign tooltip_position = 'above'
+            endif
+          -%}
+
+          <div
+            class="lookbook__hotspot"
+            style="left: {{ pos_x }}%; top: {{ pos_y }}%;"
+            aria-expanded="false"
+            {{ block.shopify_attributes }}
+          >
+            <button
+              class="lookbook__hotspot-dot"
+              type="button"
+              aria-label="{{ product.title | default: 'View product' }}"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+            </button>
+
+            {%- if product != blank -%}
+              <div class="lookbook__tooltip lookbook__tooltip--{{ tooltip_position }}" role="tooltip">
+                {%- if product.featured_image -%}
+                  {{
+                    product.featured_image
+                    | image_url: width: 440
+                    | image_tag:
+                      alt: product.featured_image.alt | default: product.title,
+                      widths: '220, 440',
+                      loading: 'lazy',
+                      class: 'lookbook__tooltip-image'
+                  }}
+                {%- endif -%}
+                <div class="lookbook__tooltip-info">
+                  <p class="lookbook__tooltip-title">
+                    <a href="{{ product.url }}">{{ product.title }}</a>
+                  </p>
+                  <p class="lookbook__tooltip-price">
+                    {{ product.price | money }}
+                  </p>
+                </div>
+                <a href="{{ product.url }}" class="lookbook__tooltip-cta">
+                  {{ 'lookbook.view_product' | t }}
+                </a>
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    {%- comment -%} Mobile: product list below image {%- endcomment -%}
+    {%- assign has_products = false -%}
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'hotspot' and block.settings.product != blank -%}
+        {%- assign has_products = true -%}
+        {%- break -%}
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- if has_products -%}
+      <div class="lookbook__products-mobile">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'hotspot' and block.settings.product != blank -%}
+            {%- assign product = block.settings.product -%}
+            <a href="{{ product.url }}" class="lookbook__product-mobile">
+              {%- if product.featured_image -%}
+                {{
+                  product.featured_image
+                  | image_url: width: 200
+                  | image_tag:
+                    alt: product.featured_image.alt | default: product.title,
+                    widths: '100, 200',
+                    loading: 'lazy',
+                    class: 'lookbook__product-mobile-image'
+                }}
+              {%- endif -%}
+              <div>
+                <p class="lookbook__product-mobile-title">{{ product.title }}</p>
+                <p class="lookbook__product-mobile-price">{{ product.price | money }}</p>
+              </div>
+            </a>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<script>
+  (function() {
+    var sectionId = '{{ section.id }}';
+    var boundDocClick = null;
+    var boundDocKeydown = null;
+
+    function closeAllHotspots(section) {
+      section.querySelectorAll('.lookbook__hotspot').forEach(function(h) {
+        h.setAttribute('aria-expanded', 'false');
+      });
+    }
+
+    function initLookbook() {
+      var section = document.querySelector('#Section-' + sectionId);
+      if (!section) return;
+
+      var hotspots = section.querySelectorAll('.lookbook__hotspot');
+      if (!hotspots.length) return;
+
+      hotspots.forEach(function(hotspot) {
+        var dot = hotspot.querySelector('.lookbook__hotspot-dot');
+        if (!dot) return;
+
+        dot.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var isOpen = hotspot.getAttribute('aria-expanded') === 'true';
+
+          closeAllHotspots(section);
+
+          if (!isOpen) {
+            hotspot.setAttribute('aria-expanded', 'true');
+            /* Focus first link in tooltip for keyboard users */
+            var firstLink = hotspot.querySelector('.lookbook__tooltip a');
+            if (firstLink) firstLink.focus();
+          }
+        });
+      });
+
+      /* Remove previous document-level listeners if re-initializing */
+      if (boundDocClick) document.removeEventListener('click', boundDocClick);
+      if (boundDocKeydown) document.removeEventListener('keydown', boundDocKeydown);
+
+      boundDocClick = function(e) {
+        if (!e.target.closest('.lookbook__hotspot')) {
+          closeAllHotspots(section);
+        }
+      };
+
+      boundDocKeydown = function(e) {
+        if (e.key === 'Escape') {
+          closeAllHotspots(section);
+        }
+      };
+
+      document.addEventListener('click', boundDocClick);
+      document.addEventListener('keydown', boundDocKeydown);
+    }
+
+    initLookbook();
+
+    document.addEventListener('shopify:section:load', function(e) {
+      if (e.detail.sectionId === sectionId) initLookbook();
+    });
+
+    document.addEventListener('shopify:section:unload', function(e) {
+      if (e.detail.sectionId === sectionId) {
+        if (boundDocClick) document.removeEventListener('click', boundDocClick);
+        if (boundDocKeydown) document.removeEventListener('keydown', boundDocKeydown);
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "t:sections.lookbook.name",
+  "tag": "section",
+  "class": "section-lookbook",
+  "disabled_on": {
+    "groups": ["header", "custom.overlay"]
+  },
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:sections.lookbook.image"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "t:sections.lookbook.image_ratio",
+      "options": [
+        { "value": "auto", "label": "t:sections.lookbook.ratio_auto" },
+        { "value": "portrait", "label": "t:sections.lookbook.ratio_portrait" },
+        { "value": "square", "label": "t:sections.lookbook.ratio_square" },
+        { "value": "landscape", "label": "t:sections.lookbook.ratio_landscape" },
+        { "value": "cinematic", "label": "t:sections.lookbook.ratio_cinematic" }
+      ],
+      "default": "landscape"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "t:sections.lookbook.overlay_opacity",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "%",
+      "default": 0
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "t:sections.lookbook.full_width",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:sections.lookbook.heading",
+      "default": "Shop the look"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "t:sections.lookbook.subheading"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.lookbook.color_scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "hotspot",
+      "name": "t:sections.lookbook.block_hotspot",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "t:sections.lookbook.product"
+        },
+        {
+          "type": "range",
+          "id": "position_x",
+          "label": "t:sections.lookbook.position_x",
+          "min": 5,
+          "max": 95,
+          "step": 1,
+          "unit": "%",
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "position_y",
+          "label": "t:sections.lookbook.position_y",
+          "min": 5,
+          "max": 95,
+          "step": 1,
+          "unit": "%",
+          "default": 50
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.lookbook.preset_name",
+      "blocks": [
+        { "type": "hotspot", "settings": { "position_x": 30, "position_y": 40 } },
+        { "type": "hotspot", "settings": { "position_x": 65, "position_y": 55 } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,227 @@
+{%- comment -%}
+  Atelier Process — Horizontal scroll storytelling
+  Each step = image + number + heading + text, scrolls horizontally
+  Desktop: prev/next buttons, mobile: swipe with scroll-snap
+{%- endcomment -%}
+
+{{ 'section-atelier-process.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign heading = section.settings.heading
+  assign subheading = section.settings.subheading
+  assign show_step_numbers = section.settings.show_step_numbers
+  assign color_scheme = section.settings.color_scheme
+-%}
+
+<div
+  id="Section-{{ section.id }}"
+  class="atelier-process section-spacing color-{{ color_scheme }}"
+  data-section-id="{{ section.id }}"
+>
+  {%- if heading != blank or subheading != blank -%}
+    <div class="container atelier-process__header">
+      {%- if subheading != blank -%}
+        <p class="atelier-process__subheading subheading">{{ subheading }}</p>
+      {%- endif -%}
+      {%- if heading != blank -%}
+        <h2 class="atelier-process__heading h2">{{ heading }}</h2>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  <div class="atelier-process__track" id="atelier-track-{{ section.id }}">
+    {%- for block in section.blocks -%}
+      <div class="atelier-process__step" {{ block.shopify_attributes }}>
+        <div class="atelier-process__image-wrap">
+          {%- if block.settings.image != blank -%}
+            {{
+              block.settings.image
+              | image_url: width: 1440
+              | image_tag:
+                alt: block.settings.image.alt | default: block.settings.heading,
+                widths: '375, 750, 1000, 1440',
+                loading: 'lazy',
+                class: 'atelier-process__image'
+            }}
+          {%- else -%}
+            {{ 'product-' | append: forloop.index | placeholder_svg_tag: 'atelier-process__image placeholder-svg' }}
+          {%- endif -%}
+
+          {%- if show_step_numbers -%}
+            <span class="atelier-process__number" aria-hidden="true">
+              {{- block.settings.custom_number | default: forloop.index -}}
+            </span>
+          {%- endif -%}
+        </div>
+
+        <div class="atelier-process__content">
+          {%- if block.settings.heading != blank -%}
+            <h3 class="atelier-process__step-heading">{{ block.settings.heading }}</h3>
+          {%- endif -%}
+          {%- if block.settings.text != blank -%}
+            <p class="atelier-process__step-text">{{ block.settings.text }}</p>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+
+  {%- if section.blocks.size > 1 -%}
+    <div class="atelier-process__nav container">
+      <button class="atelier-process__nav-btn" data-prev aria-label="{{ 'accessibility.previous' | t }}" disabled>
+        {%- render 'icon', name: 'chevron-left', size: 16 -%}
+      </button>
+
+      <div class="atelier-process__progress">
+        <div class="atelier-process__progress-fill" style="width: {{ 100.0 | divided_by: section.blocks.size }}%;"></div>
+      </div>
+
+      <button class="atelier-process__nav-btn" data-next aria-label="{{ 'accessibility.next' | t }}">
+        {%- render 'icon', name: 'chevron-right', size: 16 -%}
+      </button>
+    </div>
+  {%- endif -%}
+</div>
+
+<script>
+  /* Initialize scroller for this section */
+  (function() {
+    var section = document.querySelector('#Section-{{ section.id }}');
+    if (section) initAtelierScroller(section);
+
+    document.addEventListener('shopify:section:load', function(e) {
+      if (e.detail.sectionId === '{{ section.id }}') {
+        var s = document.querySelector('#Section-{{ section.id }}');
+        if (s) initAtelierScroller(s);
+      }
+    });
+  })();
+
+  function initAtelierScroller(section) {
+    var track = section.querySelector('.atelier-process__track');
+    if (!track) return;
+
+    var steps = Array.from(track.querySelectorAll('.atelier-process__step'));
+    var prevBtn = section.querySelector('[data-prev]');
+    var nextBtn = section.querySelector('[data-next]');
+    var progressFill = section.querySelector('.atelier-process__progress-fill');
+    var currentIndex = 0;
+
+    function debounce(fn, wait) {
+      var timer;
+      return function() { clearTimeout(timer); timer = setTimeout(fn, wait); };
+    }
+
+    function updateState() {
+      var trackRect = track.getBoundingClientRect();
+      var trackCenter = trackRect.left + trackRect.width / 2;
+      var closest = 0;
+      var closestDist = Infinity;
+
+      steps.forEach(function(step, i) {
+        var rect = step.getBoundingClientRect();
+        var dist = Math.abs(rect.left + rect.width / 2 - trackCenter);
+        if (dist < closestDist) { closestDist = dist; closest = i; }
+      });
+
+      currentIndex = closest;
+      if (prevBtn) prevBtn.disabled = closest === 0;
+      if (nextBtn) nextBtn.disabled = closest === steps.length - 1;
+      if (progressFill) progressFill.style.width = ((closest + 1) / steps.length) * 100 + '%';
+    }
+
+    function scrollTo(index) {
+      var step = steps[index];
+      if (!step) return;
+      var trackRect = track.getBoundingClientRect();
+      var stepRect = step.getBoundingClientRect();
+      var offset = stepRect.left - trackRect.left + track.scrollLeft;
+      var center = offset - (trackRect.width - stepRect.width) / 2;
+      track.scrollTo({ left: center, behavior: 'smooth' });
+    }
+
+    track.addEventListener('scroll', debounce(updateState, 100), { passive: true });
+    if (prevBtn) prevBtn.addEventListener('click', function() { if (currentIndex > 0) scrollTo(currentIndex - 1); });
+    if (nextBtn) nextBtn.addEventListener('click', function() { if (currentIndex < steps.length - 1) scrollTo(currentIndex + 1); });
+  }
+</script>
+
+{% schema %}
+{
+  "name": "t:sections.atelier_process.name",
+  "tag": "section",
+  "class": "section-atelier-process",
+  "disabled_on": {
+    "groups": ["header", "custom.overlay"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:sections.atelier_process.heading",
+      "default": "Our process"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "t:sections.atelier_process.subheading",
+      "default": "Craftsmanship"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_step_numbers",
+      "label": "t:sections.atelier_process.show_step_numbers",
+      "default": true
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.atelier_process.color_scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "t:sections.atelier_process.block_step",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.atelier_process.step_image"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:sections.atelier_process.step_heading",
+          "default": "Step heading"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "t:sections.atelier_process.step_text",
+          "default": "Describe this step of your process."
+        },
+        {
+          "type": "text",
+          "id": "custom_number",
+          "label": "t:sections.atelier_process.custom_number",
+          "info": "t:sections.atelier_process.custom_number_info"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.atelier_process.preset_name",
+      "blocks": [
+        { "type": "step", "settings": { "heading": "Source", "text": "We carefully select the finest raw materials from trusted artisans." } },
+        { "type": "step", "settings": { "heading": "Craft", "text": "Each piece is handcrafted with meticulous attention to detail." } },
+        { "type": "step", "settings": { "heading": "Refine", "text": "Multiple rounds of quality control ensure perfection." } },
+        { "type": "step", "settings": { "heading": "Deliver", "text": "Beautifully packaged and shipped with care." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

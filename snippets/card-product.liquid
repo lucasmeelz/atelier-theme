@@ -124,9 +124,9 @@
           </button>
         </form>
       {%- else -%}
-        <a href="{{ product.url }}" class="card-product__quick-add-btn btn--icon" aria-label="{{ 'product.add_to_cart' | t }}: {{ product.title | escape }}">
+        <button type="button" class="card-product__quick-add-btn btn--icon" data-quick-view="{{ product.url }}" aria-label="{{ 'product.quick_view' | t }}: {{ product.title | escape }}">
           {%- render 'icon', name: 'plus', size: 16 -%}
-        </a>
+        </button>
       {%- endif -%}
     {%- endif -%}
   </div>
