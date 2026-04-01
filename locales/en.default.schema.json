@@ -103,6 +103,8 @@
       "show_color_swatches": "Show color swatches",
       "hover_effect": "Hover effect",
       "scale": "Zoom",
+      "slide_up": "Slide up",
+      "zoom_fade": "Zoom and fade",
       "swatch_shape": "Swatch shape",
       "circle": "Circle",
       "square_shape": "Square",

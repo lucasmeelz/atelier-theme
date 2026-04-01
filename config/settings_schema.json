@@ -458,9 +458,11 @@
         "label": "t:settings_schema.product_cards.hover_effect",
         "options": [
           { "value": "none", "label": "t:settings_schema.product_cards.none" },
-          { "value": "scale", "label": "t:settings_schema.product_cards.scale" }
+          { "value": "scale", "label": "t:settings_schema.product_cards.scale" },
+          { "value": "slide-up", "label": "t:settings_schema.product_cards.slide_up" },
+          { "value": "zoom-fade", "label": "t:settings_schema.product_cards.zoom_fade" }
         ],
-        "default": "none"
+        "default": "zoom-fade"
       },
       {
         "type": "select",
