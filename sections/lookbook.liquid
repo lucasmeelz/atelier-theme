@@ -55,7 +55,7 @@
 
       {%- comment -%} Hotspots — desktop only {%- endcomment -%}
       {%- for block in section.blocks -%}
-        {%- if block.type == 'hotspot' -%}
+        {%- if block.type == 'hotspot' and block.settings.product != blank -%}
           {%- liquid
             assign product = block.settings.product
             assign pos_x = block.settings.position_x
