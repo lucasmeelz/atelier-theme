@@ -11,28 +11,40 @@ class CartDrawer extends HTMLElement {
       btn.addEventListener('click', () => this.close());
     });
 
-    /* Open from header cart icon */
-    document.querySelectorAll('.header__icon--cart').forEach((icon) => {
-      icon.addEventListener('click', (e) => {
-        if (document.body.dataset.cartType === 'drawer' || !icon.closest('form')) {
-          e.preventDefault();
-          this.open();
-        }
-      });
-    });
+    /* Open from header cart icon — store references for cleanup */
+    this._boundCartIconClick = (e) => {
+      const icon = e.target.closest('.header__icon--cart');
+      if (!icon) return;
+      if (document.body.dataset.cartType === 'drawer' || !icon.closest('form')) {
+        e.preventDefault();
+        this.open();
+      }
+    };
+    document.addEventListener('click', this._boundCartIconClick);
 
-    /* Escape key */
-    document.addEventListener('keydown', (e) => {
+    /* Escape key — store reference for cleanup */
+    this._boundKeydown = (e) => {
       if (e.key === 'Escape' && this.getAttribute('aria-hidden') === 'false') {
         this.close();
       }
-    });
+    };
+    document.addEventListener('keydown', this._boundKeydown);
+
+    /* Cart refresh from Quick View or other sources */
+    this._boundCartRefresh = () => this.refreshDrawer();
+    document.addEventListener('cart:refresh', this._boundCartRefresh);
 
     /* Quantity buttons */
     this.setupQuantityControls();
 
     /* Remove buttons */
     this.setupRemoveButtons();
+  }
+
+  disconnectedCallback() {
+    if (this._boundCartIconClick) document.removeEventListener('click', this._boundCartIconClick);
+    if (this._boundKeydown) document.removeEventListener('keydown', this._boundKeydown);
+    if (this._boundCartRefresh) document.removeEventListener('cart:refresh', this._boundCartRefresh);
   }
 
   open() {
