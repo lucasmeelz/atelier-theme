@@ -76,7 +76,7 @@
 /* Transparent state — visual only, no position change */
 .header--transparent.header--is-transparent .header__wrapper {
   background-color: transparent;
-  color: var(--header-text-color, #fff);
+  color: var(--header-text-color, rgb(255, 255, 255));
 }
 
 .header--transparent.header--is-transparent .header__wrapper a,
@@ -276,7 +276,7 @@
   padding: 0 4px;
   border-radius: 8px;
   background-color: rgb(var(--color-accent));
-  color: #fff;
+  color: rgb(255, 255, 255);
   font-family: var(--font-body-family);
   font-size: 10px;
   font-weight: 600;
@@ -534,7 +534,7 @@
   right: 0;
   padding: 16px;
   background: linear-gradient(transparent, rgba(0,0,0,0.5));
-  color: #fff;
+  color: rgb(255, 255, 255);
 }
 
 .mega-promo__subheading {
@@ -1048,7 +1048,7 @@
 .header-drawer__editorial-link {
   display: block;
   text-decoration: none;
-  color: #fff;
+  color: rgb(255, 255, 255);
 }
 
 .header-drawer__editorial-img {
