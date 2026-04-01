@@ -124,7 +124,8 @@
 
             var html = '<div class="card-product">';
             html += '<div class="card-product__media">';
-            html += '<a href="/products/' + handle + '" class="card-product__media-link" aria-label="' + product.title + '" tabindex="-1">';
+            var routesRoot = window.Shopify && window.Shopify.routes && window.Shopify.routes.root || '/';
+            html += '<a href="' + routesRoot + 'products/' + handle + '" class="card-product__media-link" aria-label="' + product.title + '" tabindex="-1">';
             html += '<div class="card-product__media-wrapper" ' + ratioClass + '>';
             if (image) {
               html += '<img src="' + image + '" alt="' + product.title + '" class="card-product__image card-product__image--primary" loading="lazy" width="400" height="400">';
@@ -145,7 +146,7 @@
 
             /* Info */
             html += '<div class="card-product__info">';
-            html += '<h3 class="card-product__title"><a href="/products/' + handle + '">' + product.title + '</a></h3>';
+            html += '<h3 class="card-product__title"><a href="' + routesRoot + 'products/' + handle + '">' + product.title + '</a></h3>';
             if (showVendor && product.vendor) {
               html += '<p class="card-product__vendor">' + product.vendor + '</p>';
             }
