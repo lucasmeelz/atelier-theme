@@ -51,8 +51,10 @@
           <div class="product-variant-picker__select-wrapper">
             <select
               class="product-variant-picker__select"
-              name="option-{{ option_index }}"
+              id="option-select-{{ product.id }}-{{ option_index }}"
+              name="option-{{ product.id }}-{{ option_index }}"
               data-option-select
+              aria-label="{{ option_name }}"
             >
               {%- for value in option.values -%}
                 <option
@@ -87,14 +89,17 @@
                   assign swatch_style = 'background-color: ' | append: swatch_color | append: ';'
                 endif
               -%}
+              {%- assign swatch_input_id = 'swatch-' | append: product.id | append: '-' | append: option_index | append: '-' | append: forloop.index0 -%}
               <label
                 class="product-variant-picker__swatch{% if is_selected %} is-active{% endif %}"
                 data-option-value="{{ value | escape }}"
                 title="{{ value }}"
+                for="{{ swatch_input_id }}"
               >
                 <input
                   type="radio"
-                  name="option-{{ option_index }}"
+                  id="{{ swatch_input_id }}"
+                  name="option-{{ product.id }}-{{ option_index }}"
                   value="{{ value | escape }}"
                   {% if is_selected %}checked{% endif %}
                   class="visually-hidden"
@@ -118,13 +123,16 @@
                   assign is_selected = true
                 endif
               -%}
+              {%- assign button_input_id = 'option-' | append: product.id | append: '-' | append: option_index | append: '-' | append: forloop.index0 -%}
               <label
                 class="product-variant-picker__button{% if is_selected %} is-active{% endif %}"
                 data-option-value="{{ value | escape }}"
+                for="{{ button_input_id }}"
               >
                 <input
                   type="radio"
-                  name="option-{{ option_index }}"
+                  id="{{ button_input_id }}"
+                  name="option-{{ product.id }}-{{ option_index }}"
                   value="{{ value | escape }}"
                   {% if is_selected %}checked{% endif %}
                   class="visually-hidden"
