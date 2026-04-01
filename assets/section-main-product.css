@@ -1459,6 +1459,12 @@ collapsible-details + :not(collapsible-details):not(.product__ingredients) {
   padding: 0;
   margin: 0;
   background: transparent;
+  opacity: 0;
+  transition: opacity var(--duration-base, 350ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
+}
+
+.product__size-guide-dialog[open] {
+  opacity: 1;
 }
 
 .product__size-guide-dialog::backdrop {
@@ -1477,6 +1483,12 @@ collapsible-details + :not(collapsible-details):not(.product__ingredients) {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  transform: translateX(100%);
+  transition: transform var(--duration-slow, 600ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
+}
+
+.product__size-guide-dialog[open] .product__size-guide-dialog-inner {
+  transform: translateX(0);
 }
 
 .product__size-guide-dialog-header {
