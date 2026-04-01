@@ -43,7 +43,7 @@
 
     <div class="testimonials__{{ layout }}">
       {%- for block in section.blocks -%}
-        <div class="testimonials__card" {{ block.shopify_attributes }}>
+        <div class="testimonials__card" data-stagger {{ block.shopify_attributes }}>
 
           {%- if show_rating and block.settings.rating > 0 -%}
             <div class="testimonials__rating" role="img" aria-label="{{ block.settings.rating }} out of 5 stars">

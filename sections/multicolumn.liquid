@@ -48,7 +48,7 @@
 
     <div class="multicolumn__grid{% if show_borders %} multicolumn__grid--borders{% endif %}">
       {%- for block in section.blocks -%}
-        <div class="multicolumn__item multicolumn__item--{{ column_alignment }}" {{ block.shopify_attributes }}>
+        <div class="multicolumn__item multicolumn__item--{{ column_alignment }}" data-stagger {{ block.shopify_attributes }}>
 
           {%- if block.settings.image != blank -%}
             <div class="multicolumn__image multicolumn__image--{{ image_width }} multicolumn__image--{{ image_ratio }}">
