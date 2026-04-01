@@ -58,9 +58,9 @@
   width: 100%;
 }
 
-/* Scrolled state — shadow when header is sticky */
+/* Scrolled state — subtle shadow when header is sticky */
 .header--scrolled .header__wrapper {
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08), 0 4px 20px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04);
   border-bottom-color: transparent;
 }
 
@@ -113,7 +113,7 @@
   position: relative;
   z-index: 100;
   background-color: rgb(var(--color-background, 255, 255, 255));
-  border-bottom: 1px solid rgb(var(--color-border, 230, 230, 230));
+  border-bottom: 1px solid rgba(var(--color-border, 230, 230, 230), 0.6);
   transition: background-color var(--duration-base) var(--ease-ecrin),
               color var(--duration-base) var(--ease-ecrin),
               border-color var(--duration-base) var(--ease-ecrin),
@@ -137,9 +137,9 @@
 
 @media screen and (min-width: 990px) {
   .header__inner {
-    gap: 16px;
-    min-height: 72px;
-    padding-block: 12px;
+    gap: 20px;
+    min-height: 76px;
+    padding-block: 14px;
   }
 
   /* Layout: Logo left, nav right */
@@ -327,10 +327,10 @@
   background: none;
   color: inherit;
   font-family: var(--font-body-family);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 400;
-  letter-spacing: 0.02em;
-  text-transform: none;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   text-decoration: none;
   cursor: pointer;
   position: relative;
@@ -376,15 +376,15 @@
   overflow-y: auto;
   background-color: rgb(var(--color-background, 255, 255, 255));
   color: rgb(var(--color-text, 10, 10, 10));
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
   opacity: 0;
   visibility: hidden;
   transform: translateY(-6px);
   transition: opacity var(--duration-base) var(--ease-ecrin),
               transform var(--duration-base) var(--ease-ecrin),
               visibility var(--duration-base);
-  padding: 32px 0;
-  border-top: 1px solid rgb(var(--color-border));
+  padding: 40px 0;
+  border-top: 1px solid rgba(var(--color-border), 0.6);
   pointer-events: none;
 }
 
@@ -443,10 +443,11 @@
 
 .header__dropdown-link {
   display: block;
-  padding: 6px 0;
+  padding: 7px 0;
   color: rgb(var(--color-text));
   font-family: var(--font-body-family);
-  font-size: 14px;
+  font-size: 13px;
+  letter-spacing: 0.01em;
   text-decoration: none;
   transition: opacity var(--duration-fast) var(--ease-ecrin);
 }
@@ -564,7 +565,7 @@
 }
 
 .header__overlay.is-visible {
-  background: rgba(0,0,0,0.45);
+  background: rgba(0,0,0,0.35);
   backdrop-filter: blur(var(--backdrop-blur, 2px));
   pointer-events: auto;
 }
@@ -578,9 +579,9 @@
   width: 100%;
   z-index: 99;
   background-color: rgb(var(--color-background));
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
-  padding: 24px 0;
-  border-top: 1px solid rgb(var(--color-border));
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  padding: 28px 0;
+  border-top: 1px solid rgba(var(--color-border), 0.6);
   opacity: 0;
   visibility: hidden;
   transform: translateY(-6px);
@@ -768,7 +769,7 @@
   width: min(85vw, 380px);
   background-color: rgb(var(--color-background, 255, 255, 255));
   color: rgb(var(--color-text, 10, 10, 10));
-  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.08);
+  box-shadow: 4px 0 16px rgba(0, 0, 0, 0.04);
   transform: translateX(-100%);
   transition: transform var(--duration-slow) var(--ease-ecrin);
   overflow: hidden;
@@ -889,14 +890,14 @@
   justify-content: space-between;
   gap: 8px;
   width: 100%;
-  padding: 12px 0;
+  padding: 14px 0;
   border: none;
   background: none;
   color: rgb(var(--color-text, 10, 10, 10));
   font-family: var(--font-heading-family, serif);
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 300;
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
   line-height: 1.3;
   white-space: nowrap;
   text-decoration: none;

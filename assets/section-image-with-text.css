@@ -144,9 +144,10 @@ h4.image-with-text__heading {
 
 /* Body text */
 .image-with-text__text {
-  margin-top: 1rem;
-  font-size: 0.9375rem;
-  line-height: 1.7;
+  margin-top: 1.25rem;
+  font-size: 0.875rem;
+  line-height: 1.75;
+  letter-spacing: 0.01em;
   color: rgb(var(--color-text-subdued, 107, 107, 107));
 }
 
@@ -160,5 +161,5 @@ h4.image-with-text__heading {
 
 /* Button */
 .image-with-text__button {
-  margin-top: 1.5rem;
+  margin-top: 2rem;
 }

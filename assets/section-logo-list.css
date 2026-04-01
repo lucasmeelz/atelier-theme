@@ -69,7 +69,7 @@
 /* Grayscale style */
 .logo-list--grayscale .logo-list__image {
   filter: grayscale(1);
-  opacity: 0.5;
+  opacity: 0.4;
 }
 
 @media (hover: hover) {
@@ -101,7 +101,7 @@
   top: 25%;
   height: 50%;
   width: 1px;
-  background-color: rgb(var(--color-border));
+  background-color: rgba(var(--color-border), 0.5);
 }
 
 @media screen and (min-width: 750px) {

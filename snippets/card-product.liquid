@@ -11,6 +11,7 @@
     columns             {Number}    Grid columns (for responsive image sizes)
     lazy                {Boolean}   Lazy load images (default: true)
     section_id          {String}    Parent section ID
+    heading_level       {String}    Card title heading tag (default: h3)
 {%- endcomment -%}
 
 {%- liquid
@@ -19,8 +20,16 @@
   assign vendor_visible = show_vendor | default: settings.product_card_show_vendor
   assign quick_add_visible = show_quick_add | default: settings.product_card_show_quick_add
   assign swatches_visible = show_color_swatches | default: settings.product_card_show_color_swatches
+  assign swatch_position = settings.product_card_swatch_position | default: 'on_image'
+  assign badge_style = settings.product_card_badge_style | default: 'text_only'
   assign alignment = settings.product_card_info_alignment
+  assign card_style = settings.product_card_style | default: 'minimal'
+  assign image_fit = settings.product_card_image_fit | default: 'cover'
   assign hover_effect = settings.card_hover_effect
+  assign is_carousel = false
+  if hover_effect == 'carousel' and product.images.size > 1
+    assign is_carousel = true
+  endif
   assign loading = 'lazy'
   if lazy == false
     assign loading = 'eager'
@@ -46,54 +55,91 @@
   endif
 -%}
 
-<div class="card-product{% if alignment %} card-product--{{ alignment }}{% endif %}" data-product-id="{{ product.id }}"{% if hover_effect != blank and hover_effect != 'none' %} data-card-hover="{{ hover_effect }}"{% endif %}>
+<div class="card-product card-product--{{ card_style }}{% if alignment %} card-product--{{ alignment }}{% endif %}" data-product-id="{{ product.id }}"{% if hover_effect != blank and hover_effect != 'none' %} data-card-hover="{{ hover_effect }}"{% endif %}>
 
   {%- comment -%} Image container {%- endcomment -%}
   <div class="card-product__media">
     {%- liquid
-      assign ratio_css = ''
+      assign ratio_style = ''
       case ratio
         when 'portrait'
-          assign ratio_css = '3 / 4'
+          assign ratio_style = '--card-image-ratio: 3 / 4;'
         when 'square'
-          assign ratio_css = '1 / 1'
+          assign ratio_style = '--card-image-ratio: 1 / 1;'
         when 'landscape'
-          assign ratio_css = '4 / 3'
+          assign ratio_style = '--card-image-ratio: 4 / 3;'
+        when 'natural'
+          if primary_image
+            assign natural_ratio = primary_image.aspect_ratio | default: 0.75
+            assign ratio_style = '--card-image-ratio: ' | append: natural_ratio | append: ';'
+          endif
       endcase
     -%}
-    <a href="{{ product.url }}" class="card-product__media-link" tabindex="-1" aria-hidden="true">
-      <div class="card-product__media-wrapper"{% if ratio_css != blank %} style="--card-image-ratio: {{ ratio_css }};"{% endif %}>
+    {%- if is_carousel -%}
+      <card-carousel class="card-product__carousel">
+        <a href="{{ product.url }}" class="card-product__media-link" tabindex="-1" aria-hidden="true">
+          <div class="card-product__media-wrapper{% if image_fit == 'contain' %} card-product__media-wrapper--contain{% endif %}"{% if ratio_style != blank %} style="{{ ratio_style }}"{% endif %}>
+            <div class="card-product__carousel-track">
+              {%- assign carousel_limit = product.images.size | at_most: 5 -%}
+              {%- for image in product.images limit: carousel_limit -%}
+                {{ image | image_url: width: 800 | image_tag:
+                  loading: loading,
+                  widths: '300,400,500,600,800',
+                  sizes: card_sizes,
+                  class: 'card-product__carousel-slide',
+                  alt: image.alt | default: product.title
+                }}
+              {%- endfor -%}
+            </div>
+          </div>
+        </a>
+        <button type="button" class="card-product__carousel-btn card-product__carousel-btn--prev" aria-label="{{ 'accessibility.previous_slide' | t }}" disabled>
+          {%- render 'icon', name: 'chevron-left', size: 14 -%}
+        </button>
+        <button type="button" class="card-product__carousel-btn card-product__carousel-btn--next" aria-label="{{ 'accessibility.next_slide' | t }}">
+          {%- render 'icon', name: 'chevron-right', size: 14 -%}
+        </button>
+        <div class="card-product__carousel-pagination" aria-hidden="true">
+          {%- for image in product.images limit: carousel_limit -%}
+            <span class="card-product__carousel-dot{% if forloop.first %} card-product__carousel-dot--active{% endif %}"></span>
+          {%- endfor -%}
+        </div>
+      </card-carousel>
+    {%- else -%}
+      <a href="{{ product.url }}" class="card-product__media-link" tabindex="-1" aria-hidden="true">
+        <div class="card-product__media-wrapper{% if image_fit == 'contain' %} card-product__media-wrapper--contain{% endif %}"{% if ratio_style != blank %} style="{{ ratio_style }}"{% endif %}>
 
-        {%- if primary_image -%}
-          {{ primary_image | image_url: width: 800 | image_tag:
-            loading: loading,
-            widths: '300,400,500,600,800',
-            sizes: card_sizes,
-            class: 'card-product__image card-product__image--primary',
-            alt: primary_image.alt | default: product.title
-          }}
-
-          {%- if secondary_image -%}
-            {{ secondary_image | image_url: width: 800 | image_tag:
-              loading: 'lazy',
+          {%- if primary_image -%}
+            {{ primary_image | image_url: width: 800 | image_tag:
+              loading: loading,
               widths: '300,400,500,600,800',
               sizes: card_sizes,
-              class: 'card-product__image card-product__image--secondary',
-              alt: secondary_image.alt | default: product.title
+              class: 'card-product__image card-product__image--primary',
+              alt: primary_image.alt | default: product.title
             }}
-          {%- endif -%}
-        {%- else -%}
-          <div class="card-product__placeholder">
-            {{ 'product-1' | placeholder_svg_tag: 'card-product__placeholder-svg' }}
-          </div>
-        {%- endif -%}
 
-      </div>
-    </a>
+            {%- if secondary_image -%}
+              {{ secondary_image | image_url: width: 800 | image_tag:
+                loading: 'lazy',
+                widths: '300,400,500,600,800',
+                sizes: card_sizes,
+                class: 'card-product__image card-product__image--secondary',
+                alt: secondary_image.alt | default: product.title
+              }}
+            {%- endif -%}
+          {%- else -%}
+            <div class="card-product__placeholder">
+              {{ 'product-1' | placeholder_svg_tag: 'card-product__placeholder-svg' }}
+            </div>
+          {%- endif -%}
+
+        </div>
+      </a>
+    {%- endif -%}
 
     {%- comment -%} Badges {%- endcomment -%}
     {%- if settings.product_card_show_sale_badge and on_sale -%}
-      <span class="card-product__badge card-product__badge--sale">
+      <span class="card-product__badge card-product__badge--sale{% if badge_style == 'text_only' %} card-product__badge--text-only{% endif %}">
         {%- case settings.product_card_sale_badge_style -%}
           {%- when 'percentage' -%}
             {%- assign discount = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
@@ -108,9 +154,56 @@
     {%- endif -%}
 
     {%- if settings.product_card_show_sold_out_badge and sold_out -%}
-      <span class="card-product__badge card-product__badge--sold-out">
+      <span class="card-product__badge card-product__badge--sold-out{% if badge_style == 'text_only' %} card-product__badge--text-only{% endif %}">
         {{ 'product.sold_out' | t }}
       </span>
+    {%- endif -%}
+
+    {%- comment -%} Swatches on image (Jacquemus-style) {%- endcomment -%}
+    {%- if swatches_visible and swatch_position == 'on_image' -%}
+      {%- for option in product.options_with_values -%}
+        {%- assign option_name_lower = option.name | downcase -%}
+        {%- if option_name_lower == 'color' or option_name_lower == 'colour' -%}
+          <ul class="card-product__swatches card-product__swatches--on-image" role="list" aria-label="{{ option.name }}">
+            {%- for value in option.values -%}
+              {%- liquid
+                assign swatch_color = value | downcase | replace: ' ', ''
+                assign swatch_style = ''
+
+                if value.swatch.image
+                  assign swatch_img_url = value.swatch.image | image_url: width: 64
+                  assign swatch_style = 'background-image: url(' | append: swatch_img_url | append: '); background-size: cover; background-position: center;'
+                elsif value.swatch.color
+                  assign swatch_style = 'background-color: ' | append: value.swatch.color
+                else
+                  for swatch_line in settings.swatch_config
+                    assign swatch_parts = swatch_line | strip | split: ':'
+                    assign swatch_name = swatch_parts[0] | strip | downcase | replace: ' ', ''
+                    if swatch_name == swatch_color
+                      assign swatch_style = 'background-color: ' | append: swatch_parts[1] | strip
+                      break
+                    endif
+                  endfor
+                  if swatch_style == blank
+                    assign swatch_style = 'background-color: ' | append: value | downcase
+                  endif
+                endif
+              -%}
+              <li class="card-product__swatch card-product__swatch--{{ settings.product_card_swatch_shape }}"
+                  style="{{ swatch_style }}"
+                  title="{{ value }}"
+                  aria-label="{{ value }}">
+              </li>
+              {%- if forloop.index == 4 and forloop.length > 4 -%}
+                <li class="card-product__swatch card-product__swatch--more">
+                  +{{ forloop.length | minus: 4 }}
+                </li>
+                {%- break -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      {%- endfor -%}
     {%- endif -%}
 
     {%- comment -%} Quick add {%- endcomment -%}
@@ -119,14 +212,16 @@
         <form method="post" action="{{ routes.cart_add_url }}" class="card-product__quick-add">
           <input type="hidden" name="id" value="{{ product.first_available_variant.id }}">
           <input type="hidden" name="quantity" value="1">
-          <button type="submit" class="card-product__quick-add-btn btn--icon" aria-label="{{ 'product.add_to_cart' | t }}: {{ product.title | escape }}">
-            {%- render 'icon', name: 'plus', size: 16 -%}
+          <button type="submit" class="card-product__quick-add-btn" aria-label="{{ 'product.add_to_cart' | t }}: {{ product.title | escape }}">
+            {{ 'product.add_to_cart' | t }}
           </button>
         </form>
       {%- else -%}
-        <button type="button" class="card-product__quick-add-btn btn--icon" data-quick-view="{{ product.url }}" aria-label="{{ 'product.quick_view' | t }}: {{ product.title | escape }}">
-          {%- render 'icon', name: 'plus', size: 16 -%}
-        </button>
+        <div class="card-product__quick-add">
+          <button type="button" class="card-product__quick-add-btn" data-quick-view="{{ product.url }}" aria-label="{{ 'product.quick_view' | t }}: {{ product.title | escape }}">
+            {{ 'product.quick_view' | t }}
+          </button>
+        </div>
       {%- endif -%}
     {%- endif -%}
   </div>
@@ -137,9 +232,10 @@
       <p class="card-product__vendor label">{{ product.vendor }}</p>
     {%- endif -%}
 
-    <h3 class="card-product__title">
+    {%- assign card_heading_tag = heading_level | default: 'h3' -%}
+    <{{ card_heading_tag }} class="card-product__title">
       <a href="{{ product.url }}">{{ product.title }}</a>
-    </h3>
+    </{{ card_heading_tag }}>
 
     {%- render 'price', product: product, show_badges: false -%}
 
@@ -170,8 +266,8 @@
       </div>
     {%- endif -%}
 
-    {%- comment -%} Color swatches {%- endcomment -%}
-    {%- if swatches_visible -%}
+    {%- comment -%} Color swatches (below title) {%- endcomment -%}
+    {%- if swatches_visible and swatch_position == 'below' -%}
       {%- for option in product.options_with_values -%}
         {%- assign option_name_lower = option.name | downcase -%}
         {%- if option_name_lower == 'color' or option_name_lower == 'colour' -%}

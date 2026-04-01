@@ -555,7 +555,7 @@
                 -%}
                 <div class="product__highlights" {{ block.shopify_attributes }}>
                   {%- if block.settings.heading != blank -%}
-                    <h3 class="product__highlights-heading label">{{ block.settings.heading }}</h3>
+                    <h2 class="product__highlights-heading label">{{ block.settings.heading }}</h2>
                   {%- endif -%}
                   <ul class="product__highlights-list">
                     {%- if highlights_source == 'metafield' and product.metafields.custom[metafield_key] != blank -%}
@@ -589,7 +589,7 @@
               {%- when 'complementary_products' -%}
                 <div class="product__complementary" {{ block.shopify_attributes }}>
                   {%- if block.settings.heading != blank -%}
-                    <h3 class="product__complementary-heading label">{{ block.settings.heading }}</h3>
+                    <h2 class="product__complementary-heading label">{{ block.settings.heading }}</h2>
                   {%- endif -%}
                   <div class="product__complementary-grid">
                     {%- if block.settings.collection != blank -%}
@@ -621,7 +621,7 @@
                 {%- if block.settings.image_before != blank and block.settings.image_after != blank -%}
                   <div class="product__before-after" {{ block.shopify_attributes }}>
                     {%- if block.settings.heading != blank -%}
-                      <h3 class="product__before-after-heading label">{{ block.settings.heading }}</h3>
+                      <h2 class="product__before-after-heading label">{{ block.settings.heading }}</h2>
                     {%- endif -%}
                     <before-after-slider class="before-after" style="--position: 50%;">
                       <div class="before-after__container">
@@ -719,7 +719,7 @@
                     <dialog class="product__size-guide-dialog" id="size-guide-dialog-{{ section.id }}" scroll-lock>
                       <div class="product__size-guide-dialog-inner">
                         <div class="product__size-guide-dialog-header">
-                          <h3 class="product__size-guide-dialog-title h4">{{ block.settings.label }}</h3>
+                          <h2 class="product__size-guide-dialog-title h4">{{ block.settings.label }}</h2>
                           <button class="product__size-guide-dialog-close" type="button" aria-label="{{ 'accessibility.close' | t }}">
                             {%- render 'icon', name: 'close', size: 20 -%}
                           </button>
@@ -754,15 +754,15 @@
                   <div class="product__stock-level product__stock-level--low" {{ block.shopify_attributes }} data-stock-level>
                     <span class="product__stock-dot"></span>
                     {%- if show_count -%}
-                      <span>{{ 'product.stock_low_count' | t: count: inventory }}</span>
+                      <span>{{ 'product.inventory.low_stock' | t: count: inventory }}</span>
                     {%- else -%}
-                      <span>{{ 'product.stock_low' | t }}</span>
+                      <span>{{ 'product.inventory.low_stock' | t: count: '' }}</span>
                     {%- endif -%}
                   </div>
                 {%- elsif current_variant.inventory_management != blank and inventory_policy == 'deny' and inventory > threshold -%}
                   <div class="product__stock-level product__stock-level--in-stock" {{ block.shopify_attributes }} data-stock-level>
                     <span class="product__stock-dot"></span>
-                    <span>{{ 'product.in_stock' | t }}</span>
+                    <span>{{ 'product.inventory.in_stock' | t }}</span>
                   </div>
                 {%- endif -%}
 

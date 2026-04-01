@@ -111,8 +111,9 @@
 }
 
 .blog-posts__card-title {
+  font-family: var(--font-heading-family);
   font-size: 1.125rem;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1.3;
   margin: 0 0 8px;
 }
@@ -120,15 +121,19 @@
 .blog-posts__card-title a {
   text-decoration: none;
   color: inherit;
+  transition: opacity var(--duration-fast) var(--ease-ecrin);
 }
 
-.blog-posts__card-title a:hover {
-  opacity: 0.7;
+@media (hover: hover) {
+  .blog-posts__card-title a:hover {
+    opacity: 0.7;
+  }
 }
 
 .blog-posts__card-excerpt {
-  font-size: 0.875rem;
-  line-height: 1.6;
+  font-size: 0.8125rem;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
   color: rgb(var(--color-text-subdued, 107, 107, 107));
   margin: 0 0 12px;
 }
