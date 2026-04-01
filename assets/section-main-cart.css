@@ -166,7 +166,7 @@
   cursor: pointer;
   font-size: 1rem;
   color: rgb(var(--color-text, 10, 10, 10));
-  transition: opacity var(--duration-fast, 200ms) ease;
+  transition: opacity var(--duration-fast, 200ms) var(--ease-ecrin, ease);
 }
 
 @media (hover: hover) {
