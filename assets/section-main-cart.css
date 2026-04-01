@@ -89,9 +89,11 @@
   margin-bottom: 4px;
 }
 
-.main-cart__item-title:hover {
-  text-decoration: underline;
-  text-underline-offset: 3px;
+@media (hover: hover) {
+  .main-cart__item-title:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
 }
 
 .main-cart__item-variant {
@@ -167,8 +169,10 @@
   transition: opacity var(--duration-fast, 200ms) ease;
 }
 
-.main-cart__quantity-btn:hover {
-  opacity: 0.6;
+@media (hover: hover) {
+  .main-cart__quantity-btn:hover {
+    opacity: 0.6;
+  }
 }
 
 .main-cart__quantity-input {
@@ -199,8 +203,10 @@
   text-underline-offset: 3px;
 }
 
-.main-cart__item-remove:hover {
-  opacity: 1;
+@media (hover: hover) {
+  .main-cart__item-remove:hover {
+    opacity: 1;
+  }
 }
 
 /* Mobile actions — visible on mobile only */
