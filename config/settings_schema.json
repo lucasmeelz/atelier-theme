@@ -401,6 +401,17 @@
       },
       {
         "type": "select",
+        "id": "product_card_style",
+        "label": "t:settings_schema.product_cards.card_style",
+        "options": [
+          { "value": "minimal", "label": "t:settings_schema.product_cards.style_minimal" },
+          { "value": "outlined", "label": "t:settings_schema.product_cards.style_outlined" },
+          { "value": "elevated", "label": "t:settings_schema.product_cards.style_elevated" }
+        ],
+        "default": "minimal"
+      },
+      {
+        "type": "select",
         "id": "product_card_image_ratio",
         "label": "t:settings_schema.product_cards.image_ratio",
         "options": [
@@ -410,6 +421,17 @@
           { "value": "landscape", "label": "t:settings_schema.product_cards.landscape" }
         ],
         "default": "portrait"
+      },
+      {
+        "type": "select",
+        "id": "product_card_image_fit",
+        "label": "t:settings_schema.product_cards.image_fit",
+        "info": "t:settings_schema.product_cards.image_fit_info",
+        "options": [
+          { "value": "cover", "label": "t:settings_schema.product_cards.image_cover" },
+          { "value": "contain", "label": "t:settings_schema.product_cards.image_contain" }
+        ],
+        "default": "cover"
       },
       {
         "type": "checkbox",

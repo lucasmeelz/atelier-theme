@@ -467,8 +467,13 @@ button.collection__filter-toggle.btn {
 .collection__grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 20px 12px;
+  gap: var(--collection-row-gap, 20px) var(--collection-col-gap, 12px);
 }
+
+/* Grid gap variants */
+.collection__grid--gap-compact { --collection-row-gap: 12px; --collection-col-gap: 8px; }
+.collection__grid--gap-standard { --collection-row-gap: 20px; --collection-col-gap: 12px; }
+.collection__grid--gap-wide { --collection-row-gap: 32px; --collection-col-gap: 20px; }
 
 /* Mobile column overrides */
 .collection__grid--mobile-1 { grid-template-columns: 1fr; }
@@ -476,7 +481,14 @@ button.collection__filter-toggle.btn {
 
 /* Desktop overrides */
 @media screen and (min-width: 990px) {
-  .collection__grid { grid-template-columns: repeat(4, 1fr); gap: 32px 20px; }
+  .collection__grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .collection__grid--gap-compact { --collection-row-gap: 20px; --collection-col-gap: 12px; }
+  .collection__grid--gap-standard { --collection-row-gap: 32px; --collection-col-gap: 20px; }
+  .collection__grid--gap-wide { --collection-row-gap: 48px; --collection-col-gap: 32px; }
+
   .collection__grid--desktop-2 { grid-template-columns: repeat(2, 1fr); }
   .collection__grid--desktop-3 { grid-template-columns: repeat(3, 1fr); }
   .collection__grid--desktop-4 { grid-template-columns: repeat(4, 1fr); }

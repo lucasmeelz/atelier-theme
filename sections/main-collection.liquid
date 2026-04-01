@@ -15,6 +15,8 @@
   assign show_secondary_image = section.settings.show_secondary_image
   assign show_vendor = section.settings.show_vendor
   assign show_quick_add = section.settings.show_quick_add
+  assign grid_gap = section.settings.grid_gap | default: 'standard'
+  assign show_color_swatches = section.settings.show_color_swatches
   assign show_sort = section.settings.show_sort
   assign show_filters = section.settings.show_filters
   assign filter_layout = section.settings.filter_layout
@@ -241,7 +243,7 @@
     {%- comment -%} Product grid {%- endcomment -%}
     <div
       id="collection-grid-{{ section.id }}"
-      class="collection__grid collection__grid--desktop-{{ columns_desktop }} collection__grid--mobile-{{ columns_mobile }}"
+      class="collection__grid collection__grid--desktop-{{ columns_desktop }} collection__grid--mobile-{{ columns_mobile }} collection__grid--gap-{{ grid_gap }}"
       {% if settings.stagger_products %}data-stagger-cards{% endif %}
     >
       {%- if collection.products.size > 0 -%}
@@ -253,6 +255,7 @@
               show_secondary_image: show_secondary_image,
               show_vendor: show_vendor,
               show_quick_add: show_quick_add,
+              show_color_swatches: show_color_swatches,
               show_rating: settings.product_card_show_rating,
               columns: columns_desktop,
               lazy: true,
@@ -743,6 +746,23 @@
       "type": "checkbox",
       "id": "show_quick_add",
       "label": "t:sections.main_collection.show_quick_add",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "grid_gap",
+      "label": "t:sections.main_collection.grid_gap",
+      "options": [
+        { "value": "compact", "label": "t:sections.main_collection.gap_compact" },
+        { "value": "standard", "label": "t:sections.main_collection.gap_standard" },
+        { "value": "wide", "label": "t:sections.main_collection.gap_wide" }
+      ],
+      "default": "standard"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_color_swatches",
+      "label": "t:sections.main_collection.show_color_swatches",
       "default": true
     },
     {
