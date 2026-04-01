@@ -497,8 +497,10 @@
   transition: opacity 0.3s var(--ease-ecrin, ease);
 }
 
-.customer__back-link:hover {
-  opacity: 1;
+@media (hover: hover) {
+  .customer__back-link:hover {
+    opacity: 1;
+  }
 }
 
 .customer__back-link svg {
