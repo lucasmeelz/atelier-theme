@@ -80,26 +80,51 @@
   object-fit: cover;
 }
 
+.card-product__image--primary {
+  transition: transform var(--duration-slow) var(--ease-ecrin),
+              opacity var(--duration-base) var(--ease-ecrin);
+}
+
 .card-product__image--secondary {
   position: absolute;
   inset: 0;
   opacity: 0;
-  transition: opacity var(--duration-base) var(--ease-ecrin);
+  transition: opacity var(--duration-base) var(--ease-ecrin),
+              transform var(--duration-slow) var(--ease-ecrin);
 }
 
-/* Secondary image on hover */
+/* ─── Hover: secondary image crossfade (all effects) ─── */
 @media (hover: hover) {
   .card-product__media:hover .card-product__image--secondary {
     opacity: 1;
   }
 
-  /* Scale effect */
-  [data-card-hover="scale"] .card-product__image--primary {
-    transition: transform var(--duration-slow) var(--ease-ecrin);
-  }
-
+  /* Scale — primary zooms in gently */
   [data-card-hover="scale"] .card-product__media:hover .card-product__image--primary {
     transform: scale(1.05);
+  }
+
+  /* Slide up — secondary slides up from below while fading in */
+  [data-card-hover="slide-up"] .card-product__image--secondary {
+    transform: translateY(8%);
+  }
+
+  [data-card-hover="slide-up"] .card-product__media:hover .card-product__image--secondary {
+    transform: translateY(0);
+  }
+
+  /* Zoom fade — primary fades out with slight zoom, secondary zooms in from larger */
+  [data-card-hover="zoom-fade"] .card-product__media:hover .card-product__image--primary {
+    transform: scale(1.04);
+    opacity: 0;
+  }
+
+  [data-card-hover="zoom-fade"] .card-product__image--secondary {
+    transform: scale(1.06);
+  }
+
+  [data-card-hover="zoom-fade"] .card-product__media:hover .card-product__image--secondary {
+    transform: scale(1);
   }
 }
 
