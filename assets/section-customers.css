@@ -99,8 +99,10 @@
   transition: opacity 0.3s var(--ease-ecrin, ease);
 }
 
-.customer__form-footer a:hover {
-  opacity: 1;
+@media (hover: hover) {
+  .customer__form-footer a:hover {
+    opacity: 1;
+  }
 }
 
 /* Error / Success messages
@@ -149,9 +151,14 @@
   transition: opacity 0.3s var(--ease-ecrin, ease);
 }
 
-.customer__account-nav a:hover,
 .customer__account-nav a.is-active {
   opacity: 1;
+}
+
+@media (hover: hover) {
+  .customer__account-nav a:hover {
+    opacity: 1;
+  }
 }
 
 /* Orders table
@@ -381,9 +388,11 @@
   transition: opacity 0.3s var(--ease-ecrin, ease);
 }
 
-.customer__address-actions button:hover,
-.customer__address-actions a:hover {
-  opacity: 1;
+@media (hover: hover) {
+  .customer__address-actions button:hover,
+  .customer__address-actions a:hover {
+    opacity: 1;
+  }
 }
 
 .customer__address-actions button.danger {
