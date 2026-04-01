@@ -482,9 +482,20 @@
           { "value": "none", "label": "t:settings_schema.product_cards.none" },
           { "value": "scale", "label": "t:settings_schema.product_cards.scale" },
           { "value": "slide-up", "label": "t:settings_schema.product_cards.slide_up" },
-          { "value": "zoom-fade", "label": "t:settings_schema.product_cards.zoom_fade" }
+          { "value": "zoom-fade", "label": "t:settings_schema.product_cards.zoom_fade" },
+          { "value": "carousel", "label": "t:settings_schema.product_cards.carousel" }
         ],
-        "default": "zoom-fade"
+        "default": "carousel"
+      },
+      {
+        "type": "select",
+        "id": "product_card_swatch_position",
+        "label": "t:settings_schema.product_cards.swatch_position",
+        "options": [
+          { "value": "below", "label": "t:settings_schema.product_cards.swatch_below" },
+          { "value": "on_image", "label": "t:settings_schema.product_cards.swatch_on_image" }
+        ],
+        "default": "on_image"
       },
       {
         "type": "select",
@@ -497,6 +508,16 @@
         "default": "circle"
       },
       { "type": "header", "content": "t:settings_schema.product_cards.badges" },
+      {
+        "type": "select",
+        "id": "product_card_badge_style",
+        "label": "t:settings_schema.product_cards.badge_style",
+        "options": [
+          { "value": "filled", "label": "t:settings_schema.product_cards.badge_filled" },
+          { "value": "text_only", "label": "t:settings_schema.product_cards.badge_text_only" }
+        ],
+        "default": "text_only"
+      },
       {
         "type": "checkbox",
         "id": "product_card_show_sale_badge",

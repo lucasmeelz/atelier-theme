@@ -6,6 +6,9 @@
 
 {{ 'section-main-collection.css' | asset_url | stylesheet_tag }}
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
+{%- if settings.card_hover_effect == 'carousel' -%}
+  <script src="{{ 'component-card-carousel.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
 
 {%- liquid
   assign products_per_page = section.settings.products_per_page
