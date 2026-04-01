@@ -102,9 +102,11 @@ h3.featured-collection__heading {
               opacity var(--duration-fast, 200ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
 }
 
-.featured-collection__nav-btn:hover:not(:disabled) {
-  background-color: rgb(var(--color-text, 10, 10, 10));
-  color: rgb(var(--color-background, 255, 255, 255));
+@media (hover: hover) {
+  .featured-collection__nav-btn:hover:not(:disabled) {
+    background-color: rgb(var(--color-text, 10, 10, 10));
+    color: rgb(var(--color-background, 255, 255, 255));
+  }
 }
 
 .featured-collection__nav-btn:disabled {
@@ -361,9 +363,11 @@ h3.featured-collection__heading {
               color var(--duration-fast, 200ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
 }
 
-.card-product__quick-add-btn:hover {
-  background-color: rgb(var(--color-text, 10, 10, 10));
-  color: rgb(var(--color-background, 255, 255, 255));
+@media (hover: hover) {
+  .card-product__quick-add-btn:hover {
+    background-color: rgb(var(--color-text, 10, 10, 10));
+    color: rgb(var(--color-background, 255, 255, 255));
+  }
 }
 
 /* ===================================
@@ -396,9 +400,11 @@ h3.featured-collection__heading {
   color: inherit;
 }
 
-.card-product__title a:hover {
-  text-decoration: underline;
-  text-underline-offset: 2px;
+@media (hover: hover) {
+  .card-product__title a:hover {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
 }
 
 /* ===================================

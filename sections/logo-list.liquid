@@ -36,7 +36,7 @@
       style="--logo-list-height: {{ logo_height }}px;"
     >
       {%- for block in section.blocks -%}
-        <div class="logo-list__item" {{ block.shopify_attributes }}>
+        <div class="logo-list__item" data-stagger {{ block.shopify_attributes }}>
           {%- if block.settings.link != blank -%}
             <a href="{{ block.settings.link }}" aria-label="{{ block.settings.image.alt | default: 'Logo' }}">
           {%- endif -%}

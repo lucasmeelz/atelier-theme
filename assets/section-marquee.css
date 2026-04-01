@@ -112,6 +112,6 @@
    =================================== */
 @media (prefers-reduced-motion: reduce) {
   .marquee__track {
-    animation-duration: 60s;
+    animation: none;
   }
 }

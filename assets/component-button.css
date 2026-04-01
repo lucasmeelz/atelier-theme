@@ -176,12 +176,12 @@
 
 .btn--outline-white {
   background-color: transparent;
-  border-color: #fff;
-  color: #fff;
+  border-color: rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
 }
 
 .btn--outline-white .btn__fill {
-  background-color: #fff;
+  background-color: rgb(255, 255, 255);
 }
 
 @media (hover: hover) {
@@ -194,7 +194,7 @@
   }
 
   [data-button-hover="fade"] .btn--outline-white:hover {
-    background-color: #fff;
+    background-color: rgb(255, 255, 255);
     color: rgb(var(--color-text));
   }
 }
@@ -202,8 +202,8 @@
 /* ===== FILLED WHITE (for dark backgrounds / hero overlays) ===== */
 
 .btn--filled-white {
-  background-color: #fff;
-  border-color: #fff;
+  background-color: rgb(255, 255, 255);
+  border-color: rgb(255, 255, 255);
   color: rgb(var(--color-text));
 }
 
@@ -213,7 +213,7 @@
 
 @media (hover: hover) {
   [data-button-hover="slide-up"] .btn--filled-white:hover {
-    color: #fff;
+    color: rgb(255, 255, 255);
   }
 
   [data-button-hover="slide-up"] .btn--filled-white:hover .btn__fill {
@@ -226,7 +226,7 @@
 }
 
 .btn--filled-white:active {
-  color: #fff;
+  color: rgb(255, 255, 255);
 }
 
 .btn--filled-white:active .btn__fill {

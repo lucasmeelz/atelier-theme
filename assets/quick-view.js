@@ -194,7 +194,7 @@
         atcBtn.disabled = true;
         atcBtn.textContent = t.adding;
 
-        fetch('/cart/add.js', {
+        fetch((window.Shopify && window.Shopify.routes && window.Shopify.routes.root || '/') + 'cart/add.js', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
           body: JSON.stringify({ id: currentVariant.id, quantity: 1 })

@@ -64,6 +64,37 @@
   line-height: 1;
   letter-spacing: -0.02em;
   font-variant-numeric: tabular-nums;
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  height: 1em;
+  vertical-align: top;
+}
+
+/* Digit slide animation — each digit is a span inside .countdown__number */
+.countdown__digit {
+  display: block;
+  height: 1em;
+  line-height: 1;
+  transition: transform var(--duration-base, 350ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
+}
+
+.countdown__digit--out {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  transform: translateY(-100%);
+}
+
+.countdown__digit--in {
+  transform: translateY(0);
+}
+
+/* Reduced motion: skip digit slide, just swap */
+@media (prefers-reduced-motion: reduce) {
+  .countdown__digit {
+    transition: none;
+  }
 }
 
 .countdown__label {

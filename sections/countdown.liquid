@@ -35,22 +35,22 @@
 
     <div class="countdown__timer" aria-live="polite" aria-atomic="true">
       <div class="countdown__unit">
-        <span class="countdown__number" data-days>00</span>
+        <span class="countdown__number" data-days><span class="countdown__digit countdown__digit--in">00</span></span>
         <span class="countdown__label">{{ 'countdown.days' | t }}</span>
       </div>
       <span class="countdown__separator" aria-hidden="true">:</span>
       <div class="countdown__unit">
-        <span class="countdown__number" data-hours>00</span>
+        <span class="countdown__number" data-hours><span class="countdown__digit countdown__digit--in">00</span></span>
         <span class="countdown__label">{{ 'countdown.hours' | t }}</span>
       </div>
       <span class="countdown__separator" aria-hidden="true">:</span>
       <div class="countdown__unit">
-        <span class="countdown__number" data-minutes>00</span>
+        <span class="countdown__number" data-minutes><span class="countdown__digit countdown__digit--in">00</span></span>
         <span class="countdown__label">{{ 'countdown.minutes' | t }}</span>
       </div>
       <span class="countdown__separator" aria-hidden="true">:</span>
       <div class="countdown__unit">
-        <span class="countdown__number" data-seconds>00</span>
+        <span class="countdown__number" data-seconds><span class="countdown__digit countdown__digit--in">00</span></span>
         <span class="countdown__label">{{ 'countdown.seconds' | t }}</span>
       </div>
     </div>
@@ -90,6 +90,39 @@
 
       function pad(n) { return n < 10 ? '0' + n : String(n); }
 
+      /* Slide-update a digit container: old slides up, new slides in from below */
+      function slideDigit(container, newValue) {
+        if (!container) return;
+        var current = container.querySelector('.countdown__digit--in');
+        if (current && current.textContent === newValue) return;
+
+        /* Create new digit element */
+        var incoming = document.createElement('span');
+        incoming.className = 'countdown__digit';
+        incoming.textContent = newValue;
+        incoming.style.transform = 'translateY(100%)';
+        container.appendChild(incoming);
+
+        /* Force reflow, then animate */
+        incoming.offsetHeight; /* eslint-disable-line no-unused-expressions */
+        incoming.style.transform = '';
+        incoming.classList.add('countdown__digit--in');
+
+        if (current) {
+          current.classList.remove('countdown__digit--in');
+          current.classList.add('countdown__digit--out');
+          /* Remove old digit after transition */
+          current.addEventListener('transitionend', function handler() {
+            current.removeEventListener('transitionend', handler);
+            if (current.parentNode) current.parentNode.removeChild(current);
+          });
+          /* Fallback removal if transitionend doesn't fire */
+          setTimeout(function() {
+            if (current.parentNode) current.parentNode.removeChild(current);
+          }, 400);
+        }
+      }
+
       function update() {
         var now = Date.now();
         var diff = endTime - now;
@@ -106,10 +139,10 @@
         var minutes = Math.floor((diff % 3600000) / 60000);
         var seconds = Math.floor((diff % 60000) / 1000);
 
-        if (daysEl) daysEl.textContent = pad(days);
-        if (hoursEl) hoursEl.textContent = pad(hours);
-        if (minutesEl) minutesEl.textContent = pad(minutes);
-        if (secondsEl) secondsEl.textContent = pad(seconds);
+        slideDigit(daysEl, pad(days));
+        slideDigit(hoursEl, pad(hours));
+        slideDigit(minutesEl, pad(minutes));
+        slideDigit(secondsEl, pad(seconds));
 
         requestAnimationFrame(function() {
           setTimeout(update, 1000 - (Date.now() % 1000));
