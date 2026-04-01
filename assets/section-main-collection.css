@@ -701,9 +701,6 @@ collection-filters {
   outline-offset: 2px;
 }
 
-/* Reduced-motion: disable autonomous filter animations */
-@media (prefers-reduced-motion: reduce) {
-  .collection__filters {
-    transition: none;
-  }
-}
+/* Note: filter expand/collapse is user-triggered (click) —
+   per CLAUDE.md, user-triggered transitions must NEVER be disabled
+   in prefers-reduced-motion. Only autonomous animations are targeted. */
