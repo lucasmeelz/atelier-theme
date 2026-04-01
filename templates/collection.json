@@ -14,9 +14,7 @@
       "settings": {
         "layout": "plain",
         "show_description": true,
-        "title_size": "h1",
-        "overlay_opacity": 30,
-        "color_scheme": ""
+        "title_size": "h1"
       }
     },
     "main": {
@@ -25,16 +23,13 @@
         "products_per_page": 24,
         "columns_desktop": 4,
         "columns_mobile": "2",
-        "image_ratio": "square",
+        "image_ratio": "portrait",
         "show_secondary_image": true,
         "show_vendor": false,
         "show_quick_add": true,
         "show_filters": true,
-        "filter_layout": "sidebar",
-        "show_sort": true,
-        "pagination_type": "paginated",
-        "show_view_toggle": true,
-        "color_scheme": ""
+        "filter_layout": "drawer",
+        "show_sort": true
       }
     }
   },
