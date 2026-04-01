@@ -41,7 +41,7 @@
           {%- endif -%}
 
           {%- if overlay_opacity > 0 and layout == 'full' -%}
-            <div class="editorial__image-overlay" style="background: rgba(0, 0, 0, {{ overlay_opacity }});"></div>
+            <div class="editorial__image-overlay" style="--editorial-overlay: {{ overlay_opacity }};"></div>
           {%- endif -%}
 
           {%- if block.settings.caption != blank and layout == 'full' -%}
