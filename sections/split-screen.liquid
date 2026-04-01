@@ -13,7 +13,7 @@
 
 <div
   id="Section-{{ section.id }}"
-  class="split-screen{% if reverse %} split-screen--reverse{% endif %}"
+  class="split-screen full-width{% if reverse %} split-screen--reverse{% endif %}"
   {% if hover_effect %}data-hover-effect{% endif %}
 >
   {%- for block in section.blocks -%}
