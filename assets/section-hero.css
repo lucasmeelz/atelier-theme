@@ -84,7 +84,7 @@
    =================================== */
 .hero__overlay {
   z-index: 1;
-  background-color: var(--hero-overlay-color, #000000);
+  background-color: rgb(0, 0, 0);
   opacity: var(--hero-overlay-opacity, 0.2);
   pointer-events: none;
 }

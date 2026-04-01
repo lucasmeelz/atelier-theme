@@ -1577,11 +1577,11 @@ collapsible-details + :not(collapsible-details):not(.product__ingredients) {
 }
 
 .product__stock-level--low {
-  color: var(--color-sale-badge, #c00);
+  color: rgb(var(--color-error, 194, 58, 58));
 }
 
 .product__stock-level--low .product__stock-dot {
-  background-color: var(--color-sale-badge, #c00);
+  background-color: rgb(var(--color-error, 194, 58, 58));
   animation: stock-pulse 1.5s ease-in-out infinite;
 }
 

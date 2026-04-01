@@ -179,17 +179,17 @@ h4.newsletter__heading {
 .newsletter__success {
   margin-top: 0.75rem;
   font-size: 0.875rem;
-  color: var(--color-success, #2d7d46);
+  color: rgb(var(--color-success, 45, 125, 70));
 }
 
 .newsletter--has-bg .newsletter__success {
-  color: var(--color-success-on-dark, #7ddf9b);
+  color: rgb(var(--color-success, 45, 125, 70));
 }
 
 .newsletter__error {
   margin-top: 0.75rem;
   font-size: 0.875rem;
-  color: var(--color-error, #c44);
+  color: rgb(var(--color-error, 194, 58, 58));
 }
 
 /* ===================================
