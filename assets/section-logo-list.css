@@ -1,0 +1,111 @@
+/* Logo List / Press Section */
+
+.logo-list__header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+@media screen and (min-width: 750px) {
+  .logo-list__header {
+    margin-bottom: 48px;
+  }
+}
+
+.logo-list__subheading {
+  color: rgb(var(--color-text-subdued));
+  margin-bottom: 8px;
+}
+
+.logo-list__heading {
+  margin: 0;
+}
+
+/* Grid layout */
+.logo-list__grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 24px 32px;
+}
+
+@media screen and (min-width: 750px) {
+  .logo-list__grid {
+    gap: 32px 48px;
+  }
+}
+
+.logo-list__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: calc((100% - 32px) / 3);
+}
+
+@media screen and (min-width: 750px) {
+  .logo-list__grid--4 .logo-list__item { width: calc((100% - 144px) / 4); }
+  .logo-list__grid--5 .logo-list__item { width: calc((100% - 192px) / 5); }
+  .logo-list__grid--6 .logo-list__item { width: calc((100% - 240px) / 6); }
+  .logo-list__grid--7 .logo-list__item { width: calc((100% - 288px) / 7); }
+  .logo-list__grid--8 .logo-list__item { width: calc((100% - 336px) / 8); }
+}
+
+.logo-list__item a {
+  display: block;
+  text-decoration: none;
+}
+
+.logo-list__image {
+  max-width: 100%;
+  max-height: var(--logo-list-height, 48px);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  transition: opacity var(--duration-base) var(--ease-ecrin),
+              filter var(--duration-base) var(--ease-ecrin);
+}
+
+/* Grayscale style */
+.logo-list--grayscale .logo-list__image {
+  filter: grayscale(1);
+  opacity: 0.5;
+}
+
+@media (hover: hover) {
+  .logo-list--grayscale .logo-list__item:hover .logo-list__image {
+    filter: grayscale(0);
+    opacity: 1;
+  }
+}
+
+/* Placeholder fallback */
+.logo-list__item .placeholder-svg {
+  max-width: 100%;
+  max-height: var(--logo-list-height, 48px);
+  width: auto;
+  height: auto;
+  fill: rgb(var(--color-text));
+  opacity: 0.15;
+}
+
+/* Divider between logos */
+.logo-list--dividers .logo-list__item {
+  position: relative;
+}
+
+.logo-list--dividers .logo-list__item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: calc(-16px - 0.5px);
+  top: 25%;
+  height: 50%;
+  width: 1px;
+  background-color: rgb(var(--color-border));
+}
+
+@media screen and (min-width: 750px) {
+  .logo-list--dividers .logo-list__item:not(:last-child)::after {
+    right: calc(-24px - 0.5px);
+  }
+}
