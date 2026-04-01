@@ -105,8 +105,10 @@ h3.testimonials__heading {
   transition: border-color var(--duration-base, 350ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
 }
 
-.testimonials__card:hover {
-  border-color: rgb(var(--color-text, 10, 10, 10));
+@media (hover: hover) {
+  .testimonials__card:hover {
+    border-color: rgb(var(--color-text, 10, 10, 10));
+  }
 }
 
 /* Decorative quotation mark */
