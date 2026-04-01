@@ -11,6 +11,7 @@
     columns             {Number}    Grid columns (for responsive image sizes)
     lazy                {Boolean}   Lazy load images (default: true)
     section_id          {String}    Parent section ID
+    heading_level       {String}    Card title heading tag (default: h3)
 {%- endcomment -%}
 
 {%- liquid
@@ -137,9 +138,10 @@
       <p class="card-product__vendor label">{{ product.vendor }}</p>
     {%- endif -%}
 
-    <h3 class="card-product__title">
+    {%- assign card_heading_tag = heading_level | default: 'h3' -%}
+    <{{ card_heading_tag }} class="card-product__title">
       <a href="{{ product.url }}">{{ product.title }}</a>
-    </h3>
+    </{{ card_heading_tag }}>
 
     {%- render 'price', product: product, show_badges: false -%}
 

@@ -101,6 +101,7 @@
                   id="{{ swatch_input_id }}"
                   name="option-{{ product.id }}-{{ option_index }}"
                   value="{{ value | escape }}"
+                  aria-label="{{ option_name }}: {{ value }}"
                   {% if is_selected %}checked{% endif %}
                   class="visually-hidden"
                   data-option-input
