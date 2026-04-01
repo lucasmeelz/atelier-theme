@@ -30,7 +30,7 @@
       assign panel_color_scheme = block.settings.color_scheme
     -%}
 
-    <div class="split-screen__panel color-{{ panel_color_scheme }}" {{ block.shopify_attributes }}>
+    <div class="split-screen__panel color-{{ panel_color_scheme }}" data-stagger {{ block.shopify_attributes }}>
       {%- if panel_image != blank -%}
         {{
           panel_image

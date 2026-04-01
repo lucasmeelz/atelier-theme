@@ -24,7 +24,7 @@
           assign layout = block.settings.layout
           assign overlay_opacity = block.settings.overlay_opacity | divided_by: 100.0
         -%}
-        <div class="editorial__block editorial__image-block editorial__image-block--{{ layout }}" {{ block.shopify_attributes }}>
+        <div class="editorial__block editorial__image-block editorial__image-block--{{ layout }}" data-stagger {{ block.shopify_attributes }}>
           {%- if block.settings.image != blank -%}
             {{
               block.settings.image
@@ -53,7 +53,7 @@
 
       {%- comment -%} === TEXT BLOCK === {%- endcomment -%}
       {%- when 'text' -%}
-        <div class="editorial__block editorial__text-block" {{ block.shopify_attributes }}>
+        <div class="editorial__block editorial__text-block" data-stagger {{ block.shopify_attributes }}>
           <div class="editorial__text-inner editorial__text-inner--{{ block.settings.alignment }}">
             {%- if block.settings.subheading != blank -%}
               <p class="editorial__text-subheading subheading">{{ block.settings.subheading }}</p>
@@ -74,7 +74,7 @@
 
       {%- comment -%} === QUOTE BLOCK === {%- endcomment -%}
       {%- when 'quote' -%}
-        <div class="editorial__block editorial__quote-block" {{ block.shopify_attributes }}>
+        <div class="editorial__block editorial__quote-block" data-stagger {{ block.shopify_attributes }}>
           <blockquote class="editorial__quote-inner">
             <span class="editorial__quote-mark" aria-hidden="true">&ldquo;</span>
             {%- if block.settings.text != blank -%}
@@ -91,7 +91,7 @@
         {%- liquid
           assign vid_layout = block.settings.layout | default: 'contained'
         -%}
-        <div class="editorial__block editorial__video-block editorial__video-block--{{ vid_layout }}" {{ block.shopify_attributes }}>
+        <div class="editorial__block editorial__video-block editorial__video-block--{{ vid_layout }}" data-stagger {{ block.shopify_attributes }}>
           {%- if block.settings.video != blank -%}
             {{
               block.settings.video
