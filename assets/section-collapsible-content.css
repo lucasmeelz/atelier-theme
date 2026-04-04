@@ -83,7 +83,7 @@
   mask-size: contain;
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
-  transition: transform var(--duration-base, 0.3s) var(--ease-ecrin, ease);
+  transition: transform var(--duration-base, 0.3s) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
 }
 
 .collapsible-content__item[open] > summary::after {
@@ -95,7 +95,7 @@
 .collapsible-content__body {
   overflow: hidden;
   max-height: 0;
-  transition: max-height var(--duration-base, 0.3s) var(--ease-ecrin, ease);
+  transition: max-height var(--duration-base, 0.3s) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
 }
 
 .collapsible-content__item[open] > .collapsible-content__body {

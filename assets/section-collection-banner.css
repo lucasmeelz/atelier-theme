@@ -33,6 +33,7 @@
 .collection-banner__overlay {
   position: absolute;
   inset: 0;
+  /* Intentional: overlay uses black for image darkening — opacity controlled by merchant setting */
   background-color: rgba(0, 0, 0, var(--banner-overlay-opacity, 0.3));
 }
 

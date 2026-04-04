@@ -81,7 +81,7 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform var(--duration-slow, 0.6s) var(--ease-ecrin, ease);
+  transition: transform var(--duration-slow, 0.6s) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
 }
 
 @media (hover: hover) {
