@@ -34,7 +34,7 @@
             "heading": "Shipping & Returns",
             "content": "<p>kkkkk</p>",
             "page": "",
-            "icon": "shipping"
+            "icon": "return"
           }
         },
         "ingredient_list_qhJD7L": {
@@ -53,7 +53,7 @@
             "source": "manual",
             "highlights": "Premium materials, Handcrafted, Timeless design",
             "metafield_key": "",
-            "icon": "leaf"
+            "icon": "checkmark"
           }
         },
         "variant_picker": {
