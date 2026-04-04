@@ -61,7 +61,7 @@
     "product_card_show_sold_out_badge": true,
     "cart_type": "drawer",
     "cart_icon": "bag",
-    "show_free_shipping_bar": false,
+    "show_free_shipping_bar": true,
     "free_shipping_threshold": "150",
     "content_for_index": [],
     "color_schemes": {

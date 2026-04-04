@@ -277,10 +277,12 @@
         "panel_1": {
           "type": "panel",
           "settings": {
+            "overlay_opacity": 20,
+            "subheading": "",
             "heading": "Women",
+            "text": "",
             "button_label": "Discover",
             "button_link": "",
-            "overlay_opacity": 20,
             "text_alignment": "center",
             "text_color": "#ffffff",
             "color_scheme": "scheme-1"
@@ -289,17 +291,22 @@
         "panel_2": {
           "type": "panel",
           "settings": {
+            "overlay_opacity": 20,
+            "subheading": "",
             "heading": "Men",
+            "text": "",
             "button_label": "Discover",
             "button_link": "",
-            "overlay_opacity": 20,
             "text_alignment": "center",
             "text_color": "#ffffff",
             "color_scheme": "scheme-1"
           }
         }
       },
-      "block_order": ["panel_1", "panel_2"],
+      "block_order": [
+        "panel_1",
+        "panel_2"
+      ],
       "settings": {
         "reverse_panels": false,
         "hover_effect": true
@@ -308,13 +315,44 @@
     "logo_list_qa": {
       "type": "logo-list",
       "blocks": {
-        "l1": { "type": "logo", "settings": {} },
-        "l2": { "type": "logo", "settings": {} },
-        "l3": { "type": "logo", "settings": {} },
-        "l4": { "type": "logo", "settings": {} },
-        "l5": { "type": "logo", "settings": {} }
+        "l1": {
+          "type": "logo",
+          "settings": {
+            "link": ""
+          }
+        },
+        "l2": {
+          "type": "logo",
+          "settings": {
+            "link": ""
+          }
+        },
+        "l3": {
+          "type": "logo",
+          "settings": {
+            "link": ""
+          }
+        },
+        "l4": {
+          "type": "logo",
+          "settings": {
+            "link": ""
+          }
+        },
+        "l5": {
+          "type": "logo",
+          "settings": {
+            "link": ""
+          }
+        }
       },
-      "block_order": ["l1", "l2", "l3", "l4", "l5"],
+      "block_order": [
+        "l1",
+        "l2",
+        "l3",
+        "l4",
+        "l5"
+      ],
       "settings": {
         "heading": "As seen in",
         "subheading": "Press",
@@ -328,15 +366,33 @@
     "lookbook_qa": {
       "type": "lookbook",
       "blocks": {
-        "h1": { "type": "hotspot", "settings": { "position_x": 30, "position_y": 40 } },
-        "h2": { "type": "hotspot", "settings": { "position_x": 65, "position_y": 55 } }
+        "h1": {
+          "type": "hotspot",
+          "settings": {
+            "product": "",
+            "position_x": 30,
+            "position_y": 40
+          }
+        },
+        "h2": {
+          "type": "hotspot",
+          "settings": {
+            "product": "",
+            "position_x": 65,
+            "position_y": 55
+          }
+        }
       },
-      "block_order": ["h1", "h2"],
+      "block_order": [
+        "h1",
+        "h2"
+      ],
       "settings": {
         "image_ratio": "landscape",
         "overlay_opacity": 0,
         "full_width": true,
         "heading": "Shop the look",
+        "subheading": "",
         "color_scheme": "scheme-1"
       }
     },
@@ -344,23 +400,58 @@
       "type": "countdown",
       "settings": {
         "heading": "Limited time offer",
+        "message": "",
         "end_date": "2026-12-31",
         "end_time": "23:59",
+        "expired_message": "This promotion has ended.",
+        "hide_when_expired": false,
         "button_label": "Shop now",
         "button_link": "",
-        "hide_when_expired": false,
         "color_scheme": "scheme-1"
       }
     },
     "atelier_qa": {
       "type": "atelier-process",
       "blocks": {
-        "s1": { "type": "step", "settings": { "heading": "Source", "text": "We carefully select the finest raw materials." } },
-        "s2": { "type": "step", "settings": { "heading": "Craft", "text": "Each piece is handcrafted with meticulous attention." } },
-        "s3": { "type": "step", "settings": { "heading": "Refine", "text": "Multiple rounds of quality control ensure perfection." } },
-        "s4": { "type": "step", "settings": { "heading": "Deliver", "text": "Beautifully packaged and shipped with care." } }
+        "s1": {
+          "type": "step",
+          "settings": {
+            "heading": "Source",
+            "text": "We carefully select the finest raw materials.",
+            "custom_number": ""
+          }
+        },
+        "s2": {
+          "type": "step",
+          "settings": {
+            "heading": "Craft",
+            "text": "Each piece is handcrafted with meticulous attention.",
+            "custom_number": ""
+          }
+        },
+        "s3": {
+          "type": "step",
+          "settings": {
+            "heading": "Refine",
+            "text": "Multiple rounds of quality control ensure perfection.",
+            "custom_number": ""
+          }
+        },
+        "s4": {
+          "type": "step",
+          "settings": {
+            "heading": "Deliver",
+            "text": "Beautifully packaged and shipped with care.",
+            "custom_number": ""
+          }
+        }
       },
-      "block_order": ["s1", "s2", "s3", "s4"],
+      "block_order": [
+        "s1",
+        "s2",
+        "s3",
+        "s4"
+      ],
       "settings": {
         "heading": "Our process",
         "subheading": "Craftsmanship",
@@ -371,11 +462,42 @@
     "ritual_qa": {
       "type": "product-ritual",
       "blocks": {
-        "r1": { "type": "step", "settings": { "heading": "Cleanse", "text": "Gently massage onto damp skin in circular motions.", "duration": "1 min" } },
-        "r2": { "type": "step", "settings": { "heading": "Tone", "text": "Apply toner to a cotton pad and sweep across the face.", "duration": "30 sec" } },
-        "r3": { "type": "step", "settings": { "heading": "Moisturize", "text": "Warm a small amount between palms and press into skin.", "duration": "1 min" } }
+        "r1": {
+          "type": "step",
+          "settings": {
+            "image": "shopify://shop_images/portrait_3to4.jpg",
+            "heading": "Cleanse",
+            "text": "Gently massage onto damp skin in circular motions.",
+            "duration": "1 min",
+            "product": ""
+          }
+        },
+        "r2": {
+          "type": "step",
+          "settings": {
+            "image": "shopify://shop_images/square_2.jpg",
+            "heading": "Tone",
+            "text": "Apply toner to a cotton pad and sweep across the face.",
+            "duration": "30 sec",
+            "product": ""
+          }
+        },
+        "r3": {
+          "type": "step",
+          "settings": {
+            "image": "shopify://shop_images/pineapple-soft-enamel-lapel-pin.jpg",
+            "heading": "Moisturize",
+            "text": "Warm a small amount between palms and press into skin.",
+            "duration": "1 min",
+            "product": ""
+          }
+        }
       },
-      "block_order": ["r1", "r2", "r3"],
+      "block_order": [
+        "r1",
+        "r2",
+        "r3"
+      ],
       "settings": {
         "heading": "The ritual",
         "subheading": "How to use",
