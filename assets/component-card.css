@@ -49,8 +49,10 @@
 
 .price__tax-notice {
   width: 100%;
-  font-size: 0.75em;
+  font-size: 0.6875em;
   color: rgb(var(--color-text-subdued));
+  opacity: 0.6;
+  letter-spacing: 0.02em;
 }
 
 /* ===== PRODUCT CARD ===== */
@@ -344,12 +346,14 @@ card-carousel {
 
 /* Text-only badges — luxury minimal (Jacquemus / Balmain style) */
 .card-product__badge--text-only {
-  background-color: transparent;
+  background-color: rgba(var(--color-background, 255, 255, 255), 0.85);
   color: rgb(var(--color-text));
-  padding: 0;
+  padding: 4px 8px;
   font-weight: 500;
   font-size: 0.6875rem;
   letter-spacing: 0.06em;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
 /* Quick add — full-width bar, slides up on hover */
@@ -424,7 +428,13 @@ card-carousel {
 
 /* Info section */
 .card-product__info {
-  padding-block-start: 12px;
+  padding-block-start: 14px;
+}
+
+@media screen and (min-width: 750px) {
+  .card-product__info {
+    padding-block-start: 16px;
+  }
 }
 
 .card-product--center .card-product__info {
@@ -484,9 +494,9 @@ card-carousel {
 }
 
 .card-product__swatch {
-  width: 14px;
-  height: 14px;
-  border: 1px solid rgba(var(--color-text), 0.15);
+  width: 18px;
+  height: 18px;
+  border: 1px solid rgba(var(--color-text), 0.12);
   cursor: default;
   transition: transform var(--duration-fast) var(--ease-ecrin),
               border-color var(--duration-fast) var(--ease-ecrin);

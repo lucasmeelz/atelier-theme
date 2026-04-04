@@ -3,7 +3,7 @@
    =================================== */
 
 .main-collection {
-  padding: 32px 0 80px;
+  padding: 40px 0 120px;
 }
 
 /* ===================================
@@ -16,7 +16,7 @@
   gap: 20px;
   padding-bottom: 24px;
   margin-bottom: 32px;
-  border-bottom: 1px solid rgb(var(--color-border, 226, 224, 219));
+  border-bottom: 1px solid rgba(var(--color-border, 226, 224, 219), 0.5);
 }
 
 .collection__toolbar-left {
@@ -470,10 +470,10 @@ button.collection__filter-toggle.btn {
   gap: var(--collection-row-gap, 20px) var(--collection-col-gap, 12px);
 }
 
-/* Grid gap variants */
-.collection__grid--gap-compact { --collection-row-gap: 12px; --collection-col-gap: 8px; }
-.collection__grid--gap-standard { --collection-row-gap: 20px; --collection-col-gap: 12px; }
-.collection__grid--gap-wide { --collection-row-gap: 32px; --collection-col-gap: 20px; }
+/* Grid gap variants — generous spacing for luxury feel */
+.collection__grid--gap-compact { --collection-row-gap: 20px; --collection-col-gap: 12px; }
+.collection__grid--gap-standard { --collection-row-gap: 28px; --collection-col-gap: 16px; }
+.collection__grid--gap-wide { --collection-row-gap: 40px; --collection-col-gap: 24px; }
 
 /* Mobile column overrides */
 .collection__grid--mobile-1 { grid-template-columns: 1fr; }
@@ -485,9 +485,9 @@ button.collection__filter-toggle.btn {
     grid-template-columns: repeat(4, 1fr);
   }
 
-  .collection__grid--gap-compact { --collection-row-gap: 20px; --collection-col-gap: 12px; }
-  .collection__grid--gap-standard { --collection-row-gap: 32px; --collection-col-gap: 20px; }
-  .collection__grid--gap-wide { --collection-row-gap: 48px; --collection-col-gap: 32px; }
+  .collection__grid--gap-compact { --collection-row-gap: 28px; --collection-col-gap: 16px; }
+  .collection__grid--gap-standard { --collection-row-gap: 40px; --collection-col-gap: 24px; }
+  .collection__grid--gap-wide { --collection-row-gap: 56px; --collection-col-gap: 36px; }
 
   .collection__grid--desktop-2 { grid-template-columns: repeat(2, 1fr); }
   .collection__grid--desktop-3 { grid-template-columns: repeat(3, 1fr); }
