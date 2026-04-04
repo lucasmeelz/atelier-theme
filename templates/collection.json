@@ -14,7 +14,9 @@
       "settings": {
         "layout": "plain",
         "show_description": true,
-        "title_size": "h1"
+        "title_size": "h1",
+        "overlay_opacity": 30,
+        "color_scheme": ""
       }
     },
     "main": {
@@ -27,12 +29,14 @@
         "show_secondary_image": true,
         "show_vendor": false,
         "show_quick_add": true,
+        "grid_gap": "standard",
+        "show_color_swatches": true,
         "show_filters": true,
         "filter_layout": "drawer",
         "show_sort": true,
-        "grid_gap": "standard",
+        "pagination_type": "paginated",
         "show_view_toggle": false,
-        "show_color_swatches": true
+        "color_scheme": ""
       }
     }
   },
