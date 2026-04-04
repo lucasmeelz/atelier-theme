@@ -19,13 +19,13 @@
         "title": {
           "type": "title",
           "settings": {
-            "heading_size": "h1"
+            "heading_size": "h3"
           }
         },
         "price": {
           "type": "price",
           "settings": {
-            "show_tax_notice": false
+            "show_tax_notice": true
           }
         },
         "shipping_tab": {
@@ -59,7 +59,7 @@
         "variant_picker": {
           "type": "variant_picker",
           "settings": {
-            "picker_type": "swatch",
+            "picker_type": "dropdown",
             "swatch_shape": "circle",
             "size_chart_page": ""
           }
@@ -131,12 +131,12 @@
       "settings": {
         "media_size": 55,
         "media_position": "left",
-        "gallery_layout": "thumbnail_grid",
-        "thumbnail_position": "beside",
+        "gallery_layout": "stacked",
+        "thumbnail_position": "below",
         "enable_zoom": true,
         "enable_video_loop": false,
         "sticky_info": true,
-        "show_sticky_atc": true,
+        "show_sticky_atc": false,
         "color_scheme": "",
         "padding_top": 40,
         "padding_bottom": 40
