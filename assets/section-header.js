@@ -279,12 +279,13 @@ class HeaderComponent extends HTMLElement {
     if (!cartToggle) return;
 
     cartToggle.addEventListener('click', function(e) {
+      if (document.body.dataset.cartType !== 'drawer') return;
       var cartDrawer = document.querySelector('cart-drawer');
       if (cartDrawer && typeof cartDrawer.open === 'function') {
         e.preventDefault();
         cartDrawer.open();
       }
-      /* If no cart-drawer component, the <a href="/cart"> navigates normally */
+      /* If cart_type is 'page' or no cart-drawer, the <a href="/cart"> navigates normally */
     });
   }
 
