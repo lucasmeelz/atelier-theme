@@ -21,20 +21,18 @@
       "type": "main-collection",
       "settings": {
         "products_per_page": 24,
-        "columns_desktop": 5,
+        "columns_desktop": 4,
         "columns_mobile": "2",
-        "image_ratio": "natural",
+        "image_ratio": "portrait",
         "show_secondary_image": true,
         "show_vendor": false,
         "show_quick_add": true,
-        "show_filters": false,
+        "show_filters": true,
         "filter_layout": "drawer",
-        "show_sort": false,
+        "show_sort": true,
         "grid_gap": "standard",
         "show_view_toggle": false,
-        "show_color_swatches": true,
-        "pagination_type": "load_more",
-        "products_per_page": 8
+        "show_color_swatches": true
       }
     }
   },
