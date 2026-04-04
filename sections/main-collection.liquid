@@ -474,7 +474,7 @@
         if (this.grid) this.grid.classList.add('collection__grid--loading');
         this.setAttribute('aria-busy', 'true');
 
-        fetch(url.toString(), { headers: { 'Accept': 'application/json' } })
+        fetch(url.toString())
           .then(function(res) { if (!res.ok) throw new Error(res.status); return res.json(); })
           .then((function(data) {
             var html = data[sectionId];
@@ -642,7 +642,7 @@
       var url = new URL(nextUrl, window.location.origin);
       url.searchParams.set('sections', sectionId);
 
-      fetch(url.toString(), { headers: { 'Accept': 'application/json' } })
+      fetch(url.toString())
         .then(function(res) { return res.json(); })
         .then(function(data) {
           var html = data[sectionId];
