@@ -165,15 +165,17 @@
     {%- if cart.item_count > 0 -%}
       <div class="cart-drawer__footer">
         {%- comment -%} Cart note {%- endcomment -%}
-        <details class="cart-drawer__note-toggle">
-          <summary class="cart-drawer__note-summary label">{{ 'cart.note' | t }}</summary>
-          <textarea
-            class="cart-drawer__note-textarea"
-            name="note"
-            form="cart-drawer-form"
-            placeholder="{{ 'cart.note_placeholder' | t }}"
-          >{{ cart.note }}</textarea>
-        </details>
+        {%- if settings.enable_cart_note -%}
+          <details class="cart-drawer__note-toggle">
+            <summary class="cart-drawer__note-summary label">{{ 'cart.note' | t }}</summary>
+            <textarea
+              class="cart-drawer__note-textarea"
+              name="note"
+              form="cart-drawer-form"
+              placeholder="{{ 'cart.note_placeholder' | t }}"
+            >{{ cart.note }}</textarea>
+          </details>
+        {%- endif -%}
 
         {%- comment -%} Order discounts {%- endcomment -%}
         {%- for discount in cart.cart_level_discount_applications -%}
