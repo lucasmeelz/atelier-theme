@@ -63,40 +63,31 @@
 
 /* ─── Card styles ─── */
 
-/* Framed — gallery-style hairline around full card (art exhibition feel) */
-.card-product--outlined {
-  border: 1px solid rgba(var(--color-border), 0.5);
-  padding-bottom: 16px;
-}
-
+/* Underlined — fine separator between image and info (editorial) */
 .card-product--outlined .card-product__info {
-  padding-inline: 14px;
+  border-top: 1px solid rgba(var(--color-border), 0.4);
+  padding-block-start: 12px;
+  margin-block-start: 14px;
 }
 
 @media screen and (min-width: 750px) {
   .card-product--outlined .card-product__info {
-    padding-inline: 16px;
+    padding-block-start: 14px;
+    margin-block-start: 16px;
   }
 }
 
-/* Soft — warm tinted background, editorial card feel */
-.card-product--elevated {
-  background-color: rgba(var(--color-text), 0.02);
-  padding-bottom: 20px;
-}
-
+/* Card — subtle tinted shelf behind info only */
 .card-product--elevated .card-product__info {
-  padding-inline: 16px;
+  background-color: rgba(var(--color-text), 0.02);
+  padding: 12px 14px 14px;
+  margin-block-start: 0;
 }
 
 @media screen and (min-width: 750px) {
   .card-product--elevated .card-product__info {
-    padding-inline: 20px;
+    padding: 14px 16px 16px;
   }
-}
-
-.card-product--elevated .card-product__media {
-  border-radius: 0;
 }
 
 /* Image wrapper */
@@ -471,6 +462,10 @@ card-carousel {
   line-height: 1.4;
   margin-block-end: 2px;
   letter-spacing: 0.01em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 @media screen and (min-width: 750px) {
