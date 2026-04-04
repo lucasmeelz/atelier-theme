@@ -280,6 +280,7 @@
     {%- if paginate.pages > 1 -%}
       {%- if section.settings.pagination_type == 'load_more' -%}
         {%- if paginate.next -%}
+          {%- assign showing_count = paginate.current_offset | plus: paginate.page_size -%}
           <div class="collection__load-more">
             <button
               class="btn btn--outline collection__load-more-btn"
@@ -291,7 +292,7 @@
               {{ 'collection.load_more' | t }}
             </button>
             <p class="collection__load-more-count">
-              {{ 'collection.showing_count' | t: current: paginate.current_offset | plus: paginate.page_size, total: paginate.items }}
+              {{ 'collection.showing_count' | t: current: showing_count, total: paginate.items }}
             </p>
           </div>
         {%- endif -%}
