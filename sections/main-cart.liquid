@@ -161,7 +161,8 @@
             </div>
 
             <button type="submit" name="checkout" class="btn btn--primary main-cart__checkout">
-              {{ 'cart.checkout' | t }}
+              <span class="btn__label">{{ 'cart.checkout' | t }}</span>
+              <span class="btn__fill" aria-hidden="true"></span>
             </button>
 
             {%- if additional_checkout_buttons -%}
@@ -186,7 +187,8 @@
       <div class="main-cart__empty">
         <p>{{ 'cart.empty' | t }}</p>
         <a href="{{ routes.all_products_collection_url }}" class="btn btn--primary">
-          {{ 'cart.continue_shopping' | t }}
+          <span class="btn__label">{{ 'cart.continue_shopping' | t }}</span>
+          <span class="btn__fill" aria-hidden="true"></span>
         </a>
       </div>
     {%- endif -%}

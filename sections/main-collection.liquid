@@ -204,7 +204,8 @@
 
           <div class="collection__filter-actions">
             <button type="submit" class="btn btn--primary collection__filter-apply">
-              {{ 'collection.filter_apply' | t }}
+              <span class="btn__label">{{ 'collection.filter_apply' | t }}</span>
+              <span class="btn__fill" aria-hidden="true"></span>
             </button>
             {%- if collection.current_vendor or collection.current_type or collection.filters.size > 0 -%}
               <a href="{{ collection.url }}" class="collection__filter-clear">
@@ -270,7 +271,8 @@
         <div class="collection__empty">
           <p>{{ 'collection.empty' | t }}</p>
           <a href="{{ routes.all_products_collection_url }}" class="btn btn--primary">
-            {{ 'collection.continue_shopping' | t }}
+            <span class="btn__label">{{ 'collection.continue_shopping' | t }}</span>
+            <span class="btn__fill" aria-hidden="true"></span>
           </a>
         </div>
       {%- endif -%}
@@ -289,7 +291,8 @@
               data-section-id="{{ section.id }}"
               aria-label="{{ 'collection.load_more' | t }}"
             >
-              {{ 'collection.load_more' | t }}
+              <span class="btn__label">{{ 'collection.load_more' | t }}</span>
+              <span class="btn__fill" aria-hidden="true"></span>
             </button>
             <p class="collection__load-more-count">
               {{ 'collection.showing_count' | t: current: showing_count, total: paginate.items }}

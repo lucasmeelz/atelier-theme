@@ -79,8 +79,8 @@
           </div>
 
           <div class="customer__address-form-actions">
-            <button type="submit" class="btn btn--primary">{{ 'customer.addresses.add' | t }}</button>
-            <button type="button" class="btn btn--outline" onclick="document.getElementById('AddressNewForm').style.display='none';">{{ 'customer.addresses.cancel' | t }}</button>
+            <button type="submit" class="btn btn--primary"><span class="btn__label">{{ 'customer.addresses.add' | t }}</span><span class="btn__fill" aria-hidden="true"></span></button>
+            <button type="button" class="btn btn--outline" onclick="document.getElementById('AddressNewForm').style.display='none';"><span class="btn__label">{{ 'customer.addresses.cancel' | t }}</span><span class="btn__fill" aria-hidden="true"></span></button>
           </div>
         {%- endform -%}
       </div>
@@ -93,7 +93,8 @@
         class="btn btn--outline"
         onclick="document.getElementById('AddressNewForm').style.display = document.getElementById('AddressNewForm').style.display === 'none' ? 'block' : 'none';"
       >
-        {{ 'customer.addresses.add_new' | t }}
+        <span class="btn__label">{{ 'customer.addresses.add_new' | t }}</span>
+        <span class="btn__fill" aria-hidden="true"></span>
       </button>
     </div>
 
@@ -186,8 +187,8 @@
                 </div>
 
                 <div class="customer__address-form-actions" style="margin-top:1rem;">
-                  <button type="submit" class="btn btn--primary">{{ 'customer.addresses.update' | t }}</button>
-                  <button type="button" class="btn btn--outline" onclick="document.getElementById('EditAddress_{{ address.id }}').style.display='none';">{{ 'customer.addresses.cancel' | t }}</button>
+                  <button type="submit" class="btn btn--primary"><span class="btn__label">{{ 'customer.addresses.update' | t }}</span><span class="btn__fill" aria-hidden="true"></span></button>
+                  <button type="button" class="btn btn--outline" onclick="document.getElementById('EditAddress_{{ address.id }}').style.display='none';"><span class="btn__label">{{ 'customer.addresses.cancel' | t }}</span><span class="btn__fill" aria-hidden="true"></span></button>
                 </div>
               {%- endform -%}
             </div>

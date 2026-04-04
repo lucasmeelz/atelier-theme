@@ -66,7 +66,10 @@
 
         {%- if panel_button_label != blank -%}
           <div class="split-screen__btn">
-            <a href="{{ panel_button_link }}" class="btn btn--primary">{{ panel_button_label }}</a>
+            <a href="{{ panel_button_link }}" class="btn btn--{{ block.settings.button_style | default: 'outline-white' }}">
+              <span class="btn__label">{{ panel_button_label }}</span>
+              <span class="btn__fill" aria-hidden="true"></span>
+            </a>
           </div>
         {%- endif -%}
       </div>
@@ -148,6 +151,17 @@
           "type": "url",
           "id": "button_link",
           "label": "t:sections.split_screen.button_link"
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "t:sections.split_screen.button_style",
+          "options": [
+            { "value": "outline-white", "label": "t:sections.split_screen.button_outline_white" },
+            { "value": "filled-white", "label": "t:sections.split_screen.button_filled_white" },
+            { "value": "filled-dark", "label": "t:sections.split_screen.button_filled_dark" }
+          ],
+          "default": "outline-white"
         },
         {
           "type": "select",

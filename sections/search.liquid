@@ -49,7 +49,8 @@
             autocapitalize="off"
           >
           <button type="submit" class="search__submit btn btn--primary">
-            {{ 'search.submit' | t }}
+            <span class="btn__label">{{ 'search.submit' | t }}</span>
+            <span class="btn__fill" aria-hidden="true"></span>
           </button>
         </div>
       </form>
@@ -60,8 +61,11 @@
       {%- if search.filters.size > 0 and search.results_count > 0 -%}
         <details class="search__filters" id="search-filters-{{ section.id }}">
           <summary class="search__filter-toggle btn btn--outline">
-            {%- render 'icon', name: 'filter', size: 16 -%}
-            <span>{{ 'collection.filter' | t }}</span>
+            <span class="btn__label">
+              {%- render 'icon', name: 'filter', size: 16 -%}
+              <span>{{ 'collection.filter' | t }}</span>
+            </span>
+            <span class="btn__fill" aria-hidden="true"></span>
           </summary>
           <form class="search__filter-form" data-search-filters>
             <input type="hidden" name="q" value="{{ search.terms | escape }}">
@@ -112,10 +116,14 @@
               </div>
             {%- endfor -%}
             <div class="search__filter-actions">
-              <button type="submit" class="btn btn--primary">{{ 'collection.apply' | t }}</button>
+              <button type="submit" class="btn btn--primary">
+                <span class="btn__label">{{ 'collection.apply' | t }}</span>
+                <span class="btn__fill" aria-hidden="true"></span>
+              </button>
               {%- if search.filters.size > 0 -%}
                 <a href="{{ routes.search_url }}?q={{ search.terms | url_encode }}" class="btn btn--outline">
-                  {{ 'collection.filter_clear_all' | t }}
+                  <span class="btn__label">{{ 'collection.filter_clear_all' | t }}</span>
+                  <span class="btn__fill" aria-hidden="true"></span>
                 </a>
               {%- endif -%}
             </div>
@@ -128,7 +136,8 @@
         <div class="search__empty">
           <p class="search__empty-text">{{ 'search.no_results' | t: terms: search.terms }}</p>
           <a href="{{ routes.all_products_collection_url }}" class="btn btn--secondary">
-            {{ 'collection.continue_shopping' | t }}
+            <span class="btn__label">{{ 'collection.continue_shopping' | t }}</span>
+            <span class="btn__fill" aria-hidden="true"></span>
           </a>
         </div>
 
