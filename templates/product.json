@@ -131,12 +131,12 @@
       "settings": {
         "media_size": 55,
         "media_position": "left",
-        "gallery_layout": "thumbnail_grid",
-        "thumbnail_position": "left",
+        "gallery_layout": "stacked",
+        "thumbnail_position": "below",
         "enable_zoom": true,
         "enable_video_loop": false,
-        "sticky_info": false,
-        "show_sticky_atc": false,
+        "sticky_info": true,
+        "show_sticky_atc": true,
         "color_scheme": "",
         "padding_top": 40,
         "padding_bottom": 40
