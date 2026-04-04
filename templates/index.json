@@ -501,8 +501,8 @@
       "settings": {
         "heading": "The ritual",
         "subheading": "How to use",
-        "media_position": "left",
-        "autoplay": false,
+        "media_position": "right",
+        "autoplay": true,
         "autoplay_speed": 4000,
         "color_scheme": "scheme-1"
       }
