@@ -60,7 +60,7 @@
       ],
       "settings": {
         "color_scheme": "",
-        "desktop_layout": "logo_left_nav_right",
+        "desktop_layout": "drawer",
         "mobile_layout": "logo_center_split",
         "enable_sticky": true,
         "hide_on_scroll": true,
