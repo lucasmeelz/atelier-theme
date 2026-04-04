@@ -441,7 +441,8 @@ h3.product__title {
   border-color: rgb(var(--color-text));
   background-color: rgb(var(--color-text));
   color: rgb(var(--color-background));
-  box-shadow: 0 1px 3px rgba(var(--color-text, 10, 10, 10), 0.08);
+  /* Intentional: shadows use black regardless of color scheme — dark mode safe */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .product-variant-picker__button.is-unavailable {
@@ -1223,7 +1224,8 @@ collapsible-details + :not(collapsible-details):not(.product__ingredients) {
   height: 36px;
   border-radius: 50%;
   background-color: rgb(var(--color-background, 255, 255, 255));
-  box-shadow: 0 2px 8px rgba(var(--color-text, 10, 10, 10), 0.15);
+  /* Intentional: shadows use black regardless of color scheme — dark mode safe */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   flex-shrink: 0;
 }
 
