@@ -59,7 +59,7 @@
         "variant_picker": {
           "type": "variant_picker",
           "settings": {
-            "picker_type": "dropdown",
+            "picker_type": "buttons",
             "swatch_shape": "circle",
             "size_chart_page": ""
           }
@@ -67,7 +67,7 @@
         "buy_buttons": {
           "type": "buy_buttons",
           "settings": {
-            "show_dynamic_checkout": true
+            "show_dynamic_checkout": false
           }
         },
         "trust": {
@@ -86,7 +86,7 @@
         "description": {
           "type": "description",
           "settings": {
-            "collapsible": true,
+            "collapsible": false,
             "default_open": true
           }
         },
