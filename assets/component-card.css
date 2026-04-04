@@ -63,24 +63,40 @@
 
 /* ─── Card styles ─── */
 
-/* Outlined — subtle border around media */
-.card-product--outlined .card-product__media {
-  border: 1px solid rgb(var(--color-border));
+/* Framed — gallery-style hairline around full card (art exhibition feel) */
+.card-product--outlined {
+  border: 1px solid rgba(var(--color-border), 0.5);
+  padding-bottom: 16px;
 }
 
-/* Elevated — subtle resting shadow, deeper on hover */
-.card-product--elevated {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  transition: box-shadow var(--duration-slow) var(--ease-ecrin),
-              transform var(--duration-slow) var(--ease-ecrin);
+.card-product--outlined .card-product__info {
+  padding-inline: 14px;
 }
 
-@media (hover: hover) {
-  .card-product--elevated:hover {
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.06),
-                0 4px 12px rgba(0, 0, 0, 0.04);
-    transform: translateY(-2px);
+@media screen and (min-width: 750px) {
+  .card-product--outlined .card-product__info {
+    padding-inline: 16px;
   }
+}
+
+/* Soft — warm tinted background, editorial card feel */
+.card-product--elevated {
+  background-color: rgba(var(--color-text), 0.02);
+  padding-bottom: 20px;
+}
+
+.card-product--elevated .card-product__info {
+  padding-inline: 16px;
+}
+
+@media screen and (min-width: 750px) {
+  .card-product--elevated .card-product__info {
+    padding-inline: 20px;
+  }
+}
+
+.card-product--elevated .card-product__media {
+  border-radius: 0;
 }
 
 /* Image wrapper */
