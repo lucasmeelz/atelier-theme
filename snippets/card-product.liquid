@@ -20,12 +20,14 @@
   assign vendor_visible = show_vendor | default: settings.product_card_show_vendor
   assign quick_add_visible = show_quick_add | default: settings.product_card_show_quick_add
   assign swatches_visible = show_color_swatches | default: settings.product_card_show_color_swatches
+  assign rating_visible = show_rating | default: settings.product_card_show_rating
   assign swatch_position = settings.product_card_swatch_position | default: 'on_image'
   assign badge_style = settings.product_card_badge_style | default: 'text_only'
   assign alignment = settings.product_card_info_alignment
   assign card_style = settings.product_card_style | default: 'minimal'
   assign image_fit = settings.product_card_image_fit | default: 'cover'
   assign hover_effect = settings.card_hover_effect
+  assign card_color_scheme = color_scheme | default: settings.product_card_color_scheme
   assign is_carousel = false
   if hover_effect == 'carousel' and product.images.size > 1
     assign is_carousel = true
@@ -55,7 +57,7 @@
   endif
 -%}
 
-<div class="card-product card-product--{{ card_style }}{% if alignment %} card-product--{{ alignment }}{% endif %}" data-product-id="{{ product.id }}"{% if hover_effect != blank and hover_effect != 'none' %} data-card-hover="{{ hover_effect }}"{% endif %}>
+<div class="card-product card-product--{{ card_style }}{% if alignment %} card-product--{{ alignment }}{% endif %}{% if card_color_scheme %} color-{{ card_color_scheme }}{% endif %}" data-product-id="{{ product.id }}"{% if hover_effect != blank and hover_effect != 'none' %} data-card-hover="{{ hover_effect }}"{% endif %}>
 
   {%- comment -%} Image container {%- endcomment -%}
   <div class="card-product__media">
@@ -237,9 +239,9 @@
       <a href="{{ product.url }}">{{ product.title }}</a>
     </{{ card_heading_tag }}>
 
-    {%- render 'price', product: product, show_badges: false -%}
+    {%- render 'price', product: product, show_badges: false, hide_tax_notice: true -%}
 
-    {%- if show_rating and product.metafields.reviews.rating.value != blank -%}
+    {%- if rating_visible and product.metafields.reviews.rating.value != blank -%}
       {%- liquid
         assign rating_value = product.metafields.reviews.rating.value.rating
         assign rating_max = product.metafields.reviews.rating.value.scale_max | default: 5.0
