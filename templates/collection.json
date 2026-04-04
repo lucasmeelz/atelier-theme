@@ -28,7 +28,7 @@
         "show_vendor": false,
         "show_quick_add": true,
         "show_filters": true,
-        "filter_layout": "sidebar",
+        "filter_layout": "drawer",
         "show_sort": true,
         "grid_gap": "standard",
         "show_view_toggle": false,
