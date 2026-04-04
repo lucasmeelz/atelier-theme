@@ -1,9 +1,36 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "main-cart",
+      "blocks": {
+        "shipping_bar": {
+          "type": "free_shipping_bar",
+          "settings": {}
+        },
+        "note": {
+          "type": "cart_note",
+          "settings": {}
+        },
+        "trust": {
+          "type": "trust_badges",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "shipping_bar",
+        "note",
+        "trust"
+      ],
       "settings": {
-        "show_notes": true,
         "show_payment_icons": true
       }
     }

@@ -357,3 +357,73 @@
 .cart-drawer__dynamic-checkout [data-shopify-buttoncontainer] {
   justify-content: stretch;
 }
+
+/* -----------------------------------------------
+   Block: Header blocks container
+   ----------------------------------------------- */
+.cart-drawer__header-blocks:empty {
+  display: none;
+}
+
+/* -----------------------------------------------
+   Block: Announcement
+   ----------------------------------------------- */
+.cart-drawer__announcement {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  border-bottom: 1px solid rgba(var(--color-border), 0.4);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: rgb(var(--color-text-subdued));
+}
+
+.cart-drawer__announcement-icon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: rgb(var(--color-accent));
+}
+
+.cart-drawer__announcement-text {
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* -----------------------------------------------
+   Block: Gift note (reuses cart-note styles)
+   ----------------------------------------------- */
+.cart-drawer__note-summary .icon {
+  margin-inline-end: 6px;
+  flex-shrink: 0;
+}
+
+/* -----------------------------------------------
+   Block: Trust badges
+   ----------------------------------------------- */
+.cart-drawer__trust {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 14px 0;
+  margin-bottom: 14px;
+  border-top: 1px solid rgba(var(--color-border), 0.3);
+  border-bottom: 1px solid rgba(var(--color-border), 0.3);
+}
+
+.cart-drawer__trust-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgb(var(--color-text-subdued));
+  white-space: nowrap;
+}
+
+.cart-drawer__trust-item .icon {
+  flex-shrink: 0;
+  color: rgb(var(--color-accent));
+}

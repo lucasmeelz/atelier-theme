@@ -1184,12 +1184,41 @@
     },
     "main_cart": {
       "name": "Cart",
-      "show_notes": "Show cart notes",
       "show_payment_icons": "Show payment icons",
       "color_scheme": "Color scheme"
     },
     "cart_drawer": {
-      "color_scheme": "Color scheme"
+      "color_scheme": "Color scheme",
+      "blocks": {
+        "free_shipping_bar": "Free shipping bar",
+        "shipping_threshold": "Free shipping threshold",
+        "shipping_threshold_info": "Leave blank to use theme settings value.",
+        "announcement": "Announcement",
+        "icon": "Icon",
+        "icon_none": "None",
+        "icon_gift": "Gift",
+        "icon_shipping": "Shipping",
+        "icon_lock": "Lock",
+        "icon_leaf": "Leaf",
+        "icon_heart": "Heart",
+        "icon_diamond": "Diamond",
+        "icon_crown": "Crown",
+        "icon_sparkle": "Sparkle",
+        "icon_return": "Return",
+        "icon_shield": "Shield",
+        "announcement_text": "Text",
+        "cart_note": "Order note",
+        "gift_note": "Gift message",
+        "gift_note_label": "Label",
+        "gift_note_placeholder": "Placeholder",
+        "trust_badges": "Trust badges",
+        "badge_1_icon": "Badge 1 icon",
+        "badge_1_text": "Badge 1 text",
+        "badge_2_icon": "Badge 2 icon",
+        "badge_2_text": "Badge 2 text",
+        "badge_3_icon": "Badge 3 icon",
+        "badge_3_text": "Badge 3 text"
+      }
     },
     "main_account": {
       "name": "Customer account",

@@ -392,3 +392,98 @@
   margin-bottom: 24px;
   opacity: 0.6;
 }
+
+/* ===================================
+   Block: Free shipping bar
+   =================================== */
+.main-cart__shipping-bar {
+  padding: 14px 0;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(var(--color-border, 226, 224, 219), 0.5);
+}
+
+.main-cart__shipping-progress {
+  height: 4px;
+  background-color: rgb(var(--color-border, 226, 224, 219));
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.main-cart__shipping-fill {
+  height: 100%;
+  width: var(--progress);
+  background-color: rgb(var(--color-accent, 184, 148, 106));
+  border-radius: 2px;
+  transition: width var(--duration-base, 350ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
+}
+
+.main-cart__shipping-text {
+  font-size: 0.75rem;
+  color: rgb(var(--color-text-subdued, 107, 107, 107));
+  text-align: center;
+  margin: 0;
+}
+
+/* ===================================
+   Block: Announcement
+   =================================== */
+.main-cart__announcement {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 0;
+  margin-bottom: 16px;
+  border-bottom: 1px solid rgba(var(--color-border, 226, 224, 219), 0.4);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: rgb(var(--color-text-subdued, 107, 107, 107));
+}
+
+.main-cart__announcement-icon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: rgb(var(--color-accent, 184, 148, 106));
+}
+
+.main-cart__announcement-text {
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* ===================================
+   Block: Gift note (icon in summary)
+   =================================== */
+.main-cart__notes-toggle .icon {
+  margin-inline-end: 6px;
+  flex-shrink: 0;
+  vertical-align: -2px;
+}
+
+/* ===================================
+   Block: Trust badges
+   =================================== */
+.main-cart__trust {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px 0;
+  margin-bottom: 16px;
+  border-bottom: 1px solid rgba(var(--color-border, 226, 224, 219), 0.4);
+}
+
+.main-cart__trust-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgb(var(--color-text-subdued, 107, 107, 107));
+}
+
+.main-cart__trust-item .icon {
+  flex-shrink: 0;
+  color: rgb(var(--color-accent, 184, 148, 106));
+}

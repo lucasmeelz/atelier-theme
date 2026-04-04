@@ -6,7 +6,6 @@
 {{ 'section-main-cart.css' | asset_url | stylesheet_tag }}
 
 {%- liquid
-  assign show_notes = section.settings.show_notes
   assign show_payment_icons = section.settings.show_payment_icons
   assign color_scheme = section.settings.color_scheme
 -%}
@@ -119,19 +118,110 @@
             {%- endfor -%}
           </div>
 
-          {%- comment -%} Summary column {%- endcomment -%}
+          {%- comment -%} Summary column — block-based {%- endcomment -%}
           <div class="main-cart__summary">
-            {%- if show_notes -%}
-              <details class="main-cart__notes">
-                <summary class="main-cart__notes-toggle">
-                  {{ 'cart.note' | t }}
-                </summary>
-                <div class="main-cart__notes-content">
-                  <textarea name="note" class="main-cart__notes-textarea" placeholder="{{ 'cart.note_placeholder' | t }}">{{ cart.note }}</textarea>
-                </div>
-              </details>
-            {%- endif -%}
 
+            {%- comment -%} Blocks: top area (shipping bar, announcements) {%- endcomment -%}
+            {%- for block in section.blocks -%}
+              {%- case block.type -%}
+
+                {%- when 'free_shipping_bar' -%}
+                  {%- liquid
+                    assign threshold = block.settings.threshold | default: settings.free_shipping_threshold | times: 100
+                    assign cart_total = cart.total_price
+                    assign remaining = threshold | minus: cart_total
+                    assign progress = cart_total | times: 100.0 | divided_by: threshold
+                    if progress > 100
+                      assign progress = 100
+                    endif
+                  -%}
+                  <div class="main-cart__shipping-bar" {{ block.shopify_attributes }} style="--progress: {{ progress }}%;">
+                    <div class="main-cart__shipping-progress">
+                      <div class="main-cart__shipping-fill"></div>
+                    </div>
+                    <p class="main-cart__shipping-text">
+                      {%- if remaining > 0 -%}
+                        {{ 'cart.free_shipping_remaining' | t: amount: remaining | money }}
+                      {%- else -%}
+                        {{ 'cart.free_shipping_reached' | t }}
+                      {%- endif -%}
+                    </p>
+                  </div>
+
+                {%- when 'announcement' -%}
+                  {%- if block.settings.text != blank -%}
+                    <div class="main-cart__announcement" {{ block.shopify_attributes }}>
+                      {%- if block.settings.icon != 'none' -%}
+                        <span class="main-cart__announcement-icon">
+                          {%- render 'icon', name: block.settings.icon, size: 16 -%}
+                        </span>
+                      {%- endif -%}
+                      <p class="main-cart__announcement-text">{{ block.settings.text }}</p>
+                    </div>
+                  {%- endif -%}
+
+              {%- endcase -%}
+            {%- endfor -%}
+
+            {%- comment -%} Blocks: notes area {%- endcomment -%}
+            {%- for block in section.blocks -%}
+              {%- case block.type -%}
+
+                {%- when 'cart_note' -%}
+                  <details class="main-cart__notes" {{ block.shopify_attributes }}>
+                    <summary class="main-cart__notes-toggle label">
+                      {{ 'cart.note' | t }}
+                    </summary>
+                    <div class="main-cart__notes-content">
+                      <textarea name="note" class="main-cart__notes-textarea" placeholder="{{ 'cart.note_placeholder' | t }}">{{ cart.note }}</textarea>
+                    </div>
+                  </details>
+
+                {%- when 'gift_note' -%}
+                  <details class="main-cart__notes" {{ block.shopify_attributes }}>
+                    <summary class="main-cart__notes-toggle label">
+                      {%- render 'icon', name: 'gift', size: 14 -%}
+                      {{ block.settings.label | default: 'cart.gift_note' | t }}
+                    </summary>
+                    <div class="main-cart__notes-content">
+                      <textarea
+                        name="attributes[gift_note]"
+                        class="main-cart__notes-textarea"
+                        placeholder="{{ block.settings.placeholder | default: 'cart.gift_note_placeholder' | t }}"
+                      >{{ cart.attributes['gift_note'] }}</textarea>
+                    </div>
+                  </details>
+
+              {%- endcase -%}
+            {%- endfor -%}
+
+            {%- comment -%} Trust badges block {%- endcomment -%}
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'trust_badges' -%}
+                <div class="main-cart__trust" {{ block.shopify_attributes }}>
+                  {%- if block.settings.badge_1_text != blank -%}
+                    <div class="main-cart__trust-item">
+                      {%- render 'icon', name: block.settings.badge_1_icon, size: 16 -%}
+                      <span>{{ block.settings.badge_1_text }}</span>
+                    </div>
+                  {%- endif -%}
+                  {%- if block.settings.badge_2_text != blank -%}
+                    <div class="main-cart__trust-item">
+                      {%- render 'icon', name: block.settings.badge_2_icon, size: 16 -%}
+                      <span>{{ block.settings.badge_2_text }}</span>
+                    </div>
+                  {%- endif -%}
+                  {%- if block.settings.badge_3_text != blank -%}
+                    <div class="main-cart__trust-item">
+                      {%- render 'icon', name: block.settings.badge_3_icon, size: 16 -%}
+                      <span>{{ block.settings.badge_3_text }}</span>
+                    </div>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+
+            {%- comment -%} Totals {%- endcomment -%}
             <div class="main-cart__totals">
               <div class="main-cart__subtotal">
                 <span>{{ 'cart.subtotal' | t }}</span>
@@ -225,12 +315,6 @@
   "settings": [
     {
       "type": "checkbox",
-      "id": "show_notes",
-      "label": "t:sections.main_cart.show_notes",
-      "default": true
-    },
-    {
-      "type": "checkbox",
       "id": "show_payment_icons",
       "label": "t:sections.main_cart.show_payment_icons",
       "default": true
@@ -240,6 +324,148 @@
       "id": "color_scheme",
       "label": "t:sections.main_cart.color_scheme",
       "default": "scheme-1"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "free_shipping_bar",
+      "name": "t:sections.cart_drawer.blocks.free_shipping_bar",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "threshold",
+          "label": "t:sections.cart_drawer.blocks.shipping_threshold",
+          "info": "t:sections.cart_drawer.blocks.shipping_threshold_info"
+        }
+      ]
+    },
+    {
+      "type": "announcement",
+      "name": "t:sections.cart_drawer.blocks.announcement",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "t:sections.cart_drawer.blocks.icon",
+          "options": [
+            { "value": "none", "label": "t:sections.cart_drawer.blocks.icon_none" },
+            { "value": "gift", "label": "t:sections.cart_drawer.blocks.icon_gift" },
+            { "value": "shipping", "label": "t:sections.cart_drawer.blocks.icon_shipping" },
+            { "value": "lock", "label": "t:sections.cart_drawer.blocks.icon_lock" },
+            { "value": "leaf", "label": "t:sections.cart_drawer.blocks.icon_leaf" },
+            { "value": "heart", "label": "t:sections.cart_drawer.blocks.icon_heart" },
+            { "value": "diamond", "label": "t:sections.cart_drawer.blocks.icon_diamond" },
+            { "value": "crown", "label": "t:sections.cart_drawer.blocks.icon_crown" },
+            { "value": "sparkle", "label": "t:sections.cart_drawer.blocks.icon_sparkle" }
+          ],
+          "default": "gift"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "t:sections.cart_drawer.blocks.announcement_text",
+          "default": "Complimentary gift wrapping on all orders"
+        }
+      ]
+    },
+    {
+      "type": "cart_note",
+      "name": "t:sections.cart_drawer.blocks.cart_note",
+      "limit": 1
+    },
+    {
+      "type": "gift_note",
+      "name": "t:sections.cart_drawer.blocks.gift_note",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "t:sections.cart_drawer.blocks.gift_note_label",
+          "default": "Add a gift message"
+        },
+        {
+          "type": "text",
+          "id": "placeholder",
+          "label": "t:sections.cart_drawer.blocks.gift_note_placeholder",
+          "default": "Write your personal message here..."
+        }
+      ]
+    },
+    {
+      "type": "trust_badges",
+      "name": "t:sections.cart_drawer.blocks.trust_badges",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "badge_1_icon",
+          "label": "t:sections.cart_drawer.blocks.badge_1_icon",
+          "options": [
+            { "value": "shipping", "label": "t:sections.cart_drawer.blocks.icon_shipping" },
+            { "value": "lock", "label": "t:sections.cart_drawer.blocks.icon_lock" },
+            { "value": "return", "label": "t:sections.cart_drawer.blocks.icon_return" },
+            { "value": "shield", "label": "t:sections.cart_drawer.blocks.icon_shield" },
+            { "value": "leaf", "label": "t:sections.cart_drawer.blocks.icon_leaf" },
+            { "value": "gift", "label": "t:sections.cart_drawer.blocks.icon_gift" },
+            { "value": "heart", "label": "t:sections.cart_drawer.blocks.icon_heart" },
+            { "value": "diamond", "label": "t:sections.cart_drawer.blocks.icon_diamond" }
+          ],
+          "default": "shipping"
+        },
+        {
+          "type": "text",
+          "id": "badge_1_text",
+          "label": "t:sections.cart_drawer.blocks.badge_1_text",
+          "default": "Free shipping"
+        },
+        {
+          "type": "select",
+          "id": "badge_2_icon",
+          "label": "t:sections.cart_drawer.blocks.badge_2_icon",
+          "options": [
+            { "value": "shipping", "label": "t:sections.cart_drawer.blocks.icon_shipping" },
+            { "value": "lock", "label": "t:sections.cart_drawer.blocks.icon_lock" },
+            { "value": "return", "label": "t:sections.cart_drawer.blocks.icon_return" },
+            { "value": "shield", "label": "t:sections.cart_drawer.blocks.icon_shield" },
+            { "value": "leaf", "label": "t:sections.cart_drawer.blocks.icon_leaf" },
+            { "value": "gift", "label": "t:sections.cart_drawer.blocks.icon_gift" },
+            { "value": "heart", "label": "t:sections.cart_drawer.blocks.icon_heart" },
+            { "value": "diamond", "label": "t:sections.cart_drawer.blocks.icon_diamond" }
+          ],
+          "default": "lock"
+        },
+        {
+          "type": "text",
+          "id": "badge_2_text",
+          "label": "t:sections.cart_drawer.blocks.badge_2_text",
+          "default": "Secure checkout"
+        },
+        {
+          "type": "select",
+          "id": "badge_3_icon",
+          "label": "t:sections.cart_drawer.blocks.badge_3_icon",
+          "options": [
+            { "value": "shipping", "label": "t:sections.cart_drawer.blocks.icon_shipping" },
+            { "value": "lock", "label": "t:sections.cart_drawer.blocks.icon_lock" },
+            { "value": "return", "label": "t:sections.cart_drawer.blocks.icon_return" },
+            { "value": "shield", "label": "t:sections.cart_drawer.blocks.icon_shield" },
+            { "value": "leaf", "label": "t:sections.cart_drawer.blocks.icon_leaf" },
+            { "value": "gift", "label": "t:sections.cart_drawer.blocks.icon_gift" },
+            { "value": "heart", "label": "t:sections.cart_drawer.blocks.icon_heart" },
+            { "value": "diamond", "label": "t:sections.cart_drawer.blocks.icon_diamond" }
+          ],
+          "default": "return"
+        },
+        {
+          "type": "text",
+          "id": "badge_3_text",
+          "label": "t:sections.cart_drawer.blocks.badge_3_text",
+          "default": "Easy returns"
+        }
+      ]
     }
   ]
 }
