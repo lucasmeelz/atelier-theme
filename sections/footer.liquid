@@ -64,6 +64,11 @@
                 {%- render 'icon', name: 'twitter', size: 20 -%}
               </a>
             {%- endif -%}
+            {%- if settings.social_linkedin_url != blank -%}
+              <a href="{{ settings.social_linkedin_url }}" class="footer__social-link btn--icon" aria-label="LinkedIn" rel="noopener noreferrer" target="_blank">
+                {%- render 'icon', name: 'linkedin', size: 20 -%}
+              </a>
+            {%- endif -%}
           </div>
         {%- endif -%}
       </div>

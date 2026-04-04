@@ -60,7 +60,7 @@
     "product_card_style": "minimal",
     "product_card_badge_style": "text_only",
     "cart_type": "drawer",
-    "cart_icon": "cart",
+    "cart_icon": "bag",
     "show_free_shipping_bar": false,
     "free_shipping_threshold": "150",
     "content_for_index": [],
