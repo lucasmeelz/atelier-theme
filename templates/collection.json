@@ -14,22 +14,25 @@
       "settings": {
         "layout": "plain",
         "show_description": true,
-        "title_size": "h3"
+        "title_size": "h1"
       }
     },
     "main": {
       "type": "main-collection",
       "settings": {
         "products_per_page": 24,
-        "columns_desktop": 4,
+        "columns_desktop": 2,
         "columns_mobile": "2",
-        "image_ratio": "portrait",
+        "image_ratio": "square",
         "show_secondary_image": true,
-        "show_vendor": false,
+        "show_vendor": true,
         "show_quick_add": true,
         "show_filters": true,
         "filter_layout": "drawer",
-        "show_sort": true
+        "show_sort": true,
+        "grid_gap": "wide",
+        "show_view_toggle": true,
+        "show_color_swatches": true
       }
     }
   },
