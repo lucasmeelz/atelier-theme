@@ -56,7 +56,7 @@
     "product_card_sale_badge_style": "percentage",
     "product_card_show_sold_out_badge": true,
     "card_hover_effect": "carousel",
-    "product_card_swatch_position": "on_image",
+    "product_card_swatch_position": "below",
     "product_card_badge_style": "text_only",
     "cart_type": "drawer",
     "cart_icon": "bag",
