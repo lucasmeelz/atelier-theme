@@ -130,8 +130,8 @@
       ],
       "settings": {
         "media_size": 55,
-        "media_position": "right",
-        "gallery_layout": "thumbnail_slider",
+        "media_position": "left",
+        "gallery_layout": "thumbnail_grid",
         "thumbnail_position": "below",
         "enable_zoom": true,
         "enable_video_loop": false,
