@@ -322,13 +322,14 @@ class HeaderDrawer extends HTMLElement {
 
     /* Open toggles — use event delegation on document to avoid timing issues
        (drawer element may be parsed before the header buttons exist) */
-    document.addEventListener('click', function(e) {
+    this._handleDocClick = function(e) {
       var toggle = e.target.closest('[data-drawer-toggle]');
       if (toggle) {
         e.preventDefault();
         self.open();
       }
-    });
+    };
+    document.addEventListener('click', this._handleDocClick);
 
     /* Close buttons + overlay */
     this.querySelectorAll('[data-drawer-close]').forEach(function(btn) {
@@ -350,11 +351,17 @@ class HeaderDrawer extends HTMLElement {
     });
 
     /* Escape */
-    document.addEventListener('keydown', function(e) {
+    this._handleKeydown = function(e) {
       if (e.key === 'Escape' && self.getAttribute('aria-hidden') === 'false') {
         self.close();
       }
-    });
+    };
+    document.addEventListener('keydown', this._handleKeydown);
+  }
+
+  disconnectedCallback() {
+    if (this._handleDocClick) document.removeEventListener('click', this._handleDocClick);
+    if (this._handleKeydown) document.removeEventListener('keydown', this._handleKeydown);
   }
 
   open() {
