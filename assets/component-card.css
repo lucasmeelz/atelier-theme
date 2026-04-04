@@ -143,15 +143,12 @@
               transform var(--duration-slow) var(--ease-ecrin);
 }
 
-/* ─── Hover: secondary image crossfade (all effects) ─── */
+/* ─── Hover effects ─── */
 @media (hover: hover) {
-  .card-product__media:hover .card-product__image--secondary {
-    opacity: 1;
-  }
 
-  /* Scale — primary zooms in gently */
+  /* Scale — primary zooms in gently, NO secondary crossfade */
   [data-card-hover="scale"] .card-product__media:hover .card-product__image--primary {
-    transform: scale(1.05);
+    transform: scale(1.04);
   }
 
   /* Slide up — secondary slides up from below while fading in */
@@ -160,20 +157,22 @@
   }
 
   [data-card-hover="slide-up"] .card-product__media:hover .card-product__image--secondary {
+    opacity: 1;
     transform: translateY(0);
   }
 
   /* Zoom fade — primary fades out with slight zoom, secondary zooms in from larger */
+  [data-card-hover="zoom-fade"] .card-product__image--secondary {
+    transform: scale(1.06);
+  }
+
   [data-card-hover="zoom-fade"] .card-product__media:hover .card-product__image--primary {
     transform: scale(1.04);
     opacity: 0;
   }
 
-  [data-card-hover="zoom-fade"] .card-product__image--secondary {
-    transform: scale(1.06);
-  }
-
   [data-card-hover="zoom-fade"] .card-product__media:hover .card-product__image--secondary {
+    opacity: 1;
     transform: scale(1);
   }
 }
@@ -484,10 +483,10 @@ card-carousel {
 .card-product__swatches {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 8px;
   list-style: none;
   padding: 0;
-  margin: 6px 0 0;
+  margin: 8px 0 0;
 }
 
 .card-product--center .card-product__swatches {
@@ -495,18 +494,20 @@ card-carousel {
 }
 
 .card-product__swatch {
-  width: 18px;
-  height: 18px;
-  border: 1px solid rgba(var(--color-text), 0.12);
-  cursor: default;
-  transition: transform var(--duration-fast) var(--ease-ecrin),
-              border-color var(--duration-fast) var(--ease-ecrin);
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid rgba(var(--color-text), 0.08);
+  cursor: pointer;
+  transition: border-color var(--duration-fast) var(--ease-ecrin),
+              box-shadow var(--duration-fast) var(--ease-ecrin);
+  box-shadow: 0 0 0 0 transparent;
 }
 
 @media (hover: hover) {
   .card-product__swatch:hover {
-    transform: scale(1.2);
-    border-color: rgba(var(--color-text), 0.4);
+    border-color: rgba(var(--color-text), 0.5);
+    box-shadow: 0 0 0 2px rgba(var(--color-background), 1),
+                0 0 0 3px rgba(var(--color-text), 0.3);
   }
 }
 
@@ -515,30 +516,34 @@ card-carousel {
 }
 
 .card-product__swatch--square {
-  border-radius: 2px;
+  border-radius: 1px;
 }
 
 .card-product__swatch--more {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 10px;
+  font-size: 0.5625rem;
+  font-family: var(--font-body-family);
+  letter-spacing: 0.02em;
   color: rgb(var(--color-text-subdued));
   border: none;
   width: auto;
   padding-inline: 2px;
 }
 
-/* Color swatches — on image overlay (Jacquemus-style) */
+/* Color swatches — on image overlay (Dior-style) */
 .card-product__swatches--on-image {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  bottom: 12px;
+  left: 12px;
+  right: auto;
+  top: auto;
   z-index: 3;
   margin: 0;
-  gap: 4px;
+  gap: 6px;
   opacity: 0;
-  transform: translateY(-4px);
+  transform: translateY(4px);
   transition: opacity var(--duration-base) var(--ease-ecrin),
               transform var(--duration-base) var(--ease-ecrin);
 }
@@ -558,14 +563,24 @@ card-carousel {
 }
 
 .card-product__swatches--on-image .card-product__swatch {
-  width: 12px;
-  height: 12px;
-  border-color: rgba(var(--color-text), 0.12);
+  width: 10px;
+  height: 10px;
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+@media (hover: hover) {
+  .card-product__swatches--on-image .card-product__swatch:hover {
+    box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.8),
+                0 1px 4px rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.6);
+  }
 }
 
 .card-product__swatches--on-image .card-product__swatch--more {
-  font-size: 9px;
-  color: rgb(var(--color-text-subdued));
+  font-size: 0.5rem;
+  color: rgba(255, 255, 255, 0.8);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 /* Stagger animation */

@@ -128,15 +128,22 @@ button.collection__filter-toggle.btn {
 /* ===================================
    Filters
    =================================== */
+/* Filters — animated open/close via CSS grid trick */
 .collection__filters {
-  overflow: hidden;
-  max-height: 0;
-  transition: max-height var(--duration-slow, 600ms) var(--ease-ecrin, ease);
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--duration-slow, 600ms) var(--ease-ecrin, ease),
+              margin var(--duration-slow, 600ms) var(--ease-ecrin, ease),
+              padding var(--duration-slow, 600ms) var(--ease-ecrin, ease);
   margin-bottom: 0;
 }
 
+.collection__filters > * {
+  overflow: hidden;
+}
+
 .collection__filters[aria-hidden="false"] {
-  max-height: 2000px;
+  grid-template-rows: 1fr;
   margin-bottom: 32px;
 }
 
@@ -168,8 +175,7 @@ button.collection__filter-toggle.btn {
     top: calc(var(--header-height, 64px) + 24px);
     border-right: 1px solid rgb(var(--color-border, 226, 224, 219));
     padding-right: 32px;
-    max-height: none;
-    overflow: visible;
+    display: block;
     margin-bottom: 0;
   }
 }
@@ -178,12 +184,13 @@ button.collection__filter-toggle.btn {
 @media screen and (max-width: 989px) {
   .collection__filters--sidebar {
     border-bottom: 1px solid rgb(var(--color-border, 226, 224, 219));
-    padding-bottom: 20px;
-    margin-bottom: 24px;
+    padding-bottom: 0;
+    margin-bottom: 0;
   }
 
   .collection__filters--sidebar[aria-hidden="false"] {
-    max-height: 2000px;
+    padding-bottom: 20px;
+    margin-bottom: 24px;
   }
 }
 
