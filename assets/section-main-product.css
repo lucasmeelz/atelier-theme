@@ -554,8 +554,10 @@ h3.product__title {
   transition: opacity var(--duration-fast) var(--ease-ecrin);
 }
 
-.product__quantity-btn:hover {
-  opacity: 0.6;
+@media (hover: hover) {
+  .product__quantity-btn:hover {
+    opacity: 0.6;
+  }
 }
 
 .product__quantity-value {

@@ -62,11 +62,13 @@
   color: var(--color-text-subdued, var(--color-text));
   text-decoration: none;
   margin-bottom: 2rem;
-  transition: color 0.2s ease;
+  transition: color var(--duration-fast) var(--ease-ecrin);
 }
 
-.article__back-link:hover {
-  color: var(--color-text);
+@media (hover: hover) {
+  .article__back-link:hover {
+    color: var(--color-text);
+  }
 }
 
 .article__back-link svg {
@@ -181,11 +183,13 @@
   color: var(--color-text);
   text-decoration: underline;
   text-underline-offset: 3px;
-  transition: opacity 0.2s ease;
+  transition: opacity var(--duration-fast) var(--ease-ecrin);
 }
 
-.article__content.rte a:hover {
-  opacity: 0.7;
+@media (hover: hover) {
+  .article__content.rte a:hover {
+    opacity: 0.7;
+  }
 }
 
 /* ===================================
@@ -210,13 +214,15 @@
   border: 1px solid var(--color-border);
   border-radius: 100px;
   text-decoration: none;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition: background-color var(--duration-fast) var(--ease-ecrin), color var(--duration-fast) var(--ease-ecrin);
 }
 
-.article__tag:hover {
-  background-color: var(--color-text);
-  color: var(--color-background);
-  border-color: var(--color-text);
+@media (hover: hover) {
+  .article__tag:hover {
+    background-color: var(--color-text);
+    color: var(--color-background);
+    border-color: var(--color-text);
+  }
 }
 
 /* ===================================
@@ -260,12 +266,14 @@
   background: transparent;
   color: var(--color-text);
   cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition: background-color var(--duration-fast) var(--ease-ecrin), color var(--duration-fast) var(--ease-ecrin);
 }
 
-.article__share-button:hover {
-  background-color: var(--color-text);
-  color: var(--color-background);
+@media (hover: hover) {
+  .article__share-button:hover {
+    background-color: var(--color-text);
+    color: var(--color-background);
+  }
 }
 
 .article__share-button svg {
@@ -278,7 +286,7 @@
   font-size: 0.8125rem;
   color: var(--color-text-subdued, var(--color-text));
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity var(--duration-base) var(--ease-ecrin);
 }
 
 .article__share-feedback.is-visible {
@@ -378,7 +386,7 @@
   background-color: transparent;
   border: 1px solid var(--color-border);
   border-radius: var(--input-corners, 0px);
-  transition: border-color 0.2s ease;
+  transition: border-color var(--duration-fast) var(--ease-ecrin);
 }
 
 .article__form-input:focus,

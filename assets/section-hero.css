@@ -287,12 +287,14 @@
   background-color: transparent;
 }
 
-.hero .btn--outline-white:hover {
-  background-color: currentColor;
-}
+@media (hover: hover) {
+  .hero .btn--outline-white:hover {
+    background-color: currentColor;
+  }
 
-.hero .btn--outline-white:hover .btn__label {
-  color: rgb(var(--color-background, 255, 255, 255));
+  .hero .btn--outline-white:hover .btn__label {
+    color: rgb(var(--color-background, 255, 255, 255));
+  }
 }
 
 .hero .btn--filled-white {
@@ -301,8 +303,10 @@
   border-color: rgb(var(--color-background, 255, 255, 255));
 }
 
-.hero .btn--filled-white:hover {
-  background-color: rgba(var(--color-background, 255, 255, 255), 0.85);
+@media (hover: hover) {
+  .hero .btn--filled-white:hover {
+    background-color: rgba(var(--color-background, 255, 255, 255), 0.85);
+  }
 }
 
 .hero .btn--filled-dark {
@@ -311,8 +315,10 @@
   border-color: rgb(var(--color-text, 10, 10, 10));
 }
 
-.hero .btn--filled-dark:hover {
-  opacity: 0.85;
+@media (hover: hover) {
+  .hero .btn--filled-dark:hover {
+    opacity: 0.85;
+  }
 }
 
 /* ===================================

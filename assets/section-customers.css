@@ -70,7 +70,7 @@
   color: var(--color-text);
   font-family: inherit;
   font-size: 0.9375rem;
-  transition: border-color 0.3s var(--ease-ecrin, ease);
+  transition: border-color var(--duration-base) var(--ease-ecrin);
 }
 
 .customer__form .field input:focus {
@@ -96,7 +96,7 @@
   opacity: 0.6;
   text-decoration: underline;
   text-underline-offset: 3px;
-  transition: opacity 0.3s var(--ease-ecrin, ease);
+  transition: opacity var(--duration-base) var(--ease-ecrin);
 }
 
 @media (hover: hover) {
@@ -148,7 +148,7 @@
   color: var(--color-text);
   opacity: 0.5;
   text-decoration: none;
-  transition: opacity 0.3s var(--ease-ecrin, ease);
+  transition: opacity var(--duration-base) var(--ease-ecrin);
 }
 
 .customer__account-nav a.is-active {
@@ -385,7 +385,7 @@
   border: none;
   padding: 0;
   cursor: pointer;
-  transition: opacity 0.3s var(--ease-ecrin, ease);
+  transition: opacity var(--duration-base) var(--ease-ecrin);
 }
 
 @media (hover: hover) {
@@ -447,7 +447,7 @@
   color: var(--color-text);
   font-family: inherit;
   font-size: 0.9375rem;
-  transition: border-color 0.3s var(--ease-ecrin, ease);
+  transition: border-color var(--duration-base) var(--ease-ecrin);
 }
 
 .customer__address-form .field input:focus,
@@ -494,7 +494,7 @@
   opacity: 0.5;
   text-decoration: none;
   margin-bottom: 2rem;
-  transition: opacity 0.3s var(--ease-ecrin, ease);
+  transition: opacity var(--duration-base) var(--ease-ecrin);
 }
 
 @media (hover: hover) {
