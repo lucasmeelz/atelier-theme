@@ -42,8 +42,8 @@
           "settings": {
             "heading": "Materials & Composition",
             "ingredients": "Italian leather: Premium full-grain calfskin|Gold hardware: 18k gold-plated brass|Lining: Microfiber suede",
-            "icon": "none",
-            "default_open": false
+            "icon": "leaf",
+            "default_open": true
           }
         },
         "product_highlights_WGkFi9": {
@@ -60,7 +60,7 @@
           "type": "variant_picker",
           "settings": {
             "picker_type": "swatch",
-            "swatch_shape": "square",
+            "swatch_shape": "circle",
             "size_chart_page": ""
           }
         },
