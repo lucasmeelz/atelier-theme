@@ -19,7 +19,7 @@
         "title": {
           "type": "title",
           "settings": {
-            "heading_size": "h1"
+            "heading_size": "h2"
           }
         },
         "price": {
@@ -34,7 +34,7 @@
             "heading": "Shipping & Returns",
             "content": "<p>kkkkk</p>",
             "page": "",
-            "icon": "gift"
+            "icon": "shipping"
           }
         },
         "ingredient_list_qhJD7L": {
@@ -59,7 +59,7 @@
         "variant_picker": {
           "type": "variant_picker",
           "settings": {
-            "picker_type": "swatch",
+            "picker_type": "button",
             "swatch_shape": "circle",
             "size_chart_page": ""
           }
@@ -73,21 +73,21 @@
         "trust": {
           "type": "trust_indicators",
           "settings": {
-            "icon_1": "shipping",
-            "text_1": "Free shipping",
-            "icon_2": "return",
-            "text_2": "Easy returns",
-            "icon_3": "lock",
-            "text_3": "Secure payment",
-            "icon_4": "none",
-            "text_4": ""
+            "icon_1": "heart",
+            "text_1": "Made with love",
+            "icon_2": "leaf",
+            "text_2": "Eco-friendly",
+            "icon_3": "diamond",
+            "text_3": "Premium quality",
+            "icon_4": "certified",
+            "text_4": "Authentic"
           }
         },
         "description": {
           "type": "description",
           "settings": {
             "collapsible": true,
-            "default_open": true
+            "default_open": false
           }
         },
         "share": {
