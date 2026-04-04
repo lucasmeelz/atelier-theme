@@ -9,7 +9,7 @@
  */
 {
   "current": {
-    "default_color_scheme": "scheme-1",
+    "default_color_scheme": "scheme-3",
     "sale_badge_color": "#0A0A0A",
     "sold_out_badge_color": "#6B6B6B",
     "type_body_font": "jost_n4",
@@ -44,7 +44,7 @@
     "stagger_products": true,
     "stagger_blog_posts": true,
     "product_card_color_scheme": "scheme-1",
-    "product_card_image_ratio": "square",
+    "product_card_image_ratio": "portrait",
     "product_card_show_secondary_image": true,
     "product_card_info_alignment": "left",
     "product_card_show_vendor": false,
