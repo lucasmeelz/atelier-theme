@@ -232,7 +232,7 @@
               {%- comment -%} === PRICE === {%- endcomment -%}
               {%- when 'price' -%}
                 <div class="product__price" data-product-price {{ block.shopify_attributes }}>
-                  {%- render 'price', product: product, show_badges: true -%}
+                  {%- render 'price', product: product, show_badges: true, hide_tax_notice: true -%}
                   {%- if block.settings.show_tax_notice -%}
                     {%- if cart.taxes_included -%}
                       <p class="product__tax-notice">{{ 'product.tax_included' | t }}</p>

@@ -64,7 +64,9 @@
     </div>
   {%- endif -%}
 
-  {%- if cart.taxes_included -%}
-    <span class="price__tax-notice">{{ 'product.includes_tax' | t }}</span>
-  {%- endif -%}
+  {%- unless hide_tax_notice -%}
+    {%- if cart.taxes_included -%}
+      <span class="price__tax-notice">{{ 'product.includes_tax' | t }}</span>
+    {%- endif -%}
+  {%- endunless -%}
 </div>
