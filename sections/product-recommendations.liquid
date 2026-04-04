@@ -16,6 +16,9 @@
   assign image_ratio = section.settings.image_ratio
   assign show_secondary_image = section.settings.show_secondary_image
   assign show_vendor = section.settings.show_vendor
+  assign show_rating = section.settings.show_rating
+  assign show_quick_add = section.settings.show_quick_add
+  assign show_color_swatches = section.settings.show_color_swatches
   assign color_scheme = section.settings.color_scheme
   assign padding_top = section.settings.padding_top
   assign padding_bottom = section.settings.padding_bottom
@@ -54,8 +57,9 @@
               image_ratio: image_ratio,
               show_secondary_image: show_secondary_image,
               show_vendor: show_vendor,
-              show_rating: settings.product_card_show_rating,
-              show_quick_add: true,
+              show_rating: show_rating,
+              show_quick_add: show_quick_add,
+              show_color_swatches: show_color_swatches,
               columns: columns_desktop,
               lazy: true
             -%}
@@ -140,6 +144,25 @@
       "type": "checkbox",
       "id": "show_vendor",
       "label": "t:sections.product_recommendations.show_vendor",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "t:sections.product_recommendations.show_rating",
+      "default": false,
+      "info": "t:sections.product_recommendations.show_rating_info"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quick_add",
+      "label": "t:sections.product_recommendations.show_quick_add",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_color_swatches",
+      "label": "t:sections.product_recommendations.show_color_swatches",
       "default": false
     },
     {

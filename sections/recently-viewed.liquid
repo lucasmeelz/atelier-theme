@@ -17,6 +17,9 @@
   assign image_ratio = section.settings.image_ratio
   assign show_secondary_image = section.settings.show_secondary_image
   assign show_vendor = section.settings.show_vendor
+  assign show_rating = section.settings.show_rating
+  assign show_quick_add = section.settings.show_quick_add
+  assign show_color_swatches = section.settings.show_color_swatches
   assign color_scheme = section.settings.color_scheme
   assign padding_top = section.settings.padding_top
   assign padding_bottom = section.settings.padding_bottom
@@ -29,12 +32,31 @@
   }
 {%- endstyle -%}
 
+{%- comment -%} Card template for Section Rendering API — renders a single product card when fetched on a product URL {%- endcomment -%}
+<template data-recently-viewed-card>
+  {%- if product -%}
+    <div class="recently-viewed__item">
+      {%- render 'card-product',
+        product: product,
+        image_ratio: image_ratio,
+        show_secondary_image: show_secondary_image,
+        show_vendor: show_vendor,
+        show_rating: show_rating,
+        show_quick_add: show_quick_add,
+        show_color_swatches: show_color_swatches,
+        color_scheme: color_scheme,
+        columns: columns_desktop,
+        lazy: true
+      -%}
+    </div>
+  {%- endif -%}
+</template>
+
 <div
   id="Section-{{ section.id }}"
   class="recently-viewed color-{{ color_scheme }}"
   data-section-id="{{ section.id }}"
   data-products-to-show="{{ products_to_show }}"
-  data-columns="{{ columns_desktop }}"
   style="display: none;"
 >
   <div class="container">
@@ -49,7 +71,7 @@
       style="--rv-columns: {{ columns_desktop }};"
       data-recently-viewed-grid
     >
-      {%- comment -%} Products injected by JS {%- endcomment -%}
+      {%- comment -%} Products injected by JS via Section Rendering API {%- endcomment -%}
     </div>
   </div>
 </div>
@@ -58,11 +80,13 @@
   (function() {
     var STORAGE_KEY = 'ecrin:recently-viewed';
     var MAX_STORED = 20;
-    var section = document.getElementById('Section-{{ section.id }}');
+    var sectionId = '{{ section.id }}';
+    var section = document.getElementById('Section-' + sectionId);
     if (!section) return;
 
     var productsToShow = parseInt(section.dataset.productsToShow, 10) || 4;
     var grid = section.querySelector('[data-recently-viewed-grid]');
+    if (!grid) return;
 
     /* Track current product page */
     {%- if request.page_type == 'product' -%}
@@ -76,7 +100,7 @@
       } catch(e) {}
     {%- endif -%}
 
-    /* Render recently viewed products */
+    /* Render recently viewed products via Section Rendering API */
     try {
       var handles = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
 
@@ -85,91 +109,46 @@
       {%- endif -%}
 
       handles = handles.slice(0, productsToShow);
-
       if (handles.length === 0) return;
 
       section.style.display = '';
 
-      function formatMoney(cents, format) {
-        var amount = (cents / 100).toFixed(2);
-        return format.replace(/\{\{\s*amount\s*\}\}/, amount)
-                     .replace(/\{\{\s*amount_no_decimals\s*\}\}/, Math.round(cents / 100))
-                     .replace(/\{\{\s*amount_with_comma_separator\s*\}\}/, amount.replace('.', ','))
-                     .replace(/\{\{\s*amount_no_decimals_with_comma_separator\s*\}\}/, Math.round(cents / 100));
-      }
+      /* Pre-create placeholder slots to maintain viewing order */
+      var slots = {};
+      handles.forEach(function(handle) {
+        var slot = document.createElement('div');
+        slot.className = 'recently-viewed__item';
+        slot.dataset.handle = handle;
+        slot.style.visibility = 'hidden';
+        grid.appendChild(slot);
+        slots[handle] = slot;
+      });
 
-      var imageRatio = '{{ image_ratio }}';
-      var showSecondary = {{ show_secondary_image | json }};
-      var showVendor = {{ show_vendor | json }};
-      var columns = parseInt(section.dataset.columns, 10) || 4;
-      var moneyFormat = {{ shop.money_format | json }};
+      var routesRoot = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root) || '/';
 
-      /* Fetch each product and render a card */
-      var fragment = document.createDocumentFragment();
-      var loaded = 0;
-
-      handles.forEach(function(handle, index) {
-        fetch('/products/' + handle + '.js')
+      handles.forEach(function(handle) {
+        fetch(routesRoot + 'products/' + handle + '?sections=' + sectionId)
           .then(function(r) { return r.json(); })
-          .then(function(product) {
-            var item = document.createElement('div');
-            item.className = 'recently-viewed__item';
+          .then(function(data) {
+            var html = data[sectionId];
+            if (!html) return;
 
-            var image = product.featured_image;
-            var price = formatMoney(product.price, moneyFormat);
-            var comparePrice = product.compare_at_price ? formatMoney(product.compare_at_price, moneyFormat) : null;
-            var available = product.available;
+            var doc = new DOMParser().parseFromString(html, 'text/html');
+            var template = doc.querySelector('[data-recently-viewed-card]');
+            if (!template) return;
 
-            var ratioClass = '';
-            if (imageRatio === 'portrait') ratioClass = 'style="--card-image-ratio: 3 / 4;"';
-            else if (imageRatio === 'square') ratioClass = 'style="--card-image-ratio: 1 / 1;"';
-            else if (imageRatio === 'landscape') ratioClass = 'style="--card-image-ratio: 4 / 3;"';
+            var source = template.content || template;
+            var card = source.querySelector('.recently-viewed__item');
+            if (!card) return;
 
-            var html = '<div class="card-product">';
-            html += '<div class="card-product__media">';
-            var routesRoot = window.Shopify && window.Shopify.routes && window.Shopify.routes.root || '/';
-            html += '<a href="' + routesRoot + 'products/' + handle + '" class="card-product__media-link" aria-label="' + product.title + '" tabindex="-1">';
-            html += '<div class="card-product__media-wrapper" ' + ratioClass + '>';
-            if (image) {
-              html += '<img src="' + image + '" alt="' + product.title + '" class="card-product__image card-product__image--primary" loading="lazy" width="400" height="400">';
-              if (showSecondary && product.images && product.images.length > 1) {
-                html += '<img src="' + product.images[1] + '" alt="" class="card-product__image card-product__image--secondary" loading="lazy" width="400" height="400">';
-              }
+            var slot = slots[handle];
+            if (slot && slot.parentNode) {
+              slot.outerHTML = card.outerHTML;
             }
-            html += '</div></a>';
-
-            /* Badges */
-            if (!available) {
-              html += '<div class="card-product__badges"><span class="card-product__badge card-product__badge--sold-out">{{ "product.sold_out" | t }}</span></div>';
-            } else if (comparePrice) {
-              html += '<div class="card-product__badges"><span class="card-product__badge card-product__badge--sale">{{ "product.sale" | t }}</span></div>';
-            }
-
-            html += '</div>'; /* close media */
-
-            /* Info */
-            html += '<div class="card-product__info">';
-            html += '<h3 class="card-product__title"><a href="' + routesRoot + 'products/' + handle + '">' + product.title + '</a></h3>';
-            if (showVendor && product.vendor) {
-              html += '<p class="card-product__vendor">' + product.vendor + '</p>';
-            }
-            html += '<div class="card-product__price">';
-            if (comparePrice) {
-              html += '<s class="card-product__price-compare">' + comparePrice + '</s> ';
-            }
-            html += '<span>' + price + '</span>';
-            html += '</div>';
-            html += '</div>'; /* close info */
-            html += '</div>'; /* close card */
-
-            item.innerHTML = html;
-            item.dataset.index = index;
-            grid.appendChild(item);
-
-            loaded++;
           })
           .catch(function() {
-            loaded++;
+            var slot = slots[handle];
+            if (slot && slot.parentNode) slot.remove();
           });
       });
     } catch(e) {}
@@ -232,6 +211,10 @@
       "default": "portrait"
     },
     {
+      "type": "header",
+      "content": "t:sections.recently_viewed.card_header"
+    },
+    {
       "type": "checkbox",
       "id": "show_secondary_image",
       "label": "t:sections.recently_viewed.show_secondary",
@@ -241,6 +224,25 @@
       "type": "checkbox",
       "id": "show_vendor",
       "label": "t:sections.recently_viewed.show_vendor",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "t:sections.recently_viewed.show_rating",
+      "default": false,
+      "info": "t:sections.recently_viewed.show_rating_info"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quick_add",
+      "label": "t:sections.recently_viewed.show_quick_add",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_color_swatches",
+      "label": "t:sections.recently_viewed.show_color_swatches",
       "default": false
     },
     {

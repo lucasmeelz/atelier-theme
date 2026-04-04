@@ -23,6 +23,7 @@
   assign show_vendor = section.settings.show_vendor
   assign show_rating = section.settings.show_rating
   assign show_quick_add = section.settings.show_quick_add
+  assign show_color_swatches = section.settings.show_color_swatches
   assign heading = section.settings.heading
   assign heading_size = section.settings.heading_size
   assign subheading = section.settings.subheading
@@ -107,6 +108,7 @@
                 show_vendor: show_vendor,
                 show_rating: show_rating,
                 show_quick_add: show_quick_add,
+                show_color_swatches: show_color_swatches,
                 columns: columns_desktop,
                 lazy: true
               -%}
@@ -297,6 +299,12 @@
       "id": "show_quick_add",
       "label": "t:sections.featured_collection.show_quick_add",
       "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_color_swatches",
+      "label": "t:sections.featured_collection.show_color_swatches",
+      "default": false
     },
     {
       "type": "header",

@@ -139,7 +139,7 @@ h3.testimonials__heading {
 }
 
 .testimonials__star--filled {
-  color: rgb(var(--color-accent, 200, 169, 126));
+  color: rgb(var(--color-accent, 184, 148, 106));
 }
 
 .testimonials__star--empty {

@@ -90,7 +90,7 @@
 
 .blog-posts__card-placeholder {
   background: rgb(var(--color-background, 255, 255, 255));
-  fill: rgb(var(--color-text-subdued, 160, 160, 160));
+  fill: rgb(var(--color-text-subdued, 107, 107, 107));
 }
 
 /* --- Card content --- */

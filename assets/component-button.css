@@ -172,7 +172,10 @@
   }
 }
 
-/* ===== OUTLINE WHITE (for dark backgrounds / hero overlays) ===== */
+/* ===== OUTLINE WHITE (over dark images / overlays) =====
+   Intentionally hardcoded white — these variants are ONLY used atop
+   dark image overlays (hero, editorial, collection-banner) where
+   white is the design intent regardless of color scheme. */
 
 .btn--outline-white {
   background-color: transparent;
@@ -199,7 +202,8 @@
   }
 }
 
-/* ===== FILLED WHITE (for dark backgrounds / hero overlays) ===== */
+/* ===== FILLED WHITE (over dark images / overlays) =====
+   Same rationale as .btn--outline-white above. */
 
 .btn--filled-white {
   background-color: rgb(255, 255, 255);

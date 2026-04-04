@@ -117,8 +117,8 @@
 }
 
 .customer__form-errors {
-  border: 1px solid rgb(var(--color-error, 195, 57, 43));
-  color: rgb(var(--color-error, 195, 57, 43));
+  border: 1px solid rgb(var(--color-error, 194, 58, 58));
+  color: rgb(var(--color-error, 194, 58, 58));
 }
 
 .customer__form-errors ul {
@@ -396,7 +396,7 @@
 }
 
 .customer__address-actions button.danger {
-  color: rgb(var(--color-error, 195, 57, 43));
+  color: rgb(var(--color-error, 194, 58, 58));
 }
 
 /* Address form (add/edit)

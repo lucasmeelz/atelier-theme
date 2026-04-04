@@ -414,7 +414,7 @@
 
 .article__form-errors li {
   font-size: 0.875rem;
-  color: #c83232;
+  color: rgb(var(--color-error, 194, 58, 58));
   margin-bottom: 0.25rem;
 }
 

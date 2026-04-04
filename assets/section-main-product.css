@@ -845,7 +845,7 @@ collapsible-details + :not(collapsible-details):not(.product__ingredients) {
 
 .product__pickup-item svg {
   flex-shrink: 0;
-  color: rgb(var(--color-accent, 45, 125, 70));
+  color: rgb(var(--color-accent, 184, 148, 106));
   margin-top: 2px;
 }
 
@@ -1601,5 +1601,5 @@ collapsible-details + :not(collapsible-details):not(.product__ingredients) {
 }
 
 .product__stock-level--in-stock .product__stock-dot {
-  background-color: rgb(var(--color-success, 45, 138, 62));
+  background-color: rgb(var(--color-success, 45, 125, 70));
 }
