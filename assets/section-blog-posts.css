@@ -84,8 +84,10 @@
   transition: transform var(--duration-slow, 0.6s) var(--ease-ecrin, ease);
 }
 
-.blog-posts__card-media:hover .blog-posts__card-image {
-  transform: scale(1.03);
+@media (hover: hover) {
+  .blog-posts__card-media:hover .blog-posts__card-image {
+    transform: scale(1.03);
+  }
 }
 
 .blog-posts__card-placeholder {

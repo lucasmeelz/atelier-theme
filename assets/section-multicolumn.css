@@ -23,9 +23,11 @@
   transition: transform var(--duration-base, 350ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
 }
 
-.multicolumn .link-underline:hover::after {
-  transform: scaleX(1);
-  transform-origin: left;
+@media (hover: hover) {
+  .multicolumn .link-underline:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
 }
 
 .multicolumn {

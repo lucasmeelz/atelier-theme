@@ -179,8 +179,10 @@
   z-index: 1;
 }
 
-.announcement-bar__close:hover {
-  opacity: 1;
+@media (hover: hover) {
+  .announcement-bar__close:hover {
+    opacity: 1;
+  }
 }
 
 .announcement-bar__close svg {
