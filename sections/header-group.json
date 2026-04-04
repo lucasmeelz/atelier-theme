@@ -83,6 +83,25 @@
     },
     "cart-drawer": {
       "type": "cart-drawer",
+      "blocks": {
+        "shipping_bar": {
+          "type": "free_shipping_bar",
+          "settings": {}
+        },
+        "note": {
+          "type": "cart_note",
+          "settings": {}
+        },
+        "trust": {
+          "type": "trust_badges",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "shipping_bar",
+        "note",
+        "trust"
+      ],
       "settings": {
         "color_scheme": ""
       }
