@@ -70,7 +70,7 @@
         "menu_open_trigger": "hover",
         "transparent_header": false,
         "transparent_header_text_color": "#ffffff",
-        "show_search": false,
+        "show_search": true,
         "show_country_selector": true,
         "show_country_flag": true,
         "show_locale_selector": false,
