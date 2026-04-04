@@ -60,7 +60,7 @@
           "type": "variant_picker",
           "settings": {
             "picker_type": "swatch",
-            "swatch_shape": "circle",
+            "swatch_shape": "square",
             "size_chart_page": ""
           }
         },
