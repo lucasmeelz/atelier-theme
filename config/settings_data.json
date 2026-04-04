@@ -51,7 +51,7 @@
     "product_card_show_rating": false,
     "product_card_show_quick_add": true,
     "product_card_show_color_swatches": true,
-    "product_card_swatch_shape": "circle",
+    "product_card_swatch_shape": "square",
     "product_card_show_sale_badge": true,
     "product_card_sale_badge_style": "percentage",
     "product_card_show_sold_out_badge": true,
