@@ -14,9 +14,7 @@
       "settings": {
         "layout": "plain",
         "show_description": true,
-        "title_size": "h1",
-        "overlay_opacity": 30,
-        "color_scheme": ""
+        "title_size": "h1"
       }
     },
     "main": {
@@ -29,14 +27,12 @@
         "show_secondary_image": true,
         "show_vendor": false,
         "show_quick_add": true,
-        "grid_gap": "compact",
-        "show_color_swatches": true,
         "show_filters": true,
-        "filter_layout": "sidebar",
+        "filter_layout": "drawer",
         "show_sort": true,
-        "pagination_type": "load_more",
+        "grid_gap": "standard",
         "show_view_toggle": false,
-        "color_scheme": ""
+        "show_color_swatches": true
       }
     }
   },
