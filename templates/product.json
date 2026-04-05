@@ -64,10 +64,33 @@
             "size_chart_page": ""
           }
         },
+        "size_guide_block": {
+          "type": "size_guide",
+          "settings": {
+            "label": "Size guide",
+            "page": "",
+            "icon": "ruler"
+          }
+        },
+        "estimated_delivery_block": {
+          "type": "estimated_delivery",
+          "settings": {
+            "text": "Estimated delivery: 3-5 business days",
+            "icon": "shipping"
+          }
+        },
+        "stock_level_block": {
+          "type": "stock_level",
+          "settings": {
+            "threshold": 5,
+            "show_count": true
+          }
+        },
         "buy_buttons": {
           "type": "buy_buttons",
           "settings": {
-            "show_dynamic_checkout": true
+            "show_dynamic_checkout": true,
+            "show_installments": true
           }
         },
         "trust": {
@@ -124,13 +147,14 @@
             "show_message": true,
             "message_label": "Gift message",
             "message_placeholder": "Write your message",
-            "icon": "gift"
+            "icon": "ribbon"
           }
         },
         "sustainability": {
           "type": "sustainability_badge",
           "settings": {
             "heading": "",
+            "layout": "horizontal",
             "badge_1_type": "organic",
             "badge_1_label": "Organic materials",
             "badge_2_type": "vegan",
@@ -138,28 +162,7 @@
             "badge_3_type": "recycled",
             "badge_3_label": "Recycled packaging",
             "badge_4_type": "",
-            "badge_4_label": "",
-            "layout": "horizontal"
-          }
-        },
-        "size_guide_block": {
-          "type": "size_guide",
-          "settings": {
-            "label": "Size guide",
-            "page": ""
-          }
-        },
-        "estimated_delivery_block": {
-          "type": "estimated_delivery",
-          "settings": {
-            "text": "Estimated delivery: 3-5 business days"
-          }
-        },
-        "stock_level_block": {
-          "type": "stock_level",
-          "settings": {
-            "low_stock_threshold": 5,
-            "show_exact_count": true
+            "badge_4_label": ""
           }
         }
       },
@@ -206,6 +209,9 @@
         "image_ratio": "portrait",
         "show_secondary_image": true,
         "show_vendor": false,
+        "show_rating": false,
+        "show_quick_add": true,
+        "show_color_swatches": false,
         "color_scheme": "",
         "padding_top": 60,
         "padding_bottom": 60
