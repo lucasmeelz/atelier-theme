@@ -55,6 +55,13 @@
       {%- comment -%} Media — shows active step's image {%- endcomment -%}
       <div class="product-ritual__media">
         {%- for block in section.blocks -%}
+          {%- liquid
+            assign media_class = 'product-ritual__media-image'
+            if forloop.first
+              assign media_class = media_class | append: ' product-ritual__media-image--active'
+            endif
+            assign media_id = 'ritual-image-' | append: section.id | append: '-' | append: forloop.index0
+          -%}
           {%- if block.settings.image != blank -%}
             {{
               block.settings.image
@@ -63,11 +70,11 @@
                 alt: block.settings.image.alt | default: block.settings.heading,
                 widths: '375, 750, 1000, 1200',
                 loading: 'lazy',
-                class: 'product-ritual__media-image{% if forloop.first %} product-ritual__media-image--active{% endif %}',
-                id: 'ritual-image-' | append: section.id | append: '-' | append: forloop.index0
+                class: media_class,
+                id: media_id
             }}
           {%- else -%}
-            <div class="product-ritual__media-image{% if forloop.first %} product-ritual__media-image--active{% endif %} product-ritual__media-placeholder" id="ritual-image-{{ section.id }}-{{ forloop.index0 }}">
+            <div class="{{ media_class }} product-ritual__media-placeholder" id="{{ media_id }}">
               {{ 'product-' | append: forloop.index | placeholder_svg_tag: 'product-ritual__placeholder-svg' }}
             </div>
           {%- endif -%}
