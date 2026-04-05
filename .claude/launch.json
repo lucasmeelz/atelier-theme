@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "shopify-dev",
+      "runtimeExecutable": "shopify",
+      "runtimeArgs": ["theme", "dev", "--store=odoo-app-test.myshopify.com", "--theme=192988971354"],
+      "port": 9292
+    }
+  ]
+}

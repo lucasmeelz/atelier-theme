@@ -10,8 +10,29 @@
 {
   "sections": {
     "main": {
-      "type": "cart",
-      "settings": {}
+      "type": "main-cart",
+      "blocks": {
+        "shipping_bar": {
+          "type": "free_shipping_bar",
+          "settings": {}
+        },
+        "note": {
+          "type": "cart_note",
+          "settings": {}
+        },
+        "trust": {
+          "type": "trust_badges",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "shipping_bar",
+        "note",
+        "trust"
+      ],
+      "settings": {
+        "show_payment_icons": true
+      }
     }
   },
   "order": [

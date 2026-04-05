@@ -1,0 +1,410 @@
+/* Button component — Ecrin theme */
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  overflow: hidden;
+  min-height: 50px;
+  padding: 14px 36px;
+  border: 1px solid transparent;
+  border-radius: var(--button-border-radius);
+  font-family: var(--font-button-family);
+  font-size: var(--button-font-size);
+  font-weight: var(--font-button-weight, 500);
+  letter-spacing: var(--button-letter-spacing);
+  line-height: 1.2;
+  text-transform: var(--button-text-transform);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color var(--duration-base) var(--ease-ecrin),
+              background-color var(--duration-base) var(--ease-ecrin),
+              border-color var(--duration-base) var(--ease-ecrin);
+}
+
+/* Label sits above the slide-up background */
+.btn__label {
+  position: relative;
+  z-index: 1;
+}
+
+/* Slide-up fill background */
+.btn__fill {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  transform: translateY(101%);
+  transition: transform var(--duration-base) var(--ease-ecrin);
+}
+
+/* ===== PRIMARY (filled) ===== */
+
+.btn--primary {
+  background-color: rgb(var(--color-button-bg));
+  border-color: rgb(var(--color-button-bg));
+  color: rgb(var(--color-button-text));
+}
+
+.btn--primary .btn__fill {
+  background-color: rgb(var(--color-button-text));
+}
+
+@media (hover: hover) {
+  /* Slide-up hover */
+  [data-button-hover="slide-up"] .btn--primary:hover {
+    color: rgb(var(--color-button-bg));
+  }
+
+  [data-button-hover="slide-up"] .btn--primary:hover .btn__fill {
+    transform: translateY(0);
+  }
+
+  /* Fade hover */
+  [data-button-hover="fade"] .btn--primary:hover {
+    opacity: 0.85;
+  }
+}
+
+.btn--primary:active {
+  color: rgb(var(--color-button-bg));
+}
+
+.btn--primary:active .btn__fill {
+  transform: translateY(0);
+}
+
+/* ===== SECONDARY (outline) ===== */
+
+.btn--secondary {
+  background-color: transparent;
+  border-color: rgb(var(--color-button-bg));
+  color: rgb(var(--color-button-bg));
+}
+
+.btn--secondary .btn__fill {
+  background-color: rgb(var(--color-button-bg));
+}
+
+@media (hover: hover) {
+  [data-button-hover="slide-up"] .btn--secondary:hover {
+    color: rgb(var(--color-button-text));
+  }
+
+  [data-button-hover="slide-up"] .btn--secondary:hover .btn__fill {
+    transform: translateY(0);
+  }
+
+  [data-button-hover="fade"] .btn--secondary:hover {
+    background-color: rgb(var(--color-button-bg));
+    color: rgb(var(--color-button-text));
+  }
+}
+
+.btn--secondary:active {
+  color: rgb(var(--color-button-text));
+}
+
+.btn--secondary:active .btn__fill {
+  transform: translateY(0);
+}
+
+/* ===== OUTLINE (default text color border) ===== */
+
+.btn--outline {
+  background-color: transparent;
+  border-color: rgb(var(--color-text));
+  color: rgb(var(--color-text));
+}
+
+.btn--outline .btn__fill {
+  background-color: rgb(var(--color-text));
+}
+
+@media (hover: hover) {
+  [data-button-hover="slide-up"] .btn--outline:hover {
+    color: rgb(var(--color-background));
+  }
+
+  [data-button-hover="slide-up"] .btn--outline:hover .btn__fill {
+    transform: translateY(0);
+  }
+
+  [data-button-hover="fade"] .btn--outline:hover {
+    background-color: rgb(var(--color-text));
+    color: rgb(var(--color-background));
+  }
+}
+
+.btn--outline:active {
+  color: rgb(var(--color-background));
+}
+
+.btn--outline:active .btn__fill {
+  transform: translateY(0);
+}
+
+/* ===== OUTLINE DARK (for light backgrounds / FC footer) ===== */
+
+.btn--outline-dark {
+  background-color: transparent;
+  border-color: rgb(var(--color-text));
+  color: rgb(var(--color-text));
+}
+
+.btn--outline-dark .btn__fill {
+  background-color: rgb(var(--color-text));
+}
+
+@media (hover: hover) {
+  [data-button-hover="slide-up"] .btn--outline-dark:hover {
+    color: rgb(var(--color-background));
+  }
+
+  [data-button-hover="slide-up"] .btn--outline-dark:hover .btn__fill {
+    transform: translateY(0);
+  }
+
+  [data-button-hover="fade"] .btn--outline-dark:hover {
+    background-color: rgb(var(--color-text));
+    color: rgb(var(--color-background));
+  }
+}
+
+/* ===== OUTLINE WHITE (over dark images / overlays) =====
+   Intentionally hardcoded white — these variants are ONLY used atop
+   dark image overlays (hero, editorial, collection-banner) where
+   white is the design intent regardless of color scheme. */
+
+.btn--outline-white {
+  background-color: transparent;
+  border-color: rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
+}
+
+.btn--outline-white .btn__fill {
+  background-color: rgb(255, 255, 255);
+}
+
+@media (hover: hover) {
+  [data-button-hover="slide-up"] .btn--outline-white:hover {
+    color: rgb(var(--color-text));
+  }
+
+  [data-button-hover="slide-up"] .btn--outline-white:hover .btn__fill {
+    transform: translateY(0);
+  }
+
+  [data-button-hover="fade"] .btn--outline-white:hover {
+    background-color: rgb(255, 255, 255);
+    color: rgb(var(--color-text));
+  }
+}
+
+/* ===== FILLED WHITE (over dark images / overlays) =====
+   Same rationale as .btn--outline-white above. */
+
+.btn--filled-white {
+  background-color: rgb(255, 255, 255);
+  border-color: rgb(255, 255, 255);
+  color: rgb(var(--color-text));
+}
+
+.btn--filled-white .btn__fill {
+  background-color: rgb(var(--color-text));
+}
+
+@media (hover: hover) {
+  [data-button-hover="slide-up"] .btn--filled-white:hover {
+    color: rgb(255, 255, 255);
+  }
+
+  [data-button-hover="slide-up"] .btn--filled-white:hover .btn__fill {
+    transform: translateY(0);
+  }
+
+  [data-button-hover="fade"] .btn--filled-white:hover {
+    opacity: 0.85;
+  }
+}
+
+.btn--filled-white:active {
+  color: rgb(255, 255, 255);
+}
+
+.btn--filled-white:active .btn__fill {
+  transform: translateY(0);
+}
+
+/* ===== FILLED DARK (for hero on light images) ===== */
+
+.btn--filled-dark {
+  background-color: rgb(var(--color-text));
+  border-color: rgb(var(--color-text));
+  color: rgb(var(--color-background));
+}
+
+.btn--filled-dark .btn__fill {
+  background-color: rgb(var(--color-background));
+}
+
+@media (hover: hover) {
+  [data-button-hover="slide-up"] .btn--filled-dark:hover {
+    color: rgb(var(--color-text));
+  }
+
+  [data-button-hover="slide-up"] .btn--filled-dark:hover .btn__fill {
+    transform: translateY(0);
+  }
+
+  [data-button-hover="fade"] .btn--filled-dark:hover {
+    opacity: 0.85;
+  }
+}
+
+.btn--filled-dark:active {
+  color: rgb(var(--color-text));
+}
+
+.btn--filled-dark:active .btn__fill {
+  transform: translateY(0);
+}
+
+/* ===== TEXT LINK ===== */
+
+.btn--link {
+  min-height: auto;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: none;
+  color: rgb(var(--color-text));
+  text-decoration: none;
+  position: relative;
+}
+
+.btn--link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: currentColor;
+  transform: scaleX(1);
+  transform-origin: right;
+  transition: transform var(--duration-base) var(--ease-ecrin);
+}
+
+@media (hover: hover) {
+  .btn--link:hover::after {
+    transform: scaleX(0);
+    transform-origin: right;
+  }
+}
+
+/* Reverse variant — underline draws in on hover */
+.btn--link-reveal::after {
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+@media (hover: hover) {
+  .btn--link-reveal:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}
+
+/* ===== ICON BUTTON (header icons, close buttons) ===== */
+
+.btn--icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 8px;
+  border: none;
+  border-radius: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  transition: opacity var(--duration-fast) var(--ease-ecrin),
+              transform var(--duration-fast) var(--ease-ecrin);
+}
+
+@media screen and (min-width: 990px) {
+  .btn--icon {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+.btn--icon svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: var(--icon-stroke-width);
+}
+
+@media (hover: hover) {
+  .btn--icon:hover {
+    opacity: 0.7;
+  }
+}
+
+/* ===== SMALL VARIANT ===== */
+
+.btn--small {
+  min-height: 42px;
+  padding: 10px 24px;
+  font-size: calc(var(--button-font-size) - 1px);
+}
+
+/* ===== FULL WIDTH ===== */
+
+.btn--full {
+  width: 100%;
+}
+
+/* ===== FOCUS ===== */
+
+.btn:focus-visible {
+  outline: 2px solid rgb(var(--color-accent));
+  outline-offset: 3px;
+}
+
+/* ===== LOADING STATE ===== */
+
+.btn--loading {
+  pointer-events: none;
+}
+
+.btn--loading .btn__label {
+  visibility: hidden;
+}
+
+.btn--loading::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: btn-spin 600ms linear infinite;
+  z-index: 1;
+}
+
+@keyframes btn-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ===== DISABLED ===== */
+
+.btn[disabled],
+.btn[aria-disabled="true"] {
+  opacity: 0.4;
+  pointer-events: none;
+}

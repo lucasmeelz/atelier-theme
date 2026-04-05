@@ -1,35 +1,282 @@
-{% comment %}
-  This section is used in the blog template to render the blog page listing all
-  articles within a blog.
+{%- comment -%}
+  Blog — Article listing page with responsive grid, filtering, and pagination
+  Used as the main section in blog.json template
+{%- endcomment -%}
 
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/blog
-{% endcomment %}
+{{ 'section-blog.css' | asset_url | stylesheet_tag }}
 
-<h1>{{ blog.title }}</h1>
+{%- liquid
+  assign color_scheme = section.settings.color_scheme
+  assign padding_top = section.settings.padding_top
+  assign padding_bottom = section.settings.padding_bottom
+  assign columns_desktop = section.settings.columns_desktop
+  assign columns_mobile = section.settings.columns_mobile
+  assign image_ratio = section.settings.image_ratio
+  assign show_image = section.settings.show_image
+  assign show_date = section.settings.show_date
+  assign show_author = section.settings.show_author
+  assign show_excerpt = section.settings.show_excerpt
+  assign show_tags = section.settings.show_tags
+  assign articles_per_page = section.settings.articles_per_page
+-%}
 
-{% paginate blog.articles by 5 %}
-  {% for article in blog.articles %}
-    <div>
-      {% if article.image %}
-        {{ article.image | image_url: width: 1000 | image_tag }}
-      {% endif %}
-      <h2>
-        {{ article.title | link_to: article.url }}
-      </h2>
-      {% assign date = article.published_at | time_tag: format: 'date' %}
-      <p>{{ 'blog.article_metadata_html' | t: date: date, author: article.author }}</p>
-      <p>{{ article.excerpt }}</p>
-    </div>
-  {% endfor %}
+{%- style -%}
+  #Section-{{ section.id }} {
+    --section-padding-top: {{ padding_top }}px;
+    --section-padding-bottom: {{ padding_bottom }}px;
+    --blog-columns: {{ columns_desktop }};
+    --blog-columns-mobile: {{ columns_mobile }};
+  }
+{%- endstyle -%}
 
-  {%- if paginate.pages > 1 -%}
-    {{- paginate | default_pagination -}}
-  {%- endif -%}
-{% endpaginate %}
+<section
+  id="Section-{{ section.id }}"
+  class="blog-section color-{{ color_scheme }}"
+>
+  <div class="container">
+
+    {%- comment -%} Blog Header {%- endcomment -%}
+    <header class="blog__header">
+      <h1 class="blog__title h2">{{ blog.title }}</h1>
+
+      {%- if blog.tags.size > 0 and section.settings.show_tag_filter -%}
+        <nav class="blog__tags" aria-label="{{ 'blog.articles' | t }}">
+          <a
+            href="{{ blog.url }}"
+            class="blog__tag {% if current_tags == blank %}blog__tag--active{% endif %}"
+          >
+            {{ 'collection.filter_clear_all' | t }}
+          </a>
+          {%- for tag in blog.all_tags -%}
+            <a
+              href="{{ blog.url }}/tagged/{{ tag | handle }}"
+              class="blog__tag {% if current_tags contains tag %}blog__tag--active{% endif %}"
+            >
+              {{ tag }}
+            </a>
+          {%- endfor -%}
+        </nav>
+      {%- endif -%}
+    </header>
+
+    {%- comment -%} Articles Grid {%- endcomment -%}
+    {%- paginate blog.articles by articles_per_page -%}
+      {%- capture blog_image_sizes -%}(min-width: 990px) calc(100vw / {{ columns_desktop }}), (min-width: 750px) 50vw, 100vw{%- endcapture -%}
+      <div class="blog__grid" {% if settings.stagger_blog_posts %}data-stagger-cards{% endif %}>
+        {%- for article in blog.articles -%}
+          <article class="blog-card">
+            {%- if show_image and article.image -%}
+              <a href="{{ article.url }}" class="blog-card__image-wrapper blog-card__image-wrapper--{{ image_ratio }}" aria-label="{{ article.title }}">
+                {{
+                  article.image
+                  | image_url: width: 1200
+                  | image_tag:
+                    class: 'blog-card__image',
+                    loading: 'lazy',
+                    widths: '375, 550, 750, 1000, 1200',
+                    sizes: blog_image_sizes,
+                    alt: article.image.alt | default: article.title
+                }}
+              </a>
+            {%- endif -%}
+
+            <div class="blog-card__content">
+              {%- if show_date or show_author -%}
+                <div class="blog-card__meta">
+                  {%- if show_date -%}
+                    <time datetime="{{ article.published_at | date: '%Y-%m-%dT%H:%M:%S%z' }}">
+                      {{ article.published_at | date: format: 'abbreviated_date' }}
+                    </time>
+                  {%- endif -%}
+                  {%- if show_date and show_author -%}
+                    <span class="blog-card__meta-sep" aria-hidden="true">&mdash;</span>
+                  {%- endif -%}
+                  {%- if show_author -%}
+                    <span>{{ article.author }}</span>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+
+              <h2 class="blog-card__title h4">
+                <a href="{{ article.url }}">{{ article.title }}</a>
+              </h2>
+
+              {%- if show_excerpt and article.excerpt_or_content != blank -%}
+                <p class="blog-card__excerpt">
+                  {{ article.excerpt_or_content | strip_html | truncatewords: 30 }}
+                </p>
+              {%- endif -%}
+
+              {%- if show_tags and article.tags.size > 0 -%}
+                <div class="blog-card__tags">
+                  {%- for tag in article.tags limit: 3 -%}
+                    <a href="{{ blog.url }}/tagged/{{ tag | handle }}" class="blog-card__tag">{{ tag }}</a>
+                  {%- endfor -%}
+                </div>
+              {%- endif -%}
+
+              <a href="{{ article.url }}" class="blog-card__read-more">
+                {{ 'blog.read_more' | t }}
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="16" height="16">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </a>
+            </div>
+          </article>
+        {%- endfor -%}
+      </div>
+
+      {%- if paginate.pages > 1 -%}
+        <nav class="blog__pagination" aria-label="{{ 'general.pagination.previous' | t }}">
+          {%- if paginate.previous -%}
+            <a href="{{ paginate.previous.url }}" class="blog__pagination-link blog__pagination-link--prev" aria-label="{{ 'general.pagination.previous' | t }}">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="16" height="16">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
+              {{ 'general.pagination.previous' | t }}
+            </a>
+          {%- endif -%}
+
+          <span class="blog__pagination-current">
+            {{ 'general.pagination.page' | t: number: paginate.current_page }}
+          </span>
+
+          {%- if paginate.next -%}
+            <a href="{{ paginate.next.url }}" class="blog__pagination-link blog__pagination-link--next" aria-label="{{ 'general.pagination.next' | t }}">
+              {{ 'general.pagination.next' | t }}
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="16" height="16">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          {%- endif -%}
+        </nav>
+      {%- endif -%}
+    {%- endpaginate -%}
+
+  </div>
+</section>
 
 {% schema %}
 {
   "name": "t:general.blog",
-  "settings": []
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.blog_posts.layout_header"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "t:sections.blog_posts.columns_desktop",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "t:sections.featured_collection.columns_mobile",
+      "options": [
+        { "value": "1", "label": "t:sections.featured_collection.columns_1" },
+        { "value": "2", "label": "t:sections.featured_collection.columns_2" }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "range",
+      "id": "articles_per_page",
+      "label": "t:sections.blog_posts.posts_to_show",
+      "min": 3,
+      "max": 24,
+      "step": 3,
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "t:sections.blog_posts.card_header"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_image",
+      "label": "t:sections.blog_posts.show_image",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "t:sections.blog_posts.image_ratio",
+      "options": [
+        { "value": "landscape", "label": "t:sections.blog_posts.landscape" },
+        { "value": "portrait", "label": "t:sections.blog_posts.portrait" },
+        { "value": "square", "label": "t:sections.blog_posts.square" }
+      ],
+      "default": "landscape"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "t:sections.blog_posts.show_date",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "label": "t:sections.blog_posts.show_author",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_excerpt",
+      "label": "t:sections.blog_posts.show_excerpt",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tags",
+      "label": "t:sections.article.show_tags",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tag_filter",
+      "label": "t:sections.blog_posts.show_tags",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "t:sections.blog_posts.style_header"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.blog_posts.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "t:sections.blog_posts.padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "t:sections.blog_posts.padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 60
+    }
+  ]
 }
 {% endschema %}

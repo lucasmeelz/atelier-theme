@@ -1,0 +1,164 @@
+{%- comment -%}
+  Product Variant Picker
+  Renders variant options as swatches, buttons, or dropdowns.
+  Params:
+    product         {Product}   Product object (required)
+    picker_type     {String}    "swatch" | "buttons" | "dropdown" (default: buttons)
+    swatch_shape    {String}    "circle" | "square" (default: circle)
+    size_chart_page {Page}      Optional page object for size chart link
+    block           {Block}     Shopify block for shopify_attributes
+{%- endcomment -%}
+
+{%- liquid
+  assign type = picker_type | default: 'buttons'
+  assign shape = swatch_shape | default: 'circle'
+-%}
+
+{%- unless product.has_only_default_variant -%}
+  <div class="product-variant-picker" {{ block.shopify_attributes }}>
+    {%- for option in product.options_with_values -%}
+      {%- liquid
+        assign option_index = forloop.index0
+        assign option_name = option.name
+        assign option_name_lower = option_name | downcase
+        assign is_color = false
+        if option_name_lower == 'color' or option_name_lower == 'colour' or option_name_lower == 'couleur'
+          assign is_color = true
+        endif
+        assign is_size = false
+        if option_name_lower == 'size' or option_name_lower == 'taille'
+          assign is_size = true
+        endif
+      -%}
+
+      <fieldset class="product-variant-picker__option" data-option-index="{{ option_index }}">
+        <legend class="product-variant-picker__label">
+          <span class="product-variant-picker__label-name">{{ option_name }}</span>
+          {%- if is_color -%}
+            <span class="product-variant-picker__label-value" data-option-value>
+              {{ product.selected_or_first_available_variant.options[option_index] }}
+            </span>
+          {%- endif -%}
+          {%- if is_size and size_chart_page != blank -%}
+            <a href="{{ size_chart_page.url }}" class="product-variant-picker__size-chart link-underline" target="_blank">
+              {{ 'product.size_chart' | t }}
+            </a>
+          {%- endif -%}
+        </legend>
+
+        {%- if type == 'dropdown' -%}
+          {%- comment -%} Dropdown select {%- endcomment -%}
+          <div class="product-variant-picker__select-wrapper">
+            <select
+              class="product-variant-picker__select"
+              id="option-select-{{ product.id }}-{{ option_index }}"
+              name="option-{{ product.id }}-{{ option_index }}"
+              data-option-select
+              aria-label="{{ option_name }}"
+            >
+              {%- for value in option.values -%}
+                <option
+                  value="{{ value | escape }}"
+                  {% if product.selected_or_first_available_variant.options[option_index] == value %}selected{% endif %}
+                >
+                  {{ value }}
+                </option>
+              {%- endfor -%}
+            </select>
+            {%- render 'icon', name: 'chevron-down', size: 16 -%}
+          </div>
+
+        {%- elsif type == 'swatch' and is_color -%}
+          {%- comment -%} Color swatches (supports swatch.image + swatch.color) {%- endcomment -%}
+          <div class="product-variant-picker__swatches product-variant-picker__swatches--{{ shape }}" role="radiogroup" aria-label="{{ option_name }}">
+            {%- for value in option.values -%}
+              {%- liquid
+                assign is_selected = false
+                if product.selected_or_first_available_variant.options[option_index] == value
+                  assign is_selected = true
+                endif
+
+                assign swatch_style = ''
+                if value.swatch.image
+                  assign swatch_image = value.swatch.image | image_url: width: 100
+                  assign swatch_style = 'background-image: url(' | append: swatch_image | append: '); background-size: cover; background-position: center;'
+                elsif value.swatch.color
+                  assign swatch_style = 'background-color: ' | append: value.swatch.color | append: ';'
+                else
+                  assign swatch_color = value | downcase | replace: ' ', ''
+                  assign swatch_style = 'background-color: ' | append: swatch_color | append: ';'
+                endif
+              -%}
+              {%- assign swatch_input_id = 'swatch-' | append: product.id | append: '-' | append: option_index | append: '-' | append: forloop.index0 -%}
+              <label
+                class="product-variant-picker__swatch{% if is_selected %} is-active{% endif %}"
+                data-option-value="{{ value | escape }}"
+                title="{{ value }}"
+                for="{{ swatch_input_id }}"
+              >
+                <input
+                  type="radio"
+                  id="{{ swatch_input_id }}"
+                  name="option-{{ product.id }}-{{ option_index }}"
+                  value="{{ value | escape }}"
+                  aria-label="{{ option_name }}: {{ value }}"
+                  {% if is_selected %}checked{% endif %}
+                  class="visually-hidden"
+                  data-option-input
+                >
+                <span
+                  class="product-variant-picker__swatch-inner"
+                  style="{{ swatch_style }}"
+                ></span>
+              </label>
+            {%- endfor -%}
+          </div>
+
+        {%- else -%}
+          {%- comment -%} Button pills (default) {%- endcomment -%}
+          <div class="product-variant-picker__buttons" role="radiogroup" aria-label="{{ option_name }}">
+            {%- for value in option.values -%}
+              {%- liquid
+                assign is_selected = false
+                if product.selected_or_first_available_variant.options[option_index] == value
+                  assign is_selected = true
+                endif
+              -%}
+              {%- assign button_input_id = 'option-' | append: product.id | append: '-' | append: option_index | append: '-' | append: forloop.index0 -%}
+              <label
+                class="product-variant-picker__button{% if is_selected %} is-active{% endif %}"
+                data-option-value="{{ value | escape }}"
+                for="{{ button_input_id }}"
+              >
+                <input
+                  type="radio"
+                  id="{{ button_input_id }}"
+                  name="option-{{ product.id }}-{{ option_index }}"
+                  value="{{ value | escape }}"
+                  {% if is_selected %}checked{% endif %}
+                  class="visually-hidden"
+                  data-option-input
+                >
+                <span>{{ value }}</span>
+              </label>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </fieldset>
+    {%- endfor -%}
+
+    {%- comment -%} Hidden select for Shopify form {%- endcomment -%}
+    <select name="id" class="visually-hidden" data-variant-select aria-label="{{ 'product.variant' | t }}">
+      {%- for variant in product.variants -%}
+        <option
+          value="{{ variant.id }}"
+          {% if variant == product.selected_or_first_available_variant %}selected{% endif %}
+          {% unless variant.available %}disabled{% endunless %}
+          data-variant-json='{{ variant | json }}'
+        >
+          {{ variant.title }}
+        </option>
+      {%- endfor -%}
+    </select>
+  </div>
+{%- endunless -%}

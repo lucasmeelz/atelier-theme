@@ -11,12 +11,105 @@
   "type": "header",
   "name": "t:general.header",
   "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "blocks": {
+        "announcement_1": {
+          "type": "announcement",
+          "settings": {
+            "text": "<p>Free shipping on orders over $150</p>",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "announcement_1"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "auto_rotate": true,
+        "auto_rotate_speed": 5,
+        "show_close_button": false
+      }
+    },
     "header": {
       "type": "header",
-      "settings": {}
+      "blocks": {
+        "mega_menu_1": {
+          "type": "mega_menu",
+          "settings": {
+            "menu_item": "Main 1",
+            "promo_1_image": "shopify://shop_images/landscape_4to3.jpg",
+            "promo_1_heading": "Heading",
+            "promo_1_subheading": "Subheading",
+            "promo_1_link": "#",
+            "promo_2_image": "shopify://shop_images/square_1.jpg",
+            "promo_2_heading": "",
+            "promo_2_subheading": "",
+            "promo_2_link": "",
+            "promo_3_heading": "",
+            "promo_3_subheading": "",
+            "promo_3_link": "",
+            "promo_layout": "2",
+            "promo_ratio": "3/4"
+          }
+        }
+      },
+      "block_order": [
+        "mega_menu_1"
+      ],
+      "settings": {
+        "color_scheme": "",
+        "desktop_layout": "logo_center_nav_split",
+        "mobile_layout": "logo_center_split",
+        "enable_sticky": true,
+        "hide_on_scroll": true,
+        "logo_width": 120,
+        "logo_width_mobile": 90,
+        "menu": "menu-2",
+        "menu_open_trigger": "hover",
+        "transparent_header": false,
+        "transparent_header_text_color": "#ffffff",
+        "show_search": false,
+        "show_country_selector": true,
+        "show_country_flag": true,
+        "show_locale_selector": false,
+        "icon_size": 24,
+        "show_announcement": false,
+        "announcement_text": "Free shipping on orders over $150",
+        "announcement_link": "",
+        "announcement_color_scheme": ""
+      }
+    },
+    "cart-drawer": {
+      "type": "cart-drawer",
+      "blocks": {
+        "shipping_bar": {
+          "type": "free_shipping_bar",
+          "settings": {}
+        },
+        "note": {
+          "type": "cart_note",
+          "settings": {}
+        },
+        "trust": {
+          "type": "trust_badges",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "shipping_bar",
+        "note",
+        "trust"
+      ],
+      "settings": {
+        "color_scheme": ""
+      }
     }
   },
   "order": [
-    "header"
-  ],
+    "announcement-bar",
+    "header",
+    "cart-drawer"
+  ]
 }

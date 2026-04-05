@@ -1,0 +1,197 @@
+/* ===================================
+   Video Section — Styles
+   =================================== */
+
+.video-section {
+  padding-top: var(--section-padding-top, 60px);
+  padding-bottom: var(--section-padding-bottom, 60px);
+}
+
+.video-section--full-width {
+  padding-inline: 0;
+  max-width: none;
+  width: 100%;
+}
+
+.video-section--full-width .video-section__player {
+  border-radius: 0;
+}
+
+/* ===================================
+   Heading
+   =================================== */
+.video-section__heading {
+  font-family: var(--font-heading-family, serif);
+  font-weight: var(--font-heading-weight, 300);
+  font-style: var(--font-heading-style, normal);
+  line-height: 1.1;
+  margin: 0 0 2rem;
+  text-align: center;
+}
+
+h2.video-section__heading {
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+}
+
+h3.video-section__heading {
+  font-size: clamp(1.375rem, 2.5vw, 1.875rem);
+}
+
+h4.video-section__heading {
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+}
+
+/* ===================================
+   Player — aspect ratio wrapper
+   =================================== */
+.video-section__player {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--card-border-radius, 0);
+}
+
+.video-section--full-width .video-section__player {
+  border-radius: 0;
+}
+
+.video-section__player--16-9 .video-section__media {
+  aspect-ratio: 16 / 9;
+}
+
+.video-section__player--21-9 .video-section__media {
+  aspect-ratio: 21 / 9;
+}
+
+.video-section__player--4-3 .video-section__media {
+  aspect-ratio: 4 / 3;
+}
+
+.video-section__player--1-1 .video-section__media {
+  aspect-ratio: 1 / 1;
+}
+
+/* Auto: no forced ratio */
+.video-section__player--auto .video-section__media {
+  aspect-ratio: auto;
+}
+
+/* ===================================
+   Media container
+   =================================== */
+.video-section__media {
+  position: relative;
+  width: 100%;
+  background-color: rgb(var(--color-background-2, 245, 244, 240));
+  overflow: hidden;
+}
+
+.video-section__video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ===================================
+   Poster overlay
+   =================================== */
+.video-section__poster {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  cursor: pointer;
+  transition: opacity var(--duration-base, 350ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
+}
+
+.video-section__poster.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.video-section__poster-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ===================================
+   Play button
+   =================================== */
+.video-section__play-btn {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  z-index: 3;
+  color: rgb(var(--color-background, 255, 255, 255));
+  transition: transform var(--duration-base, 350ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
+}
+
+@media (hover: hover) {
+  .video-section__play-btn:hover {
+    transform: scale(1.1);
+  }
+}
+
+.video-section__play-btn svg {
+  width: 64px;
+  height: 64px;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+}
+
+@media screen and (min-width: 990px) {
+  .video-section__play-btn svg {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+.video-section__play-btn--disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+/* ===================================
+   iframe (YouTube/Vimeo)
+   =================================== */
+.video-section__iframe-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.video-section__iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* When ratio is auto and external, force 16:9 for iframes */
+.video-section__player--auto .video-section__media--external {
+  aspect-ratio: 16 / 9;
+}
+
+/* ===================================
+   Placeholder
+   =================================== */
+.video-section__placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 16 / 9;
+}
+
+.video-section__placeholder-svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.3;
+}

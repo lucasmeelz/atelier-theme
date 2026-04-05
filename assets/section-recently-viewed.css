@@ -1,0 +1,25 @@
+.recently-viewed {
+  padding-top: var(--section-padding-top);
+  padding-bottom: var(--section-padding-bottom);
+}
+
+.recently-viewed__header {
+  margin-bottom: 40px;
+}
+
+.recently-viewed__heading {
+  margin: 0;
+}
+
+.recently-viewed__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+@media screen and (min-width: 990px) {
+  .recently-viewed__grid {
+    grid-template-columns: repeat(var(--rv-columns, 4), 1fr);
+    gap: 20px;
+  }
+}

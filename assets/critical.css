@@ -1,7 +1,10 @@
-/** Critical CSS for the theme. This file is included on every page. */
+/* Ecrin — Critical CSS (loaded on every page) */
 
-/* Reset styles inspired by https://www.joshwcomeau.com/css/custom-css-reset/ */
-* {
+/* ===== RESET ===== */
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
 }
@@ -9,8 +12,8 @@
 body {
   display: flex;
   flex-direction: column;
-  margin: 0;
   min-height: 100svh;
+  overflow-x: clip;
 }
 
 html:has(dialog[scroll-lock][open], details[scroll-lock][open]) {
@@ -20,23 +23,50 @@ html:has(dialog[scroll-lock][open], details[scroll-lock][open]) {
 img,
 picture,
 video,
-canvas,
-svg {
+canvas {
   display: block;
   max-width: 100%;
   height: auto;
 }
 
+/* SVG icons use explicit width/height — don't let reset override them */
+svg:not(.placeholder-svg) {
+  max-width: 100%;
+}
+
+/* Icon SVGs need explicit sizing */
+.icon {
+  display: inline-block;
+  width: var(--icon-size, 20px);
+  height: var(--icon-size, 20px);
+  flex-shrink: 0;
+}
+
+input,
+textarea,
+select,
+button {
+  font: inherit;
+  color: inherit;
+}
+
 input,
 textarea,
 select {
-  font: inherit;
-  border-radius: var(--style-border-radius-inputs);
+  border-radius: var(--input-border-radius);
+  border: 1px solid rgb(var(--color-border));
+  transition: border-color var(--duration-fast) var(--ease-ecrin);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: rgb(var(--color-text));
+  outline: none;
 }
 
 select {
   background-color: rgb(var(--color-background));
-  color: currentcolor;
 }
 
 dialog {
@@ -47,13 +77,9 @@ dialog {
 p {
   text-wrap: pretty;
 }
+
 p,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h2, h3, h4, h5, h6 {
   overflow-wrap: break-word;
 }
 
@@ -71,139 +97,312 @@ p:empty {
   margin-block-end: 0;
 }
 
-/** Theme styles below */
+/* ===== BASE TYPOGRAPHY ===== */
+
 body {
-  font-family: var(--font-body--family);
-  font-style: var(--font-body--style);
-  font-weight: var(--font-body--weight);
+  font-family: var(--font-body-family);
+  font-style: var(--font-body-style);
+  font-weight: var(--font-body-weight);
+  font-size: var(--body-font-size-mobile);
+  line-height: var(--body-line-height);
   background-color: rgb(var(--color-background));
   color: rgb(var(--color-text));
-  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/** Typography scale */
+@media screen and (min-width: 750px) {
+  body {
+    font-size: var(--body-font-size-desktop);
+  }
+}
+
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading--family);
-  font-style: var(--font-heading--style);
-  font-weight: var(--font-heading--weight);
-  line-height: 1.15;
+  font-family: var(--font-heading-family);
+  font-style: var(--font-heading-style);
+  font-weight: var(--font-heading-weight);
+  line-height: var(--heading-line-height);
+  text-transform: var(--heading-text-transform);
+  letter-spacing: var(--heading-letter-spacing);
   color: rgb(var(--color-text));
 }
 
-h1 { font-size: clamp(2rem, 5vw, 3.5rem); }
-h2 { font-size: clamp(1.75rem, 4vw, 2.75rem); }
-h3 { font-size: clamp(1.5rem, 3vw, 2rem); }
-h4 { font-size: clamp(1.25rem, 2.5vw, 1.5rem); }
-h5 { font-size: 1.125rem; }
-h6 { font-size: 1rem; }
+h1 { font-size: var(--h1-mobile); }
+h2 { font-size: var(--h2-mobile); }
+h3 { font-size: var(--h3-mobile); }
+h4 { font-size: var(--h4-mobile); }
+h5 { font-size: var(--h5-mobile); }
+h6 { font-size: var(--h6-mobile); }
+
+@media screen and (min-width: 750px) {
+  h1 { font-size: var(--h1-desktop); }
+  h2 { font-size: var(--h2-desktop); }
+  h3 { font-size: var(--h3-desktop); }
+  h4 { font-size: var(--h4-desktop); }
+  h5 { font-size: var(--h5-desktop); }
+  h6 { font-size: var(--h6-desktop); }
+}
+
+/* Label / subheading utility */
+.label,
+.subheading {
+  font-family: var(--font-label-family);
+  font-weight: var(--font-label-weight);
+  font-size: var(--label-font-size);
+  text-transform: var(--label-text-transform);
+  letter-spacing: var(--label-letter-spacing);
+  line-height: 1.3;
+}
+
+/* ===== LINKS ===== */
 
 a {
-  color: rgb(var(--color-link));
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.2em;
-  transition: opacity var(--duration-fast) var(--ease-dior);
+  color: rgb(var(--color-accent));
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-ecrin);
 }
 
 @media (hover: hover) {
   a:hover {
-    opacity: 0.75;
+    color: rgb(var(--color-text));
   }
 }
 
-/** Color scheme utility classes */
+/* ===== FOCUS STATES ===== */
+
+/* Remove outline on mouse click but keep it for keyboard */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid rgb(var(--color-accent));
+  outline-offset: 3px;
+}
+
+/* Skip link for accessibility */
+.skip-to-content {
+  position: absolute;
+  z-index: 9999;
+  padding: 0.75rem 1.5rem;
+  background-color: rgb(var(--color-button-bg));
+  color: rgb(var(--color-button-text));
+  font-size: var(--label-font-size);
+  text-transform: var(--label-text-transform);
+  letter-spacing: var(--label-letter-spacing);
+  text-decoration: none;
+  transform: translateY(calc(-100% - 2px));
+  transition: transform var(--duration-fast) var(--ease-ecrin);
+}
+
+.skip-to-content:focus {
+  transform: translateY(0);
+}
+
+/* ===== COLOR SCHEME ===== */
+
 [class*="color-"] {
   background-color: rgb(var(--color-background));
   color: rgb(var(--color-text));
 }
 
-/** Section padding utility */
-.section-padding {
-  padding-block: var(--section-padding-mobile);
+/* ===== LAYOUT ===== */
+
+/* Section grid — enables full-width and constrained content */
+.shopify-section {
+  --content-width: min(
+    calc(var(--page-width) - var(--page-margin) * 2),
+    calc(100% - var(--page-margin) * 2)
+  );
+  --content-margin: minmax(var(--page-margin), 1fr);
+  --content-grid: var(--content-margin) var(--content-width) var(--content-margin);
+
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--content-grid);
+  width: 100%;
+}
+
+.shopify-section > * {
+  grid-column: 2;
+}
+
+.shopify-section > .full-width {
+  grid-column: 1 / -1;
+}
+
+/* Container utility */
+.container {
+  width: 100%;
+  max-width: var(--page-width);
+  margin-inline: auto;
+  padding-inline: var(--page-margin);
+}
+
+/* Section spacing */
+.section-spacing {
+  padding-block: var(--section-spacing-mobile);
 }
 
 @media screen and (min-width: 750px) {
-  .section-padding {
-    padding-block: var(--section-padding-desktop);
+  .section-spacing {
+    padding-block: var(--section-spacing-desktop);
   }
 }
 
-/** Reduced-motion — scoped to autonomous animations only */
-@media (prefers-reduced-motion: reduce) {
-  .motion-auto {
-    animation: none !important;
-  }
+/* Main content grows to fill viewport */
+main {
+  flex: 1 0 auto;
 }
 
-/** Scroll animation base states */
-.animate-on-scroll {
+/* ===== RICH TEXT CONTENT ===== */
+
+.rte {
+  line-height: var(--body-line-height);
+}
+
+.rte h1, .rte h2, .rte h3, .rte h4, .rte h5, .rte h6 {
+  margin-block: 1.5em 0.5em;
+}
+
+.rte p {
+  margin-block: 0.75em;
+}
+
+.rte ul,
+.rte ol {
+  margin-block: 0.75em;
+  padding-inline-start: 1.5em;
+}
+
+.rte li {
+  margin-block: 0.25em;
+}
+
+.rte blockquote {
+  margin-block: 2em;
+  padding-inline-start: 2em;
+  border-inline-start: 1px solid rgba(var(--color-text), 0.2);
+  font-family: var(--font-heading-family);
+  font-style: italic;
+  font-size: 1.125em;
+  line-height: 1.6;
+}
+
+.rte img {
+  margin-block: 1em;
+  border-radius: var(--card-border-radius);
+}
+
+.rte table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-block: 1em;
+}
+
+.rte th,
+.rte td {
+  padding: 0.5em 0.75em;
+  border: 1px solid rgb(var(--color-border));
+  text-align: start;
+}
+
+.rte th {
+  font-weight: 600;
+  background-color: rgba(var(--color-text), 0.03);
+}
+
+/* ===== ANIMATIONS ===== */
+
+/* Scroll reveal */
+.reveal {
   opacity: 0;
-  transition: opacity var(--duration-slow) var(--ease-dior),
-              transform var(--duration-slow) var(--ease-dior);
+  transition: opacity var(--duration-slow) var(--ease-ecrin),
+              transform var(--duration-slow) var(--ease-ecrin);
 }
 
-.animate-on-scroll[data-animation="fade-up"] {
-  transform: translateY(30px);
+.reveal[data-animation="fade-up"] {
+  transform: translateY(24px);
 }
 
-.animate-on-scroll[data-animation="fade-in"] {
+.reveal[data-animation="fade-in"] {
   transform: none;
 }
 
-.animate-on-scroll.is-visible {
+.reveal.is-visible {
   opacity: 1;
   transform: none;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .animate-on-scroll {
+/* Stagger children — auto-delay via custom property */
+.reveal [data-stagger] {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.reveal.is-visible [data-stagger] {
+  animation: reveal-stagger var(--duration-slow) var(--ease-ecrin) both;
+  animation-delay: calc(var(--stagger-index, 0) * 80ms);
+}
+
+@keyframes reveal-stagger {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
     opacity: 1;
     transform: none;
   }
 }
 
-/** Custom cursor */
-.cursor-dot,
-.cursor-circle {
-  position: fixed;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  z-index: 9999;
-  border-radius: 50%;
-  opacity: 0;
-  transition: opacity var(--duration-fast) var(--ease-dior);
+/* Reduced motion — only autonomous animations */
+@media (prefers-reduced-motion: reduce) {
+  .motion-auto {
+    animation: none !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  .reveal [data-stagger] {
+    opacity: 1;
+    transform: none;
+  }
+
+  .reveal.is-visible [data-stagger] {
+    animation: none;
+  }
 }
 
-.cursor-dot {
-  width: 8px;
-  height: 8px;
-  background-color: var(--cursor-color);
+/* ===== VISUALLY HIDDEN ===== */
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
-.cursor-circle {
-  width: 36px;
-  height: 36px;
-  border: 1px solid var(--cursor-color);
-}
+/* ===== PAGE TRANSITIONS ===== */
 
-body.cursor-ready .cursor-dot,
-body.cursor-ready .cursor-circle {
-  opacity: 1;
-}
-
-/** Page transitions */
 @view-transition {
   navigation: auto;
 }
 
 ::view-transition-old(root) {
-  animation: var(--duration-base) var(--ease-dior) both page-fade-out;
+  animation: var(--duration-base) var(--ease-ecrin) both page-fade-out;
 }
 
 ::view-transition-new(root) {
-  animation: var(--duration-base) var(--ease-dior) both page-fade-in;
+  animation: var(--duration-base) var(--ease-ecrin) both page-fade-in;
 }
 
 @keyframes page-fade-out {
@@ -214,40 +413,88 @@ body.cursor-ready .cursor-circle {
   from { opacity: 0; }
 }
 
-/** Section layout utilities */
+/* ===== UTILITIES ===== */
 
-/**
- * Setup a grid that enables both full-width and constrained layouts
- * depending on the class of the child elements.
- *
- * By default, a minimum content margin is set on the left and right
- * sides of the section and the content is centered in the viewport to
- * not exceed the maximum page width.
- *
- * When a child element is given the `full-width` class, it will span
- * the entire viewport.
- */
-.shopify-section {
-  --content-width: min(
-    calc(var(--page-width) - var(--page-margin) * 2),
-    calc(100% - var(--page-margin) * 2)
-  );
-  --content-margin: minmax(var(--page-margin), 1fr);
-  --content-grid: var(--content-margin) var(--content-width) var(--content-margin);
-
-  /* This is required to make <img> elements work as background images */
+/* Link underline animation (used by multicolumn, featured-collection, etc.) */
+.link-underline {
   position: relative;
-  grid-template-columns: var(--content-grid);
-  display: grid;
+  text-decoration: none;
+  color: inherit;
+  padding-bottom: 2px;
+}
+
+.link-underline::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
   width: 100%;
+  height: 1px;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--duration-base, 350ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
 }
 
-/* Child elements, by default, are constrained to the central column of the grid. */
-.shopify-section > * {
-  grid-column: 2;
+.link-underline:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
 }
 
-/* Child elements that use the full-width utility class span the entire viewport. */
-.shopify-section > .full-width {
-  grid-column: 1 / -1;
+/* Image hover effects — global setting */
+@media (hover: hover) {
+  [data-image-hover="zoom"] img:not(.card-product__carousel-slide) {
+    transition: transform var(--duration-slow, 0.6s) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
+  }
+
+  [data-image-hover="zoom"] a:hover img:not(.card-product__carousel-slide),
+  [data-image-hover="zoom"] .has-hover:hover img:not(.card-product__carousel-slide) {
+    transform: scale(1.03);
+  }
+
+  [data-image-hover="zoom-fade"] img:not(.card-product__carousel-slide) {
+    transition: transform var(--duration-slow, 0.6s) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1)),
+                opacity var(--duration-slow, 0.6s) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
+  }
+
+  [data-image-hover="zoom-fade"] a:hover img:not(.card-product__carousel-slide),
+  [data-image-hover="zoom-fade"] .has-hover:hover img:not(.card-product__carousel-slide) {
+    transform: scale(1.03);
+    opacity: 0.9;
+  }
+}
+
+/* Hover transitions on images are never disabled per reduced-motion spec */
+
+/* ===== SEPARATOR ===== */
+
+/* Thin luxury separator — 1px, low opacity */
+.separator {
+  border: none;
+  border-top: 1px solid rgba(var(--color-text), 0.1);
+  margin: 0;
+}
+
+/* ===== FORM ELEMENTS — Luxury refinement ===== */
+
+/* Text inputs — refined, taller, generous padding */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+input[type="tel"],
+input[type="url"],
+input[type="number"],
+textarea {
+  padding: 14px 16px;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: rgb(var(--color-text));
+  background-color: transparent;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: rgb(var(--color-text-subdued));
+  opacity: 1;
 }

@@ -1,0 +1,158 @@
+{%- comment -%}
+  Logo List — Press / Partner logos with optional grayscale hover effect
+{%- endcomment -%}
+
+{{ 'section-logo-list.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign heading = section.settings.heading
+  assign subheading = section.settings.subheading
+  assign columns = section.settings.columns
+  assign logo_height = section.settings.logo_height
+  assign grayscale = section.settings.grayscale
+  assign show_dividers = section.settings.show_dividers
+  assign color_scheme = section.settings.color_scheme
+-%}
+
+<div
+  id="Section-{{ section.id }}"
+  class="logo-list section-spacing color-{{ color_scheme }}"
+  data-section-id="{{ section.id }}"
+>
+  <div class="container">
+    {%- if heading != blank or subheading != blank -%}
+      <div class="logo-list__header">
+        {%- if subheading != blank -%}
+          <p class="logo-list__subheading subheading">{{ subheading }}</p>
+        {%- endif -%}
+        {%- if heading != blank -%}
+          <h2 class="logo-list__heading h3">{{ heading }}</h2>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div
+      class="logo-list__grid logo-list__grid--{{ columns }}{% if grayscale %} logo-list--grayscale{% endif %}{% if show_dividers %} logo-list--dividers{% endif %}"
+      style="--logo-list-height: {{ logo_height }}px;"
+    >
+      {%- for block in section.blocks -%}
+        <div class="logo-list__item" data-stagger {{ block.shopify_attributes }}>
+          {%- if block.settings.link != blank -%}
+            <a href="{{ block.settings.link }}" aria-label="{{ block.settings.image.alt | default: 'Logo' }}">
+          {%- endif -%}
+
+          {%- if block.settings.image != blank -%}
+            {%- assign logo_height_2x = logo_height | times: 2 -%}
+            {{
+              block.settings.image
+              | image_url: height: logo_height_2x
+              | image_tag:
+                alt: block.settings.image.alt | default: 'Logo',
+                loading: 'lazy',
+                class: 'logo-list__image'
+            }}
+          {%- else -%}
+            {{ 'image' | placeholder_svg_tag: 'logo-list__image placeholder-svg' }}
+          {%- endif -%}
+
+          {%- if block.settings.link != blank -%}
+            </a>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.logo_list.name",
+  "tag": "section",
+  "class": "section-logo-list",
+  "disabled_on": {
+    "groups": ["header", "custom.overlay"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:sections.logo_list.heading",
+      "default": "As seen in"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "t:sections.logo_list.subheading",
+      "default": "Press"
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "t:sections.logo_list.columns",
+      "min": 4,
+      "max": 8,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "range",
+      "id": "logo_height",
+      "label": "t:sections.logo_list.logo_height",
+      "min": 24,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "checkbox",
+      "id": "grayscale",
+      "label": "t:sections.logo_list.grayscale",
+      "info": "t:sections.logo_list.grayscale_info",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dividers",
+      "label": "t:sections.logo_list.show_dividers",
+      "default": false
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.logo_list.color_scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "t:sections.logo_list.block_logo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.logo_list.logo_image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "t:sections.logo_list.logo_link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.logo_list.preset_name",
+      "blocks": [
+        { "type": "logo" },
+        { "type": "logo" },
+        { "type": "logo" },
+        { "type": "logo" },
+        { "type": "logo" }
+      ]
+    }
+  ]
+}
+{% endschema %}

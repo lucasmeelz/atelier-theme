@@ -1,107 +1,119 @@
 <!doctype html>
 <html lang="{{ request.locale.iso_code }}">
   <head>
-    {% # Inlined CSS Variables %}
-    {% render 'css-variables' %}
+    {%- render 'css-variables' -%}
 
-    {% comment %}
-      Font preloading:
-      1. Preconnect to font CDN for faster connection
-      2. Preload critical font variants (heading + body base weights)
-      3. Additional variants load on-demand via @font-face
-    {% endcomment %}
-    {% unless settings.type_heading_font.system? %}
+    {%- comment -%} Font preloading — only when font settings are available {%- endcomment -%}
+    {%- if settings.type_heading_font != blank or settings.type_body_font != blank -%}
       <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
-      {{ settings.type_heading_font | font_url | preload_tag: as: 'font', crossorigin: 'anonymous' }}
-    {% endunless %}
-    {% unless settings.type_body_font.system? %}
-      {% if settings.type_heading_font.system? %}
-        <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
-      {% endif %}
-      {{ settings.type_body_font | font_url | preload_tag: as: 'font', crossorigin: 'anonymous' }}
-    {% endunless %}
+    {%- endif -%}
 
-    {% # Favicon %}
-    {% if settings.favicon %}
+    {%- comment -%} Favicon {%- endcomment -%}
+    {%- if settings.favicon -%}
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
-    {% endif %}
+    {%- endif -%}
 
-    {% # Load and preload the critical CSS %}
     {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
+    {{ 'component-button.css' | asset_url | stylesheet_tag }}
+    {{ 'component-quick-view.css' | asset_url | stylesheet_tag }}
 
-    {% # Social, title, etc. %}
-    {% render 'meta-tags' %}
+    {%- if settings.page_transition == 'none' -%}
+      <style>@view-transition { navigation: none; }</style>
+    {%- endif -%}
+
+    {%- render 'meta-tags' -%}
 
     {{ content_for_header }}
+    {%- render 'structured-data' -%}
   </head>
 
   <body
-    data-scroll-animation="{{ settings.scroll_animations }}"
-    data-animation-threshold="{{ settings.animation_threshold }}"
-    data-page-transition="{{ settings.page_transition }}"
-    data-cursor-style="{{ settings.cursor_style }}"
+    class="color-{{ settings.default_color_scheme }}"
+    data-cart-type="{{ settings.cart_type }}"
+    {% if settings.button_hover_effect != 'none' %}data-button-hover="{{ settings.button_hover_effect }}"{% endif %}
+    {% if settings.card_hover_effect != 'none' %}data-card-hover="{{ settings.card_hover_effect }}"{% endif %}
+    {% if settings.image_hover_effect != 'none' %}data-image-hover="{{ settings.image_hover_effect }}"{% endif %}
   >
-    {% sections 'header-group' %}
+    <a class="skip-to-content" href="#main-content">
+      {{- 'accessibility.skip_to_content' | t -}}
+    </a>
 
-    {{ content_for_layout }}
+    {%- sections 'header-group' -%}
 
-    {% sections 'footer-group' %}
+    <main id="main-content" role="main">
+      {{ content_for_layout }}
+    </main>
 
-    {% comment %} Custom cursor elements {% endcomment %}
-    {% if settings.cursor_style != 'default' %}
-      <div class="cursor-{{ settings.cursor_style }}" aria-hidden="true"></div>
-      {% if settings.cursor_style == 'circle' %}
-        <div class="cursor-dot" aria-hidden="true"></div>
-      {% endif %}
+    {%- sections 'footer-group' -%}
 
+    <script src="{{ 'quick-view.js' | asset_url }}" defer></script>
+
+    {%- comment -%} Quick View modal (shared across pages) {%- endcomment -%}
+    <dialog
+      class="quick-view-dialog"
+      id="quick-view-modal"
+      scroll-lock
+      data-t-add-to-cart="{{ 'product.add_to_cart' | t | escape }}"
+      data-t-sold-out="{{ 'product.sold_out' | t | escape }}"
+      data-t-adding="{{ 'product.add_to_cart' | t | escape }}…"
+      data-t-close="{{ 'accessibility.close' | t | escape }}"
+      data-t-view-full="{{ 'product.view_full_details' | t | escape }}"
+      data-money-format="{{ shop.money_format | escape }}"
+    >
+      <div class="quick-view__inner">
+        <div class="quick-view__loading">
+          <div class="quick-view__spinner"></div>
+        </div>
+      </div>
+    </dialog>
+
+    {%- comment -%} Scroll reveal animations {%- endcomment -%}
+    {%- if settings.scroll_reveal != 'none' -%}
       <script>
         (function() {
-          var cursor = document.querySelector('.cursor-{{ settings.cursor_style }}');
-          var dot = document.querySelector('.cursor-dot');
-          var cx = 0, cy = 0, dx = 0, dy = 0;
+          var animationType = '{{ settings.scroll_reveal }}';
 
-          document.addEventListener('mousemove', function(e) {
-            cx = e.clientX;
-            cy = e.clientY;
+          /* Auto-apply .reveal to all sections inside main */
+          document.querySelectorAll('#main-content > section, #main-content > div > section').forEach(function(section) {
+            if (!section.classList.contains('reveal')) {
+              section.classList.add('reveal');
+              section.dataset.animation = animationType;
+            }
           });
 
-          function render() {
-            {% if settings.cursor_style == 'circle' %}
-              dx += (cx - dx) * 0.15;
-              dy += (cy - dy) * 0.15;
-              cursor.style.transform = 'translate(' + (dx - 18) + 'px, ' + (dy - 18) + 'px)';
-              if (dot) dot.style.transform = 'translate(' + (cx - 4) + 'px, ' + (cy - 4) + 'px)';
-            {% else %}
-              cursor.style.transform = 'translate(' + (cx - 4) + 'px, ' + (cy - 4) + 'px)';
-            {% endif %}
-            requestAnimationFrame(render);
+          /* Index stagger children for incremental delay */
+          function indexStaggerChildren(root) {
+            root.querySelectorAll('[data-stagger]').forEach(function(child, i) {
+              child.style.setProperty('--stagger-index', i);
+            });
           }
 
-          document.body.classList.add('cursor-ready');
-          requestAnimationFrame(render);
-        })();
-      </script>
-    {% endif %}
-
-    {% comment %} Scroll animations {% endcomment %}
-    {% if settings.scroll_animations != 'none' %}
-      <script>
-        (function() {
-          var threshold = {{ settings.animation_threshold }} / 100;
           var observer = new IntersectionObserver(function(entries) {
             entries.forEach(function(entry) {
               if (entry.isIntersecting) {
+                indexStaggerChildren(entry.target);
                 entry.target.classList.add('is-visible');
                 observer.unobserve(entry.target);
               }
             });
-          }, { threshold: threshold });
+          }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
-          document.querySelectorAll('.animate-on-scroll').forEach(function(el) {
+          document.querySelectorAll('.reveal').forEach(function(el) {
             observer.observe(el);
+          });
+
+          document.addEventListener('shopify:section:load', function(e) {
+            var section = e.target;
+            if (!section.classList.contains('reveal')) {
+              section.classList.add('reveal');
+              section.dataset.animation = animationType;
+            }
+            if (!section.classList.contains('is-visible')) {
+              observer.observe(section);
+            }
           });
         })();
       </script>
-    {% endif %}
+    {%- endif -%}
   </body>
 </html>

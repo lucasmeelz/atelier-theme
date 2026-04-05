@@ -1,68 +1,355 @@
-{% comment %}
-  This section is used in the article template to render the article page, which
-  displays the full content of the blog post and can optionally include a
-  comments section for customers (not shown in this example).
+{%- comment -%}
+  Article — Full blog post layout with editorial typography
+  Features: featured image, meta, content, tags, share, comments
+{%- endcomment -%}
 
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/article
-{% endcomment %}
+{{ 'section-article.css' | asset_url | stylesheet_tag }}
 
-{% if article.image %}
-  {{ article.image | image_url: width: 1000 | image_tag }}
-{% endif %}
+{%- liquid
+  assign color_scheme = section.settings.color_scheme
+  assign padding_top = section.settings.padding_top
+  assign padding_bottom = section.settings.padding_bottom
+  assign show_featured_image = section.settings.show_featured_image
+  assign image_layout = section.settings.image_layout
+  assign show_date = section.settings.show_date
+  assign show_author = section.settings.show_author
+  assign show_tags = section.settings.show_tags
+  assign show_share = section.settings.show_share
+-%}
 
-<h1>{{ article.title }}</h1>
+{%- style -%}
+  #Section-{{ section.id }} {
+    --section-padding-top: {{ padding_top }}px;
+    --section-padding-bottom: {{ padding_bottom }}px;
+  }
+{%- endstyle -%}
 
-{% assign date = article.published_at | time_tag: format: 'date' %}
-<p>{{ 'blog.article_metadata_html' | t: date: date, author: article.author }}</p>
+<article
+  id="Section-{{ section.id }}"
+  class="article-section color-{{ color_scheme }}"
+  itemscope
+  itemtype="http://schema.org/BlogPosting"
+>
+  <div class="container">
 
-{{ article.content }}
+    {%- comment -%} Featured Image {%- endcomment -%}
+    {%- if show_featured_image and article.image -%}
+      <div class="article__featured-image-wrapper article__featured-image-wrapper--{{ image_layout }}">
+        {{
+          article.image
+          | image_url: width: 1600
+          | image_tag:
+            class: 'article__featured-image',
+            loading: 'eager',
+            widths: '375, 750, 1100, 1400, 1600',
+            sizes: '100vw',
+            alt: article.image.alt | default: article.title
+        }}
+      </div>
+    {%- endif -%}
 
-{% if blog.comments_enabled? %}
-  <h2>{{ 'blog.article_comments' | t }}</h2>
+    {%- comment -%} Header — Back link, Title, Meta {%- endcomment -%}
+    <header class="article__header">
+      <a href="{{ blog.url }}" class="article__back-link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        {{ 'blog.articles' | t }}
+      </a>
 
-  <div id="comments">
-    {% paginate article.comments by 10 %}
-      {% for comment in article.comments %}
-        <div>
-          <p>{{ comment.author }}</p>
-          <p>
-            {{- comment.created_at | time_tag: format: 'date' -}}
-          </p>
-          <p>{{ comment.content }}</p>
+      <h1 class="article__title" itemprop="headline">{{ article.title }}</h1>
+
+      {%- if show_date or show_author -%}
+        <div class="article__meta">
+          {%- if show_date -%}
+            <time datetime="{{ article.published_at | date: '%Y-%m-%dT%H:%M:%S%z' }}" itemprop="datePublished">
+              {{ article.published_at | date: format: 'abbreviated_date' }}
+            </time>
+          {%- endif -%}
+
+          {%- if show_date and show_author -%}
+            <span class="article__meta-separator" aria-hidden="true"></span>
+          {%- endif -%}
+
+          {%- if show_author -%}
+            <span itemprop="author">{{ article.author }}</span>
+          {%- endif -%}
         </div>
-      {% endfor %}
+      {%- endif -%}
+    </header>
 
-      {{ paginate | default_pagination: anchor: 'comments' }}
-    {% endpaginate %}
+    {%- comment -%} Article Body {%- endcomment -%}
+    <div class="article__content rte" itemprop="articleBody">
+      {{ article.content }}
+    </div>
+
+    {%- comment -%} Tags {%- endcomment -%}
+    {%- if show_tags and article.tags.size > 0 -%}
+      <div class="article__tags" aria-label="{{ 'sections.article.tags_label' | t }}">
+        {%- for tag in article.tags -%}
+          <a href="{{ blog.url }}/tagged/{{ tag | handle }}" class="article__tag">
+            {{ tag }}
+          </a>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Footer — Share + Back link {%- endcomment -%}
+    <footer class="article__footer">
+      <a href="{{ blog.url }}" class="article__back-link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        {{ 'sections.article.back_to_blog' | t }}
+      </a>
+
+      {%- if show_share -%}
+        <div class="article__share">
+          <span class="article__share-label">{{ 'general.share' | t }}</span>
+          <button
+            type="button"
+            class="article__share-button"
+            data-article-share
+            aria-label="{{ 'sections.article.copy_link' | t }}"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+            </svg>
+            {{ 'sections.article.copy_link' | t }}
+          </button>
+          <span class="article__share-feedback" aria-live="polite"></span>
+        </div>
+
+        <script>
+          (function () {
+            var btn = document.querySelector('[data-article-share]');
+            if (!btn) return;
+            btn.addEventListener('click', function () {
+              navigator.clipboard.writeText(window.location.href).then(function () {
+                var feedback = btn.closest('.article__share').querySelector('.article__share-feedback');
+                if (feedback) {
+                  feedback.textContent = '{{ 'product.link_copied' | t }}';
+                  feedback.classList.add('is-visible');
+                  setTimeout(function () {
+                    feedback.classList.remove('is-visible');
+                  }, 2000);
+                }
+              });
+            });
+          })();
+        </script>
+      {%- endif -%}
+    </footer>
+
+    {%- comment -%} Comments {%- endcomment -%}
+    {%- if blog.comments_enabled? -%}
+      <section class="article__comments" id="comments" aria-label="{{ 'sections.article.comments_label' | t }}">
+        <h2 class="article__comments-heading">
+          {{ 'blog.article_comments' | t }}
+          ({{ article.comments_count }})
+        </h2>
+
+        {%- paginate article.comments by 10 -%}
+          {%- if article.comments_count > 0 -%}
+            <div class="article__comments-list">
+              {%- for comment in article.comments -%}
+                <div class="article__comment" id="comment-{{ comment.id }}">
+                  <div class="article__comment-header">
+                    <span class="article__comment-author">{{ comment.author }}</span>
+                    <time class="article__comment-date" datetime="{{ comment.created_at | date: '%Y-%m-%dT%H:%M:%S%z' }}">
+                      {{ comment.created_at | date: format: 'abbreviated_date' }}
+                    </time>
+                  </div>
+                  <div class="article__comment-body">
+                    {{ comment.content }}
+                  </div>
+                </div>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+
+          {%- if paginate.pages > 1 -%}
+            <div class="article__comments-pagination">
+              {{ paginate | default_pagination: anchor: 'comments' }}
+            </div>
+          {%- endif -%}
+        {%- endpaginate -%}
+
+        {%- comment -%} Comment Form {%- endcomment -%}
+        <div class="article__comment-form">
+          {%- form 'new_comment', article -%}
+            <h3 class="article__comment-form-heading">
+              {{ 'blog.comment_form.title' | t }}
+            </h3>
+
+            {%- if form.posted_successfully? -%}
+              <div class="article__form-success" role="status">
+                {%- if blog.moderated? -%}
+                  {{ 'blog.comment_form.pending' | t }}
+                {%- else -%}
+                  {{ 'blog.comment_form.success' | t }}
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+
+            {%- if form.errors -%}
+              <div class="article__form-errors" role="alert">
+                <ul>
+                  {%- for field in form.errors -%}
+                    <li>
+                      {%- if field == 'form' -%}
+                        {{ form.errors.messages[field] }}
+                      {%- else -%}
+                        {{ form.errors.translated_fields[field] }} — {{ form.errors.messages[field] }}
+                      {%- endif -%}
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              </div>
+            {%- endif -%}
+
+            <div class="article__form-row">
+              <div class="article__form-group">
+                <label class="article__form-label" for="CommentAuthor-{{ section.id }}">
+                  {{ 'blog.comment_form.name' | t }}
+                </label>
+                <input
+                  type="text"
+                  name="comment[author]"
+                  id="CommentAuthor-{{ section.id }}"
+                  class="article__form-input"
+                  value="{{ form.author }}"
+                  autocomplete="name"
+                  required
+                >
+              </div>
+
+              <div class="article__form-group">
+                <label class="article__form-label" for="CommentEmail-{{ section.id }}">
+                  {{ 'blog.comment_form.email' | t }}
+                </label>
+                <input
+                  type="email"
+                  name="comment[email]"
+                  id="CommentEmail-{{ section.id }}"
+                  class="article__form-input"
+                  value="{{ form.email }}"
+                  autocomplete="email"
+                  required
+                >
+              </div>
+            </div>
+
+            <div class="article__form-group">
+              <label class="article__form-label" for="CommentBody-{{ section.id }}">
+                {{ 'blog.comment_form.body' | t }}
+              </label>
+              <textarea
+                name="comment[body]"
+                id="CommentBody-{{ section.id }}"
+                class="article__form-textarea"
+                required
+              >{{ form.body }}</textarea>
+            </div>
+
+            <button type="submit" class="btn btn--primary article__form-submit">
+              <span class="btn__label">{{ 'blog.comment_form.submit' | t }}</span>
+              <span class="btn__fill" aria-hidden="true"></span>
+            </button>
+          {%- endform -%}
+        </div>
+      </section>
+    {%- endif -%}
+
   </div>
-
-  {% form 'new_comment', article %}
-    <h2>{{ 'blog.comment_form_title' | t }}</h2>
-
-    {{ form.errors | default_errors }}
-
-    <div>
-      <label for="author">{{ 'blog.comment_form_name' | t }}</label>
-      <input type="text" name="comment[author]" id="author" value="{{ form.author }}" required>
-    </div>
-
-    <div>
-      <label for="email">{{ 'blog.comment_form_email' | t }}</label>
-      <input type="email" name="comment[email]" id="email" value="{{ form.email }}" required>
-    </div>
-
-    <div>
-      <label for="body">{{ 'blog.comment_form_body' | t }}</label>
-      <textarea name="comment[body]" id="body" required>{{ form.body }}</textarea>
-    </div>
-
-    <input type="submit" value="{{ 'blog.comment_form_submit' | t }}">
-  {% endform %}
-{% endif %}
+</article>
 
 {% schema %}
 {
   "name": "t:general.article",
-  "settings": []
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.article.image_header"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_featured_image",
+      "label": "t:sections.article.show_featured_image",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "image_layout",
+      "label": "t:sections.article.image_layout",
+      "options": [
+        { "value": "contained", "label": "t:sections.article.image_layout_contained" },
+        { "value": "full_width", "label": "t:sections.article.image_layout_full_width" }
+      ],
+      "default": "contained"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.article.content_header"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "t:sections.article.show_date",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "label": "t:sections.article.show_author",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tags",
+      "label": "t:sections.article.show_tags",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_share",
+      "label": "t:sections.article.show_share",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "t:sections.article.style_header"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.article.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "t:sections.article.padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "t:sections.article.padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 60
+    }
+  ]
 }
 {% endschema %}

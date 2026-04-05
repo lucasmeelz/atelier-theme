@@ -1,0 +1,224 @@
+/* Announcement Bar — Ecrin theme */
+
+/* ===== BAR LAYOUT ===== */
+
+.announcement-bar-section {
+  position: relative;
+  overflow: hidden;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: var(--font-label-family);
+  font-size: 0.75rem;
+  font-weight: var(--font-label-weight);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1;
+  color: rgb(var(--color-text));
+  background-color: rgb(var(--color-background));
+}
+
+
+.announcement-bar-section[hidden] {
+  display: none;
+}
+
+/* ===== MESSAGES CONTAINER ===== */
+
+.announcement-bar__messages {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 48px;
+}
+
+/* ===== SINGLE MESSAGE ===== */
+
+.announcement-bar__message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ===== LINK ===== */
+
+.announcement-bar__link {
+  color: inherit;
+  text-decoration: none;
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (hover: hover) {
+  .announcement-bar__link:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+}
+
+/* ===== RICHTEXT RESET ===== */
+
+.announcement-bar__text {
+  margin: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.announcement-bar__text p {
+  margin: 0;
+  display: inline;
+}
+
+.announcement-bar__text a {
+  color: inherit;
+}
+
+/* ===== ROTATION — CSS-only fade animation ===== */
+
+.announcement-bar__messages--rotating .announcement-bar__message {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  animation-duration: var(--announcement-total-duration);
+  animation-timing-function: var(--ease-ecrin, ease-in-out);
+  animation-iteration-count: infinite;
+}
+
+/*
+  Fixed keyframes for 2–5 items.
+  Each item is visible for its share of the cycle, with a smooth fade transition.
+  The Liquid template applies --count-N class and per-item animation-delay.
+*/
+
+/* --- 2 messages: each gets 50% of the cycle --- */
+.announcement-bar__messages--count-2 .announcement-bar__message {
+  animation-name: announcement-rotate-2;
+}
+
+@keyframes announcement-rotate-2 {
+  0%   { opacity: 0; }
+  3%   { opacity: 1; }
+  45%  { opacity: 1; }
+  50%  { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/* --- 3 messages: each gets 33.33% --- */
+.announcement-bar__messages--count-3 .announcement-bar__message {
+  animation-name: announcement-rotate-3;
+}
+
+@keyframes announcement-rotate-3 {
+  0%     { opacity: 0; }
+  2%     { opacity: 1; }
+  30%    { opacity: 1; }
+  33.33% { opacity: 0; }
+  100%   { opacity: 0; }
+}
+
+/* --- 4 messages: each gets 25% --- */
+.announcement-bar__messages--count-4 .announcement-bar__message {
+  animation-name: announcement-rotate-4;
+}
+
+@keyframes announcement-rotate-4 {
+  0%   { opacity: 0; }
+  2%   { opacity: 1; }
+  22%  { opacity: 1; }
+  25%  { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/* --- 5 messages: each gets 20% --- */
+.announcement-bar__messages--count-5 .announcement-bar__message {
+  animation-name: announcement-rotate-5;
+}
+
+@keyframes announcement-rotate-5 {
+  0%   { opacity: 0; }
+  2%   { opacity: 1; }
+  17%  { opacity: 1; }
+  20%  { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/* ===== CLOSE BUTTON ===== */
+
+.announcement-bar__close {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: rgb(var(--color-text));
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity var(--duration-base, 200ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
+  z-index: 1;
+}
+
+@media (hover: hover) {
+  .announcement-bar__close:hover {
+    opacity: 1;
+  }
+}
+
+.announcement-bar__close svg {
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+}
+
+/* ===== REDUCED MOTION ===== */
+
+@media (prefers-reduced-motion: reduce) {
+  .announcement-bar__messages--rotating .announcement-bar__message {
+    animation: none;
+    opacity: 0;
+  }
+  .announcement-bar__messages--rotating .announcement-bar__message:first-child {
+    opacity: 1;
+    position: relative;
+  }
+}
+
+/* ===== MOBILE ===== */
+
+@media screen and (max-width: 749px) {
+  .announcement-bar__messages {
+    padding: 0 40px;
+  }
+
+  .announcement-bar__close {
+    right: 8px;
+    width: 24px;
+    height: 24px;
+  }
+
+  .announcement-bar__close svg {
+    width: 12px;
+    height: 12px;
+  }
+}

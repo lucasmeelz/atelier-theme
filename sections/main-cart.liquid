@@ -1,0 +1,472 @@
+{%- comment -%}
+  Main Cart — Full cart page
+  Line items with quantity, totals, notes, checkout
+{%- endcomment -%}
+
+{{ 'section-main-cart.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign show_payment_icons = section.settings.show_payment_icons
+  assign color_scheme = section.settings.color_scheme
+-%}
+
+<div id="Section-{{ section.id }}" class="main-cart color-{{ color_scheme }}">
+  <div class="container">
+    <h1 class="main-cart__title">{{ 'cart.title' | t }}</h1>
+
+    {%- if cart.item_count > 0 -%}
+      <form action="{{ routes.cart_url }}" method="post" id="cart-form">
+        <div class="main-cart__grid">
+
+          {%- comment -%} Line items column {%- endcomment -%}
+          <div class="main-cart__items">
+            <div class="main-cart__header">
+              <span class="main-cart__header-product">{{ 'cart.product' | t }}</span>
+              <span class="main-cart__header-quantity">{{ 'cart.quantity' | t }}</span>
+              <span class="main-cart__header-total">{{ 'cart.total' | t }}</span>
+            </div>
+
+            {%- for item in cart.items -%}
+              <div class="main-cart__item" data-line-item-key="{{ item.key }}">
+                <div class="main-cart__item-media">
+                  {%- if item.image -%}
+                    <a href="{{ item.url }}">
+                      {{ item.image | image_url: width: 200 | image_tag:
+                        loading: 'lazy',
+                        widths: '100,150,200',
+                        class: 'main-cart__item-img',
+                        alt: item.title
+                      }}
+                    </a>
+                  {%- endif -%}
+                </div>
+
+                <div class="main-cart__item-details">
+                  <a href="{{ item.url }}" class="main-cart__item-title">{{ item.product.title }}</a>
+                  {%- if item.product.has_only_default_variant == false -%}
+                    <p class="main-cart__item-variant">{{ item.variant.title }}</p>
+                  {%- endif -%}
+                  {%- if item.selling_plan_allocation -%}
+                    <p class="main-cart__item-plan">{{ item.selling_plan_allocation.selling_plan.name }}</p>
+                  {%- endif -%}
+                  <div class="main-cart__item-price">
+                    {%- if item.original_price != item.final_price -%}
+                      <s class="main-cart__item-price-compare">{{ item.original_price | money }}</s>
+                    {%- endif -%}
+                    <span>{{ item.final_price | money }}</span>
+                  </div>
+                  {%- if item.unit_price -%}
+                    <div class="main-cart__item-unit-price">
+                      {{ item.unit_price | money }} {{ 'product.unit_price_separator' | t }}
+                      {%- if item.unit_price_measurement.reference_value != 1 -%}
+                        {{ item.unit_price_measurement.reference_value }}
+                      {%- endif -%}
+                      {{ item.unit_price_measurement.reference_unit }}
+                    </div>
+                  {%- endif -%}
+
+                  {%- comment -%} Mobile quantity + remove {%- endcomment -%}
+                  <div class="main-cart__item-actions-mobile">
+                    <div class="main-cart__quantity">
+                      <button
+                        type="button"
+                        class="main-cart__quantity-btn"
+                        aria-label="{{ 'accessibility.decrease_quantity' | t: title: item.title }}"
+                        data-action="decrease"
+                        data-key="{{ item.key }}"
+                      >−</button>
+                      <input
+                        type="number"
+                        name="updates[]"
+                        value="{{ item.quantity }}"
+                        min="0"
+                        class="main-cart__quantity-input"
+                        aria-label="{{ 'cart.quantity' | t }}"
+                        data-key="{{ item.key }}"
+                      >
+                      <button
+                        type="button"
+                        class="main-cart__quantity-btn"
+                        aria-label="{{ 'accessibility.increase_quantity' | t: title: item.title }}"
+                        data-action="increase"
+                        data-key="{{ item.key }}"
+                      >+</button>
+                    </div>
+                    <a href="{{ item.url_to_remove }}" class="main-cart__item-remove">
+                      {{ 'cart.remove' | t }}
+                    </a>
+                  </div>
+                </div>
+
+                {%- comment -%} Desktop quantity {%- endcomment -%}
+                <div class="main-cart__item-quantity-desktop">
+                  <div class="main-cart__quantity">
+                    <button type="button" class="main-cart__quantity-btn" data-action="decrease" data-key="{{ item.key }}">−</button>
+                    <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" class="main-cart__quantity-input" data-key="{{ item.key }}">
+                    <button type="button" class="main-cart__quantity-btn" data-action="increase" data-key="{{ item.key }}">+</button>
+                  </div>
+                  <a href="{{ item.url_to_remove }}" class="main-cart__item-remove">
+                    {{ 'cart.remove' | t }}
+                  </a>
+                </div>
+
+                {%- comment -%} Desktop total {%- endcomment -%}
+                <div class="main-cart__item-total-desktop">
+                  {{ item.final_line_price | money }}
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+
+          {%- comment -%} Summary column — block-based {%- endcomment -%}
+          <div class="main-cart__summary">
+
+            {%- comment -%} Blocks: top area (shipping bar, announcements) {%- endcomment -%}
+            {%- for block in section.blocks -%}
+              {%- case block.type -%}
+
+                {%- when 'free_shipping_bar' -%}
+                  {%- liquid
+                    assign threshold = block.settings.threshold | default: settings.free_shipping_threshold | times: 100
+                    assign cart_total = cart.total_price
+                    assign remaining = threshold | minus: cart_total
+                    assign progress = cart_total | times: 100.0 | divided_by: threshold
+                    if progress > 100
+                      assign progress = 100
+                    endif
+                  -%}
+                  <div class="main-cart__shipping-bar" {{ block.shopify_attributes }} style="--progress: {{ progress }}%;">
+                    <div class="main-cart__shipping-progress">
+                      <div class="main-cart__shipping-fill"></div>
+                    </div>
+                    <p class="main-cart__shipping-text">
+                      {%- if remaining > 0 -%}
+                        {{ 'cart.free_shipping_remaining' | t: amount: remaining | money }}
+                      {%- else -%}
+                        {{ 'cart.free_shipping_reached' | t }}
+                      {%- endif -%}
+                    </p>
+                  </div>
+
+                {%- when 'announcement' -%}
+                  {%- if block.settings.text != blank -%}
+                    <div class="main-cart__announcement" {{ block.shopify_attributes }}>
+                      {%- if block.settings.icon != 'none' -%}
+                        <span class="main-cart__announcement-icon">
+                          {%- render 'icon', name: block.settings.icon, size: 16 -%}
+                        </span>
+                      {%- endif -%}
+                      <p class="main-cart__announcement-text">{{ block.settings.text }}</p>
+                    </div>
+                  {%- endif -%}
+
+              {%- endcase -%}
+            {%- endfor -%}
+
+            {%- comment -%} Blocks: notes area {%- endcomment -%}
+            {%- for block in section.blocks -%}
+              {%- case block.type -%}
+
+                {%- when 'cart_note' -%}
+                  <details class="main-cart__notes" {{ block.shopify_attributes }}>
+                    <summary class="main-cart__notes-toggle label">
+                      {{ 'cart.note' | t }}
+                    </summary>
+                    <div class="main-cart__notes-content">
+                      <textarea name="note" class="main-cart__notes-textarea" placeholder="{{ 'cart.note_placeholder' | t }}">{{ cart.note }}</textarea>
+                    </div>
+                  </details>
+
+                {%- when 'gift_note' -%}
+                  <details class="main-cart__notes" {{ block.shopify_attributes }}>
+                    <summary class="main-cart__notes-toggle label">
+                      {%- render 'icon', name: 'gift', size: 14 -%}
+                      {{ block.settings.label | default: 'cart.gift_note' | t }}
+                    </summary>
+                    <div class="main-cart__notes-content">
+                      <textarea
+                        name="attributes[gift_note]"
+                        class="main-cart__notes-textarea"
+                        placeholder="{{ block.settings.placeholder | default: 'cart.gift_note_placeholder' | t }}"
+                      >{{ cart.attributes['gift_note'] }}</textarea>
+                    </div>
+                  </details>
+
+              {%- endcase -%}
+            {%- endfor -%}
+
+            {%- comment -%} Trust badges block {%- endcomment -%}
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'trust_badges' -%}
+                <div class="main-cart__trust" {{ block.shopify_attributes }}>
+                  {%- if block.settings.badge_1_text != blank -%}
+                    <div class="main-cart__trust-item">
+                      {%- render 'icon', name: block.settings.badge_1_icon, size: 16 -%}
+                      <span>{{ block.settings.badge_1_text }}</span>
+                    </div>
+                  {%- endif -%}
+                  {%- if block.settings.badge_2_text != blank -%}
+                    <div class="main-cart__trust-item">
+                      {%- render 'icon', name: block.settings.badge_2_icon, size: 16 -%}
+                      <span>{{ block.settings.badge_2_text }}</span>
+                    </div>
+                  {%- endif -%}
+                  {%- if block.settings.badge_3_text != blank -%}
+                    <div class="main-cart__trust-item">
+                      {%- render 'icon', name: block.settings.badge_3_icon, size: 16 -%}
+                      <span>{{ block.settings.badge_3_text }}</span>
+                    </div>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+
+            {%- comment -%} Totals {%- endcomment -%}
+            <div class="main-cart__totals">
+              <div class="main-cart__subtotal">
+                <span>{{ 'cart.subtotal' | t }}</span>
+                <span class="main-cart__subtotal-price">{{ cart.total_price | money }}</span>
+              </div>
+
+              {%- if cart.cart_level_discount_applications.size > 0 -%}
+                {%- for discount in cart.cart_level_discount_applications -%}
+                  <div class="main-cart__discount">
+                    <span>{{ discount.title }}</span>
+                    <span>-{{ discount.total_allocated_amount | money }}</span>
+                  </div>
+                {%- endfor -%}
+              {%- endif -%}
+
+              <p class="main-cart__taxes-note">
+                {%- if cart.taxes_included and shop.shipping_policy.body != blank -%}
+                  {{ 'cart.taxes_included_shipping_at_checkout_html' | t: link: shop.shipping_policy.url }}
+                {%- elsif cart.taxes_included -%}
+                  {{ 'cart.taxes_included_but_shipping_at_checkout' | t }}
+                {%- elsif shop.shipping_policy.body != blank -%}
+                  {{ 'cart.taxes_and_shipping_at_checkout_html' | t: link: shop.shipping_policy.url }}
+                {%- else -%}
+                  {{ 'cart.taxes_and_shipping_at_checkout' | t }}
+                {%- endif -%}
+              </p>
+            </div>
+
+            <button type="submit" name="checkout" class="btn btn--primary main-cart__checkout">
+              <span class="btn__label">{{ 'cart.checkout' | t }}</span>
+              <span class="btn__fill" aria-hidden="true"></span>
+            </button>
+
+            {%- if additional_checkout_buttons -%}
+              <div class="main-cart__dynamic-checkout">
+                {{ content_for_additional_checkout_buttons }}
+              </div>
+            {%- endif -%}
+
+            {%- if show_payment_icons -%}
+              <div class="main-cart__payment-icons">
+                {%- for type in shop.enabled_payment_types -%}
+                  {{ type | payment_type_svg_tag: class: 'main-cart__payment-icon' }}
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+          </div>
+
+        </div>
+      </form>
+
+    {%- else -%}
+      <div class="main-cart__empty">
+        <p>{{ 'cart.empty' | t }}</p>
+        <a href="{{ routes.all_products_collection_url }}" class="btn btn--primary">
+          <span class="btn__label">{{ 'cart.continue_shopping' | t }}</span>
+          <span class="btn__fill" aria-hidden="true"></span>
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<script>
+  /* Quantity +/- handlers */
+  document.querySelectorAll('.main-cart__quantity-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var key = this.dataset.key;
+      var input = this.closest('.main-cart__quantity').querySelector('input[data-key="' + key + '"]');
+      if (!input) return;
+      var current = parseInt(input.value, 10);
+      if (this.dataset.action === 'increase') {
+        input.value = current + 1;
+      } else if (this.dataset.action === 'decrease' && current > 0) {
+        input.value = current - 1;
+      }
+      /* Auto-submit after 500ms debounce */
+      clearTimeout(window._cartUpdateTimeout);
+      window._cartUpdateTimeout = setTimeout(function() {
+        document.getElementById('cart-form').submit();
+      }, 500);
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "t:sections.main_cart.name",
+  "tag": "section",
+  "class": "section-main-cart",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "t:sections.main_cart.show_payment_icons",
+      "default": true
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.main_cart.color_scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "free_shipping_bar",
+      "name": "t:sections.cart_drawer.blocks.free_shipping_bar",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "threshold",
+          "label": "t:sections.cart_drawer.blocks.shipping_threshold",
+          "info": "t:sections.cart_drawer.blocks.shipping_threshold_info"
+        }
+      ]
+    },
+    {
+      "type": "announcement",
+      "name": "t:sections.cart_drawer.blocks.announcement",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "t:sections.cart_drawer.blocks.icon",
+          "options": [
+            { "value": "none", "label": "t:sections.cart_drawer.blocks.icon_none" },
+            { "value": "gift", "label": "t:sections.cart_drawer.blocks.icon_gift" },
+            { "value": "shipping", "label": "t:sections.cart_drawer.blocks.icon_shipping" },
+            { "value": "lock", "label": "t:sections.cart_drawer.blocks.icon_lock" },
+            { "value": "leaf", "label": "t:sections.cart_drawer.blocks.icon_leaf" },
+            { "value": "heart", "label": "t:sections.cart_drawer.blocks.icon_heart" },
+            { "value": "diamond", "label": "t:sections.cart_drawer.blocks.icon_diamond" },
+            { "value": "crown", "label": "t:sections.cart_drawer.blocks.icon_crown" },
+            { "value": "sparkle", "label": "t:sections.cart_drawer.blocks.icon_sparkle" }
+          ],
+          "default": "gift"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "t:sections.cart_drawer.blocks.announcement_text",
+          "default": "Complimentary gift wrapping on all orders"
+        }
+      ]
+    },
+    {
+      "type": "cart_note",
+      "name": "t:sections.cart_drawer.blocks.cart_note",
+      "limit": 1
+    },
+    {
+      "type": "gift_note",
+      "name": "t:sections.cart_drawer.blocks.gift_note",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "t:sections.cart_drawer.blocks.gift_note_label",
+          "default": "Add a gift message"
+        },
+        {
+          "type": "text",
+          "id": "placeholder",
+          "label": "t:sections.cart_drawer.blocks.gift_note_placeholder",
+          "default": "Write your personal message here..."
+        }
+      ]
+    },
+    {
+      "type": "trust_badges",
+      "name": "t:sections.cart_drawer.blocks.trust_badges",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "badge_1_icon",
+          "label": "t:sections.cart_drawer.blocks.badge_1_icon",
+          "options": [
+            { "value": "shipping", "label": "t:sections.cart_drawer.blocks.icon_shipping" },
+            { "value": "lock", "label": "t:sections.cart_drawer.blocks.icon_lock" },
+            { "value": "return", "label": "t:sections.cart_drawer.blocks.icon_return" },
+            { "value": "shield", "label": "t:sections.cart_drawer.blocks.icon_shield" },
+            { "value": "leaf", "label": "t:sections.cart_drawer.blocks.icon_leaf" },
+            { "value": "gift", "label": "t:sections.cart_drawer.blocks.icon_gift" },
+            { "value": "heart", "label": "t:sections.cart_drawer.blocks.icon_heart" },
+            { "value": "diamond", "label": "t:sections.cart_drawer.blocks.icon_diamond" }
+          ],
+          "default": "shipping"
+        },
+        {
+          "type": "text",
+          "id": "badge_1_text",
+          "label": "t:sections.cart_drawer.blocks.badge_1_text",
+          "default": "Free shipping"
+        },
+        {
+          "type": "select",
+          "id": "badge_2_icon",
+          "label": "t:sections.cart_drawer.blocks.badge_2_icon",
+          "options": [
+            { "value": "shipping", "label": "t:sections.cart_drawer.blocks.icon_shipping" },
+            { "value": "lock", "label": "t:sections.cart_drawer.blocks.icon_lock" },
+            { "value": "return", "label": "t:sections.cart_drawer.blocks.icon_return" },
+            { "value": "shield", "label": "t:sections.cart_drawer.blocks.icon_shield" },
+            { "value": "leaf", "label": "t:sections.cart_drawer.blocks.icon_leaf" },
+            { "value": "gift", "label": "t:sections.cart_drawer.blocks.icon_gift" },
+            { "value": "heart", "label": "t:sections.cart_drawer.blocks.icon_heart" },
+            { "value": "diamond", "label": "t:sections.cart_drawer.blocks.icon_diamond" }
+          ],
+          "default": "lock"
+        },
+        {
+          "type": "text",
+          "id": "badge_2_text",
+          "label": "t:sections.cart_drawer.blocks.badge_2_text",
+          "default": "Secure checkout"
+        },
+        {
+          "type": "select",
+          "id": "badge_3_icon",
+          "label": "t:sections.cart_drawer.blocks.badge_3_icon",
+          "options": [
+            { "value": "shipping", "label": "t:sections.cart_drawer.blocks.icon_shipping" },
+            { "value": "lock", "label": "t:sections.cart_drawer.blocks.icon_lock" },
+            { "value": "return", "label": "t:sections.cart_drawer.blocks.icon_return" },
+            { "value": "shield", "label": "t:sections.cart_drawer.blocks.icon_shield" },
+            { "value": "leaf", "label": "t:sections.cart_drawer.blocks.icon_leaf" },
+            { "value": "gift", "label": "t:sections.cart_drawer.blocks.icon_gift" },
+            { "value": "heart", "label": "t:sections.cart_drawer.blocks.icon_heart" },
+            { "value": "diamond", "label": "t:sections.cart_drawer.blocks.icon_diamond" }
+          ],
+          "default": "return"
+        },
+        {
+          "type": "text",
+          "id": "badge_3_text",
+          "label": "t:sections.cart_drawer.blocks.badge_3_text",
+          "default": "Easy returns"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

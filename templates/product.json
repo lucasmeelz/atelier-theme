@@ -10,11 +10,166 @@
 {
   "sections": {
     "main": {
-      "type": "product",
-      "settings": {}
+      "type": "main-product",
+      "blocks": {
+        "vendor": {
+          "type": "vendor",
+          "settings": {}
+        },
+        "title": {
+          "type": "title",
+          "settings": {
+            "heading_size": "h1"
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "show_tax_notice": false
+          }
+        },
+        "shipping_tab": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Shipping & Returns",
+            "content": "<p>kkkkk</p>",
+            "page": "",
+            "icon": "shipping"
+          }
+        },
+        "ingredient_list_qhJD7L": {
+          "type": "ingredient_list",
+          "settings": {
+            "heading": "Materials & Composition",
+            "ingredients": "Italian leather: Premium full-grain calfskin|Gold hardware: 18k gold-plated brass|Lining: Microfiber suede",
+            "icon": "none",
+            "default_open": false
+          }
+        },
+        "product_highlights_WGkFi9": {
+          "type": "product_highlights",
+          "settings": {
+            "heading": "Key features",
+            "source": "manual",
+            "highlights": "Premium materials, Handcrafted, Timeless design",
+            "metafield_key": "",
+            "icon": "star"
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "swatch",
+            "swatch_shape": "circle",
+            "size_chart_page": ""
+          }
+        },
+        "size_guide_block": {
+          "type": "size_guide",
+          "settings": {
+            "label": "Size guide",
+            "page": "",
+            "icon": "ruler"
+          }
+        },
+        "estimated_delivery_block": {
+          "type": "estimated_delivery",
+          "settings": {
+            "text": "Estimated delivery: 3-5 business days",
+            "icon": "box"
+          }
+        },
+        "stock_level_block": {
+          "type": "stock_level",
+          "settings": {
+            "threshold": 20,
+            "show_count": true
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_installments": true
+          }
+        },
+        "trust": {
+          "type": "trust_indicators",
+          "settings": {
+            "icon_1": "shipping",
+            "text_1": "Free shipping",
+            "icon_2": "return",
+            "text_2": "Easy returns",
+            "icon_3": "lock",
+            "text_3": "Secure payment",
+            "icon_4": "none",
+            "text_4": ""
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {
+            "collapsible": true,
+            "default_open": true
+          }
+        },
+        "share": {
+          "type": "share",
+          "settings": {}
+        },
+        "badges_TC9Bwr": {
+          "type": "badges",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "vendor",
+        "title",
+        "price",
+        "shipping_tab",
+        "ingredient_list_qhJD7L",
+        "product_highlights_WGkFi9",
+        "variant_picker",
+        "size_guide_block",
+        "estimated_delivery_block",
+        "stock_level_block",
+        "buy_buttons",
+        "trust",
+        "description",
+        "share",
+        "badges_TC9Bwr"
+      ],
+      "settings": {
+        "media_size": 55,
+        "media_position": "left",
+        "gallery_layout": "thumbnail_slider",
+        "thumbnail_position": "below",
+        "enable_zoom": true,
+        "enable_video_loop": false,
+        "sticky_info": true,
+        "show_sticky_atc": true,
+        "color_scheme": "",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "heading": "You may also like",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "image_ratio": "portrait",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "color_scheme": "",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "recommendations"
   ]
 }

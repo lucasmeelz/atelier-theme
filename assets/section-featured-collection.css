@@ -1,0 +1,238 @@
+/* ===================================
+   Featured Collection — Section Styles
+   =================================== */
+
+.featured-collection {
+  padding-top: var(--section-padding-top, 60px);
+  padding-bottom: var(--section-padding-bottom, 60px);
+}
+
+.featured-collection--full-width {
+  padding-inline: 0;
+}
+
+.featured-collection--full-width .featured-collection__header {
+  padding-inline: var(--container-gutter, 20px);
+}
+
+/* ===================================
+   Header — heading + nav + view all
+   =================================== */
+.featured-collection__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.featured-collection__header-text {
+  flex: 1;
+}
+
+.featured-collection__subheading {
+  margin: 0 0 0.5rem;
+}
+
+.featured-collection__heading {
+  font-family: var(--font-heading-family, serif);
+  font-weight: var(--font-heading-weight, 300);
+  font-style: var(--font-heading-style, normal);
+  line-height: 1.1;
+  margin: 0;
+}
+
+h2.featured-collection__heading {
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+}
+
+h3.featured-collection__heading {
+  font-size: clamp(1.375rem, 2.5vw, 1.875rem);
+}
+
+/* Header actions — nav arrows + view all */
+.featured-collection__header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* View all link */
+.featured-collection__view-all {
+  display: none;
+  white-space: nowrap;
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+}
+
+@media screen and (min-width: 750px) {
+  .featured-collection__view-all {
+    display: inline-flex;
+  }
+}
+
+/* ===================================
+   Navigation Arrows (carousel mode)
+   =================================== */
+.featured-collection__nav {
+  display: none;
+  align-items: center;
+  gap: 4px;
+}
+
+@media screen and (min-width: 990px) {
+  .featured-collection__nav {
+    display: flex;
+  }
+}
+
+.featured-collection__nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgb(var(--color-border, 226, 224, 219));
+  border-radius: 50%;
+  background: transparent;
+  color: rgb(var(--color-text, 10, 10, 10));
+  cursor: pointer;
+  transition: background-color var(--duration-fast, 200ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1)),
+              color var(--duration-fast, 200ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1)),
+              opacity var(--duration-fast, 200ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
+}
+
+@media (hover: hover) {
+  .featured-collection__nav-btn:hover:not(:disabled) {
+    background-color: rgb(var(--color-text, 10, 10, 10));
+    color: rgb(var(--color-background, 255, 255, 255));
+  }
+}
+
+.featured-collection__nav-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* ===================================
+   Product Scroller / Track
+   =================================== */
+
+/* Default: CSS grid (same as before) */
+.featured-collection__track {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns-mobile, 2), 1fr);
+  gap: 16px 12px;
+}
+
+@media screen and (min-width: 750px) {
+  .featured-collection__track {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px 16px;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .featured-collection__track {
+    grid-template-columns: repeat(var(--grid-columns-desktop, 4), 1fr);
+    gap: 32px 20px;
+  }
+}
+
+/* ===================================
+   Mobile Swipe Mode (scroll-snap)
+   =================================== */
+@media screen and (max-width: 989px) {
+  .featured-collection__scroller--swipe-mobile .featured-collection__track {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    gap: 12px;
+    padding-bottom: 4px; /* prevent scrollbar clipping */
+
+    /* Hide scrollbar but keep functionality */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .featured-collection__scroller--swipe-mobile .featured-collection__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .featured-collection__scroller--swipe-mobile .featured-collection__item {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+
+  /* 2 columns mobile: show 2 full cards + peek of 3rd */
+  .featured-collection__scroller--swipe-mobile .featured-collection__item {
+    width: calc((100vw - var(--container-gutter, 20px) * 2 - 12px) / 2.15);
+  }
+
+  /* 1 column mobile: show 1 full card + peek of next */
+  .featured-collection[style*="--grid-columns-mobile: 1"] .featured-collection__scroller--swipe-mobile .featured-collection__item {
+    width: calc(100vw - var(--container-gutter, 20px) * 2 - 40px);
+  }
+
+  /* Padding to allow first/last card to align to container edge */
+  .featured-collection__scroller--swipe-mobile .featured-collection__track::before,
+  .featured-collection__scroller--swipe-mobile .featured-collection__track::after {
+    content: '';
+    flex: 0 0 var(--container-gutter, 20px);
+  }
+
+  /* Full width mode: no edge padding */
+  .featured-collection--full-width .featured-collection__scroller--swipe-mobile .featured-collection__track::before,
+  .featured-collection--full-width .featured-collection__scroller--swipe-mobile .featured-collection__track::after {
+    flex: 0 0 12px;
+  }
+}
+
+/* ===================================
+   Desktop Carousel Mode (overflow scroll)
+   =================================== */
+@media screen and (min-width: 990px) {
+  .featured-collection__scroller--carousel .featured-collection__track {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    gap: 20px;
+
+    /* Hide scrollbar */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .featured-collection__scroller--carousel .featured-collection__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .featured-collection__scroller--carousel .featured-collection__item {
+    flex: 0 0 calc((100% - (var(--grid-columns-desktop, 4) - 1) * 20px) / var(--grid-columns-desktop, 4));
+    scroll-snap-align: start;
+  }
+}
+
+/* ===================================
+   Footer — mobile view all button
+   =================================== */
+.featured-collection__footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+@media screen and (min-width: 750px) {
+  .featured-collection__footer {
+    display: none;
+  }
+}
+
+/* Card product styles are handled by component-card.css
+   Do NOT duplicate card styles here — it causes specificity conflicts
+   (e.g. quick-add button was rendered as 36px circle instead of full-width bar) */

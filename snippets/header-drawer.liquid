@@ -1,0 +1,280 @@
+{%- comment -%}
+  Header drawer — multi-level mobile navigation
+  Slide from left, horizontal panel transitions between levels
+  Params: menu, section, logo, logo_width_mobile, transparent_logo, show_country, show_language, icon_size
+{%- endcomment -%}
+
+{%- liquid
+  assign drawer_menu = menu
+-%}
+
+<header-drawer class="header-drawer" id="header-drawer" aria-hidden="true" role="dialog" aria-modal="true" aria-label="{{ 'header.navigation' | t }}">
+  <div class="header-drawer__overlay" data-drawer-close aria-hidden="true"></div>
+
+  <div class="header-drawer__panel">
+
+    {%- comment -%} Drawer header {%- endcomment -%}
+    <div class="header-drawer__header">
+        {%- if logo -%}
+          <a href="{{ routes.root_url }}" class="header-drawer__logo" aria-label="{{ shop.name }}">
+            <img
+              src="{{ logo | image_url: width: 300 }}"
+              alt="{{ logo.alt | default: shop.name | escape }}"
+              width="{{ logo.width }}"
+              height="{{ logo.height }}"
+              style="max-width: {{ logo_width_mobile }}px;"
+              loading="eager"
+            >
+          </a>
+        {%- else -%}
+          <a href="{{ routes.root_url }}" class="header-drawer__shop-name" aria-label="{{ shop.name }}">
+            {{ shop.name }}
+          </a>
+        {%- endif -%}
+      <button class="header-drawer__close btn--icon" data-drawer-close aria-label="{{ 'accessibility.close' | t }}">
+        {%- render 'icon', name: 'close', size: icon_size -%}
+      </button>
+    </div>
+
+    {%- comment -%} Level 1 — main navigation {%- endcomment -%}
+    <div class="header-drawer__level header-drawer__level--1" data-drawer-level="1">
+      <ul class="header-drawer__nav" role="menu">
+        {%- for link in drawer_menu.links -%}
+          <li class="header-drawer__item" role="none">
+            {%- if link.links.size > 0 -%}
+              <button
+                class="header-drawer__link header-drawer__link--parent"
+                role="menuitem"
+                aria-expanded="false"
+                data-open-level="2"
+                data-target-panel="drawer-panel-{{ forloop.index }}"
+              >
+                <span>{{ link.title }}</span>
+                {%- render 'icon', name: 'chevron-right', size: 16 -%}
+              </button>
+            {%- else -%}
+              <a href="{{ link.url }}" class="header-drawer__link" role="menuitem">
+                {{ link.title }}
+              </a>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+
+      {%- comment -%} Footer links (account, wishlist) {%- endcomment -%}
+      <div class="header-drawer__footer">
+        {%- if shop.customer_accounts_enabled -%}
+          <a href="{{ routes.account_url }}" class="header-drawer__footer-link">
+            {{ 'header.account' | t }}
+          </a>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} Country/language selectors {%- endcomment -%}
+      {%- liquid
+        assign drawer_show_country = false
+        if show_country and localization.available_countries.size > 1
+          assign drawer_show_country = true
+        endif
+        assign drawer_show_language = false
+        if show_language and localization.available_languages.size > 1
+          assign drawer_show_language = true
+        endif
+      -%}
+      {%- if drawer_show_country or drawer_show_language -%}
+        <div class="header-drawer__localization">
+          {%- form 'localization', id: 'drawer-localization-form', class: 'header-drawer__localization-form' -%}
+            {%- if drawer_show_country -%}
+              <div class="header-drawer__locale-selector">
+                <label for="drawer-country-selector" class="label">{{ 'localization.country_label' | t }}</label>
+                <select id="drawer-country-selector" name="country_code">
+                  {%- for country in localization.available_countries -%}
+                    <option value="{{ country.iso_code }}"{% if country.iso_code == localization.country.iso_code %} selected{% endif %}>
+                      {%- if section.settings.show_country_flag -%}{{ country.currency.symbol }} {% endif -%}
+                      {{ country.name }} ({{ country.currency.iso_code }})
+                    </option>
+                  {%- endfor -%}
+                </select>
+              </div>
+            {%- endif -%}
+
+            {%- if drawer_show_language -%}
+              <div class="header-drawer__locale-selector">
+                <label for="drawer-language-selector" class="label">{{ 'localization.language_label' | t }}</label>
+                <select id="drawer-language-selector" name="locale_code">
+                  {%- for language in localization.available_languages -%}
+                    <option value="{{ language.iso_code }}"{% if language.iso_code == localization.language.iso_code %} selected{% endif %}>
+                      {{ language.endonym_name | capitalize }}
+                    </option>
+                  {%- endfor -%}
+                </select>
+              </div>
+            {%- endif -%}
+
+            <button type="submit" class="btn btn--small btn--secondary header-drawer__locale-submit">
+              <span class="btn__label">{{ 'localization.update' | t }}</span>
+              <span class="btn__fill" aria-hidden="true"></span>
+            </button>
+          {%- endform -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} Level 2 panels — one per L1 item with children {%- endcomment -%}
+    {%- for link in drawer_menu.links -%}
+      {%- if link.links.size > 0 -%}
+        <div
+          class="header-drawer__level header-drawer__level--2"
+          id="drawer-panel-{{ forloop.index }}"
+          data-drawer-level="2"
+          aria-hidden="true"
+        >
+          {%- comment -%} Back button {%- endcomment -%}
+          <button class="header-drawer__back" data-close-level="2" aria-label="{{ 'accessibility.back_to' | t: title: link.title }}">
+            {%- render 'icon', name: 'chevron-left', size: 14 -%}
+            <span>{{ link.title }}</span>
+          </button>
+
+          <ul class="header-drawer__nav" role="menu">
+            {%- comment -%} View all / Explore link {%- endcomment -%}
+            <li class="header-drawer__item" role="none">
+              <a href="{{ link.url }}" class="header-drawer__link header-drawer__link--view-all{% if is_luxury %} header-drawer__link--explore{% endif %}" role="menuitem">
+                {%- if is_luxury -%}
+                  {{ 'header.explore_category' | t: title: link.title }}
+                {%- else -%}
+                  {{ 'header.all_categories' | t: title: link.title }}
+                {%- endif -%}
+              </a>
+            </li>
+
+            {%- for child in link.links -%}
+              <li class="header-drawer__item" role="none">
+                {%- if child.links.size > 0 -%}
+                  <button
+                    class="header-drawer__link header-drawer__link--parent"
+                    role="menuitem"
+                    aria-expanded="false"
+                    data-open-level="3"
+                    data-target-panel="drawer-panel-{{ forloop.parentloop.index }}-{{ forloop.index }}"
+                  >
+                    <span>{{ child.title }}</span>
+                    {%- render 'icon', name: 'chevron-right', size: 16 -%}
+                  </button>
+                {%- else -%}
+                  <a href="{{ child.url }}" class="header-drawer__link" role="menuitem">
+                    {{ child.title }}
+                  </a>
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+
+          {%- comment -%} Editorial images from mega menu block {%- endcomment -%}
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'mega_menu' -%}
+              {%- assign block_item = block.settings.menu_item | strip | downcase -%}
+              {%- assign link_title = link.title | strip | downcase -%}
+              {%- if block_item == link_title -%}
+                {%- liquid
+                  assign promo_ratio = block.settings.promo_ratio | default: '3/4'
+                  assign promo_count = 0
+                  if block.settings.promo_1_image != blank
+                    assign promo_count = promo_count | plus: 1
+                  endif
+                  if block.settings.promo_2_image != blank
+                    assign promo_count = promo_count | plus: 1
+                  endif
+                  if block.settings.promo_3_image != blank
+                    assign promo_count = promo_count | plus: 1
+                  endif
+                -%}
+                {%- if promo_count > 0 -%}
+                  <div class="header-drawer__editorials header-drawer__editorials--{{ promo_count }}" style="--promo-ratio: {{ promo_ratio }}">
+                    {%- for i in (1..3) -%}
+                      {%- liquid
+                        case i
+                          when 1
+                            assign promo_img = block.settings.promo_1_image
+                            assign promo_heading = block.settings.promo_1_heading
+                            assign promo_sub = block.settings.promo_1_subheading
+                            assign promo_link = block.settings.promo_1_link
+                          when 2
+                            assign promo_img = block.settings.promo_2_image
+                            assign promo_heading = block.settings.promo_2_heading
+                            assign promo_sub = block.settings.promo_2_subheading
+                            assign promo_link = block.settings.promo_2_link
+                          when 3
+                            assign promo_img = block.settings.promo_3_image
+                            assign promo_heading = block.settings.promo_3_heading
+                            assign promo_sub = block.settings.promo_3_subheading
+                            assign promo_link = block.settings.promo_3_link
+                        endcase
+                      -%}
+                      {%- if promo_img != blank -%}
+                        <div class="header-drawer__editorial">
+                          {%- if promo_link != blank -%}
+                            <a href="{{ promo_link }}" class="header-drawer__editorial-link">
+                          {%- endif -%}
+                            {{ promo_img | image_url: width: 800 | image_tag:
+                              loading: 'lazy',
+                              class: 'header-drawer__editorial-img',
+                              alt: promo_heading | default: ''
+                            }}
+                            {%- if promo_heading != blank -%}
+                              <div class="header-drawer__editorial-content">
+                                {%- if promo_sub != blank -%}
+                                  <span class="header-drawer__editorial-sub label">{{ promo_sub }}</span>
+                                {%- endif -%}
+                                <span class="header-drawer__editorial-title">{{ promo_heading }}</span>
+                              </div>
+                            {%- endif -%}
+                          {%- if promo_link != blank -%}
+                            </a>
+                          {%- endif -%}
+                        </div>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </div>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+
+        {%- comment -%} Level 3 panels — sub-categories {%- endcomment -%}
+        {%- for child in link.links -%}
+          {%- if child.links.size > 0 -%}
+            <div
+              class="header-drawer__level header-drawer__level--3"
+              id="drawer-panel-{{ forloop.parentloop.index }}-{{ forloop.index }}"
+              data-drawer-level="3"
+              aria-hidden="true"
+            >
+              <button class="header-drawer__back" data-close-level="3" aria-label="{{ 'accessibility.back_to' | t: title: child.title }}">
+                {%- render 'icon', name: 'chevron-left', size: 14 -%}
+                <span>{{ child.title }}</span>
+              </button>
+
+              <ul class="header-drawer__nav" role="menu">
+                <li class="header-drawer__item" role="none">
+                  <a href="{{ child.url }}" class="header-drawer__link header-drawer__link--view-all" role="menuitem">
+                    {{ 'header.all_categories' | t: title: child.title }}
+                  </a>
+                </li>
+                {%- for grandchild in child.links -%}
+                  <li class="header-drawer__item" role="none">
+                    <a href="{{ grandchild.url }}" class="header-drawer__link" role="menuitem">
+                      {{ grandchild.title }}
+                    </a>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+
+      {%- endif -%}
+    {%- endfor -%}
+
+  </div>
+</header-drawer>

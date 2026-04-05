@@ -9,12 +9,35 @@
  */
 {
   "sections": {
+    "banner": {
+      "type": "collection-banner",
+      "settings": {
+        "layout": "plain",
+        "show_description": true,
+        "title_size": "h1"
+      }
+    },
     "main": {
-      "type": "collection",
-      "settings": {}
+      "type": "main-collection",
+      "settings": {
+        "products_per_page": 24,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "image_ratio": "portrait",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_quick_add": true,
+        "show_filters": true,
+        "filter_layout": "drawer",
+        "show_sort": true,
+        "grid_gap": "standard",
+        "show_view_toggle": false,
+        "show_color_swatches": true
+      }
     }
   },
   "order": [
+    "banner",
     "main"
   ]
 }

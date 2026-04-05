@@ -3,3 +3,6 @@ node_modules/
 _qa/screenshots/
 _qa/reports/
 config/settings_data.json
+qa-screenshots/
+qa-*.mjs
+test-results/

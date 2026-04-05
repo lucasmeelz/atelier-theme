@@ -1,0 +1,121 @@
+/* ===================================
+   Collection Banner
+   =================================== */
+
+.collection-banner {
+  position: relative;
+  padding: 40px 0;
+}
+
+/* Background layout — image behind text */
+.collection-banner--background {
+  padding: 80px 0;
+  color: rgb(var(--color-background, 255, 255, 255));
+  min-height: 280px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.collection-banner__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.collection-banner__bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.collection-banner__overlay {
+  position: absolute;
+  inset: 0;
+  /* Intentional: overlay uses black for image darkening — opacity controlled by merchant setting */
+  background-color: rgba(0, 0, 0, var(--banner-overlay-opacity, 0.3));
+}
+
+.collection-banner--background .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* Split layout */
+.collection-banner--split .collection-banner__inner {
+  display: grid;
+  gap: 32px;
+  align-items: center;
+}
+
+@media screen and (min-width: 990px) {
+  .collection-banner--split .collection-banner__inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+  }
+}
+
+.collection-banner__media-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--card-border-radius, 0);
+  max-height: 400px;
+}
+
+/* Title */
+.collection-banner__title {
+  font-family: var(--font-heading-family, serif);
+  font-weight: var(--font-heading-weight, 300);
+  font-style: var(--font-heading-style, normal);
+  line-height: 1.1;
+  margin: 0 0 0.5rem;
+}
+
+.collection-banner__title--h1 {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+}
+
+.collection-banner__title--h2 {
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.collection-banner__title--h3 {
+  font-size: clamp(1.25rem, 2.5vw, 1.875rem);
+}
+
+/* Description */
+.collection-banner__description {
+  font-size: 0.875rem;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+  margin-top: 1rem;
+  max-width: 720px;
+  opacity: 0.8;
+}
+
+.collection-banner__description p {
+  margin: 0;
+}
+
+/* Plain layout — generous editorial spacing (Dior/Jacquemus) */
+.collection-banner--plain {
+  padding: 64px 0 40px;
+  border-bottom: 1px solid rgba(var(--color-border, 226, 224, 219), 0.35);
+  margin-bottom: 16px;
+}
+
+@media screen and (min-width: 990px) {
+  .collection-banner--plain {
+    padding: 80px 0 48px;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .collection-banner--background {
+    min-height: 360px;
+    padding: 100px 0;
+  }
+}

@@ -1,0 +1,438 @@
+/* ===================================
+   Hero Banner — Section Styles
+   =================================== */
+
+/* Base layout — grid stacking for media/overlay/content */
+/* Hero fills viewport: height = 100vh minus header space */
+.hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: minmax(0, 1fr);
+  height: var(--hero-height-mobile, var(--hero-height, calc(100svh - var(--header-height, 0px))));
+  overflow: hidden;
+  width: 100%;
+}
+
+@media screen and (min-width: 990px) {
+  .hero {
+    height: var(--hero-height, calc(100svh - var(--header-height, 0px)));
+  }
+}
+
+.hero > * {
+  grid-area: 1 / 1;
+}
+
+/* ===================================
+   Media Layer
+   =================================== */
+.hero__media {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.hero__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hero__video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hero__iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 100%;
+  min-height: 100%;
+  /* Scale up to cover the container (16:9 → fill area) */
+  width: 177.78vh; /* 100 * 16/9 */
+  height: 56.25vw; /* 100 * 9/16 */
+}
+
+/* Placeholder */
+.hero__placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(var(--color-background-2, 245, 244, 240));
+}
+
+.hero__placeholder-svg {
+  width: 50%;
+  max-width: 400px;
+  opacity: 0.3;
+}
+
+/* ===================================
+   Overlay
+   =================================== */
+.hero__overlay {
+  z-index: 1;
+  background-color: var(--hero-overlay-color, rgb(0, 0, 0));
+  opacity: var(--hero-overlay-opacity, 0.2);
+  pointer-events: none;
+}
+
+/* ===================================
+   Content Layer
+   =================================== */
+.hero__content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  padding: 48px var(--page-margin, 20px);
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hero__content > * {
+  pointer-events: auto;
+}
+
+.hero__content-inner {
+  max-width: 36rem;
+}
+
+/* Position variants — 6 positions */
+/* With flex-direction: column —
+   justify-content = vertical axis (top/middle/bottom)
+   align-items = horizontal axis (left/center) */
+
+.hero__content--top-left {
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.hero__content--top-center {
+  justify-content: flex-start;
+  align-items: center;
+  text-align: center;
+}
+
+.hero__content--middle-left {
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.hero__content--middle-center {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.hero__content--bottom-left {
+  justify-content: flex-end;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.hero__content--bottom-center {
+  justify-content: flex-end;
+  align-items: center;
+  text-align: center;
+}
+
+/* Centered positions — center the buttons too */
+.hero__content--top-center .hero__buttons,
+.hero__content--middle-center .hero__buttons,
+.hero__content--bottom-center .hero__buttons {
+  justify-content: center;
+}
+
+/* Content alignment override (text-align independent of position) */
+.hero__content--align-center {
+  text-align: center;
+  align-items: center;
+}
+
+.hero__content--align-center .hero__buttons {
+  justify-content: center;
+}
+
+.hero__content--align-left {
+  text-align: left;
+  align-items: flex-start;
+}
+
+/* Mobile position override */
+@media screen and (max-width: 989px) {
+  .hero__content--mobile-bottom-left {
+    align-self: end;
+    justify-self: start;
+  }
+
+  .hero__content--mobile-bottom-center {
+    align-self: end;
+    justify-self: center;
+    text-align: center;
+  }
+
+  .hero__content--mobile-bottom-center .hero__buttons {
+    justify-content: center;
+  }
+
+  .hero__content--mobile-middle-center {
+    align-self: center;
+    justify-self: center;
+    text-align: center;
+  }
+
+  .hero__content--mobile-middle-center .hero__buttons {
+    justify-content: center;
+  }
+}
+
+/* ===================================
+   Typography
+   =================================== */
+
+/* Color — default white text on hero (image/video background) */
+.hero {
+  color: rgb(var(--color-button-label, 255, 255, 255));
+  background-color: transparent;
+}
+
+.hero__content,
+.hero__content h1,
+.hero__content h2,
+.hero__content h3,
+.hero__content p {
+  color: inherit;
+}
+
+/* When no image (placeholder), use theme text color */
+.hero:has(.hero__placeholder) {
+  color: rgb(var(--color-text, 10, 10, 10));
+}
+
+/* Subheading (label) */
+.hero__subheading {
+  font-family: var(--font-label-family, sans-serif);
+  font-size: 0.6875rem;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin: 0 0 1.25rem;
+  opacity: 0.8;
+}
+
+/* Heading */
+.hero__heading {
+  font-family: var(--font-heading-family, serif);
+  font-weight: var(--font-heading-weight, 300);
+  font-style: var(--font-heading-style, normal);
+  line-height: 1.05;
+  margin: 0;
+}
+
+.hero__heading--medium {
+  font-size: clamp(1.75rem, 4vw, 3rem);
+}
+
+.hero__heading--large {
+  font-size: clamp(2.25rem, 5.5vw, 4.5rem);
+}
+
+.hero__heading--cinematic {
+  font-size: clamp(3rem, 8vw, 7rem);
+  letter-spacing: -0.02em;
+}
+
+/* Body text */
+.hero__text {
+  margin-top: 1.25rem;
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  opacity: 0.8;
+  letter-spacing: 0.01em;
+}
+
+.hero__text p {
+  margin: 0;
+}
+
+/* ===================================
+   Buttons
+   =================================== */
+.hero__buttons {
+  margin-top: 2.5rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Button styles specific to hero */
+.hero .btn--outline-white {
+  color: currentColor;
+  border-color: currentColor;
+  background-color: transparent;
+}
+
+@media (hover: hover) {
+  .hero .btn--outline-white:hover {
+    background-color: currentColor;
+  }
+
+  .hero .btn--outline-white:hover .btn__label {
+    color: rgb(var(--color-background, 255, 255, 255));
+  }
+}
+
+.hero .btn--filled-white {
+  background-color: rgb(var(--color-background, 255, 255, 255));
+  color: rgb(var(--color-text, 10, 10, 10));
+  border-color: rgb(var(--color-background, 255, 255, 255));
+}
+
+@media (hover: hover) {
+  .hero .btn--filled-white:hover {
+    background-color: rgba(var(--color-background, 255, 255, 255), 0.85);
+  }
+}
+
+.hero .btn--filled-dark {
+  background-color: rgb(var(--color-text, 10, 10, 10));
+  color: rgb(var(--color-background, 255, 255, 255));
+  border-color: rgb(var(--color-text, 10, 10, 10));
+}
+
+@media (hover: hover) {
+  .hero .btn--filled-dark:hover {
+    opacity: 0.85;
+  }
+}
+
+/* ===================================
+   Scroll Indicator
+   =================================== */
+.hero__scroll-indicator {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  color: inherit;
+  opacity: 1;
+  transition: opacity var(--duration-base, 350ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
+  animation: hero-scroll-bounce 2s ease-in-out infinite;
+}
+
+.hero__scroll-indicator.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@keyframes hero-scroll-bounce {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(8px);
+  }
+}
+
+/* ===================================
+   Stagger Entrance Animation
+   =================================== */
+.hero__subheading,
+.hero__heading,
+.hero__text,
+.hero__buttons {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity var(--duration-slow, 600ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1)),
+    transform var(--duration-slow, 600ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
+}
+
+.hero.is-loaded .hero__subheading {
+  opacity: 0.85;
+  transform: translateY(0);
+  transition-delay: 0.1s;
+}
+
+.hero.is-loaded .hero__heading {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.25s;
+}
+
+.hero.is-loaded .hero__text {
+  opacity: 0.85;
+  transform: translateY(0);
+  transition-delay: 0.4s;
+}
+
+.hero.is-loaded .hero__buttons {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.55s;
+}
+
+/* ===================================
+   Reduced Motion
+   =================================== */
+@media (prefers-reduced-motion: reduce) {
+  .hero__subheading,
+  .hero__heading,
+  .hero__text,
+  .hero__buttons {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .hero__subheading {
+    opacity: 0.85;
+  }
+
+  .hero__text {
+    opacity: 0.85;
+  }
+
+  .hero__scroll-indicator {
+    animation: none;
+  }
+
+  .hero__img {
+    transform: none !important;
+  }
+}
+
+/* ===================================
+   Responsive — Desktop
+   =================================== */
+@media screen and (min-width: 750px) {
+  .hero__content {
+    padding: 64px 48px;
+  }
+
+  .hero__content-inner {
+    max-width: 40rem;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .hero__content {
+    padding: 80px 64px;
+  }
+}

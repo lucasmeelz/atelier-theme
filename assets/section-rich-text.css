@@ -1,0 +1,189 @@
+/* ===================================
+   Rich Text — Section Styles
+   =================================== */
+
+.rich-text {
+  padding-top: var(--section-padding-top, 60px);
+  padding-bottom: var(--section-padding-bottom, 60px);
+}
+
+/* ===================================
+   Content container — width variants
+   =================================== */
+.rich-text__inner {
+  margin-inline: auto;
+}
+
+.rich-text__inner--sm {
+  max-width: 540px;
+}
+
+.rich-text__inner--md {
+  max-width: 720px;
+}
+
+.rich-text__inner--lg {
+  max-width: 960px;
+}
+
+.rich-text__inner--full {
+  max-width: none;
+}
+
+/* Alignment */
+.rich-text__inner--left {
+  text-align: left;
+}
+
+.rich-text__inner--center {
+  text-align: center;
+}
+
+.rich-text__inner--right {
+  text-align: right;
+}
+
+/* ===================================
+   Block: Subheading
+   =================================== */
+.rich-text__subheading {
+  margin: 0 0 0.75rem;
+}
+
+/* ===================================
+   Block: Heading
+   =================================== */
+.rich-text__heading {
+  font-family: var(--font-heading-family, serif);
+  font-weight: var(--font-heading-weight, 300);
+  font-style: var(--font-heading-style, normal);
+  line-height: 1.1;
+  margin: 0 0 0.5rem;
+}
+
+.rich-text__heading--h1 {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+}
+
+.rich-text__heading--h2 {
+  font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+}
+
+.rich-text__heading--h3 {
+  font-size: clamp(1.375rem, 2.5vw, 2rem);
+}
+
+.rich-text__heading--h4 {
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+}
+
+/* ===================================
+   Block: Text (richtext)
+   =================================== */
+.rich-text__text {
+  margin-top: 1.25rem;
+  font-size: 0.9375rem;
+  line-height: 1.75;
+  letter-spacing: 0.01em;
+  color: rgb(var(--color-text-subdued, 107, 107, 107));
+}
+
+.rich-text__text p {
+  margin: 0;
+}
+
+.rich-text__text p + p {
+  margin-top: 0.75rem;
+}
+
+/* ===================================
+   Block: Image
+   =================================== */
+.rich-text__image {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.rich-text__img {
+  display: block;
+  max-width: var(--img-mobile-max-width, 400px);
+  width: 100%;
+  height: auto;
+  border-radius: var(--card-border-radius, 0);
+}
+
+@media screen and (min-width: 750px) {
+  .rich-text__img {
+    max-width: var(--img-max-width, 600px);
+  }
+}
+
+/* Center image when text is centered */
+.rich-text__inner--center .rich-text__image {
+  display: flex;
+  justify-content: center;
+}
+
+/* Right-align image when text is right-aligned */
+.rich-text__inner--right .rich-text__image {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.rich-text__placeholder-svg {
+  width: 100%;
+  max-width: var(--img-mobile-max-width, 400px);
+  opacity: 0.2;
+}
+
+@media screen and (min-width: 750px) {
+  .rich-text__placeholder-svg {
+    max-width: var(--img-max-width, 600px);
+  }
+}
+
+/* ===================================
+   Block: Button
+   =================================== */
+.rich-text__button {
+  margin-top: 2rem;
+}
+
+/* Center/right align buttons based on text alignment */
+.rich-text__inner--center .rich-text__button {
+  display: flex;
+  justify-content: center;
+}
+
+.rich-text__inner--right .rich-text__button {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Custom button colors via inline CSS vars */
+.rich-text__button .btn[style*="--btn-custom-bg"] {
+  background-color: var(--btn-custom-bg);
+  color: var(--btn-custom-text);
+  border-color: var(--btn-custom-bg);
+}
+
+/* ===================================
+   Block: Spacer
+   =================================== */
+.rich-text__spacer {
+  height: var(--spacer-h-mobile, 16px);
+}
+
+@media screen and (min-width: 750px) {
+  .rich-text__spacer {
+    height: var(--spacer-h-desktop, 24px);
+  }
+}
+
+/* ===================================
+   Block: Custom Liquid
+   =================================== */
+.rich-text__liquid {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}

@@ -1,0 +1,431 @@
+{%- comment -%}
+  Hero Banner — fullscreen image/video with overlay, content, scroll indicator
+  Supports: image, mobile image, Shopify video, YouTube/Vimeo
+  Interactions: stagger entrance, parallax, scroll indicator bounce
+{%- endcomment -%}
+
+{{ 'section-hero.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign media_type = section.settings.media_type
+  assign image = section.settings.image
+  assign image_mobile = section.settings.image_mobile
+  assign video_file = section.settings.video_file
+  assign video_url = section.settings.video_url
+  assign overlay_opacity = section.settings.overlay_opacity | divided_by: 100.0
+  assign height = section.settings.height
+  assign text_position = section.settings.text_position
+  assign heading = section.settings.heading
+  assign heading_size = section.settings.heading_size
+  assign subheading = section.settings.subheading
+  assign text = section.settings.text
+  assign button_label = section.settings.button_label
+  assign button_link = section.settings.button_link
+  assign button_style = section.settings.button_style
+  assign button_label_2 = section.settings.button_label_2
+  assign button_link_2 = section.settings.button_link_2
+  assign button_style_2 = section.settings.button_style_2
+  assign overlay_color = section.settings.overlay_color | default: '#000000'
+  assign height_mobile = section.settings.height_mobile
+  assign text_position_mobile = section.settings.text_position_mobile | default: 'auto'
+  assign content_alignment = section.settings.content_alignment | default: 'left'
+  assign show_scroll = section.settings.show_scroll_indicator
+  assign enable_parallax = section.settings.enable_parallax
+  assign color_scheme = section.settings.color_scheme
+
+  case height
+    when 'full'
+      assign hero_height = 'calc(100svh - var(--header-height, 0px))'
+    when 'large'
+      assign hero_height = '80vh'
+    when 'medium'
+      assign hero_height = '60vh'
+    when 'small'
+      assign hero_height = '40vh'
+  endcase
+
+  assign hero_height_mobile = hero_height
+  case height_mobile
+    when 'full'
+      assign hero_height_mobile = '100svh'
+    when 'large'
+      assign hero_height_mobile = '80vh'
+    when 'medium'
+      assign hero_height_mobile = '60vh'
+  endcase
+-%}
+
+{%- style -%}
+  #Hero-{{ section.id }} {
+    --hero-height: {{ hero_height }};
+    --hero-height-mobile: {{ hero_height_mobile }};
+    --hero-overlay-opacity: {{ overlay_opacity }};
+    --hero-overlay-color: {{ overlay_color }};
+  }
+{%- endstyle -%}
+
+<hero-section
+  class="full-width"
+  id="Hero-{{ section.id }}"
+  data-parallax="{{ enable_parallax }}"
+  data-section-id="{{ section.id }}"
+>
+  <div class="hero color-{{ color_scheme }}">
+    {%- comment -%} Media layer {%- endcomment -%}
+    <div class="hero__media">
+      {%- if media_type == 'video' -%}
+        {%- if video_file != blank -%}
+          {{ video_file | video_tag:
+            autoplay: true,
+            loop: true,
+            muted: true,
+            playsinline: true,
+            class: 'hero__video',
+            image_size: '2048x'
+          }}
+        {%- elsif video_url != blank -%}
+          {%- if video_url.type == 'youtube' -%}
+            <iframe
+              class="hero__iframe"
+              src="https://www.youtube.com/embed/{{ video_url.id }}?autoplay=1&mute=1&loop=1&playlist={{ video_url.id }}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
+              allow="autoplay; encrypted-media"
+              allowfullscreen
+              loading="lazy"
+              title="{{ heading | default: 'Hero video' | escape }}"
+            ></iframe>
+          {%- elsif video_url.type == 'vimeo' -%}
+            <iframe
+              class="hero__iframe"
+              src="https://player.vimeo.com/video/{{ video_url.id }}?autoplay=1&muted=1&loop=1&background=1&playsinline=1"
+              allow="autoplay; encrypted-media"
+              allowfullscreen
+              loading="lazy"
+              title="{{ heading | default: 'Hero video' | escape }}"
+            ></iframe>
+          {%- endif -%}
+        {%- endif -%}
+      {%- else -%}
+        {%- if image != blank -%}
+          {%- if image_mobile != blank -%}
+            <picture>
+              <source
+                media="(max-width: 749px)"
+                srcset="{{ image_mobile | image_url: width: 750 }} 375w,
+                        {{ image_mobile | image_url: width: 1100 }} 550w,
+                        {{ image_mobile | image_url: width: 1500 }} 750w"
+                sizes="100vw"
+              >
+              {{ image | image_url: width: 2560 | image_tag:
+                loading: 'eager',
+                fetchpriority: 'high',
+                widths: '750,1100,1500,1920,2560',
+                sizes: '100vw',
+                class: 'hero__img',
+                alt: image.alt | default: heading | escape
+              }}
+            </picture>
+          {%- else -%}
+            {{ image | image_url: width: 2560 | image_tag:
+              loading: 'eager',
+              fetchpriority: 'high',
+              widths: '375,750,1100,1500,1920,2560',
+              sizes: '100vw',
+              class: 'hero__img',
+              alt: image.alt | default: heading | escape
+            }}
+          {%- endif -%}
+        {%- else -%}
+          <div class="hero__placeholder">
+            {{ 'lifestyle-1' | placeholder_svg_tag: 'hero__placeholder-svg' }}
+          </div>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} Overlay {%- endcomment -%}
+    <div class="hero__overlay" aria-hidden="true"></div>
+
+    {%- comment -%} Content {%- endcomment -%}
+    <div class="hero__content hero__content--{{ text_position }} hero__content--align-{{ content_alignment }}{% if text_position_mobile != 'auto' %} hero__content--mobile-{{ text_position_mobile }}{% endif %}">
+      <div class="hero__content-inner">
+        {%- if subheading != blank -%}
+          <p class="hero__subheading label">{{ subheading }}</p>
+        {%- endif -%}
+
+        {%- if heading != blank -%}
+          <h1 class="hero__heading hero__heading--{{ heading_size }}">{{ heading }}</h1>
+        {%- endif -%}
+
+        {%- if text != blank -%}
+          <div class="hero__text rte">{{ text }}</div>
+        {%- endif -%}
+
+        {%- if button_label != blank or button_label_2 != blank -%}
+          <div class="hero__buttons">
+            {%- if button_label != blank -%}
+              <a href="{{ button_link | default: '#' }}" class="btn btn--{{ button_style }}">
+                <span class="btn__label">{{ button_label }}</span>
+                <span class="btn__fill" aria-hidden="true"></span>
+              </a>
+            {%- endif -%}
+            {%- if button_label_2 != blank -%}
+              <a href="{{ button_link_2 | default: '#' }}" class="btn btn--{{ button_style_2 }}">
+                <span class="btn__label">{{ button_label_2 }}</span>
+                <span class="btn__fill" aria-hidden="true"></span>
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- comment -%} Scroll indicator {%- endcomment -%}
+    {%- if show_scroll -%}
+      <div class="hero__scroll-indicator motion-auto" aria-hidden="true">
+        {%- render 'icon', name: 'chevron-down', size: 20 -%}
+      </div>
+    {%- endif -%}
+  </div>
+</hero-section>
+
+<script src="{{ 'section-hero.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+  "name": "t:sections.hero.name",
+  "tag": "section",
+  "class": "section-hero",
+  "disabled_on": {
+    "groups": ["header", "custom.overlay"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.hero.media"
+    },
+    {
+      "type": "select",
+      "id": "media_type",
+      "label": "t:sections.hero.media_type",
+      "options": [
+        { "value": "image", "label": "t:sections.hero.media_type_image" },
+        { "value": "video", "label": "t:sections.hero.media_type_video" }
+      ],
+      "default": "image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:sections.hero.image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "t:sections.hero.image_mobile",
+      "info": "t:sections.hero.image_mobile_info"
+    },
+    {
+      "type": "video",
+      "id": "video_file",
+      "label": "t:sections.hero.video_file"
+    },
+    {
+      "type": "video_url",
+      "id": "video_url",
+      "label": "t:sections.hero.video_url",
+      "accept": ["youtube", "vimeo"],
+      "info": "t:sections.hero.video_url_info"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "t:sections.hero.overlay_color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "t:sections.hero.overlay_opacity",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "t:sections.hero.layout"
+    },
+    {
+      "type": "select",
+      "id": "height",
+      "label": "t:sections.hero.height",
+      "options": [
+        { "value": "full", "label": "t:sections.hero.height_full" },
+        { "value": "large", "label": "t:sections.hero.height_large" },
+        { "value": "medium", "label": "t:sections.hero.height_medium" },
+        { "value": "small", "label": "t:sections.hero.height_small" }
+      ],
+      "default": "full"
+    },
+    {
+      "type": "select",
+      "id": "height_mobile",
+      "label": "t:sections.hero.height_mobile",
+      "options": [
+        { "value": "auto", "label": "t:sections.hero.height_mobile_auto" },
+        { "value": "full", "label": "t:sections.hero.height_full" },
+        { "value": "large", "label": "t:sections.hero.height_large" },
+        { "value": "medium", "label": "t:sections.hero.height_medium" }
+      ],
+      "default": "auto",
+      "info": "t:sections.hero.height_mobile_info"
+    },
+    {
+      "type": "select",
+      "id": "text_position",
+      "label": "t:sections.hero.text_position",
+      "options": [
+        { "value": "top-left", "label": "t:sections.hero.position_top_left" },
+        { "value": "top-center", "label": "t:sections.hero.position_top_center" },
+        { "value": "middle-left", "label": "t:sections.hero.position_middle_left" },
+        { "value": "middle-center", "label": "t:sections.hero.position_middle_center" },
+        { "value": "bottom-left", "label": "t:sections.hero.position_bottom_left" },
+        { "value": "bottom-center", "label": "t:sections.hero.position_bottom_center" }
+      ],
+      "default": "bottom-left"
+    },
+    {
+      "type": "select",
+      "id": "text_position_mobile",
+      "label": "t:sections.hero.text_position_mobile",
+      "options": [
+        { "value": "auto", "label": "t:sections.hero.position_auto" },
+        { "value": "bottom-left", "label": "t:sections.hero.position_bottom_left" },
+        { "value": "bottom-center", "label": "t:sections.hero.position_bottom_center" },
+        { "value": "middle-center", "label": "t:sections.hero.position_middle_center" }
+      ],
+      "default": "auto",
+      "info": "t:sections.hero.text_position_mobile_info"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "t:sections.hero.content_alignment",
+      "options": [
+        { "value": "left", "label": "t:sections.hero.align_left" },
+        { "value": "center", "label": "t:sections.hero.align_center" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.hero.content"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "t:sections.hero.subheading",
+      "info": "t:sections.hero.subheading_info"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:sections.hero.heading",
+      "default": "The art of refinement"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "t:sections.hero.heading_size",
+      "options": [
+        { "value": "medium", "label": "t:sections.hero.heading_medium" },
+        { "value": "large", "label": "t:sections.hero.heading_large" },
+        { "value": "cinematic", "label": "t:sections.hero.heading_cinematic" }
+      ],
+      "default": "large"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "t:sections.hero.text"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.hero.buttons"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "t:sections.hero.button_label",
+      "default": "Discover"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "t:sections.hero.button_link"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "t:sections.hero.button_style",
+      "options": [
+        { "value": "outline-white", "label": "t:sections.hero.button_outline_white" },
+        { "value": "filled-white", "label": "t:sections.hero.button_filled_white" },
+        { "value": "filled-dark", "label": "t:sections.hero.button_filled_dark" }
+      ],
+      "default": "outline-white"
+    },
+    {
+      "type": "text",
+      "id": "button_label_2",
+      "label": "t:sections.hero.button_label_2"
+    },
+    {
+      "type": "url",
+      "id": "button_link_2",
+      "label": "t:sections.hero.button_link_2"
+    },
+    {
+      "type": "select",
+      "id": "button_style_2",
+      "label": "t:sections.hero.button_style_2",
+      "options": [
+        { "value": "outline-white", "label": "t:sections.hero.button_outline_white" },
+        { "value": "filled-white", "label": "t:sections.hero.button_filled_white" },
+        { "value": "filled-dark", "label": "t:sections.hero.button_filled_dark" }
+      ],
+      "default": "filled-white"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.hero.options"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_scroll_indicator",
+      "label": "t:sections.hero.show_scroll_indicator",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_parallax",
+      "label": "t:sections.hero.enable_parallax",
+      "default": true,
+      "info": "t:sections.hero.enable_parallax_info"
+    },
+    { "type": "header", "content": "t:sections.hero.style_header" },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.hero.color_scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.hero.preset_name"
+    }
+  ]
+}
+{% endschema %}

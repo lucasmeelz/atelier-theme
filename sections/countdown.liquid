@@ -1,0 +1,256 @@
+{%- comment -%}
+  Countdown Banner — Promotional timer with customizable end date
+  Counts down to a target date/time, shows expiry message after
+{%- endcomment -%}
+
+{{ 'section-countdown.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign heading = section.settings.heading
+  assign message = section.settings.message
+  assign end_date = section.settings.end_date
+  assign end_time = section.settings.end_time
+  assign expired_message = section.settings.expired_message
+  assign hide_when_expired = section.settings.hide_when_expired
+  assign button_label = section.settings.button_label
+  assign button_link = section.settings.button_link
+  assign button_style = section.settings.button_style
+  assign color_scheme = section.settings.color_scheme
+-%}
+
+<div
+  id="Section-{{ section.id }}"
+  class="countdown section-spacing color-{{ color_scheme }}"
+  data-section-id="{{ section.id }}"
+  data-end-date="{{ end_date }}T{{ end_time | default: '00:00' }}:00"
+  {% if hide_when_expired %}data-hide-expired{% endif %}
+>
+  <div class="countdown__inner">
+    {%- if heading != blank -%}
+      <h2 class="countdown__heading h3">{{ heading }}</h2>
+    {%- endif -%}
+
+    {%- if message != blank -%}
+      <p class="countdown__message">{{ message }}</p>
+    {%- endif -%}
+
+    <div class="countdown__timer" aria-live="polite" aria-atomic="true">
+      <div class="countdown__unit">
+        <span class="countdown__number" data-days><span class="countdown__digit countdown__digit--in">00</span></span>
+        <span class="countdown__label">{{ 'countdown.days' | t }}</span>
+      </div>
+      <span class="countdown__separator" aria-hidden="true">:</span>
+      <div class="countdown__unit">
+        <span class="countdown__number" data-hours><span class="countdown__digit countdown__digit--in">00</span></span>
+        <span class="countdown__label">{{ 'countdown.hours' | t }}</span>
+      </div>
+      <span class="countdown__separator" aria-hidden="true">:</span>
+      <div class="countdown__unit">
+        <span class="countdown__number" data-minutes><span class="countdown__digit countdown__digit--in">00</span></span>
+        <span class="countdown__label">{{ 'countdown.minutes' | t }}</span>
+      </div>
+      <span class="countdown__separator" aria-hidden="true">:</span>
+      <div class="countdown__unit">
+        <span class="countdown__number" data-seconds><span class="countdown__digit countdown__digit--in">00</span></span>
+        <span class="countdown__label">{{ 'countdown.seconds' | t }}</span>
+      </div>
+    </div>
+
+    {%- if button_label != blank -%}
+      <div class="countdown__cta">
+        <a href="{{ button_link }}" class="btn btn--{{ button_style }}">
+          <span class="btn__label">{{ button_label }}</span>
+          <span class="btn__fill" aria-hidden="true"></span>
+        </a>
+      </div>
+    {%- endif -%}
+
+    <div class="countdown__expired" style="display: none;">
+      <p class="countdown__expired-message">{{ expired_message | default: 'This promotion has ended.' }}</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    var sectionId = '{{ section.id }}';
+
+    function initCountdown() {
+      var el = document.querySelector('#Section-' + sectionId);
+      if (!el) return;
+
+      var endStr = el.dataset.endDate;
+      if (!endStr) return;
+
+      var endTime = new Date(endStr).getTime();
+      if (isNaN(endTime)) return;
+
+      var daysEl = el.querySelector('[data-days]');
+      var hoursEl = el.querySelector('[data-hours]');
+      var minutesEl = el.querySelector('[data-minutes]');
+      var secondsEl = el.querySelector('[data-seconds]');
+      var timerEl = el.querySelector('.countdown__timer');
+      var expiredEl = el.querySelector('.countdown__expired');
+
+      function pad(n) { return n < 10 ? '0' + n : String(n); }
+
+      /* Slide-update a digit container: old slides up, new slides in from below */
+      function slideDigit(container, newValue) {
+        if (!container) return;
+        var current = container.querySelector('.countdown__digit--in');
+        if (current && current.textContent === newValue) return;
+
+        /* Create new digit element */
+        var incoming = document.createElement('span');
+        incoming.className = 'countdown__digit';
+        incoming.textContent = newValue;
+        incoming.style.transform = 'translateY(100%)';
+        container.appendChild(incoming);
+
+        /* Force reflow, then animate */
+        incoming.offsetHeight; /* eslint-disable-line no-unused-expressions */
+        incoming.style.transform = '';
+        incoming.classList.add('countdown__digit--in');
+
+        if (current) {
+          current.classList.remove('countdown__digit--in');
+          current.classList.add('countdown__digit--out');
+          /* Remove old digit after transition */
+          current.addEventListener('transitionend', function handler() {
+            current.removeEventListener('transitionend', handler);
+            if (current.parentNode) current.parentNode.removeChild(current);
+          });
+          /* Fallback removal if transitionend doesn't fire */
+          setTimeout(function() {
+            if (current.parentNode) current.parentNode.removeChild(current);
+          }, 400);
+        }
+      }
+
+      function update() {
+        var now = Date.now();
+        var diff = endTime - now;
+
+        if (diff <= 0) {
+          if (timerEl) timerEl.style.display = 'none';
+          if (expiredEl) expiredEl.style.display = '';
+          el.setAttribute('data-expired', '');
+          return;
+        }
+
+        var days = Math.floor(diff / 86400000);
+        var hours = Math.floor((diff % 86400000) / 3600000);
+        var minutes = Math.floor((diff % 3600000) / 60000);
+        var seconds = Math.floor((diff % 60000) / 1000);
+
+        slideDigit(daysEl, pad(days));
+        slideDigit(hoursEl, pad(hours));
+        slideDigit(minutesEl, pad(minutes));
+        slideDigit(secondsEl, pad(seconds));
+
+        requestAnimationFrame(function() {
+          setTimeout(update, 1000 - (Date.now() % 1000));
+        });
+      }
+
+      update();
+    }
+
+    initCountdown();
+
+    document.addEventListener('shopify:section:load', function(e) {
+      if (e.detail.sectionId === sectionId) initCountdown();
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "t:sections.countdown.name",
+  "tag": "section",
+  "class": "section-countdown",
+  "disabled_on": {
+    "groups": ["header", "custom.overlay"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:sections.countdown.heading",
+      "default": "Limited time offer"
+    },
+    {
+      "type": "richtext",
+      "id": "message",
+      "label": "t:sections.countdown.message"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.countdown.timer_header"
+    },
+    {
+      "type": "text",
+      "id": "end_date",
+      "label": "t:sections.countdown.end_date",
+      "info": "t:sections.countdown.end_date_info",
+      "default": "2026-12-31"
+    },
+    {
+      "type": "text",
+      "id": "end_time",
+      "label": "t:sections.countdown.end_time",
+      "info": "t:sections.countdown.end_time_info",
+      "default": "23:59"
+    },
+    {
+      "type": "text",
+      "id": "expired_message",
+      "label": "t:sections.countdown.expired_message",
+      "default": "This promotion has ended."
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_when_expired",
+      "label": "t:sections.countdown.hide_when_expired",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "t:sections.countdown.cta_header"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "t:sections.countdown.button_label",
+      "default": "Shop now"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "t:sections.countdown.button_link"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "t:sections.countdown.button_style",
+      "options": [
+        { "value": "primary", "label": "t:sections.countdown.button_primary" },
+        { "value": "secondary", "label": "t:sections.countdown.button_secondary" },
+        { "value": "outline", "label": "t:sections.countdown.button_outline" }
+      ],
+      "default": "primary"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.countdown.color_scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.countdown.preset_name"
+    }
+  ]
+}
+{% endschema %}
