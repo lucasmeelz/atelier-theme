@@ -60,7 +60,7 @@
       ],
       "settings": {
         "color_scheme": "",
-        "desktop_layout": "logo_center_nav_split",
+        "desktop_layout": "drawer",
         "mobile_layout": "logo_center_split",
         "enable_sticky": true,
         "hide_on_scroll": true,
@@ -85,13 +85,25 @@
       "type": "cart-drawer",
       "blocks": {
         "shipping_bar": {
-          "type": "free_shipping_bar"
+          "type": "free_shipping_bar",
+          "settings": {
+            "threshold": ""
+          }
         },
         "note": {
-          "type": "cart_note"
+          "type": "cart_note",
+          "settings": {}
         },
         "trust": {
-          "type": "trust_badges"
+          "type": "trust_badges",
+          "settings": {
+            "badge_1_icon": "shipping",
+            "badge_1_text": "Free shipping",
+            "badge_2_icon": "lock",
+            "badge_2_text": "Secure checkout",
+            "badge_3_icon": "return",
+            "badge_3_text": "Easy returns"
+          }
         }
       },
       "block_order": [
