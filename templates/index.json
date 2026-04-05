@@ -75,8 +75,8 @@
             "button_style": "outline-white",
             "content_position": "auto",
             "text_color": "light",
-            "product": "",
-            "show_product_card": false
+            "product": "image-aspect-ratio-portrait",
+            "show_product_card": true
           }
         }
       },
