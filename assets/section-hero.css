@@ -84,7 +84,7 @@
    =================================== */
 .hero__overlay {
   z-index: 1;
-  background-color: rgb(0, 0, 0);
+  background-color: var(--hero-overlay-color, rgb(0, 0, 0));
   opacity: var(--hero-overlay-opacity, 0.2);
   pointer-events: none;
 }
@@ -226,13 +226,13 @@
 
 /* Subheading (label) */
 .hero__subheading {
-  font-family: var(--font-body-family, sans-serif);
+  font-family: var(--font-label-family, sans-serif);
   font-size: 0.6875rem;
   font-weight: 400;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  margin: 0 0 1rem;
-  opacity: 0.85;
+  margin: 0 0 1.25rem;
+  opacity: 0.8;
 }
 
 /* Heading */
@@ -259,10 +259,11 @@
 
 /* Body text */
 .hero__text {
-  margin-top: 1rem;
-  font-size: 1rem;
-  line-height: 1.6;
-  opacity: 0.85;
+  margin-top: 1.25rem;
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  opacity: 0.8;
+  letter-spacing: 0.01em;
 }
 
 .hero__text p {
@@ -273,7 +274,7 @@
    Buttons
    =================================== */
 .hero__buttons {
-  margin-top: 2rem;
+  margin-top: 2.5rem;
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
@@ -286,12 +287,14 @@
   background-color: transparent;
 }
 
-.hero .btn--outline-white:hover {
-  background-color: currentColor;
-}
+@media (hover: hover) {
+  .hero .btn--outline-white:hover {
+    background-color: currentColor;
+  }
 
-.hero .btn--outline-white:hover .btn__label {
-  color: rgb(var(--color-background, 255, 255, 255));
+  .hero .btn--outline-white:hover .btn__label {
+    color: rgb(var(--color-background, 255, 255, 255));
+  }
 }
 
 .hero .btn--filled-white {
@@ -300,8 +303,10 @@
   border-color: rgb(var(--color-background, 255, 255, 255));
 }
 
-.hero .btn--filled-white:hover {
-  background-color: rgba(var(--color-background, 255, 255, 255), 0.85);
+@media (hover: hover) {
+  .hero .btn--filled-white:hover {
+    background-color: rgba(var(--color-background, 255, 255, 255), 0.85);
+  }
 }
 
 .hero .btn--filled-dark {
@@ -310,8 +315,10 @@
   border-color: rgb(var(--color-text, 10, 10, 10));
 }
 
-.hero .btn--filled-dark:hover {
-  opacity: 0.85;
+@media (hover: hover) {
+  .hero .btn--filled-dark:hover {
+    opacity: 0.85;
+  }
 }
 
 /* ===================================

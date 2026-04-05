@@ -31,7 +31,7 @@
   assign content_alignment = section.settings.content_alignment | default: 'left'
   assign show_scroll = section.settings.show_scroll_indicator
   assign enable_parallax = section.settings.enable_parallax
-  assign color_scheme = 'scheme-1'
+  assign color_scheme = section.settings.color_scheme
 
   case height
     when 'full'
@@ -413,6 +413,13 @@
       "label": "t:sections.hero.enable_parallax",
       "default": true,
       "info": "t:sections.hero.enable_parallax_info"
+    },
+    { "type": "header", "content": "t:sections.hero.style_header" },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.hero.color_scheme",
+      "default": "scheme-1"
     }
   ],
   "presets": [

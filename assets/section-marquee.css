@@ -20,9 +20,11 @@
   color: inherit;
 }
 
-.marquee__item--link:hover .marquee__text {
-  text-decoration: underline;
-  text-underline-offset: 3px;
+@media (hover: hover) {
+  .marquee__item--link:hover .marquee__text {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
 }
 
 /* ===================================
@@ -36,8 +38,10 @@
 }
 
 /* Pause on hover */
-[data-pause-on-hover="true"]:hover .marquee__track {
-  animation-play-state: paused;
+@media (hover: hover) {
+  [data-pause-on-hover="true"]:hover .marquee__track {
+    animation-play-state: paused;
+  }
 }
 
 @keyframes marquee-scroll {

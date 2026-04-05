@@ -40,7 +40,8 @@
           </div>
 
           <button type="submit" class="btn btn--primary">
-            {{ 'customer.login.submit' | t }}
+            <span class="btn__label">{{ 'customer.login.submit' | t }}</span>
+            <span class="btn__fill" aria-hidden="true"></span>
           </button>
         </div>
       {%- endform -%}
@@ -78,7 +79,8 @@
             </div>
 
             <button type="submit" class="btn btn--primary">
-              {{ 'customer.reset_password.submit' | t }}
+              <span class="btn__label">{{ 'customer.reset_password.submit' | t }}</span>
+              <span class="btn__fill" aria-hidden="true"></span>
             </button>
           </div>
         {%- endform -%}
@@ -109,6 +111,13 @@
   "name": "t:sections.main_login.name",
   "tag": "section",
   "class": "section-customer-login",
-  "settings": []
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.main_login.color_scheme",
+      "default": "scheme-1"
+    }
+  ]
 }
 {% endschema %}

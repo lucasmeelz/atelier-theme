@@ -94,6 +94,54 @@
           "type": "share",
           "settings": {}
         },
+        "concierge": {
+          "type": "concierge_cta",
+          "settings": {
+            "heading": "Need assistance?",
+            "subheading": "Our stylists are here to help",
+            "button_label": "Book a consultation",
+            "button_link": "",
+            "icon": "concierge",
+            "style": "bordered"
+          }
+        },
+        "personalization": {
+          "type": "product_personalization",
+          "settings": {
+            "label": "Add personalization",
+            "placeholder": "Enter your text",
+            "max_length": 20,
+            "required": false,
+            "info_text": "Monogramming available on this product",
+            "property_name": "Personalization"
+          }
+        },
+        "gift_wrap": {
+          "type": "gift_wrapping",
+          "settings": {
+            "label": "Add gift wrapping",
+            "price": "",
+            "show_message": true,
+            "message_label": "Gift message",
+            "message_placeholder": "Write your message",
+            "icon": "gift"
+          }
+        },
+        "sustainability": {
+          "type": "sustainability_badge",
+          "settings": {
+            "heading": "",
+            "badge_1_type": "organic",
+            "badge_1_label": "Organic materials",
+            "badge_2_type": "vegan",
+            "badge_2_label": "Vegan certified",
+            "badge_3_type": "recycled",
+            "badge_3_label": "Recycled packaging",
+            "badge_4_type": "",
+            "badge_4_label": "",
+            "layout": "horizontal"
+          }
+        },
         "size_guide_block": {
           "type": "size_guide",
           "settings": {
@@ -129,7 +177,11 @@
         "buy_buttons",
         "trust",
         "description",
-        "share"
+        "share",
+        "concierge",
+        "personalization",
+        "gift_wrap",
+        "sustainability"
       ],
       "settings": {
         "media_size": 55,

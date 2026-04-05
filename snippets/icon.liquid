@@ -380,6 +380,20 @@
       <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
     </svg>
 
+  {%- when 'concierge' -%}
+    <svg class="{{ icon_class }}" style="{{ icon_style }}" width="{{ icon_size }}" height="{{ icon_size }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="var(--icon-stroke-width, 1.2)" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M18 20a6 6 0 0 0-12 0"/>
+      <circle cx="12" cy="10" r="4"/>
+      <path d="M3 20h18"/>
+      <path d="M12 2v2"/>
+    </svg>
+
+  {%- when 'ribbon' -%}
+    <svg class="{{ icon_class }}" style="{{ icon_style }}" width="{{ icon_size }}" height="{{ icon_size }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="var(--icon-stroke-width, 1.2)" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="8" r="6"/>
+      <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>
+    </svg>
+
   {%- when 'diamond' -%}
     <svg class="{{ icon_class }}" style="{{ icon_style }}" width="{{ icon_size }}" height="{{ icon_size }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="var(--icon-stroke-width, 1.2)" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <path d="M6 3h12l4 6-10 13L2 9z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/>
@@ -562,21 +576,6 @@
   {%- when 'moon' -%}
     <svg class="{{ icon_class }}" style="{{ icon_style }}" width="{{ icon_size }}" height="{{ icon_size }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="var(--icon-stroke-width, 1.2)" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-    </svg>
-
-  {%- when 'heart' -%}
-    <svg class="{{ icon_class }}" style="{{ icon_style }}" width="{{ icon_size }}" height="{{ icon_size }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="var(--icon-stroke-width, 1.2)" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-    </svg>
-
-  {%- when 'grid' -%}
-    <svg class="{{ icon_class }}" style="{{ icon_style }}" width="{{ icon_size }}" height="{{ icon_size }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="var(--icon-stroke-width, 1.2)" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
-    </svg>
-
-  {%- when 'list' -%}
-    <svg class="{{ icon_class }}" style="{{ icon_style }}" width="{{ icon_size }}" height="{{ icon_size }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="var(--icon-stroke-width, 1.2)" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
     </svg>
 
 {%- endcase -%}

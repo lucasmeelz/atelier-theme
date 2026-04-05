@@ -79,7 +79,9 @@
     "item_count": {
       "one": "{{ count }} item",
       "other": "{{ count }} items"
-    }
+    },
+    "gift_note": "Gift message",
+    "gift_note_placeholder": "Write your personal message here..."
   },
   "product": {
     "add_to_cart": "Add to cart",
@@ -126,7 +128,19 @@
     "media_label": "Image {{ index }}",
     "rating_label": "{{ rating }} out of {{ max }} stars",
     "variant": "Variant",
-    "quick_view": "Choose options"
+    "quick_view": "Choose options",
+    "quick_view_open": "Quick view: {{ title }}",
+    "quick_view_close": "Close quick view",
+    "quick_view_view_full": "View full details",
+    "quick_view_loading": "Loading product",
+    "personalization": {
+      "optional": "Optional",
+      "characters_remaining": "{{ count }} / {{ max }}"
+    },
+    "gift_wrapping": {
+      "yes": "Yes",
+      "free": "Free"
+    }
   },
   "collection": {
     "active_filters": "active filters",

@@ -3,9 +3,24 @@
     "main": {
       "type": "main-cart",
       "settings": {
-        "show_notes": true,
         "show_payment_icons": true
-      }
+      },
+      "blocks": {
+        "shipping_bar": {
+          "type": "free_shipping_bar"
+        },
+        "note": {
+          "type": "cart_note"
+        },
+        "trust": {
+          "type": "trust_badges"
+        }
+      },
+      "block_order": [
+        "shipping_bar",
+        "note",
+        "trust"
+      ]
     }
   },
   "order": [

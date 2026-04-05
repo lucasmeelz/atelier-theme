@@ -81,9 +81,10 @@
    Block: Text (richtext)
    =================================== */
 .rich-text__text {
-  margin-top: 1rem;
-  font-size: 1rem;
-  line-height: 1.7;
+  margin-top: 1.25rem;
+  font-size: 0.9375rem;
+  line-height: 1.75;
+  letter-spacing: 0.01em;
   color: rgb(var(--color-text-subdued, 107, 107, 107));
 }
 
@@ -145,7 +146,7 @@
    Block: Button
    =================================== */
 .rich-text__button {
-  margin-top: 1.5rem;
+  margin-top: 2rem;
 }
 
 /* Center/right align buttons based on text alignment */

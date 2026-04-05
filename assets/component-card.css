@@ -49,8 +49,10 @@
 
 .price__tax-notice {
   width: 100%;
-  font-size: 0.75em;
+  font-size: 0.6875em;
   color: rgb(var(--color-text-subdued));
+  opacity: 0.6;
+  letter-spacing: 0.02em;
 }
 
 /* ===== PRODUCT CARD ===== */
@@ -61,22 +63,30 @@
 
 /* ─── Card styles ─── */
 
-/* Outlined — subtle border around media */
-.card-product--outlined .card-product__media {
-  border: 1px solid rgb(var(--color-border));
+/* Underlined — fine separator between image and info (editorial) */
+.card-product--outlined .card-product__info {
+  border-top: 1px solid rgba(var(--color-border), 0.4);
+  padding-block-start: 12px;
+  margin-block-start: 14px;
 }
 
-/* Elevated — shadow on hover, luxury-inspired */
-.card-product--elevated {
-  transition: box-shadow var(--duration-slow) var(--ease-ecrin),
-              transform var(--duration-slow) var(--ease-ecrin);
+@media screen and (min-width: 750px) {
+  .card-product--outlined .card-product__info {
+    padding-block-start: 14px;
+    margin-block-start: 16px;
+  }
 }
 
-@media (hover: hover) {
-  .card-product--elevated:hover {
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.06),
-                0 4px 12px rgba(0, 0, 0, 0.04);
-    transform: translateY(-2px);
+/* Card — subtle tinted shelf behind info only */
+.card-product--elevated .card-product__info {
+  background-color: rgba(var(--color-text), 0.02);
+  padding: 12px 14px 14px;
+  margin-block-start: 0;
+}
+
+@media screen and (min-width: 750px) {
+  .card-product--elevated .card-product__info {
+    padding: 14px 16px 16px;
   }
 }
 
@@ -140,15 +150,12 @@
               transform var(--duration-slow) var(--ease-ecrin);
 }
 
-/* ─── Hover: secondary image crossfade (all effects) ─── */
+/* ─── Hover effects ─── */
 @media (hover: hover) {
-  .card-product__media:hover .card-product__image--secondary {
-    opacity: 1;
-  }
 
-  /* Scale — primary zooms in gently */
+  /* Scale — primary zooms in gently, NO secondary crossfade */
   [data-card-hover="scale"] .card-product__media:hover .card-product__image--primary {
-    transform: scale(1.05);
+    transform: scale(1.04);
   }
 
   /* Slide up — secondary slides up from below while fading in */
@@ -157,20 +164,22 @@
   }
 
   [data-card-hover="slide-up"] .card-product__media:hover .card-product__image--secondary {
+    opacity: 1;
     transform: translateY(0);
   }
 
   /* Zoom fade — primary fades out with slight zoom, secondary zooms in from larger */
+  [data-card-hover="zoom-fade"] .card-product__image--secondary {
+    transform: scale(1.06);
+  }
+
   [data-card-hover="zoom-fade"] .card-product__media:hover .card-product__image--primary {
     transform: scale(1.04);
     opacity: 0;
   }
 
-  [data-card-hover="zoom-fade"] .card-product__image--secondary {
-    transform: scale(1.06);
-  }
-
   [data-card-hover="zoom-fade"] .card-product__media:hover .card-product__image--secondary {
+    opacity: 1;
     transform: scale(1);
   }
 }
@@ -344,12 +353,14 @@ card-carousel {
 
 /* Text-only badges — luxury minimal (Jacquemus / Balmain style) */
 .card-product__badge--text-only {
-  background-color: transparent;
+  background-color: rgba(var(--color-background, 255, 255, 255), 0.85);
   color: rgb(var(--color-text));
-  padding: 0;
+  padding: 4px 8px;
   font-weight: 500;
   font-size: 0.6875rem;
   letter-spacing: 0.06em;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
 /* Quick add — full-width bar, slides up on hover */
@@ -424,7 +435,13 @@ card-carousel {
 
 /* Info section */
 .card-product__info {
-  padding-block-start: 12px;
+  padding-block-start: 14px;
+}
+
+@media screen and (min-width: 750px) {
+  .card-product__info {
+    padding-block-start: 16px;
+  }
 }
 
 .card-product--center .card-product__info {
@@ -445,6 +462,10 @@ card-carousel {
   line-height: 1.4;
   margin-block-end: 2px;
   letter-spacing: 0.01em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 @media screen and (min-width: 750px) {
@@ -473,10 +494,10 @@ card-carousel {
 .card-product__swatches {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 8px;
   list-style: none;
   padding: 0;
-  margin: 6px 0 0;
+  margin: 8px 0 0;
 }
 
 .card-product--center .card-product__swatches {
@@ -486,16 +507,18 @@ card-carousel {
 .card-product__swatch {
   width: 14px;
   height: 14px;
-  border: 1px solid rgba(var(--color-text), 0.15);
-  cursor: default;
-  transition: transform var(--duration-fast) var(--ease-ecrin),
-              border-color var(--duration-fast) var(--ease-ecrin);
+  border: 1.5px solid rgba(var(--color-text), 0.08);
+  cursor: pointer;
+  transition: border-color var(--duration-fast) var(--ease-ecrin),
+              box-shadow var(--duration-fast) var(--ease-ecrin);
+  box-shadow: 0 0 0 0 transparent;
 }
 
 @media (hover: hover) {
   .card-product__swatch:hover {
-    transform: scale(1.2);
-    border-color: rgba(var(--color-text), 0.4);
+    border-color: rgba(var(--color-text), 0.5);
+    box-shadow: 0 0 0 2px rgba(var(--color-background), 1),
+                0 0 0 3px rgba(var(--color-text), 0.3);
   }
 }
 
@@ -504,30 +527,34 @@ card-carousel {
 }
 
 .card-product__swatch--square {
-  border-radius: 2px;
+  border-radius: 1px;
 }
 
 .card-product__swatch--more {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 10px;
+  font-size: 0.5625rem;
+  font-family: var(--font-body-family);
+  letter-spacing: 0.02em;
   color: rgb(var(--color-text-subdued));
   border: none;
   width: auto;
   padding-inline: 2px;
 }
 
-/* Color swatches — on image overlay (Jacquemus-style) */
+/* Color swatches — on image overlay (Dior-style) */
 .card-product__swatches--on-image {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  bottom: 12px;
+  left: 12px;
+  right: auto;
+  top: auto;
   z-index: 3;
   margin: 0;
-  gap: 4px;
+  gap: 6px;
   opacity: 0;
-  transform: translateY(-4px);
+  transform: translateY(4px);
   transition: opacity var(--duration-base) var(--ease-ecrin),
               transform var(--duration-base) var(--ease-ecrin);
 }
@@ -547,14 +574,24 @@ card-carousel {
 }
 
 .card-product__swatches--on-image .card-product__swatch {
-  width: 12px;
-  height: 12px;
-  border-color: rgba(var(--color-text), 0.12);
+  width: 10px;
+  height: 10px;
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+@media (hover: hover) {
+  .card-product__swatches--on-image .card-product__swatch:hover {
+    box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.8),
+                0 1px 4px rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.6);
+  }
 }
 
 .card-product__swatches--on-image .card-product__swatch--more {
-  font-size: 9px;
-  color: rgb(var(--color-text-subdued));
+  font-size: 0.5rem;
+  color: rgba(255, 255, 255, 0.8);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 /* Stagger animation */

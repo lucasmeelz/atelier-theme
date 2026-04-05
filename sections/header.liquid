@@ -253,7 +253,26 @@
   {%- if show_search -%}
     <div class="header__search-panel" id="header-search" data-search-panel hidden>
       <div class="header__search-inner container">
-        {%- render 'predictive-search', section_id: section.id -%}
+        {%- if settings.enable_predictive_search -%}
+          {%- render 'predictive-search', section_id: section.id -%}
+        {%- else -%}
+          <form action="{{ routes.search_url }}" method="get" role="search" class="predictive-search__form">
+            <label for="search-input-{{ section.id }}" class="visually-hidden">{{ 'search.placeholder' | t }}</label>
+            <div class="predictive-search__input-wrapper">
+              <input
+                type="search"
+                id="search-input-{{ section.id }}"
+                name="q"
+                class="predictive-search__input"
+                placeholder="{{ 'search.placeholder' | t }}"
+                autocomplete="off"
+              >
+              <button type="submit" class="predictive-search__submit" aria-label="{{ 'search.submit' | t }}">
+                {%- render 'icon', name: 'search', size: 20 -%}
+              </button>
+            </div>
+          </form>
+        {%- endif -%}
       </div>
     </div>
   {%- endif -%}

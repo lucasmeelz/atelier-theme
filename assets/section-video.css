@@ -133,8 +133,10 @@ h4.video-section__heading {
   transition: transform var(--duration-base, 350ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
 }
 
-.video-section__play-btn:hover {
-  transform: scale(1.1);
+@media (hover: hover) {
+  .video-section__play-btn:hover {
+    transform: scale(1.1);
+  }
 }
 
 .video-section__play-btn svg {

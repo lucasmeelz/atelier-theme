@@ -1,0 +1,158 @@
+{%- comment -%}
+  Quick View Data Section
+  Rendered via Section Rendering API: /products/{{ handle }}?section_id=quick-view-data
+  Outputs a lightweight product card for the quick view drawer.
+  This section is never placed in a template — it exists only for the API fetch.
+{%- endcomment -%}
+
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+-%}
+
+<div class="quick-view__product" data-product-id="{{ product.id }}">
+
+  {%- comment -%} Media — first image {%- endcomment -%}
+  <div class="quick-view__media">
+    {%- if product.featured_image -%}
+      {{ product.featured_image | image_url: width: 800 | image_tag:
+        loading: 'eager',
+        fetchpriority: 'high',
+        widths: '400,600,800',
+        sizes: '(min-width: 750px) 50vw, 100vw',
+        class: 'quick-view__image',
+        alt: product.featured_image.alt | default: product.title
+      }}
+    {%- else -%}
+      <div class="quick-view__placeholder">
+        {{ 'product-1' | placeholder_svg_tag: 'quick-view__placeholder-svg' }}
+      </div>
+    {%- endif -%}
+  </div>
+
+  {%- comment -%} Info column {%- endcomment -%}
+  <div class="quick-view__info">
+
+    {%- if product.vendor != blank -%}
+      <p class="quick-view__vendor">{{ product.vendor }}</p>
+    {%- endif -%}
+
+    <h2 class="quick-view__title">
+      <a href="{{ product.url }}">{{ product.title }}</a>
+    </h2>
+
+    {%- comment -%} Price {%- endcomment -%}
+    <div class="quick-view__price">
+      {%- if current_variant.compare_at_price > current_variant.price -%}
+        <s class="quick-view__price-compare">{{ current_variant.compare_at_price | money }}</s>
+      {%- endif -%}
+      <span class="quick-view__price-current">{{ current_variant.price | money }}</span>
+    </div>
+
+    {%- comment -%} Short description {%- endcomment -%}
+    {%- if product.description != blank -%}
+      <p class="quick-view__description">{{ product.description | strip_html | truncate: 180 }}</p>
+    {%- endif -%}
+
+    {%- comment -%} Variant options {%- endcomment -%}
+    {%- unless product.has_only_default_variant -%}
+      <div class="quick-view__options" data-quick-view-options>
+        {%- for option in product.options_with_values -%}
+          <div class="quick-view__option" data-option-index="{{ forloop.index0 }}">
+            <p class="quick-view__option-label">
+              {{ option.name }}:
+              <span class="quick-view__option-selected-value" data-selected-value>{{ option.selected_value }}</span>
+            </p>
+            <div class="quick-view__option-values" role="radiogroup" aria-label="{{ option.name }}">
+              {%- for value in option.values -%}
+                {%- liquid
+                  assign value_available = false
+                  for variant in product.variants
+                    assign matched = true
+                    for i in (0..2)
+                      assign opt_value = nil
+                      if i == 0
+                        assign opt_value = variant.option1
+                      elsif i == 1
+                        assign opt_value = variant.option2
+                      else
+                        assign opt_value = variant.option3
+                      endif
+                      assign current_opt = nil
+                      if i < forloop.parentloop.index0
+                        assign option_key = 'option' | append: i | append: 1
+                        assign current_opt = current_variant[option_key]
+                      elsif i == forloop.parentloop.index0
+                        assign current_opt = value
+                      else
+                        assign current_opt = nil
+                      endif
+                      if current_opt != nil and opt_value != current_opt
+                        assign matched = false
+                        break
+                      endif
+                    endfor
+                    if matched and variant.available
+                      assign value_available = true
+                      break
+                    endif
+                  endfor
+                -%}
+                {%- if value == option.selected_value -%}
+                  {%- assign is_selected = true -%}
+                {%- else -%}
+                  {%- assign is_selected = false -%}
+                {%- endif -%}
+                <button
+                  type="button"
+                  class="quick-view__option-btn{% if is_selected %} quick-view__option-btn--selected{% endif %}{% unless value_available %} quick-view__option-btn--soldout{% endunless %}"
+                  data-option-value="{{ value | escape }}"
+                  data-option-index="{{ forloop.parentloop.index0 }}"
+                  aria-pressed="{% if is_selected %}true{% else %}false{% endif %}"
+                  {% unless value_available %}aria-disabled="true"{% endunless %}
+                >
+                  {{ value }}
+                </button>
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endunless -%}
+
+    {%- comment -%} Add to cart form {%- endcomment -%}
+    <div class="quick-view__atc">
+      <form method="post" action="{{ routes.cart_add_url }}" data-quick-view-form>
+        <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
+        <input type="hidden" name="quantity" value="1">
+        <button
+          type="submit"
+          name="add"
+          class="btn btn--primary quick-view__atc-btn"
+          {% unless current_variant.available %}disabled{% endunless %}
+        >
+          <span class="btn__label">
+            {%- if current_variant.available -%}
+              {{ 'product.add_to_cart' | t }}
+            {%- else -%}
+              {{ 'product.sold_out' | t }}
+            {%- endif -%}
+          </span>
+          <span class="btn__fill" aria-hidden="true"></span>
+        </button>
+      </form>
+    </div>
+
+    <div class="quick-view__view-full">
+      <a href="{{ product.url }}">{{ 'product.quick_view_view_full' | t }}</a>
+    </div>
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Quick view data",
+  "tag": "div",
+  "class": "quick-view-data-section"
+}
+{% endschema %}

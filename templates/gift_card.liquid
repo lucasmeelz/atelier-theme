@@ -228,7 +228,7 @@
 
         <div class="gift-card__image-wrap">
           {%- if settings.logo -%}
-            {{ settings.logo | image_url: width: 400 | image_tag: alt: shop.name, class: 'gift-card__image', loading: 'eager' }}
+            {{ settings.logo | image_url: width: 400 | image_tag: alt: shop.name, class: 'gift-card__image', loading: 'eager', style: 'max-width: ' | append: settings.logo_width | append: 'px; height: auto;' }}
           {%- else -%}
             <img
               src="{{ 'gift-card/card.svg' | shopify_asset_url }}"

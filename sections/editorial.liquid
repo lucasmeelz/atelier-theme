@@ -66,7 +66,10 @@
             {%- endif -%}
             {%- if block.settings.button_label != blank -%}
               <div class="editorial__text-cta">
-                <a href="{{ block.settings.button_link }}" class="btn btn--outline">{{ block.settings.button_label }}</a>
+                <a href="{{ block.settings.button_link }}" class="btn btn--{{ block.settings.button_style | default: 'outline' }}">
+                  <span class="btn__label">{{ block.settings.button_label }}</span>
+                  <span class="btn__fill" aria-hidden="true"></span>
+                </a>
               </div>
             {%- endif -%}
           </div>
@@ -220,6 +223,17 @@
           "type": "url",
           "id": "button_link",
           "label": "t:sections.editorial.button_link"
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "t:sections.editorial.button_style",
+          "options": [
+            { "value": "primary", "label": "t:sections.editorial.button_primary" },
+            { "value": "secondary", "label": "t:sections.editorial.button_secondary" },
+            { "value": "outline", "label": "t:sections.editorial.button_outline" }
+          ],
+          "default": "outline"
         }
       ]
     },
@@ -265,6 +279,11 @@
             { "value": "contained", "label": "t:sections.editorial.layout_contained" }
           ],
           "default": "contained"
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "t:sections.editorial.caption"
         }
       ]
     }

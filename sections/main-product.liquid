@@ -232,7 +232,7 @@
               {%- comment -%} === PRICE === {%- endcomment -%}
               {%- when 'price' -%}
                 <div class="product__price" data-product-price {{ block.shopify_attributes }}>
-                  {%- render 'price', product: product, show_badges: true -%}
+                  {%- render 'price', product: product, show_badges: true, hide_tax_notice: true -%}
                   {%- if block.settings.show_tax_notice -%}
                     {%- if cart.taxes_included -%}
                       <p class="product__tax-notice">{{ 'product.tax_included' | t }}</p>
@@ -692,6 +692,206 @@
                     </collapsible-details>
                   {%- endif -%}
                 </div>
+
+              {%- comment -%} === CONCIERGE CTA === {%- endcomment -%}
+              {%- when 'concierge_cta' -%}
+                <div
+                  class="product__concierge product__concierge--{{ block.settings.style }}"
+                  {{ block.shopify_attributes }}
+                >
+                  <div class="product__concierge-inner">
+                    <div class="product__concierge-icon">
+                      {%- render 'icon', name: block.settings.icon, size: 22 -%}
+                    </div>
+                    <div class="product__concierge-body">
+                      {%- if block.settings.heading != blank -%}
+                        <p class="product__concierge-heading">{{ block.settings.heading }}</p>
+                      {%- endif -%}
+                      {%- if block.settings.subheading != blank -%}
+                        <p class="product__concierge-subheading">{{ block.settings.subheading }}</p>
+                      {%- endif -%}
+                      {%- if block.settings.button_label != blank -%}
+                        {%- if block.settings.button_link != blank -%}
+                          <a
+                            href="{{ block.settings.button_link }}"
+                            class="product__concierge-link"
+                          >
+                            {{ block.settings.button_label }}
+                            {%- render 'icon', name: 'arrow-right', size: 14 -%}
+                          </a>
+                        {%- else -%}
+                          <span class="product__concierge-link">{{ block.settings.button_label }}</span>
+                        {%- endif -%}
+                      {%- endif -%}
+                    </div>
+                  </div>
+                </div>
+
+              {%- comment -%} === PRODUCT PERSONALIZATION === {%- endcomment -%}
+              {%- when 'product_personalization' -%}
+                {%- liquid
+                  assign personalization_id = 'Personalization-' | append: section.id | append: '-' | append: block.id
+                  assign personalization_counter_id = 'PersonalizationCounter-' | append: section.id | append: '-' | append: block.id
+                -%}
+                <div class="product__personalization" {{ block.shopify_attributes }} data-personalization-block>
+                  <label
+                    class="product__personalization-label"
+                    for="{{ personalization_id }}"
+                  >
+                    <span class="product__personalization-label-text">{{ block.settings.label }}</span>
+                    {%- unless block.settings.required -%}
+                      <span class="product__personalization-optional">{{ 'product.personalization.optional' | t }}</span>
+                    {%- endunless -%}
+                  </label>
+                  {%- if block.settings.info_text != blank -%}
+                    <p class="product__personalization-info">{{ block.settings.info_text }}</p>
+                  {%- endif -%}
+                  <div class="product__personalization-field">
+                    <input
+                      type="text"
+                      id="{{ personalization_id }}"
+                      name="properties[{{ block.settings.property_name }}]"
+                      form="ProductForm-{{ section.id }}"
+                      class="product__personalization-input"
+                      placeholder="{{ block.settings.placeholder }}"
+                      maxlength="{{ block.settings.max_length }}"
+                      {% if block.settings.required %}required{% endif %}
+                      data-personalization-input
+                      data-max="{{ block.settings.max_length }}"
+                      aria-describedby="{{ personalization_counter_id }}"
+                    >
+                    <span
+                      class="product__personalization-counter"
+                      id="{{ personalization_counter_id }}"
+                      aria-live="polite"
+                      data-personalization-counter
+                    >
+                      0 / {{ block.settings.max_length }}
+                    </span>
+                  </div>
+                </div>
+
+              {%- comment -%} === GIFT WRAPPING === {%- endcomment -%}
+              {%- when 'gift_wrapping' -%}
+                {%- liquid
+                  assign gift_toggle_id = 'GiftWrap-' | append: section.id | append: '-' | append: block.id
+                  assign gift_message_id = 'GiftMessage-' | append: section.id | append: '-' | append: block.id
+                -%}
+                <div class="product__gift-wrap" {{ block.shopify_attributes }} data-gift-wrap-block>
+                  <label class="product__gift-wrap-toggle" for="{{ gift_toggle_id }}">
+                    <input
+                      type="checkbox"
+                      id="{{ gift_toggle_id }}"
+                      name="properties[_gift_wrap]"
+                      form="ProductForm-{{ section.id }}"
+                      value="{{ 'product.gift_wrapping.yes' | t }}"
+                      class="product__gift-wrap-checkbox visually-hidden"
+                      data-gift-wrap-checkbox
+                      aria-controls="{{ gift_message_id }}"
+                      aria-expanded="false"
+                    >
+                    <span class="product__gift-wrap-toggle-inner">
+                      <span class="product__gift-wrap-icon" aria-hidden="true">
+                        {%- render 'icon', name: block.settings.icon, size: 18 -%}
+                      </span>
+                      <span class="product__gift-wrap-toggle-track" aria-hidden="true"></span>
+                      <span class="product__gift-wrap-label">
+                        {{ block.settings.label }}
+                        {%- if block.settings.price != blank -%}
+                          <span class="product__gift-wrap-price">+ {{ block.settings.price }}</span>
+                        {%- else -%}
+                          <span class="product__gift-wrap-price product__gift-wrap-price--free">{{ 'product.gift_wrapping.free' | t }}</span>
+                        {%- endif -%}
+                      </span>
+                    </span>
+                  </label>
+
+                  {%- if block.settings.show_message -%}
+                    <div
+                      class="product__gift-wrap-message motion-auto"
+                      id="{{ gift_message_id }}"
+                      hidden
+                      data-gift-message
+                    >
+                      <label
+                        class="product__gift-wrap-message-label label"
+                        for="{{ gift_message_id }}-textarea"
+                      >
+                        {{ block.settings.message_label }}
+                      </label>
+                      <textarea
+                        id="{{ gift_message_id }}-textarea"
+                        name="properties[Gift Message]"
+                        form="ProductForm-{{ section.id }}"
+                        class="product__gift-wrap-textarea"
+                        placeholder="{{ block.settings.message_placeholder }}"
+                        rows="3"
+                        data-gift-message-textarea
+                      ></textarea>
+                    </div>
+                  {%- endif -%}
+                </div>
+
+              {%- comment -%} === SUSTAINABILITY BADGES === {%- endcomment -%}
+              {%- when 'sustainability_badge' -%}
+                {%- liquid
+                  assign sustainability_has_badges = false
+                  for i in (1..4)
+                    assign badge_label_key = 'badge_' | append: i | append: '_label'
+                    if block.settings[badge_label_key] != blank
+                      assign sustainability_has_badges = true
+                    endif
+                  endfor
+                -%}
+                {%- if sustainability_has_badges -%}
+                  <div
+                    class="product__sustainability product__sustainability--{{ block.settings.layout }}"
+                    {{ block.shopify_attributes }}
+                  >
+                    {%- if block.settings.heading != blank -%}
+                      <p class="product__sustainability-heading label">{{ block.settings.heading }}</p>
+                    {%- endif -%}
+                    <div class="product__sustainability-badges">
+                      {%- for i in (1..4) -%}
+                        {%- liquid
+                          assign badge_type_key = 'badge_' | append: i | append: '_type'
+                          assign badge_label_key = 'badge_' | append: i | append: '_label'
+                          assign badge_type = block.settings[badge_type_key]
+                          assign badge_label = block.settings[badge_label_key]
+                        -%}
+                        {%- if badge_label != blank -%}
+                          <div class="product__sustainability-badge">
+                            <span class="product__sustainability-badge-icon" aria-hidden="true">
+                              {%- liquid
+                                case badge_type
+                                  when 'organic'
+                                    render 'icon', name: 'organic', size: 18
+                                  when 'fair-trade'
+                                    render 'icon', name: 'globe', size: 18
+                                  when 'vegan'
+                                    render 'icon', name: 'vegan', size: 18
+                                  when 'recycled'
+                                    render 'icon', name: 'recycle', size: 18
+                                  when 'carbon-neutral'
+                                    render 'icon', name: 'globe', size: 18
+                                  when 'cruelty-free'
+                                    render 'icon', name: 'cruelty-free', size: 18
+                                  when 'handmade'
+                                    render 'icon', name: 'handmade', size: 18
+                                  when 'locally-sourced'
+                                    render 'icon', name: 'leaf', size: 18
+                                  else
+                                    render 'icon', name: 'leaf', size: 18
+                                endcase
+                              -%}
+                            </span>
+                            <span class="product__sustainability-badge-label">{{ badge_label }}</span>
+                          </div>
+                        {%- endif -%}
+                      {%- endfor -%}
+                    </div>
+                  </div>
+                {%- endif -%}
 
               {%- when 'custom_liquid' -%}
                 {%- if block.settings.liquid != blank -%}
@@ -1422,6 +1622,260 @@
           "id": "show_count",
           "label": "t:sections.main_product.blocks.stock_show_count",
           "default": true
+        }
+      ]
+    },
+    {
+      "type": "concierge_cta",
+      "name": "t:sections.main_product.blocks.concierge_cta",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:sections.main_product.blocks.concierge_heading",
+          "default": "Need assistance?"
+        },
+        {
+          "type": "text",
+          "id": "subheading",
+          "label": "t:sections.main_product.blocks.concierge_subheading",
+          "default": "Our stylists are here to help"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "t:sections.main_product.blocks.concierge_button_label",
+          "default": "Book a consultation"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "t:sections.main_product.blocks.concierge_button_link"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "t:sections.main_product.blocks.concierge_icon",
+          "options": [
+            { "value": "concierge", "label": "t:sections.main_product.blocks.concierge_icon_concierge" },
+            { "value": "phone", "label": "t:sections.main_product.blocks.icon_phone" },
+            { "value": "chat", "label": "t:sections.main_product.blocks.icon_chat" },
+            { "value": "email", "label": "t:sections.main_product.blocks.icon_email" }
+          ],
+          "default": "concierge"
+        },
+        {
+          "type": "select",
+          "id": "style",
+          "label": "t:sections.main_product.blocks.concierge_style",
+          "options": [
+            { "value": "minimal", "label": "t:sections.main_product.blocks.concierge_style_minimal" },
+            { "value": "bordered", "label": "t:sections.main_product.blocks.concierge_style_bordered" }
+          ],
+          "default": "bordered"
+        }
+      ]
+    },
+    {
+      "type": "product_personalization",
+      "name": "t:sections.main_product.blocks.product_personalization",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "t:sections.main_product.blocks.personalization_label",
+          "default": "Add personalization"
+        },
+        {
+          "type": "text",
+          "id": "placeholder",
+          "label": "t:sections.main_product.blocks.personalization_placeholder",
+          "default": "Enter your text"
+        },
+        {
+          "type": "range",
+          "id": "max_length",
+          "label": "t:sections.main_product.blocks.personalization_max_length",
+          "min": 1,
+          "max": 50,
+          "step": 1,
+          "default": 20
+        },
+        {
+          "type": "checkbox",
+          "id": "required",
+          "label": "t:sections.main_product.blocks.personalization_required",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "info_text",
+          "label": "t:sections.main_product.blocks.personalization_info_text"
+        },
+        {
+          "type": "text",
+          "id": "property_name",
+          "label": "t:sections.main_product.blocks.personalization_property_name",
+          "info": "t:sections.main_product.blocks.personalization_property_name_info",
+          "default": "Personalization"
+        }
+      ]
+    },
+    {
+      "type": "gift_wrapping",
+      "name": "t:sections.main_product.blocks.gift_wrapping",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "t:sections.main_product.blocks.gift_wrap_label",
+          "default": "Add gift wrapping"
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "t:sections.main_product.blocks.gift_wrap_price",
+          "info": "t:sections.main_product.blocks.gift_wrap_price_info"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_message",
+          "label": "t:sections.main_product.blocks.gift_wrap_show_message",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "message_label",
+          "label": "t:sections.main_product.blocks.gift_wrap_message_label",
+          "default": "Gift message"
+        },
+        {
+          "type": "text",
+          "id": "message_placeholder",
+          "label": "t:sections.main_product.blocks.gift_wrap_message_placeholder",
+          "default": "Write your message"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "t:sections.main_product.blocks.gift_wrap_icon",
+          "options": [
+            { "value": "gift", "label": "t:sections.main_product.blocks.icon_gift" },
+            { "value": "ribbon", "label": "t:sections.main_product.blocks.gift_wrap_icon_ribbon" },
+            { "value": "box", "label": "t:sections.main_product.blocks.icon_box" }
+          ],
+          "default": "gift"
+        }
+      ]
+    },
+    {
+      "type": "sustainability_badge",
+      "name": "t:sections.main_product.blocks.sustainability_badge",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:sections.main_product.blocks.sustainability_heading"
+        },
+        {
+          "type": "select",
+          "id": "layout",
+          "label": "t:sections.main_product.blocks.sustainability_layout",
+          "options": [
+            { "value": "horizontal", "label": "t:sections.main_product.blocks.sustainability_layout_horizontal" },
+            { "value": "vertical", "label": "t:sections.main_product.blocks.sustainability_layout_vertical" }
+          ],
+          "default": "horizontal"
+        },
+        {
+          "type": "select",
+          "id": "badge_1_type",
+          "label": "t:sections.main_product.blocks.sustainability_badge_1_type",
+          "options": [
+            { "value": "organic", "label": "t:sections.main_product.blocks.sustainability_type_organic" },
+            { "value": "fair-trade", "label": "t:sections.main_product.blocks.sustainability_type_fair_trade" },
+            { "value": "vegan", "label": "t:sections.main_product.blocks.sustainability_type_vegan" },
+            { "value": "recycled", "label": "t:sections.main_product.blocks.sustainability_type_recycled" },
+            { "value": "carbon-neutral", "label": "t:sections.main_product.blocks.sustainability_type_carbon_neutral" },
+            { "value": "cruelty-free", "label": "t:sections.main_product.blocks.sustainability_type_cruelty_free" },
+            { "value": "handmade", "label": "t:sections.main_product.blocks.sustainability_type_handmade" },
+            { "value": "locally-sourced", "label": "t:sections.main_product.blocks.sustainability_type_locally_sourced" }
+          ],
+          "default": "organic"
+        },
+        {
+          "type": "text",
+          "id": "badge_1_label",
+          "label": "t:sections.main_product.blocks.sustainability_badge_1_label",
+          "default": "Organic materials"
+        },
+        {
+          "type": "select",
+          "id": "badge_2_type",
+          "label": "t:sections.main_product.blocks.sustainability_badge_2_type",
+          "options": [
+            { "value": "organic", "label": "t:sections.main_product.blocks.sustainability_type_organic" },
+            { "value": "fair-trade", "label": "t:sections.main_product.blocks.sustainability_type_fair_trade" },
+            { "value": "vegan", "label": "t:sections.main_product.blocks.sustainability_type_vegan" },
+            { "value": "recycled", "label": "t:sections.main_product.blocks.sustainability_type_recycled" },
+            { "value": "carbon-neutral", "label": "t:sections.main_product.blocks.sustainability_type_carbon_neutral" },
+            { "value": "cruelty-free", "label": "t:sections.main_product.blocks.sustainability_type_cruelty_free" },
+            { "value": "handmade", "label": "t:sections.main_product.blocks.sustainability_type_handmade" },
+            { "value": "locally-sourced", "label": "t:sections.main_product.blocks.sustainability_type_locally_sourced" }
+          ],
+          "default": "vegan"
+        },
+        {
+          "type": "text",
+          "id": "badge_2_label",
+          "label": "t:sections.main_product.blocks.sustainability_badge_2_label",
+          "default": "Vegan certified"
+        },
+        {
+          "type": "select",
+          "id": "badge_3_type",
+          "label": "t:sections.main_product.blocks.sustainability_badge_3_type",
+          "options": [
+            { "value": "organic", "label": "t:sections.main_product.blocks.sustainability_type_organic" },
+            { "value": "fair-trade", "label": "t:sections.main_product.blocks.sustainability_type_fair_trade" },
+            { "value": "vegan", "label": "t:sections.main_product.blocks.sustainability_type_vegan" },
+            { "value": "recycled", "label": "t:sections.main_product.blocks.sustainability_type_recycled" },
+            { "value": "carbon-neutral", "label": "t:sections.main_product.blocks.sustainability_type_carbon_neutral" },
+            { "value": "cruelty-free", "label": "t:sections.main_product.blocks.sustainability_type_cruelty_free" },
+            { "value": "handmade", "label": "t:sections.main_product.blocks.sustainability_type_handmade" },
+            { "value": "locally-sourced", "label": "t:sections.main_product.blocks.sustainability_type_locally_sourced" }
+          ],
+          "default": "recycled"
+        },
+        {
+          "type": "text",
+          "id": "badge_3_label",
+          "label": "t:sections.main_product.blocks.sustainability_badge_3_label"
+        },
+        {
+          "type": "select",
+          "id": "badge_4_type",
+          "label": "t:sections.main_product.blocks.sustainability_badge_4_type",
+          "options": [
+            { "value": "organic", "label": "t:sections.main_product.blocks.sustainability_type_organic" },
+            { "value": "fair-trade", "label": "t:sections.main_product.blocks.sustainability_type_fair_trade" },
+            { "value": "vegan", "label": "t:sections.main_product.blocks.sustainability_type_vegan" },
+            { "value": "recycled", "label": "t:sections.main_product.blocks.sustainability_type_recycled" },
+            { "value": "carbon-neutral", "label": "t:sections.main_product.blocks.sustainability_type_carbon_neutral" },
+            { "value": "cruelty-free", "label": "t:sections.main_product.blocks.sustainability_type_cruelty_free" },
+            { "value": "handmade", "label": "t:sections.main_product.blocks.sustainability_type_handmade" },
+            { "value": "locally-sourced", "label": "t:sections.main_product.blocks.sustainability_type_locally_sourced" }
+          ],
+          "default": "handmade"
+        },
+        {
+          "type": "text",
+          "id": "badge_4_label",
+          "label": "t:sections.main_product.blocks.sustainability_badge_4_label"
         }
       ]
     }

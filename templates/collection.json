@@ -19,6 +19,31 @@
     },
     "main": {
       "type": "main-collection",
+      "blocks": {
+        "promo_1": {
+          "type": "promotion",
+          "settings": {
+            "heading": "New Season",
+            "subheading": "Discover the latest arrivals",
+            "button_label": "Shop now",
+            "text_color": "light",
+            "position": 2,
+            "layout": "full_width",
+            "overlay_opacity": 30
+          }
+        },
+        "description_1": {
+          "type": "collection_description",
+          "settings": {
+            "content": "<p>Curated with care — each piece in this collection reflects our commitment to timeless design and exceptional craftsmanship.</p>",
+            "layout": "text_only"
+          }
+        }
+      },
+      "block_order": [
+        "description_1",
+        "promo_1"
+      ],
       "settings": {
         "products_per_page": 24,
         "columns_desktop": 4,
@@ -29,7 +54,11 @@
         "show_quick_add": true,
         "show_filters": true,
         "filter_layout": "drawer",
-        "show_sort": true
+        "show_sort": true,
+        "grid_gap": "standard",
+        "show_view_toggle": false,
+        "show_color_swatches": true,
+        "enable_quick_view": true
       }
     }
   },

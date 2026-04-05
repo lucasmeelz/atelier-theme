@@ -15,7 +15,7 @@ class CartDrawer extends HTMLElement {
     this._boundCartIconClick = (e) => {
       const icon = e.target.closest('.header__icon--cart');
       if (!icon) return;
-      if (document.body.dataset.cartType === 'drawer' || !icon.closest('form')) {
+      if (document.body.dataset.cartType === 'drawer') {
         e.preventDefault();
         this.open();
       }

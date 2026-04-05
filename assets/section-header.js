@@ -279,12 +279,13 @@ class HeaderComponent extends HTMLElement {
     if (!cartToggle) return;
 
     cartToggle.addEventListener('click', function(e) {
+      if (document.body.dataset.cartType !== 'drawer') return;
       var cartDrawer = document.querySelector('cart-drawer');
       if (cartDrawer && typeof cartDrawer.open === 'function') {
         e.preventDefault();
         cartDrawer.open();
       }
-      /* If no cart-drawer component, the <a href="/cart"> navigates normally */
+      /* If cart_type is 'page' or no cart-drawer, the <a href="/cart"> navigates normally */
     });
   }
 
@@ -322,13 +323,14 @@ class HeaderDrawer extends HTMLElement {
 
     /* Open toggles — use event delegation on document to avoid timing issues
        (drawer element may be parsed before the header buttons exist) */
-    document.addEventListener('click', function(e) {
+    this._handleDocClick = function(e) {
       var toggle = e.target.closest('[data-drawer-toggle]');
       if (toggle) {
         e.preventDefault();
         self.open();
       }
-    });
+    };
+    document.addEventListener('click', this._handleDocClick);
 
     /* Close buttons + overlay */
     this.querySelectorAll('[data-drawer-close]').forEach(function(btn) {
@@ -350,11 +352,17 @@ class HeaderDrawer extends HTMLElement {
     });
 
     /* Escape */
-    document.addEventListener('keydown', function(e) {
+    this._handleKeydown = function(e) {
       if (e.key === 'Escape' && self.getAttribute('aria-hidden') === 'false') {
         self.close();
       }
-    });
+    };
+    document.addEventListener('keydown', this._handleKeydown);
+  }
+
+  disconnectedCallback() {
+    if (this._handleDocClick) document.removeEventListener('click', this._handleDocClick);
+    if (this._handleKeydown) document.removeEventListener('keydown', this._handleKeydown);
   }
 
   open() {
@@ -602,14 +610,15 @@ class LuxuryDrawer extends HTMLElement {
     var self = this;
 
     /* Open toggles — delegate on document (drawer may parse before header buttons) */
-    document.addEventListener('click', function(e) {
+    this._handleDocClick = function(e) {
       var toggle = e.target.closest('[data-drawer-toggle]');
       if (toggle) {
         e.preventDefault();
         self.hamburger = toggle;
         self.open();
       }
-    });
+    };
+    document.addEventListener('click', this._handleDocClick);
 
     /* Close buttons + overlay */
     this.querySelectorAll('[data-drawer-close]').forEach(function(btn) {
@@ -644,11 +653,12 @@ class LuxuryDrawer extends HTMLElement {
     });
 
     /* Escape key */
-    document.addEventListener('keydown', function(e) {
+    this._handleKeydown = function(e) {
       if (e.key === 'Escape' && self.getAttribute('aria-hidden') === 'false') {
         self.close();
       }
-    });
+    };
+    document.addEventListener('keydown', this._handleKeydown);
   }
 
   /* --- Level observer: watch data-drawer-level changes and sync root data-level --- */
@@ -825,7 +835,8 @@ class LuxuryDrawer extends HTMLElement {
   }
 
   disconnectedCallback() {
-    /* Cleanup is handled by event delegation on document */
+    if (this._handleDocClick) document.removeEventListener('click', this._handleDocClick);
+    if (this._handleKeydown) document.removeEventListener('keydown', this._handleKeydown);
   }
 }
 

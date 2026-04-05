@@ -1,5 +1,216 @@
-/* Quick View Modal */
+/* =======================================================
+   Quick View — Right-side drawer (primary implementation)
+   The legacy .quick-view-dialog rules are kept for backward
+   compatibility but the drawer pattern is used by default.
+   ======================================================= */
 
+/* -------------------------------------------------------
+   Drawer: backdrop
+   ------------------------------------------------------- */
+.quick-view-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 299;
+  background-color: rgba(0, 0, 0, 0);
+  backdrop-filter: blur(0px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration-base, 350ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1)),
+              background-color var(--duration-base, 350ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
+}
+
+.quick-view-backdrop--visible {
+  opacity: 1;
+  pointer-events: auto;
+  background-color: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(var(--backdrop-blur, 0px));
+}
+
+/* -------------------------------------------------------
+   Drawer: panel
+   ------------------------------------------------------- */
+quick-view-modal {
+  display: contents;
+}
+
+.quick-view-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 300;
+  width: min(560px, 100vw);
+  background-color: rgb(var(--color-background, 255, 255, 255));
+  color: rgb(var(--color-text, 10, 10, 10));
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform var(--duration-slow, 600ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
+  overflow: hidden;
+}
+
+.quick-view-drawer--open {
+  transform: translateX(0);
+}
+
+/* Close button */
+.quick-view-drawer__close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: none;
+  color: rgb(var(--color-text, 10, 10, 10));
+  cursor: pointer;
+  transition: opacity var(--duration-fast, 200ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
+}
+
+@media (hover: hover) {
+  .quick-view-drawer__close:hover {
+    opacity: 0.5;
+  }
+}
+
+.quick-view-drawer__close:focus-visible {
+  outline: 2px solid rgb(var(--color-accent, 184, 148, 106));
+  outline-offset: 2px;
+}
+
+/* Scrollable content area */
+.quick-view-drawer__content {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Loading state */
+.quick-view-drawer__loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 320px;
+}
+
+.quick-view-drawer__spinner {
+  display: block;
+  width: 24px;
+  height: 24px;
+  border: 2px solid rgb(var(--color-border, 226, 224, 219));
+  border-top-color: rgb(var(--color-text, 10, 10, 10));
+  border-radius: 50%;
+  animation: qv-drawer-spin 600ms linear infinite;
+}
+
+@keyframes qv-drawer-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quick-view-drawer__spinner { animation: none; }
+}
+
+.quick-view-drawer__error {
+  padding: 40px 24px;
+  text-align: center;
+  font-size: 0.875rem;
+  color: rgb(var(--color-text-subdued, 107, 107, 107));
+}
+
+.quick-view-drawer__error a {
+  color: rgb(var(--color-text, 10, 10, 10));
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* -------------------------------------------------------
+   Product layout inside the drawer
+   ------------------------------------------------------- */
+.quick-view__product {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+@media screen and (min-width: 750px) {
+  .quick-view__product {
+    flex-direction: row;
+    height: 100vh;
+  }
+
+  .quick-view__media {
+    width: 45%;
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+  }
+
+  .quick-view__info {
+    flex: 1;
+    overflow-y: auto;
+    height: 100vh;
+    padding-top: 64px;
+  }
+}
+
+/* ATC button loading state */
+.quick-view__atc-btn--loading {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+/* -------------------------------------------------------
+   Card quick-view trigger button
+   ------------------------------------------------------- */
+.card-product__quick-view-trigger {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(var(--color-background, 255, 255, 255), 0.9);
+  border-radius: 50%;
+  background-color: rgba(var(--color-background, 255, 255, 255), 0.9);
+  color: rgb(var(--color-text, 10, 10, 10));
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity var(--duration-base, 350ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1)),
+              transform var(--duration-base, 350ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
+}
+
+@media (hover: hover) {
+  .card-product:hover .card-product__quick-view-trigger {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .card-product__quick-view-trigger:hover {
+    background-color: rgb(var(--color-background, 255, 255, 255));
+    border-color: rgb(var(--color-border, 226, 224, 219));
+  }
+}
+
+.card-product__quick-view-trigger:focus-visible {
+  opacity: 1;
+  transform: translateY(0);
+  outline: 2px solid rgb(var(--color-accent, 184, 148, 106));
+  outline-offset: 2px;
+}
+
+/* -------------------------------------------------------
+   Legacy dialog rules (kept for backward compatibility)
+   ------------------------------------------------------- */
 .quick-view-dialog {
   position: fixed;
   inset: 0;
@@ -240,6 +451,11 @@
   min-height: 48px;
 }
 
+.quick-view__atc-btn:focus-visible {
+  outline: 2px solid rgb(var(--color-accent, 184, 148, 106));
+  outline-offset: 2px;
+}
+
 .quick-view__view-full {
   text-align: center;
   padding-top: 8px;
@@ -264,6 +480,16 @@
   }
 }
 
+.quick-view__view-full a:focus-visible {
+  outline: 2px solid rgb(var(--color-accent, 184, 148, 106));
+  outline-offset: 2px;
+}
+
+.quick-view__title a:focus-visible {
+  outline: 2px solid rgb(var(--color-accent, 184, 148, 106));
+  outline-offset: 2px;
+}
+
 /* Loading */
 .quick-view__loading {
   display: flex;
@@ -284,4 +510,8 @@
 
 @keyframes quick-view-spin {
   to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quick-view__spinner { animation: none; }
 }

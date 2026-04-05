@@ -63,7 +63,8 @@
           </div>
 
           <button type="submit" class="btn btn--primary">
-            {{ 'customer.register.submit' | t }}
+            <span class="btn__label">{{ 'customer.register.submit' | t }}</span>
+            <span class="btn__fill" aria-hidden="true"></span>
           </button>
         </div>
       {%- endform -%}
@@ -80,6 +81,13 @@
   "name": "t:sections.main_register.name",
   "tag": "section",
   "class": "section-customer-register",
-  "settings": []
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.main_register.color_scheme",
+      "default": "scheme-1"
+    }
+  ]
 }
 {% endschema %}

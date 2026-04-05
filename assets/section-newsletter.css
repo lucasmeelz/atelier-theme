@@ -107,10 +107,11 @@ h4.newsletter__heading {
 
 /* Subheading */
 .newsletter__subheading {
-  margin-bottom: 1.5rem;
-  font-size: 0.9375rem;
-  line-height: 1.6;
-  opacity: 0.8;
+  margin-bottom: 1.75rem;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  opacity: 0.7;
+  letter-spacing: 0.01em;
 }
 
 .newsletter__subheading p {
@@ -137,14 +138,15 @@ h4.newsletter__heading {
 .newsletter__input {
   flex: 1;
   min-width: 0;
-  height: 48px;
-  padding: 0 16px;
+  height: 50px;
+  padding: 0 18px;
   border: 1px solid currentColor;
   border-right: none;
   background-color: transparent;
   color: inherit;
   font-family: var(--font-body-family, sans-serif);
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
   outline: none;
   transition: border-color var(--duration-fast, 200ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
 }
@@ -158,9 +160,9 @@ h4.newsletter__heading {
   border-color: currentColor;
 }
 
-/* Without bg: dark border */
+/* Without bg: refined border */
 .newsletter:not(.newsletter--has-bg) .newsletter__input {
-  border-color: rgb(var(--color-border, 226, 224, 219));
+  border-color: rgba(var(--color-border, 226, 224, 219), 0.7);
 }
 
 .newsletter:not(.newsletter--has-bg) .newsletter__input:focus {
@@ -169,7 +171,7 @@ h4.newsletter__heading {
 
 .newsletter__submit {
   flex-shrink: 0;
-  height: 48px;
+  height: 50px;
   border-radius: 0;
 }
 

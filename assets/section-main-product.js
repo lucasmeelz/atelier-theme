@@ -665,3 +665,78 @@ if (!customElements.get('collapsible-details')) {
     }
   });
 })();
+
+/* ===== PERSONALIZATION CHARACTER COUNTER ===== */
+
+(function() {
+  function initPersonalizationCounters(root) {
+    var inputs = (root || document).querySelectorAll('[data-personalization-input]');
+    inputs.forEach(function(input) {
+      var counterId = input.getAttribute('aria-describedby');
+      if (!counterId) return;
+      var counter = document.getElementById(counterId);
+      if (!counter) return;
+
+      var max = parseInt(input.dataset.max, 10) || 20;
+
+      function updateCounter() {
+        var len = input.value.length;
+        counter.textContent = len + ' / ' + max;
+        if (len >= max) {
+          counter.style.color = 'rgb(var(--color-accent))';
+        } else {
+          counter.style.color = '';
+        }
+      }
+
+      input.addEventListener('input', updateCounter);
+      updateCounter();
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    initPersonalizationCounters();
+  });
+
+  document.addEventListener('shopify:section:load', function(e) {
+    initPersonalizationCounters(e.target);
+  });
+})();
+
+/* ===== GIFT WRAP TOGGLE ===== */
+
+(function() {
+  function initGiftWrapToggles(root) {
+    var checkboxes = (root || document).querySelectorAll('[data-gift-wrap-checkbox]');
+    checkboxes.forEach(function(checkbox) {
+      var messageId = checkbox.getAttribute('aria-controls');
+      var messageEl = messageId ? document.getElementById(messageId) : null;
+
+      function syncState() {
+        var isChecked = checkbox.checked;
+        checkbox.setAttribute('aria-expanded', isChecked ? 'true' : 'false');
+        if (messageEl) {
+          if (isChecked) {
+            messageEl.removeAttribute('hidden');
+          } else {
+            messageEl.hidden = true;
+            /* Clear textarea when unchecked to avoid submitting stale message */
+            var textarea = messageEl.querySelector('[data-gift-message-textarea]');
+            if (textarea) textarea.value = '';
+          }
+        }
+      }
+
+      checkbox.addEventListener('change', syncState);
+      syncState();
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    initGiftWrapToggles();
+  });
+
+  document.addEventListener('shopify:section:load', function(e) {
+    initGiftWrapToggles(e.target);
+  });
+})();

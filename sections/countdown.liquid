@@ -14,6 +14,7 @@
   assign hide_when_expired = section.settings.hide_when_expired
   assign button_label = section.settings.button_label
   assign button_link = section.settings.button_link
+  assign button_style = section.settings.button_style
   assign color_scheme = section.settings.color_scheme
 -%}
 
@@ -57,7 +58,10 @@
 
     {%- if button_label != blank -%}
       <div class="countdown__cta">
-        <a href="{{ button_link }}" class="btn btn--primary">{{ button_label }}</a>
+        <a href="{{ button_link }}" class="btn btn--{{ button_style }}">
+          <span class="btn__label">{{ button_label }}</span>
+          <span class="btn__fill" aria-hidden="true"></span>
+        </a>
       </div>
     {%- endif -%}
 
@@ -224,6 +228,17 @@
       "type": "url",
       "id": "button_link",
       "label": "t:sections.countdown.button_link"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "t:sections.countdown.button_style",
+      "options": [
+        { "value": "primary", "label": "t:sections.countdown.button_primary" },
+        { "value": "secondary", "label": "t:sections.countdown.button_secondary" },
+        { "value": "outline", "label": "t:sections.countdown.button_outline" }
+      ],
+      "default": "primary"
     },
     {
       "type": "color_scheme",

@@ -206,7 +206,8 @@
         </div>
 
         <button type="submit" class="contact-form__submit btn btn--primary">
-          {{ 'contact.submit' | t }}
+          <span class="btn__label">{{ 'contact.submit' | t }}</span>
+          <span class="btn__fill" aria-hidden="true"></span>
         </button>
       </div>
     {%- endform -%}

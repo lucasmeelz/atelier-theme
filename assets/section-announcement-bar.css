@@ -175,12 +175,14 @@
   color: rgb(var(--color-text));
   cursor: pointer;
   opacity: 0.5;
-  transition: opacity var(--duration-base, 200ms) var(--ease-ecrin, ease);
+  transition: opacity var(--duration-base, 200ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
   z-index: 1;
 }
 
-.announcement-bar__close:hover {
-  opacity: 1;
+@media (hover: hover) {
+  .announcement-bar__close:hover {
+    opacity: 1;
+  }
 }
 
 .announcement-bar__close svg {

@@ -582,25 +582,12 @@
       },
       { "type": "header", "content": "t:settings_schema.cart.free_shipping" },
       {
-        "type": "checkbox",
-        "id": "show_free_shipping_bar",
-        "label": "t:settings_schema.cart.show_free_shipping_bar",
-        "default": false
-      },
-      {
         "type": "text",
         "id": "free_shipping_threshold",
         "label": "t:settings_schema.cart.free_shipping_minimum",
         "info": "t:settings_schema.cart.free_shipping_info",
         "default": "150"
       },
-      { "type": "header", "content": "t:settings_schema.cart.cart_notes" },
-      {
-        "type": "checkbox",
-        "id": "enable_cart_note",
-        "label": "t:settings_schema.cart.enable_cart_note",
-        "default": true
-      }
     ]
   },
 

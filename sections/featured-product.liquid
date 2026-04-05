@@ -124,11 +124,14 @@
                       class="btn btn--primary featured-product__btn"
                       {% unless current_variant.available %}disabled{% endunless %}
                     >
-                      {%- if current_variant.available -%}
-                        {{ 'product.add_to_cart' | t }}
-                      {%- else -%}
-                        {{ 'product.sold_out' | t }}
-                      {%- endif -%}
+                      <span class="btn__label">
+                        {%- if current_variant.available -%}
+                          {{ 'product.add_to_cart' | t }}
+                        {%- else -%}
+                          {{ 'product.sold_out' | t }}
+                        {%- endif -%}
+                      </span>
+                      <span class="btn__fill" aria-hidden="true"></span>
                     </button>
 
                     {%- if block.settings.show_dynamic_checkout -%}
@@ -142,7 +145,8 @@
           {%- endfor -%}
 
           <a href="{{ product.url }}" class="btn btn--outline featured-product__btn">
-            {{ 'product.view_full_details' | t }}
+            <span class="btn__label">{{ 'product.view_full_details' | t }}</span>
+            <span class="btn__fill" aria-hidden="true"></span>
           </a>
         </div>
       </div>

@@ -33,6 +33,7 @@
 .collection-banner__overlay {
   position: absolute;
   inset: 0;
+  /* Intentional: overlay uses black for image darkening — opacity controlled by merchant setting */
   background-color: rgba(0, 0, 0, var(--banner-overlay-opacity, 0.3));
 }
 
@@ -87,22 +88,29 @@
 
 /* Description */
 .collection-banner__description {
-  font-size: 0.9375rem;
-  line-height: 1.6;
-  margin-top: 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+  margin-top: 1rem;
   max-width: 720px;
-  opacity: 0.85;
+  opacity: 0.8;
 }
 
 .collection-banner__description p {
   margin: 0;
 }
 
-/* Plain layout — minimal padding */
+/* Plain layout — generous editorial spacing (Dior/Jacquemus) */
 .collection-banner--plain {
-  padding: 40px 0 24px;
-  border-bottom: 1px solid rgb(var(--color-border, 226, 224, 219));
-  margin-bottom: 8px;
+  padding: 64px 0 40px;
+  border-bottom: 1px solid rgba(var(--color-border, 226, 224, 219), 0.35);
+  margin-bottom: 16px;
+}
+
+@media screen and (min-width: 990px) {
+  .collection-banner--plain {
+    padding: 80px 0 48px;
+  }
 }
 
 @media screen and (min-width: 990px) {

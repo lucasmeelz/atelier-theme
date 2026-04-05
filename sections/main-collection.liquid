@@ -9,6 +9,10 @@
 {%- if settings.card_hover_effect == 'carousel' -%}
   <script src="{{ 'component-card-carousel.js' | asset_url }}" defer="defer"></script>
 {%- endif -%}
+{%- if section.settings.enable_quick_view -%}
+  {{ 'component-quick-view.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'component-quick-view.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
 
 {%- liquid
   assign products_per_page = section.settings.products_per_page
@@ -24,6 +28,18 @@
   assign show_filters = section.settings.show_filters
   assign filter_layout = section.settings.filter_layout
   assign color_scheme = section.settings.color_scheme
+  assign enable_quick_view = section.settings.enable_quick_view
+
+  assign has_promotion_blocks = false
+  assign has_featured_blocks = false
+  for block in section.blocks
+    if block.type == 'promotion'
+      assign has_promotion_blocks = true
+    endif
+    if block.type == 'featured_product'
+      assign has_featured_blocks = true
+    endif
+  endfor
 -%}
 
 {%- paginate collection.products by products_per_page -%}
@@ -204,7 +220,8 @@
 
           <div class="collection__filter-actions">
             <button type="submit" class="btn btn--primary collection__filter-apply">
-              {{ 'collection.filter_apply' | t }}
+              <span class="btn__label">{{ 'collection.filter_apply' | t }}</span>
+              <span class="btn__fill" aria-hidden="true"></span>
             </button>
             {%- if collection.current_vendor or collection.current_type or collection.filters.size > 0 -%}
               <a href="{{ collection.url }}" class="collection__filter-clear">
@@ -243,6 +260,40 @@
 
     </collection-filters>
 
+    {%- comment -%} Collection description block (renders before the product grid) {%- endcomment -%}
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'collection_description' -%}
+        {%- liquid
+          assign desc_layout = block.settings.layout | default: 'text_only'
+          assign desc_image = block.settings.image
+          assign desc_image_position = block.settings.image_position | default: 'left'
+          assign desc_content = block.settings.content
+        -%}
+        {%- if desc_content != blank or desc_image != blank -%}
+          <div
+            class="collection__description collection__description--{{ desc_layout }}{% if desc_image_position == 'right' %} collection__description--image-right{% endif %}"
+            {{ block.shopify_attributes }}
+          >
+            {%- if desc_layout == 'image_text' and desc_image != blank -%}
+              <div class="collection__description-image">
+                {{ desc_image | image_url: width: 960 | image_tag:
+                  loading: 'lazy',
+                  widths: '400,600,800,960',
+                  sizes: '(min-width: 990px) 50vw, 100vw',
+                  alt: desc_image.alt | default: collection.title
+                }}
+              </div>
+            {%- endif -%}
+            {%- if desc_content != blank -%}
+              <div class="collection__description-text rte">
+                {{ desc_content }}
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+
     {%- comment -%} Product grid {%- endcomment -%}
     <div
       id="collection-grid-{{ section.id }}"
@@ -250,7 +301,137 @@
       {% if settings.stagger_products %}data-stagger-cards{% endif %}
     >
       {%- if collection.products.size > 0 -%}
+        {%- liquid
+          assign item_index = 0
+        -%}
         {%- for product in collection.products -%}
+          {%- assign item_index = item_index | plus: 1 -%}
+
+          {%- comment -%}
+            Check if any grid-injection block should be inserted BEFORE this product.
+            Promotions and featured products are inserted after (position × columns_desktop) items.
+          {%- endcomment -%}
+
+          {%- if has_promotion_blocks or has_featured_blocks -%}
+            {%- for block in section.blocks -%}
+
+              {%- if block.type == 'promotion' -%}
+                {%- liquid
+                  assign promo_position = block.settings.position | default: 2
+                  assign promo_insert_after = promo_position | times: columns_desktop
+                  assign promo_trigger = promo_insert_after | plus: 1
+                  assign promo_layout = block.settings.layout | default: 'full_width'
+                  assign promo_text_color = block.settings.text_color | default: 'light'
+                  assign promo_overlay = block.settings.overlay_opacity | default: 30 | times: 0.01
+                  assign promo_color_scheme = block.settings.color_scheme
+                -%}
+                {%- if item_index == promo_trigger -%}
+                  <div
+                    class="collection__grid-item collection__grid-item--full collection__promotion collection__promotion--{{ promo_layout }} collection__promotion--{{ promo_text_color }}{% if promo_color_scheme != blank %} color-{{ promo_color_scheme }}{% endif %}"
+                    {{ block.shopify_attributes }}
+                  >
+                    {%- if block.settings.image != blank -%}
+                      <div class="collection__promotion-bg" aria-hidden="true">
+                        {{ block.settings.image | image_url: width: 2000 | image_tag:
+                          loading: 'lazy',
+                          widths: '800,1200,1600,2000',
+                          sizes: '100vw',
+                          class: 'collection__promotion-img',
+                          alt: ''
+                        }}
+                        {%- if promo_overlay > 0 -%}
+                          <div class="collection__promotion-overlay" style="--promo-overlay: {{ promo_overlay }};"></div>
+                        {%- endif -%}
+                      </div>
+                    {%- else -%}
+                      {%- if promo_overlay > 0 -%}
+                        <div class="collection__promotion-overlay" style="--promo-overlay: {{ promo_overlay }};" aria-hidden="true"></div>
+                      {%- endif -%}
+                    {%- endif -%}
+
+                    <div class="collection__promotion-content">
+                      {%- if block.settings.subheading != blank -%}
+                        <p class="collection__promotion-subheading label">{{ block.settings.subheading }}</p>
+                      {%- endif -%}
+                      {%- if block.settings.heading != blank -%}
+                        <h2 class="collection__promotion-heading">{{ block.settings.heading }}</h2>
+                      {%- endif -%}
+                      {%- if block.settings.button_label != blank -%}
+                        {%- if block.settings.button_link != blank -%}
+                          <a href="{{ block.settings.button_link }}" class="btn btn--primary collection__promotion-btn">
+                            <span class="btn__label">{{ block.settings.button_label }}</span>
+                            <span class="btn__fill" aria-hidden="true"></span>
+                          </a>
+                        {%- else -%}
+                          <span class="btn btn--primary collection__promotion-btn">
+                            <span class="btn__label">{{ block.settings.button_label }}</span>
+                            <span class="btn__fill" aria-hidden="true"></span>
+                          </span>
+                        {%- endif -%}
+                      {%- endif -%}
+                    </div>
+                  </div>
+                {%- endif -%}
+
+              {%- elsif block.type == 'featured_product' -%}
+                {%- liquid
+                  assign fp_position = block.settings.position | default: 1
+                  assign fp_insert_after = fp_position | times: columns_desktop
+                  assign fp_trigger = fp_insert_after | plus: 1
+                  assign fp_product = block.settings.product
+                  assign fp_color_scheme = block.settings.color_scheme
+                -%}
+                {%- if item_index == fp_trigger and fp_product != blank -%}
+                  <div
+                    class="collection__grid-item collection__grid-item--span2 collection__featured-product{% if fp_color_scheme != blank %} color-{{ fp_color_scheme }}{% endif %}"
+                    {{ block.shopify_attributes }}
+                  >
+                    <a href="{{ fp_product.url }}" class="collection__featured-product-link">
+                      {%- liquid
+                        assign fp_sizes = '(min-width: 990px) calc(200% / ' | append: columns_desktop | append: ' - 24px), 100vw'
+                      -%}
+                      {%- if block.settings.image != blank -%}
+                        {{ block.settings.image | image_url: width: 1200 | image_tag:
+                          loading: 'lazy',
+                          widths: '600,800,1000,1200',
+                          sizes: fp_sizes,
+                          class: 'collection__featured-product-img',
+                          alt: block.settings.image.alt | default: fp_product.title
+                        }}
+                      {%- elsif fp_product.featured_image != blank -%}
+                        {{ fp_product.featured_image | image_url: width: 1200 | image_tag:
+                          loading: 'lazy',
+                          widths: '600,800,1000,1200',
+                          sizes: fp_sizes,
+                          class: 'collection__featured-product-img',
+                          alt: fp_product.featured_image.alt | default: fp_product.title
+                        }}
+                      {%- endif -%}
+                      <div class="collection__featured-product-info">
+                        {%- if block.settings.heading != blank -%}
+                          <p class="collection__featured-product-label label">{{ block.settings.heading }}</p>
+                        {%- endif -%}
+                        <h3 class="collection__featured-product-title">{{ fp_product.title }}</h3>
+                        {%- render 'price', product: fp_product, show_badges: false, hide_tax_notice: true -%}
+                        {%- if block.settings.show_description and fp_product.description != blank -%}
+                          <p class="collection__featured-product-description">
+                            {{ fp_product.description | strip_html | truncate: 140 }}
+                          </p>
+                        {%- endif -%}
+                        <span class="collection__featured-product-cta" aria-hidden="true">
+                          {{ 'collection.continue_shopping' | t }}
+                          {%- render 'icon', name: 'arrow-right', size: 16 -%}
+                        </span>
+                      </div>
+                    </a>
+                  </div>
+                {%- endif -%}
+
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endif -%}
+
+          {%- comment -%} Render the product card {%- endcomment -%}
           <div class="collection__grid-item">
             {%- render 'card-product',
               product: product,
@@ -264,13 +445,25 @@
               lazy: true,
               heading_level: 'h2'
             -%}
+            {%- if enable_quick_view -%}
+              <button
+                type="button"
+                class="card-product__quick-view-trigger"
+                data-quick-view-trigger="{{ product.handle }}"
+                data-quick-view-title="{{ product.title | escape }}"
+                aria-label="{{ 'product.quick_view_open' | t: title: product.title | escape }}"
+              >
+                {%- render 'icon', name: 'eye', size: 18 -%}
+              </button>
+            {%- endif -%}
           </div>
         {%- endfor -%}
       {%- else -%}
         <div class="collection__empty">
           <p>{{ 'collection.empty' | t }}</p>
           <a href="{{ routes.all_products_collection_url }}" class="btn btn--primary">
-            {{ 'collection.continue_shopping' | t }}
+            <span class="btn__label">{{ 'collection.continue_shopping' | t }}</span>
+            <span class="btn__fill" aria-hidden="true"></span>
           </a>
         </div>
       {%- endif -%}
@@ -280,6 +473,7 @@
     {%- if paginate.pages > 1 -%}
       {%- if section.settings.pagination_type == 'load_more' -%}
         {%- if paginate.next -%}
+          {%- assign showing_count = paginate.current_offset | plus: paginate.page_size -%}
           <div class="collection__load-more">
             <button
               class="btn btn--outline collection__load-more-btn"
@@ -288,10 +482,11 @@
               data-section-id="{{ section.id }}"
               aria-label="{{ 'collection.load_more' | t }}"
             >
-              {{ 'collection.load_more' | t }}
+              <span class="btn__label">{{ 'collection.load_more' | t }}</span>
+              <span class="btn__fill" aria-hidden="true"></span>
             </button>
             <p class="collection__load-more-count">
-              {{ 'collection.showing_count' | t: current: paginate.current_offset | plus: paginate.page_size, total: paginate.items }}
+              {{ 'collection.showing_count' | t: current: showing_count, total: paginate.items }}
             </p>
           </div>
         {%- endif -%}
@@ -473,7 +668,7 @@
         if (this.grid) this.grid.classList.add('collection__grid--loading');
         this.setAttribute('aria-busy', 'true');
 
-        fetch(url.toString(), { headers: { 'Accept': 'application/json' } })
+        fetch(url.toString())
           .then(function(res) { if (!res.ok) throw new Error(res.status); return res.json(); })
           .then((function(data) {
             var html = data[sectionId];
@@ -641,7 +836,7 @@
       var url = new URL(nextUrl, window.location.origin);
       url.searchParams.set('sections', sectionId);
 
-      fetch(url.toString(), { headers: { 'Accept': 'application/json' } })
+      fetch(url.toString())
         .then(function(res) { return res.json(); })
         .then(function(data) {
           var html = data[sectionId];
@@ -814,6 +1009,16 @@
     },
     {
       "type": "header",
+      "content": "t:sections.main_collection.quick_view_header"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_quick_view",
+      "label": "t:sections.main_collection.enable_quick_view",
+      "default": true
+    },
+    {
+      "type": "header",
       "content": "t:sections.main_collection.style_header"
     },
     {
@@ -821,6 +1026,168 @@
       "id": "color_scheme",
       "label": "t:sections.main_collection.color_scheme",
       "default": "scheme-1"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection_description",
+      "name": "t:sections.main_collection.blocks.collection_description",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "t:sections.main_collection.blocks.description_content",
+          "default": "<p>Discover our curated selection.</p>"
+        },
+        {
+          "type": "select",
+          "id": "layout",
+          "label": "t:sections.main_collection.blocks.description_layout",
+          "options": [
+            { "value": "text_only", "label": "t:sections.main_collection.blocks.description_layout_text_only" },
+            { "value": "image_text", "label": "t:sections.main_collection.blocks.description_layout_image_text" }
+          ],
+          "default": "text_only"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.main_collection.blocks.description_image"
+        },
+        {
+          "type": "select",
+          "id": "image_position",
+          "label": "t:sections.main_collection.blocks.description_image_position",
+          "options": [
+            { "value": "left", "label": "t:sections.main_collection.blocks.description_image_left" },
+            { "value": "right", "label": "t:sections.main_collection.blocks.description_image_right" }
+          ],
+          "default": "left"
+        }
+      ]
+    },
+    {
+      "type": "promotion",
+      "name": "t:sections.main_collection.blocks.promotion",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.main_collection.blocks.promotion_image"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:sections.main_collection.blocks.promotion_heading",
+          "default": "New arrivals"
+        },
+        {
+          "type": "text",
+          "id": "subheading",
+          "label": "t:sections.main_collection.blocks.promotion_subheading"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "t:sections.main_collection.blocks.promotion_button_label",
+          "default": "Discover"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "t:sections.main_collection.blocks.promotion_button_link"
+        },
+        {
+          "type": "select",
+          "id": "text_color",
+          "label": "t:sections.main_collection.blocks.promotion_text_color",
+          "options": [
+            { "value": "light", "label": "t:sections.main_collection.blocks.promotion_text_light" },
+            { "value": "dark", "label": "t:sections.main_collection.blocks.promotion_text_dark" }
+          ],
+          "default": "light"
+        },
+        {
+          "type": "range",
+          "id": "position",
+          "label": "t:sections.main_collection.blocks.promotion_position",
+          "min": 1,
+          "max": 10,
+          "step": 1,
+          "default": 2
+        },
+        {
+          "type": "select",
+          "id": "layout",
+          "label": "t:sections.main_collection.blocks.promotion_layout",
+          "options": [
+            { "value": "full_width", "label": "t:sections.main_collection.blocks.promotion_layout_full_width" },
+            { "value": "half_left", "label": "t:sections.main_collection.blocks.promotion_layout_half_left" },
+            { "value": "half_right", "label": "t:sections.main_collection.blocks.promotion_layout_half_right" }
+          ],
+          "default": "full_width"
+        },
+        {
+          "type": "range",
+          "id": "overlay_opacity",
+          "label": "t:sections.main_collection.blocks.promotion_overlay_opacity",
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "default": 30,
+          "unit": "%"
+        },
+        {
+          "type": "color_scheme",
+          "id": "color_scheme",
+          "label": "t:sections.main_collection.blocks.promotion_color_scheme",
+          "default": "scheme-2"
+        }
+      ]
+    },
+    {
+      "type": "featured_product",
+      "name": "t:sections.main_collection.blocks.featured_product",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "t:sections.main_collection.blocks.featured_product_product"
+        },
+        {
+          "type": "range",
+          "id": "position",
+          "label": "t:sections.main_collection.blocks.featured_product_position",
+          "min": 1,
+          "max": 10,
+          "step": 1,
+          "default": 1
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:sections.main_collection.blocks.featured_product_heading",
+          "default": "Editor's pick"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_description",
+          "label": "t:sections.main_collection.blocks.featured_product_show_description",
+          "default": true
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.main_collection.blocks.featured_product_image"
+        },
+        {
+          "type": "color_scheme",
+          "id": "color_scheme",
+          "label": "t:sections.main_collection.blocks.featured_product_color_scheme",
+          "default": "scheme-1"
+        }
+      ]
     }
   ]
 }
