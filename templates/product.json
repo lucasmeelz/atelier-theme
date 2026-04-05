@@ -14,12 +14,13 @@
       "blocks": {
         "vendor": {
           "type": "vendor",
+          "disabled": true,
           "settings": {}
         },
         "title": {
           "type": "title",
           "settings": {
-            "heading_size": "h1"
+            "heading_size": "h3"
           }
         },
         "price": {
@@ -124,7 +125,7 @@
             "subheading": "Our stylists are here to help",
             "button_label": "Book a consultation",
             "button_link": "",
-            "icon": "concierge",
+            "icon": "phone",
             "style": "bordered"
           }
         },
@@ -189,7 +190,7 @@
       "settings": {
         "media_size": 55,
         "media_position": "left",
-        "gallery_layout": "stacked",
+        "gallery_layout": "thumbnail_slider",
         "thumbnail_position": "below",
         "enable_zoom": true,
         "enable_video_loop": false,
