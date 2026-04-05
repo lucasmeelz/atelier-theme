@@ -64,7 +64,7 @@
           "type": "scene",
           "settings": {
             "image": "shopify://shop_images/new-banner-homepage-web-french-bloom-6_73d3fc8f-8c7f-4e38-82b3-5357bd6070f6.webp",
-            "reveal_style": "curtain",
+            "reveal_style": "diagonal",
             "overlay_opacity": 20,
             "subheading": "Chapter Two",
             "heading": "The craft",
@@ -78,30 +78,11 @@
             "product": "",
             "show_product_card": false
           }
-        },
-        "scene_tkdymQ": {
-          "type": "scene",
-          "settings": {
-            "reveal_style": "diagonal",
-            "overlay_opacity": 20,
-            "subheading": "Chapter Three",
-            "heading": "The collection",
-            "heading_size": "large",
-            "text": "<p>Discover pieces designed to transcend seasons and trends.</p>",
-            "button_label": "Explore",
-            "button_link": "",
-            "button_style": "outline-white",
-            "content_position": "auto",
-            "text_color": "light",
-            "product": "",
-            "show_product_card": false
-          }
         }
       },
       "block_order": [
         "scene_FxbiEU",
-        "scene_K79ycX",
-        "scene_tkdymQ"
+        "scene_K79ycX"
       ],
       "name": "t:sections.devoilement.preset_name",
       "settings": {
