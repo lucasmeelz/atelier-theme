@@ -494,7 +494,7 @@
 
               {%- comment -%} === SHARE === {%- endcomment -%}
               {%- when 'share' -%}
-                <div class="product__share" {{ block.shopify_attributes }}>
+                <div class="product__share{% unless block.settings.show_border %} product__share--no-border{% endunless %}" {{ block.shopify_attributes }}>
                   <button type="button" class="product__share-btn btn--link" data-share-button aria-label="{{ 'product.share' | t }}">
                     <span class="product__share-btn-layout">
                       {%- render 'icon', name: 'share', size: 18 -%}
@@ -966,6 +966,23 @@
                   </div>
                 {%- endif -%}
 
+              {%- comment -%} === SPACING === {%- endcomment -%}
+              {%- when 'spacing' -%}
+                <div
+                  class="product__spacing"
+                  style="height: {{ block.settings.height }}px;"
+                  {{ block.shopify_attributes }}
+                ></div>
+
+              {%- comment -%} === SEPARATOR LINE === {%- endcomment -%}
+              {%- when 'separator' -%}
+                <div
+                  class="product__separator product__separator--{{ block.settings.width }}{% if block.settings.style == 'thick' %} product__separator--thick{% endif %}{% if block.settings.color == 'accent' %} product__separator--accent{% endif %}"
+                  {{ block.shopify_attributes }}
+                >
+                  <hr class="product__separator-line" aria-hidden="true">
+                </div>
+
               {%- comment -%} === APP BLOCK === {%- endcomment -%}
               {%- when '@app' -%}
                 <div class="product__app-block" {{ block.shopify_attributes }}>
@@ -1293,7 +1310,15 @@
     {
       "type": "share",
       "name": "t:sections.main_product.blocks.share",
-      "limit": 1
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_border",
+          "label": "t:sections.main_product.blocks.share_show_border",
+          "default": true
+        }
+      ]
     },
     {
       "type": "pickup_availability",
@@ -1768,6 +1793,59 @@
             { "value": "box", "label": "t:sections.main_product.blocks.icon_box" }
           ],
           "default": "gift"
+        }
+      ]
+    },
+    {
+      "type": "spacing",
+      "name": "t:sections.main_product.blocks.spacing",
+      "settings": [
+        {
+          "type": "range",
+          "id": "height",
+          "label": "t:sections.main_product.blocks.spacing_height",
+          "min": 4,
+          "max": 60,
+          "step": 4,
+          "unit": "px",
+          "default": 16
+        }
+      ]
+    },
+    {
+      "type": "separator",
+      "name": "t:sections.main_product.blocks.separator",
+      "settings": [
+        {
+          "type": "select",
+          "id": "width",
+          "label": "t:sections.main_product.blocks.separator_width",
+          "options": [
+            { "value": "short", "label": "t:sections.main_product.blocks.separator_width_short" },
+            { "value": "medium", "label": "t:sections.main_product.blocks.separator_width_medium" },
+            { "value": "full", "label": "t:sections.main_product.blocks.separator_width_full" }
+          ],
+          "default": "full"
+        },
+        {
+          "type": "select",
+          "id": "style",
+          "label": "t:sections.main_product.blocks.separator_style",
+          "options": [
+            { "value": "thin", "label": "t:sections.main_product.blocks.separator_style_thin" },
+            { "value": "thick", "label": "t:sections.main_product.blocks.separator_style_thick" }
+          ],
+          "default": "thin"
+        },
+        {
+          "type": "select",
+          "id": "color",
+          "label": "t:sections.main_product.blocks.separator_color",
+          "options": [
+            { "value": "border", "label": "t:sections.main_product.blocks.separator_color_border" },
+            { "value": "accent", "label": "t:sections.main_product.blocks.separator_color_accent" }
+          ],
+          "default": "border"
         }
       ]
     },

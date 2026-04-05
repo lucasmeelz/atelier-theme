@@ -1,0 +1,528 @@
+{%- comment -%}
+  Devoilement — Scroll-pinned immersive storytelling
+  Full-viewport section that pins while user scrolls through cinematic scenes.
+  Each scene reveals via clip-path transitions (circle, diagonal, split, curtain).
+  Use cases: brand story, collection launch, behind-the-scenes, values page
+{%- endcomment -%}
+
+{{ 'section-devoilement.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign heading = section.settings.heading
+  assign subheading = section.settings.subheading
+  assign scroll_per_scene = section.settings.scroll_per_scene | default: 'medium'
+  assign show_progress = section.settings.show_progress
+  assign show_counter = section.settings.show_counter
+  assign progress_position = section.settings.progress_position | default: 'right'
+  assign enable_cursor = section.settings.enable_cursor_parallax
+  assign content_position = section.settings.content_position | default: 'center'
+  assign content_width = section.settings.content_width | default: 'medium'
+  assign color_scheme = section.settings.color_scheme
+
+  assign scene_count = 0
+  for block in section.blocks
+    if block.type == 'scene'
+      assign scene_count = scene_count | plus: 1
+    endif
+  endfor
+
+  case scroll_per_scene
+    when 'short'
+      assign vh_per_scene = 80
+    when 'medium'
+      assign vh_per_scene = 100
+    when 'tall'
+      assign vh_per_scene = 130
+  endcase
+
+  assign total_height_vh = scene_count | times: vh_per_scene
+-%}
+
+{%- style -%}
+  #Devoilement-{{ section.id }} {
+    height: {{ total_height_vh }}vh;
+  }
+{%- endstyle -%}
+
+<devoilement-section
+  id="Section-{{ section.id }}"
+  class="devoilement-wrapper color-{{ color_scheme }}"
+  data-section-id="{{ section.id }}"
+  data-scene-count="{{ scene_count }}"
+  data-vh-per-scene="{{ vh_per_scene }}"
+  {% if enable_cursor %}data-cursor-parallax{% endif %}
+>
+  <div id="Devoilement-{{ section.id }}" class="devoilement full-width">
+
+    {%- if heading != blank or subheading != blank -%}
+      <div class="devoilement__intro">
+        {%- if subheading != blank -%}
+          <p class="devoilement__intro-subheading subheading">{{ subheading }}</p>
+        {%- endif -%}
+        {%- if heading != blank -%}
+          <h2 class="devoilement__intro-heading h2">{{ heading }}</h2>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="devoilement__sticky">
+      <div class="devoilement__viewport" data-viewport>
+
+        {%- assign scene_index = 0 -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'scene' -%}
+            {%- liquid
+              assign block_content_pos = block.settings.content_position
+              if block_content_pos == 'auto'
+                assign block_content_pos = content_position
+              endif
+              assign block_text_color = block.settings.text_color | default: 'light'
+              assign block_heading_size = block.settings.heading_size | default: 'large'
+              assign overlay_opacity = block.settings.overlay_opacity | default: 20 | times: 0.01
+              assign reveal_style = block.settings.reveal_style | default: 'circle'
+            -%}
+
+            <div
+              class="devoilement__scene devoilement__scene--{{ block_text_color }}"
+              data-scene-index="{{ scene_index }}"
+              data-reveal="{{ reveal_style }}"
+              aria-hidden="{% if scene_index == 0 %}false{% else %}true{% endif %}"
+              {{ block.shopify_attributes }}
+            >
+              {%- comment -%} Media layer {%- endcomment -%}
+              <div class="devoilement__scene-media" data-reveal="{{ reveal_style }}">
+                {%- if block.settings.image != blank -%}
+                  {%- liquid
+                    assign img_loading = 'lazy'
+                    assign img_priority = 'auto'
+                    if scene_index <= 1
+                      assign img_loading = 'eager'
+                      if scene_index == 0
+                        assign img_priority = 'high'
+                      endif
+                    endif
+                  -%}
+                  {%- if block.settings.image_mobile != blank -%}
+                    <picture>
+                      <source
+                        media="(max-width: 749px)"
+                        srcset="{{ block.settings.image_mobile | image_url: width: 750 }} 750w, {{ block.settings.image_mobile | image_url: width: 1100 }} 1100w"
+                        sizes="100vw"
+                      >
+                      {{
+                        block.settings.image
+                        | image_url: width: 2400
+                        | image_tag:
+                          loading: img_loading,
+                          fetchpriority: img_priority,
+                          widths: '750, 1100, 1500, 1920, 2400',
+                          sizes: '100vw',
+                          class: 'devoilement__scene-img',
+                          alt: block.settings.image.alt | default: block.settings.heading
+                      }}
+                    </picture>
+                  {%- else -%}
+                    {{
+                      block.settings.image
+                      | image_url: width: 2400
+                      | image_tag:
+                        loading: img_loading,
+                        fetchpriority: img_priority,
+                        widths: '750, 1100, 1500, 1920, 2400',
+                        sizes: '100vw',
+                        class: 'devoilement__scene-img',
+                        alt: block.settings.image.alt | default: block.settings.heading
+                    }}
+                  {%- endif -%}
+                {%- else -%}
+                  <div class="devoilement__scene-placeholder">
+                    {{ 'lifestyle-' | append: scene_index | plus: 1 | placeholder_svg_tag: 'devoilement__placeholder-svg' }}
+                  </div>
+                {%- endif -%}
+              </div>
+
+              {%- comment -%} Overlay {%- endcomment -%}
+              {%- if overlay_opacity > 0 -%}
+                <div class="devoilement__scene-overlay" style="opacity: {{ overlay_opacity }};"></div>
+              {%- endif -%}
+
+              {%- comment -%} Content {%- endcomment -%}
+              <div class="devoilement__scene-content devoilement__scene-content--{{ block_content_pos }} devoilement__scene-content--{{ content_width }}">
+                {%- if block.settings.subheading != blank -%}
+                  <p class="devoilement__scene-subheading subheading" data-content-el>{{ block.settings.subheading }}</p>
+                {%- endif -%}
+                {%- if block.settings.heading != blank -%}
+                  <h3 class="devoilement__scene-heading devoilement__scene-heading--{{ block_heading_size }}" data-content-el>{{ block.settings.heading }}</h3>
+                {%- endif -%}
+                {%- if block.settings.text != blank -%}
+                  <div class="devoilement__scene-text rte" data-content-el>{{ block.settings.text }}</div>
+                {%- endif -%}
+                {%- if block.settings.button_label != blank -%}
+                  {%- liquid
+                    assign btn_class = 'btn'
+                    case block.settings.button_style
+                      when 'outline-white'
+                        assign btn_class = btn_class | append: ' btn--outline-white'
+                      when 'filled-white'
+                        assign btn_class = btn_class | append: ' btn--filled-white'
+                      when 'filled-dark'
+                        assign btn_class = btn_class | append: ' btn--primary'
+                    endcase
+                  -%}
+                  <div data-content-el>
+                    {%- if block.settings.button_link != blank -%}
+                      <a href="{{ block.settings.button_link }}" class="{{ btn_class }} devoilement__scene-btn">
+                        <span class="btn__label">{{ block.settings.button_label }}</span>
+                        <span class="btn__fill" aria-hidden="true"></span>
+                      </a>
+                    {%- else -%}
+                      <span class="{{ btn_class }} devoilement__scene-btn">
+                        <span class="btn__label">{{ block.settings.button_label }}</span>
+                        <span class="btn__fill" aria-hidden="true"></span>
+                      </span>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+
+                {%- comment -%} Optional product card {%- endcomment -%}
+                {%- if block.settings.show_product_card and block.settings.product != blank -%}
+                  {%- assign featured = block.settings.product -%}
+                  <a href="{{ featured.url }}" class="devoilement__product-card" data-content-el>
+                    {%- if featured.featured_image != blank -%}
+                      {{ featured.featured_image | image_url: width: 120 | image_tag:
+                        loading: 'lazy',
+                        widths: '60, 90, 120',
+                        class: 'devoilement__product-card-img',
+                        alt: featured.title
+                      }}
+                    {%- endif -%}
+                    <div class="devoilement__product-card-info">
+                      <span class="devoilement__product-card-title">{{ featured.title }}</span>
+                      <span class="devoilement__product-card-price">{{ featured.price | money }}</span>
+                    </div>
+                    <span class="devoilement__product-card-arrow" aria-hidden="true">
+                      {%- render 'icon', name: 'arrow-right', size: 14 -%}
+                    </span>
+                  </a>
+                {%- endif -%}
+              </div>
+            </div>
+
+            {%- assign scene_index = scene_index | plus: 1 -%}
+          {%- endif -%}
+        {%- endfor -%}
+
+        {%- comment -%} Progress bar {%- endcomment -%}
+        {%- if show_progress and scene_count > 1 -%}
+          <div class="devoilement__progress devoilement__progress--{{ progress_position }}" aria-hidden="true">
+            <div class="devoilement__progress-track">
+              <div class="devoilement__progress-fill" data-progress-fill></div>
+            </div>
+          </div>
+        {%- endif -%}
+
+        {%- comment -%} Scene counter {%- endcomment -%}
+        {%- if show_counter and scene_count > 1 -%}
+          <div class="devoilement__counter" aria-live="polite" aria-atomic="true">
+            <span class="devoilement__counter-current" data-counter-current>01</span>
+            <span class="devoilement__counter-sep">/</span>
+            <span class="devoilement__counter-total">{{ scene_count | prepend: '0' | slice: -2, 2 }}</span>
+          </div>
+        {%- endif -%}
+
+        {%- comment -%} Mobile dots {%- endcomment -%}
+        {%- if scene_count > 1 -%}
+          <div class="devoilement__dots" aria-hidden="true">
+            {%- for i in (0..scene_count) -%}
+              {%- if i < scene_count -%}
+                <span class="devoilement__dot{% if i == 0 %} devoilement__dot--active{% endif %}" data-dot-index="{{ i }}"></span>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+      </div>
+    </div>
+  </div>
+</devoilement-section>
+
+<script src="{{ 'section-devoilement.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+  "name": "t:sections.devoilement.name",
+  "tag": "section",
+  "class": "section-devoilement",
+  "disabled_on": {
+    "groups": ["header", "custom.overlay"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:sections.devoilement.heading"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "t:sections.devoilement.subheading"
+    },
+    {
+      "type": "select",
+      "id": "scroll_per_scene",
+      "label": "t:sections.devoilement.scroll_per_scene",
+      "info": "t:sections.devoilement.scroll_per_scene_info",
+      "options": [
+        { "value": "short", "label": "t:sections.devoilement.scroll_short" },
+        { "value": "medium", "label": "t:sections.devoilement.scroll_medium" },
+        { "value": "tall", "label": "t:sections.devoilement.scroll_tall" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.devoilement.content_header"
+    },
+    {
+      "type": "select",
+      "id": "content_position",
+      "label": "t:sections.devoilement.content_position",
+      "options": [
+        { "value": "center", "label": "t:sections.devoilement.position_center" },
+        { "value": "bottom-left", "label": "t:sections.devoilement.position_bottom_left" },
+        { "value": "bottom-center", "label": "t:sections.devoilement.position_bottom_center" },
+        { "value": "bottom-right", "label": "t:sections.devoilement.position_bottom_right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "content_width",
+      "label": "t:sections.devoilement.content_width",
+      "options": [
+        { "value": "narrow", "label": "t:sections.devoilement.width_narrow" },
+        { "value": "medium", "label": "t:sections.devoilement.width_medium" },
+        { "value": "wide", "label": "t:sections.devoilement.width_wide" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.devoilement.indicators_header"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_progress",
+      "label": "t:sections.devoilement.show_progress",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "progress_position",
+      "label": "t:sections.devoilement.progress_position",
+      "options": [
+        { "value": "left", "label": "t:sections.devoilement.position_left" },
+        { "value": "right", "label": "t:sections.devoilement.position_right" }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_counter",
+      "label": "t:sections.devoilement.show_counter",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "t:sections.devoilement.effects_header"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_cursor_parallax",
+      "label": "t:sections.devoilement.enable_cursor_parallax",
+      "info": "t:sections.devoilement.cursor_parallax_info",
+      "default": true
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.devoilement.color_scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "scene",
+      "name": "t:sections.devoilement.block_scene",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.devoilement.scene_image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "t:sections.devoilement.scene_image_mobile"
+        },
+        {
+          "type": "select",
+          "id": "reveal_style",
+          "label": "t:sections.devoilement.scene_reveal_style",
+          "options": [
+            { "value": "circle", "label": "t:sections.devoilement.reveal_circle" },
+            { "value": "diagonal", "label": "t:sections.devoilement.reveal_diagonal" },
+            { "value": "split", "label": "t:sections.devoilement.reveal_split" },
+            { "value": "curtain", "label": "t:sections.devoilement.reveal_curtain" }
+          ],
+          "default": "circle"
+        },
+        {
+          "type": "range",
+          "id": "overlay_opacity",
+          "label": "t:sections.devoilement.scene_overlay_opacity",
+          "min": 0,
+          "max": 80,
+          "step": 5,
+          "default": 20,
+          "unit": "%"
+        },
+        {
+          "type": "header",
+          "content": "t:sections.devoilement.scene_content_header"
+        },
+        {
+          "type": "text",
+          "id": "subheading",
+          "label": "t:sections.devoilement.scene_subheading"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:sections.devoilement.scene_heading",
+          "default": "Scene heading"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "label": "t:sections.devoilement.scene_heading_size",
+          "options": [
+            { "value": "medium", "label": "t:sections.devoilement.size_medium" },
+            { "value": "large", "label": "t:sections.devoilement.size_large" },
+            { "value": "cinematic", "label": "t:sections.devoilement.size_cinematic" }
+          ],
+          "default": "large"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "t:sections.devoilement.scene_text"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "t:sections.devoilement.scene_button_label"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "t:sections.devoilement.scene_button_link"
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "t:sections.devoilement.scene_button_style",
+          "options": [
+            { "value": "outline-white", "label": "t:sections.devoilement.btn_outline_white" },
+            { "value": "filled-white", "label": "t:sections.devoilement.btn_filled_white" },
+            { "value": "filled-dark", "label": "t:sections.devoilement.btn_filled_dark" }
+          ],
+          "default": "outline-white"
+        },
+        {
+          "type": "header",
+          "content": "t:sections.devoilement.scene_layout_header"
+        },
+        {
+          "type": "select",
+          "id": "content_position",
+          "label": "t:sections.devoilement.scene_content_position",
+          "info": "t:sections.devoilement.scene_content_position_info",
+          "options": [
+            { "value": "auto", "label": "t:sections.devoilement.position_auto" },
+            { "value": "center", "label": "t:sections.devoilement.position_center" },
+            { "value": "bottom-left", "label": "t:sections.devoilement.position_bottom_left" },
+            { "value": "bottom-center", "label": "t:sections.devoilement.position_bottom_center" },
+            { "value": "bottom-right", "label": "t:sections.devoilement.position_bottom_right" }
+          ],
+          "default": "auto"
+        },
+        {
+          "type": "select",
+          "id": "text_color",
+          "label": "t:sections.devoilement.scene_text_color",
+          "options": [
+            { "value": "light", "label": "t:sections.devoilement.text_light" },
+            { "value": "dark", "label": "t:sections.devoilement.text_dark" }
+          ],
+          "default": "light"
+        },
+        {
+          "type": "header",
+          "content": "t:sections.devoilement.scene_product_header"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "t:sections.devoilement.scene_product"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_product_card",
+          "label": "t:sections.devoilement.scene_show_product_card",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.devoilement.preset_name",
+      "blocks": [
+        {
+          "type": "scene",
+          "settings": {
+            "heading": "The beginning",
+            "subheading": "Chapter One",
+            "text": "<p>Every great story starts with a vision. Ours began with a simple belief: luxury should feel effortless.</p>",
+            "reveal_style": "circle",
+            "heading_size": "cinematic"
+          }
+        },
+        {
+          "type": "scene",
+          "settings": {
+            "heading": "The craft",
+            "subheading": "Chapter Two",
+            "text": "<p>Meticulous attention to detail. Hours of handwork. Materials sourced from the finest artisans.</p>",
+            "reveal_style": "curtain",
+            "heading_size": "large"
+          }
+        },
+        {
+          "type": "scene",
+          "settings": {
+            "heading": "The collection",
+            "subheading": "Chapter Three",
+            "text": "<p>Discover pieces designed to transcend seasons and trends.</p>",
+            "reveal_style": "diagonal",
+            "button_label": "Explore",
+            "heading_size": "large"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -21,6 +21,7 @@
     "next_slide": "Next slide",
     "previous_slide": "Previous slide",
     "slide_number": "Slide {{ number }} of {{ total }}",
+    "scene_number": "Scene {{ number }} of {{ total }}",
     "of": "of",
     "increase_quantity": "Increase quantity for {{ title }}",
     "decrease_quantity": "Decrease quantity for {{ title }}",

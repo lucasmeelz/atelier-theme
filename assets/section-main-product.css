@@ -233,13 +233,44 @@
   width: 100%;
   max-width: 100%;
   overflow: hidden;
+  --product-block-spacing: 16px;
+}
+
+/* ===================================
+   Uniform block spacing system
+   Every direct child block gets consistent bottom margin.
+   Exceptions: collapsible stacks (0), buy_buttons (larger).
+   =================================== */
+.product__info > * {
+  margin-bottom: var(--product-block-spacing);
+}
+
+.product__info > *:last-child {
+  margin-bottom: 0;
+}
+
+/* Collapsible blocks stack flush (no gap between them) */
+.product__info > collapsible-details,
+.product__info > .product__ingredients {
+  margin-bottom: 0;
+}
+
+/* Buy buttons get extra breathing room */
+.product__info > .product__buy-buttons {
+  margin-bottom: calc(var(--product-block-spacing) * 1.5);
+}
+
+/* Spacing block and separator use their own spacing */
+.product__info > .product__spacing,
+.product__info > .product__separator {
+  margin-bottom: 0;
 }
 
 /* ===================================
    Block: Vendor
    =================================== */
 .product__vendor {
-  margin-bottom: 12px;
+  /* spacing handled by .product__info > * uniform system */
 }
 
 .product__vendor a {
@@ -269,7 +300,7 @@
   font-weight: var(--font-heading-weight, 300);
   font-style: var(--font-heading-style, normal);
   line-height: 1.1;
-  margin: 0 0 16px;
+  margin: 0;
 }
 
 h1.product__title {
@@ -288,7 +319,6 @@ h3.product__title {
    Block: Price
    =================================== */
 .product__price {
-  margin-bottom: 24px;
   font-size: 1.0625rem;
   letter-spacing: 0.02em;
 }
@@ -310,7 +340,6 @@ h3.product__title {
 .product__badges {
   display: flex;
   gap: 8px;
-  margin-bottom: 12px;
 }
 
 .product__badge {
@@ -339,7 +368,6 @@ h3.product__title {
   display: flex;
   align-items: center;
   gap: 6px;
-  margin-bottom: 16px;
 }
 
 .product__stars {
@@ -527,7 +555,7 @@ h3.product__title {
    Block: Quantity Selector
    =================================== */
 .product__quantity {
-  margin-bottom: 16px;
+  /* spacing handled by uniform system */
 }
 
 .product__quantity-label {
@@ -586,7 +614,7 @@ h3.product__title {
    Block: Buy Buttons
    =================================== */
 .product__buy-buttons {
-  margin-bottom: 32px;
+  /* spacing handled by uniform system — uses 1.5x multiplier */
 }
 
 .product__add-to-cart {
@@ -666,7 +694,7 @@ h3.product__title {
    Block: Description + Collapsible Tabs
    =================================== */
 .product__description {
-  margin-bottom: 20px;
+  /* spacing handled by uniform system */
 }
 
 .product__collapsible {
@@ -682,22 +710,13 @@ collapsible-details:last-child {
   border-bottom: 1px solid rgb(var(--color-border, 226, 224, 219));
 }
 
-/* Consistent spacing between product sub-blocks.
-   Collapsible wrappers (collapsible-details, .product__ingredients)
-   stack flush; all other blocks get 24px breathing room above. */
+/* Spacing after collapsible stacks — add breathing room to the next non-collapsible block */
 collapsible-details + :not(collapsible-details):not(.product__ingredients) {
-  margin-top: 24px;
+  margin-top: var(--product-block-spacing);
 }
 
 .product__ingredients + :not(collapsible-details) {
-  margin-top: 24px;
-}
-
-/* Last collapsible group gets bottom border via last-child already;
-   ensure non-collapsible block after gets spacing too */
-.product__trust,
-.product__share {
-  margin-top: 0;
+  margin-top: var(--product-block-spacing);
 }
 
 /* Collapsible trigger — robust approach
@@ -794,10 +813,14 @@ collapsible-details + :not(collapsible-details):not(.product__ingredients) {
    Block: Share
    =================================== */
 .product__share {
-  margin-bottom: 16px;
   width: 100%;
   border-top: 1px solid rgb(var(--color-border, 226, 224, 219));
   text-align: left;
+}
+
+/* Option to hide border on share block */
+.product__share--no-border {
+  border-top: none;
 }
 
 /* Share button — use an inner layout span instead of flex on the button
@@ -837,7 +860,7 @@ collapsible-details + :not(collapsible-details):not(.product__ingredients) {
    Block: Pickup Availability
    =================================== */
 .product__pickup {
-  margin-bottom: 16px;
+  /* spacing handled by uniform system */
 }
 
 .product__pickup-item {
@@ -874,7 +897,6 @@ collapsible-details + :not(collapsible-details):not(.product__ingredients) {
   padding: 28px 0;
   border-top: 1px solid rgb(var(--color-border, 226, 224, 219));
   border-bottom: 1px solid rgb(var(--color-border, 226, 224, 219));
-  margin-bottom: 12px;
 }
 
 @media screen and (max-width: 989px) {
@@ -903,7 +925,6 @@ collapsible-details + :not(collapsible-details):not(.product__ingredients) {
    Block: Product Highlights (innovative)
    =================================== */
 .product__highlights {
-  margin-bottom: 24px;
   width: 100%;
 }
 
@@ -959,8 +980,7 @@ collapsible-details + :not(collapsible-details):not(.product__ingredients) {
    Block: Complementary Products (innovative)
    =================================== */
 .product__complementary {
-  margin-top: 12px;
-  padding-top: 20px;
+  padding-top: var(--product-block-spacing);
   border-top: 1px solid rgb(var(--color-border, 226, 224, 219));
 }
 
@@ -1049,7 +1069,6 @@ collapsible-details + :not(collapsible-details):not(.product__ingredients) {
 .product__sku {
   font-size: 0.75rem;
   color: rgb(var(--color-text-subdued, 107, 107, 107));
-  margin-bottom: 12px;
 }
 
 .product__sku-label {
@@ -1060,7 +1079,7 @@ collapsible-details + :not(collapsible-details):not(.product__ingredients) {
    Block: Payment Terms
    =================================== */
 .product__payment-terms {
-  margin-bottom: 16px;
+  /* spacing handled by uniform system */
 }
 
 .product__payment-terms .shopify-payment-terms {
@@ -1142,7 +1161,7 @@ collapsible-details + :not(collapsible-details):not(.product__ingredients) {
    Block: Before/After Slider (innovative)
    =================================== */
 .product__before-after {
-  margin-bottom: 20px;
+  /* spacing handled by uniform system */
 }
 
 .product__before-after-heading {
@@ -1606,6 +1625,48 @@ collapsible-details + :not(collapsible-details):not(.product__ingredients) {
 
 .product__stock-level--in-stock .product__stock-dot {
   background-color: rgb(var(--color-success, 45, 125, 70));
+}
+
+/* ===================================
+   Block: Spacing (adjustable empty space)
+   =================================== */
+.product__spacing {
+  display: block;
+  width: 100%;
+}
+
+/* ===================================
+   Block: Separator (horizontal line)
+   =================================== */
+.product__separator {
+  width: 100%;
+  padding: 8px 0;
+}
+
+.product__separator-line {
+  border: none;
+  border-top: 1px solid rgb(var(--color-border, 226, 224, 219));
+  margin: 0;
+}
+
+.product__separator--thick .product__separator-line {
+  border-top-width: 2px;
+}
+
+.product__separator--accent .product__separator-line {
+  border-top-color: rgb(var(--color-accent, 184, 148, 106));
+}
+
+.product__separator--short .product__separator-line {
+  width: 40px;
+}
+
+.product__separator--medium .product__separator-line {
+  width: 80px;
+}
+
+.product__separator--full .product__separator-line {
+  width: 100%;
 }
 
 /* ===================================

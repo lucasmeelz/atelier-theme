@@ -1,0 +1,617 @@
+/* ============================================================
+   DÉVOILEMENT — Scroll-pinned immersive storytelling
+   Full-viewport section with cinematic clip-path transitions.
+   ============================================================ */
+
+/* --- Section container --- */
+.devoilement {
+  position: relative;
+  width: 100%;
+}
+
+/* --- Intro (optional heading above the viewport) --- */
+.devoilement__intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  padding: var(--section-spacing-mobile) var(--page-margin) 40px;
+}
+
+@media screen and (min-width: 990px) {
+  .devoilement__intro {
+    padding: var(--section-spacing-desktop) var(--page-margin) 60px;
+  }
+}
+
+/* --- Sticky viewport --- */
+.devoilement__sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  width: 100%;
+}
+
+.devoilement__viewport {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  contain: layout style paint;
+}
+
+/* --- Scene --- */
+.devoilement__scene {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 1;
+}
+
+.devoilement__scene.is-active,
+.devoilement__scene.is-entering {
+  opacity: 1;
+  visibility: visible;
+  z-index: 2;
+}
+
+.devoilement__scene.is-previous {
+  opacity: 1;
+  visibility: visible;
+  z-index: 1;
+}
+
+/* First scene visible by default (before JS loads) */
+.devoilement__scene[data-scene-index="0"] {
+  opacity: 1;
+  visibility: visible;
+  z-index: 2;
+}
+
+/* Text color variants */
+.devoilement__scene--light {
+  color: #fff;
+}
+
+.devoilement__scene--dark {
+  color: rgb(var(--color-text));
+}
+
+/* --- Scene media --- */
+.devoilement__scene-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.devoilement__scene-img,
+.devoilement__scene-placeholder {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.devoilement__scene-placeholder {
+  background: rgb(var(--color-border));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.devoilement__placeholder-svg {
+  width: 50%;
+  height: 50%;
+  opacity: 0.3;
+}
+
+/* ============================================================
+   CLIP-PATH REVEAL TRANSITIONS
+   Driven by --reveal-progress custom property (0 → 1)
+   ============================================================ */
+
+/* Circle — expanding from center */
+.devoilement__scene-media[data-reveal="circle"] {
+  clip-path: circle(calc(var(--reveal-progress, 0) * 150%) at 50% 50%);
+}
+
+/* Diagonal — wipe from bottom-left to top-right */
+.devoilement__scene-media[data-reveal="diagonal"] {
+  clip-path: polygon(
+    0% 100%,
+    calc(var(--reveal-progress, 0) * 200%) 100%,
+    0% calc(100% - var(--reveal-progress, 0) * 200%)
+  );
+}
+
+/* Split horizontal — opening from center */
+.devoilement__scene-media[data-reveal="split"] {
+  clip-path: inset(
+    calc((1 - var(--reveal-progress, 0)) * 50%) 0
+  );
+}
+
+/* Curtain — vertical wipe from left */
+.devoilement__scene-media[data-reveal="curtain"] {
+  clip-path: inset(0 calc((1 - var(--reveal-progress, 0)) * 100%) 0 0);
+}
+
+/* First scene: always fully revealed */
+.devoilement__scene[data-scene-index="0"] .devoilement__scene-media {
+  clip-path: none;
+}
+
+/* --- Overlay --- */
+.devoilement__scene-overlay {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* --- Scene content --- */
+.devoilement__scene-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 40px var(--page-margin);
+  max-width: 100%;
+}
+
+/* Content width variants */
+.devoilement__scene-content--narrow {
+  max-width: 480px;
+}
+
+.devoilement__scene-content--medium {
+  max-width: 640px;
+}
+
+.devoilement__scene-content--wide {
+  max-width: 860px;
+}
+
+/* Content positioning */
+.devoilement__scene-content--center {
+  align-items: center;
+  text-align: center;
+  margin: auto;
+}
+
+.devoilement__scene-content--bottom-left {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  align-items: flex-start;
+  text-align: left;
+  padding-bottom: 60px;
+}
+
+.devoilement__scene-content--bottom-center {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  align-items: center;
+  text-align: center;
+  padding-bottom: 60px;
+}
+
+.devoilement__scene-content--bottom-right {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  align-items: flex-end;
+  text-align: right;
+  padding-bottom: 60px;
+}
+
+/* Content element animations (driven by JS via --content-opacity) */
+[data-content-el] {
+  opacity: var(--content-opacity, 0);
+  transform: translateY(calc((1 - var(--content-opacity, 0)) * 24px));
+  transition: opacity var(--duration-slow) var(--ease-ecrin),
+              transform var(--duration-slow) var(--ease-ecrin);
+}
+
+/* Stagger delay on content elements */
+[data-content-el]:nth-child(1) { transition-delay: 0ms; }
+[data-content-el]:nth-child(2) { transition-delay: 80ms; }
+[data-content-el]:nth-child(3) { transition-delay: 160ms; }
+[data-content-el]:nth-child(4) { transition-delay: 240ms; }
+[data-content-el]:nth-child(5) { transition-delay: 320ms; }
+
+/* First scene: show content immediately (before JS) */
+.devoilement__scene[data-scene-index="0"] [data-content-el] {
+  --content-opacity: 1;
+}
+
+/* --- Subheading --- */
+.devoilement__scene-subheading {
+  font-family: var(--font-label-family);
+  font-size: var(--label-font-size);
+  font-weight: var(--font-label-weight);
+  text-transform: var(--label-text-transform);
+  letter-spacing: var(--label-letter-spacing);
+  line-height: 1.4;
+}
+
+/* --- Heading sizes --- */
+.devoilement__scene-heading {
+  font-family: var(--font-heading-family);
+  font-style: var(--font-heading-style);
+  font-weight: var(--font-heading-weight);
+  text-transform: var(--heading-text-transform);
+  letter-spacing: var(--heading-letter-spacing);
+  line-height: var(--heading-line-height);
+}
+
+.devoilement__scene-heading--medium {
+  font-size: var(--h3-mobile);
+}
+
+.devoilement__scene-heading--large {
+  font-size: var(--h2-mobile);
+}
+
+.devoilement__scene-heading--cinematic {
+  font-size: var(--h1-mobile);
+}
+
+@media screen and (min-width: 750px) {
+  .devoilement__scene-heading--medium {
+    font-size: var(--h3-desktop);
+  }
+
+  .devoilement__scene-heading--large {
+    font-size: var(--h2-desktop);
+  }
+
+  .devoilement__scene-heading--cinematic {
+    font-size: calc(var(--h1-desktop) * 1.4);
+  }
+}
+
+/* --- Scene text --- */
+.devoilement__scene-text {
+  font-size: var(--body-font-size-mobile);
+  line-height: var(--body-line-height);
+  max-width: 50ch;
+}
+
+@media screen and (min-width: 750px) {
+  .devoilement__scene-text {
+    font-size: var(--body-font-size-desktop);
+  }
+}
+
+/* --- Button --- */
+.devoilement__scene-btn {
+  margin-top: 8px;
+}
+
+/* ============================================================
+   PRODUCT CARD
+   ============================================================ */
+.devoilement__product-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px 10px 10px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(var(--backdrop-blur, 16px));
+  -webkit-backdrop-filter: blur(var(--backdrop-blur, 16px));
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--card-border-radius);
+  text-decoration: none;
+  color: inherit;
+  margin-top: 8px;
+  max-width: 320px;
+  transition: background var(--duration-fast) var(--ease-ecrin);
+}
+
+@media (hover: hover) {
+  .devoilement__product-card:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+}
+
+.devoilement__product-card-img {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: calc(var(--card-border-radius) * 0.5);
+  flex-shrink: 0;
+}
+
+.devoilement__product-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.devoilement__product-card-title {
+  font-family: var(--font-heading-family);
+  font-size: 13px;
+  font-weight: var(--font-heading-weight);
+  letter-spacing: var(--heading-letter-spacing);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.devoilement__product-card-price {
+  font-family: var(--font-label-family);
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.devoilement__product-card-arrow {
+  flex-shrink: 0;
+  opacity: 0.5;
+  transition: opacity var(--duration-fast) var(--ease-ecrin),
+              transform var(--duration-fast) var(--ease-ecrin);
+}
+
+@media (hover: hover) {
+  .devoilement__product-card:hover .devoilement__product-card-arrow {
+    opacity: 1;
+    transform: translateX(3px);
+  }
+}
+
+/* Dark text variant product card */
+.devoilement__scene--dark .devoilement__product-card {
+  background: rgba(0, 0, 0, 0.06);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+@media (hover: hover) {
+  .devoilement__scene--dark .devoilement__product-card:hover {
+    background: rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* ============================================================
+   PROGRESS BAR
+   ============================================================ */
+.devoilement__progress {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  height: 120px;
+  width: 2px;
+  pointer-events: none;
+}
+
+.devoilement__progress--right {
+  right: var(--page-margin);
+}
+
+.devoilement__progress--left {
+  left: var(--page-margin);
+}
+
+.devoilement__progress-track {
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.devoilement__progress-fill {
+  width: 100%;
+  height: var(--progress, 0%);
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 1px;
+  transition: height var(--duration-fast) var(--ease-ecrin);
+}
+
+/* Dark text scene: adjust progress bar colors via parent */
+.devoilement__scene--dark ~ .devoilement__progress .devoilement__progress-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.devoilement__scene--dark ~ .devoilement__progress .devoilement__progress-fill {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* ============================================================
+   COUNTER
+   ============================================================ */
+.devoilement__counter {
+  position: absolute;
+  bottom: 24px;
+  right: var(--page-margin);
+  z-index: 10;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  font-family: var(--font-label-family);
+  font-size: 12px;
+  font-weight: var(--font-label-weight);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+  pointer-events: none;
+}
+
+.devoilement__counter-current {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.9);
+  font-variant-numeric: tabular-nums;
+}
+
+.devoilement__counter-sep {
+  opacity: 0.4;
+}
+
+.devoilement__counter-total {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================================
+   MOBILE DOTS
+   ============================================================ */
+.devoilement__dots {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: none;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.devoilement__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transition: background var(--duration-fast) var(--ease-ecrin),
+              transform var(--duration-fast) var(--ease-ecrin);
+}
+
+.devoilement__dot--active {
+  background: rgba(255, 255, 255, 0.9);
+  transform: scale(1.3);
+}
+
+/* ============================================================
+   CURSOR PARALLAX (desktop only)
+   ============================================================ */
+@media (hover: hover) {
+  .devoilement__scene-media[data-parallax-active] .devoilement__scene-img {
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: translate(
+      calc(var(--cursor-x, 0) * -12px),
+      calc(var(--cursor-y, 0) * -12px)
+    ) scale(1.03);
+  }
+}
+
+/* ============================================================
+   RESPONSIVE — Tablet
+   ============================================================ */
+@media screen and (min-width: 750px) and (max-width: 989px) {
+  .devoilement__progress {
+    width: 3px;
+    height: 100px;
+  }
+
+  .devoilement__scene-content {
+    padding: 40px calc(var(--page-margin) * 2);
+  }
+
+  .devoilement__scene-content--bottom-left,
+  .devoilement__scene-content--bottom-center,
+  .devoilement__scene-content--bottom-right {
+    padding-bottom: 80px;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE — Mobile
+   ============================================================ */
+@media screen and (max-width: 749px) {
+  .devoilement__scene-content {
+    padding: 24px var(--page-margin);
+  }
+
+  .devoilement__scene-content--bottom-left,
+  .devoilement__scene-content--bottom-center,
+  .devoilement__scene-content--bottom-right {
+    padding-bottom: 56px;
+  }
+
+  /* On mobile, bottom-right and bottom-left both center */
+  .devoilement__scene-content--bottom-right,
+  .devoilement__scene-content--bottom-left {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    align-items: center;
+    text-align: center;
+  }
+
+  /* Content width: always full on mobile */
+  .devoilement__scene-content--narrow,
+  .devoilement__scene-content--medium,
+  .devoilement__scene-content--wide {
+    max-width: calc(100% - var(--page-margin) * 2);
+  }
+
+  /* Hide desktop progress, show dots */
+  .devoilement__progress {
+    display: none;
+  }
+
+  .devoilement__dots {
+    display: flex;
+  }
+
+  /* Counter: centered on mobile */
+  .devoilement__counter {
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 44px;
+  }
+}
+
+/* ============================================================
+   REDUCED MOTION
+   Disable clip-path animations, use simple crossfade instead.
+   Scroll-driven content transitions remain (user-initiated).
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  /* Replace clip-path reveals with simple opacity */
+  .devoilement__scene-media[data-reveal="circle"],
+  .devoilement__scene-media[data-reveal="diagonal"],
+  .devoilement__scene-media[data-reveal="split"],
+  .devoilement__scene-media[data-reveal="curtain"] {
+    clip-path: none !important;
+  }
+
+  /* Content transitions: instant */
+  [data-content-el] {
+    transition-duration: 0ms;
+    transform: none;
+  }
+
+  /* Disable cursor parallax transforms */
+  .devoilement__scene-media[data-parallax-active] .devoilement__scene-img {
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* ============================================================
+   SHOPIFY EDITOR — Design mode helpers
+   ============================================================ */
+.shopify-design-mode .devoilement__scene.is-editor-selected {
+  opacity: 1;
+  visibility: visible;
+  z-index: 3;
+}
+
+.shopify-design-mode .devoilement__scene.is-editor-selected .devoilement__scene-media {
+  clip-path: none;
+}
+
+.shopify-design-mode .devoilement__scene.is-editor-selected [data-content-el] {
+  --content-opacity: 1;
+}
