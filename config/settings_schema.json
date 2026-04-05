@@ -67,6 +67,33 @@
             "id": "button_label",
             "label": "t:settings_schema.colors.button_label",
             "default": "#FFFFFF"
+          },
+          { "type": "header", "content": "t:settings_schema.colors.button_hover" },
+          {
+            "type": "color",
+            "id": "button_hover_background",
+            "label": "t:settings_schema.colors.button_hover_background",
+            "default": "#333333"
+          },
+          {
+            "type": "color",
+            "id": "button_hover_label",
+            "label": "t:settings_schema.colors.button_hover_label",
+            "default": "#FFFFFF"
+          },
+          { "type": "header", "content": "t:settings_schema.colors.secondary_buttons" },
+          {
+            "type": "color",
+            "id": "secondary_button_background",
+            "label": "t:settings_schema.colors.secondary_button_background",
+            "default": "#FFFFFF",
+            "info": "t:settings_schema.colors.secondary_button_info"
+          },
+          {
+            "type": "color",
+            "id": "secondary_button_label",
+            "label": "t:settings_schema.colors.secondary_button_label",
+            "default": "#0A0A0A"
           }
         ],
         "role": {
@@ -80,8 +107,8 @@
           "primary_button": "button_background",
           "on_primary_button": "button_label",
           "primary_button_border": "button_background",
-          "secondary_button": "background",
-          "on_secondary_button": "button_background",
+          "secondary_button": "secondary_button_background",
+          "on_secondary_button": "secondary_button_label",
           "secondary_button_border": "button_background"
         }
       },
@@ -587,7 +614,7 @@
         "label": "t:settings_schema.cart.free_shipping_minimum",
         "info": "t:settings_schema.cart.free_shipping_info",
         "default": "150"
-      },
+      }
     ]
   },
 

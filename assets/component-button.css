@@ -48,48 +48,51 @@
 }
 
 .btn--primary .btn__fill {
-  background-color: rgb(var(--color-button-text));
+  background-color: rgb(var(--color-button-hover-bg));
 }
 
 @media (hover: hover) {
   /* Slide-up hover */
   [data-button-hover="slide-up"] .btn--primary:hover {
-    color: rgb(var(--color-button-bg));
+    color: rgb(var(--color-button-hover-text));
   }
 
   [data-button-hover="slide-up"] .btn--primary:hover .btn__fill {
     transform: translateY(0);
+    background-color: rgb(var(--color-button-hover-bg));
   }
 
   /* Fade hover */
   [data-button-hover="fade"] .btn--primary:hover {
-    opacity: 0.85;
+    background-color: rgb(var(--color-button-hover-bg));
+    color: rgb(var(--color-button-hover-text));
   }
 }
 
 .btn--primary:active {
-  color: rgb(var(--color-button-bg));
+  color: rgb(var(--color-button-hover-text));
 }
 
 .btn--primary:active .btn__fill {
   transform: translateY(0);
+  background-color: rgb(var(--color-button-hover-bg));
 }
 
 /* ===== SECONDARY (outline) ===== */
 
 .btn--secondary {
-  background-color: transparent;
-  border-color: rgb(var(--color-button-bg));
-  color: rgb(var(--color-button-bg));
+  background-color: rgb(var(--color-secondary-btn-bg));
+  border-color: rgb(var(--color-secondary-btn-text));
+  color: rgb(var(--color-secondary-btn-text));
 }
 
 .btn--secondary .btn__fill {
-  background-color: rgb(var(--color-button-bg));
+  background-color: rgb(var(--color-secondary-btn-text));
 }
 
 @media (hover: hover) {
   [data-button-hover="slide-up"] .btn--secondary:hover {
-    color: rgb(var(--color-button-text));
+    color: rgb(var(--color-secondary-btn-bg));
   }
 
   [data-button-hover="slide-up"] .btn--secondary:hover .btn__fill {
@@ -97,13 +100,13 @@
   }
 
   [data-button-hover="fade"] .btn--secondary:hover {
-    background-color: rgb(var(--color-button-bg));
-    color: rgb(var(--color-button-text));
+    background-color: rgb(var(--color-secondary-btn-text));
+    color: rgb(var(--color-secondary-btn-bg));
   }
 }
 
 .btn--secondary:active {
-  color: rgb(var(--color-button-text));
+  color: rgb(var(--color-secondary-btn-bg));
 }
 
 .btn--secondary:active .btn__fill {

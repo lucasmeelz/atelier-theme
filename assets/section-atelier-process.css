@@ -76,7 +76,7 @@
   position: relative;
   overflow: hidden;
   border-radius: var(--card-border-radius);
-  aspect-ratio: 4 / 5;
+  aspect-ratio: var(--process-image-ratio, 4 / 5);
 }
 
 .atelier-process__image {
@@ -85,7 +85,7 @@
   object-fit: cover;
 }
 
-/* Step number overlay */
+/* Step number — overlay (default) */
 .atelier-process__number {
   position: absolute;
   bottom: 16px;
@@ -94,9 +94,35 @@
   font-weight: var(--font-heading-weight);
   font-size: clamp(3rem, 6vw, 5rem);
   line-height: 1;
-  color: rgb(var(--color-background));
-  opacity: 0.6;
+  color: rgb(255, 255, 255);
+  opacity: 0.85;
   pointer-events: none;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4), 0 0 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Number style — none */
+.atelier-process--number-none .atelier-process__number {
+  display: none;
+}
+
+/* Number style — badge */
+.atelier-process--badge .atelier-process__number {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  bottom: auto;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: rgb(var(--color-text));
+  color: rgb(var(--color-background));
+  font-size: 0.875rem;
+  opacity: 1;
+  text-shadow: none;
+  line-height: 1;
 }
 
 /* Content */
@@ -123,6 +149,21 @@
   line-height: 1.6;
   color: rgb(var(--color-text-subdued));
   margin: 0;
+}
+
+/* Content alignment — center */
+.atelier-process--center .atelier-process__content {
+  text-align: center;
+}
+
+/* Card style — elevated */
+.atelier-process--elevated .atelier-process__image-wrap {
+  border-radius: 8px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+
+.atelier-process--elevated .atelier-process__content {
+  padding: 16px 8px 8px;
 }
 
 /* Navigation */
@@ -174,6 +215,13 @@
   height: 16px;
 }
 
+/* Hide nav in timeline layout on desktop — no horizontal scroll */
+@media screen and (min-width: 990px) {
+  .atelier-process--timeline .atelier-process__nav {
+    display: none;
+  }
+}
+
 /* Progress dots */
 .atelier-process__dots {
   display: flex;
@@ -208,4 +256,59 @@
   background-color: rgb(var(--color-text));
   border-radius: 1px;
   transition: width var(--duration-base) var(--ease-ecrin);
+}
+
+/* ===================================
+   Timeline layout — vertical alternating
+   =================================== */
+@media screen and (min-width: 990px) {
+  .atelier-process--timeline .atelier-process__track {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: visible;
+    scroll-snap-type: none;
+    position: relative;
+    max-width: var(--page-width);
+    margin: 0 auto;
+    padding: 0 var(--page-margin);
+  }
+
+  /* Center timeline line */
+  .atelier-process--timeline .atelier-process__track::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 1px;
+    background-color: rgb(var(--color-border));
+    pointer-events: none;
+  }
+
+  .atelier-process--timeline .atelier-process__step {
+    flex: none;
+    width: 45%;
+    scroll-snap-align: none;
+    padding: 0 0 48px;
+  }
+
+  /* Override first/last padding overrides from default layout */
+  .atelier-process--timeline .atelier-process__step:first-child {
+    padding-left: 0;
+  }
+
+  .atelier-process--timeline .atelier-process__step:last-child {
+    padding-right: 0;
+  }
+
+  .atelier-process--timeline .atelier-process__step:nth-child(odd) {
+    align-self: flex-start;
+    padding-right: 32px;
+  }
+
+  .atelier-process--timeline .atelier-process__step:nth-child(even) {
+    align-self: flex-end;
+    padding-left: 32px;
+  }
 }

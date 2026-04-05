@@ -236,3 +236,94 @@ h3.featured-collection__heading {
 /* Card product styles are handled by component-card.css
    Do NOT duplicate card styles here — it causes specificity conflicts
    (e.g. quick-add button was rendered as 36px circle instead of full-width bar) */
+
+/* ===================================
+   Collection Tabs
+   =================================== */
+.featured-collection__tabs {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  position: relative;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid rgb(var(--color-border));
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.featured-collection__tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.featured-collection__tab {
+  position: relative;
+  flex: 0 0 auto;
+  padding: 12px 24px;
+  background: none;
+  border: none;
+  font-family: var(--font-label-family);
+  font-size: var(--label-font-size);
+  font-weight: var(--font-label-weight);
+  letter-spacing: var(--label-letter-spacing);
+  text-transform: var(--label-text-transform);
+  color: rgb(var(--color-text-subdued));
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color var(--duration-base) var(--ease-ecrin);
+}
+
+.featured-collection__tab--active {
+  color: rgb(var(--color-text));
+}
+
+@media (hover: hover) {
+  .featured-collection__tab:not(.featured-collection__tab--active):hover {
+    color: rgb(var(--color-text));
+  }
+}
+
+.featured-collection__tab:focus-visible {
+  outline: 2px solid rgb(var(--color-accent));
+  outline-offset: -2px;
+}
+
+/* Animated underline indicator */
+.featured-collection__tab-indicator {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  height: 2px;
+  background-color: rgb(var(--color-text));
+  transition: transform var(--duration-base) var(--ease-ecrin),
+              width var(--duration-base) var(--ease-ecrin);
+  pointer-events: none;
+}
+
+/* ===================================
+   Tab Panels
+   =================================== */
+.featured-collection__panel {
+  animation: fc-panel-in var(--duration-base) var(--ease-ecrin);
+}
+
+.featured-collection__panel[hidden] {
+  display: none;
+}
+
+@keyframes fc-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .featured-collection__panel.motion-auto {
+    animation: none !important;
+  }
+}

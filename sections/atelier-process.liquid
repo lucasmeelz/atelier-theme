@@ -2,6 +2,7 @@
   Atelier Process — Horizontal scroll storytelling
   Each step = image + number + heading + text, scrolls horizontally
   Desktop: prev/next buttons, mobile: swipe with scroll-snap
+  Timeline layout: vertical alternating on desktop
 {%- endcomment -%}
 
 {{ 'section-atelier-process.css' | asset_url | stylesheet_tag }}
@@ -11,11 +12,35 @@
   assign subheading = section.settings.subheading
   assign show_step_numbers = section.settings.show_step_numbers
   assign color_scheme = section.settings.color_scheme
+  assign layout = section.settings.layout | default: 'horizontal'
+  assign image_ratio = section.settings.image_ratio | default: 'portrait'
+  assign number_style = section.settings.number_style | default: 'overlay'
+  assign card_style = section.settings.card_style | default: 'minimal'
+  assign content_alignment = section.settings.content_alignment | default: 'left'
+
+  case image_ratio
+    when 'portrait'
+      assign ratio = '4 / 5'
+    when 'square'
+      assign ratio = '1 / 1'
+    when 'landscape'
+      assign ratio = '16 / 9'
+    when 'cinematic'
+      assign ratio = '21 / 9'
+    else
+      assign ratio = '4 / 5'
+  endcase
 -%}
+
+{%- style -%}
+  #Section-{{ section.id }} {
+    --process-image-ratio: {{ ratio }};
+  }
+{%- endstyle -%}
 
 <div
   id="Section-{{ section.id }}"
-  class="atelier-process section-spacing color-{{ color_scheme }}"
+  class="atelier-process section-spacing color-{{ color_scheme }} atelier-process--{{ layout }} atelier-process--{{ card_style }} atelier-process--{{ content_alignment }}{% if show_step_numbers and number_style == 'badge' %} atelier-process--badge{% elsif show_step_numbers == false or number_style == 'none' %} atelier-process--number-none{% endif %}"
   data-section-id="{{ section.id }}"
 >
   {%- if heading != blank or subheading != blank -%}
@@ -47,7 +72,7 @@
             {{ 'product-' | append: forloop.index | placeholder_svg_tag: 'atelier-process__image placeholder-svg' }}
           {%- endif -%}
 
-          {%- if show_step_numbers -%}
+          {%- if show_step_numbers and number_style != 'none' -%}
             <span class="atelier-process__number" aria-hidden="true">
               {{- block.settings.custom_number | default: forloop.index -}}
             </span>
@@ -100,6 +125,11 @@
   function initAtelierScroller(section) {
     var track = section.querySelector('.atelier-process__track');
     if (!track) return;
+
+    /* Skip horizontal scroll logic for timeline layout on desktop */
+    var isTimeline = section.classList.contains('atelier-process--timeline');
+    var isDesktop = window.matchMedia('(min-width: 990px)').matches;
+    if (isTimeline && isDesktop) return;
 
     var steps = Array.from(track.querySelectorAll('.atelier-process__step'));
     var prevBtn = section.querySelector('[data-prev]');
@@ -168,10 +198,63 @@
       "default": "Craftsmanship"
     },
     {
+      "type": "select",
+      "id": "layout",
+      "label": "t:sections.atelier_process.layout",
+      "options": [
+        { "value": "horizontal", "label": "t:sections.atelier_process.layout_horizontal" },
+        { "value": "timeline", "label": "t:sections.atelier_process.layout_timeline" }
+      ],
+      "default": "horizontal"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "t:sections.atelier_process.image_ratio",
+      "options": [
+        { "value": "portrait", "label": "t:sections.atelier_process.ratio_portrait" },
+        { "value": "square", "label": "t:sections.atelier_process.ratio_square" },
+        { "value": "landscape", "label": "t:sections.atelier_process.ratio_landscape" },
+        { "value": "cinematic", "label": "t:sections.atelier_process.ratio_cinematic" }
+      ],
+      "default": "portrait"
+    },
+    {
       "type": "checkbox",
       "id": "show_step_numbers",
       "label": "t:sections.atelier_process.show_step_numbers",
       "default": true
+    },
+    {
+      "type": "select",
+      "id": "number_style",
+      "label": "t:sections.atelier_process.number_style",
+      "options": [
+        { "value": "overlay", "label": "t:sections.atelier_process.number_overlay" },
+        { "value": "badge", "label": "t:sections.atelier_process.number_badge" },
+        { "value": "none", "label": "t:sections.atelier_process.number_none" }
+      ],
+      "default": "overlay"
+    },
+    {
+      "type": "select",
+      "id": "card_style",
+      "label": "t:sections.atelier_process.card_style",
+      "options": [
+        { "value": "minimal", "label": "t:sections.atelier_process.card_minimal" },
+        { "value": "elevated", "label": "t:sections.atelier_process.card_elevated" }
+      ],
+      "default": "minimal"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "t:sections.atelier_process.content_alignment",
+      "options": [
+        { "value": "left", "label": "t:sections.atelier_process.alignment_left" },
+        { "value": "center", "label": "t:sections.atelier_process.alignment_center" }
+      ],
+      "default": "left"
     },
     {
       "type": "color_scheme",

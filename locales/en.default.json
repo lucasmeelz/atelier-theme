@@ -379,6 +379,11 @@
       "cancel": "Cancel"
     }
   },
+  "slideshow": {
+    "carousel": "Slideshow",
+    "slide": "Slide",
+    "default_label": "Slideshow"
+  },
   "hero": {
     "scroll_down": "Scroll down"
   },

@@ -7,6 +7,7 @@
   padding-top: var(--marquee-padding-top, 16px);
   padding-bottom: var(--marquee-padding-bottom, 16px);
   white-space: nowrap;
+  position: relative;
 }
 
 .marquee--bordered {
@@ -60,6 +61,7 @@
   display: flex;
   align-items: center;
   flex-shrink: 0;
+  min-width: 100%;
 }
 
 /* ===================================
@@ -69,7 +71,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 0 16px;
+  padding: 0 var(--marquee-gap, 16px);
 }
 
 .marquee__icon {
@@ -104,6 +106,16 @@
   height: 24px;
 }
 
+.marquee--x-large .marquee__text {
+  font-size: 2rem;
+  letter-spacing: 0.02em;
+}
+
+.marquee--editorial .marquee__text {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  letter-spacing: -0.01em;
+}
+
 /* Separator */
 .marquee__separator {
   padding: 0 8px;
@@ -112,10 +124,36 @@
 }
 
 /* ===================================
-   Reduced motion — show static text
+   Font choice — heading font variant
    =================================== */
-@media (prefers-reduced-motion: reduce) {
-  .marquee__track {
-    animation: none;
-  }
+.marquee--font-heading .marquee__text {
+  font-family: var(--font-heading-family);
+  font-weight: var(--font-heading-weight);
+  font-style: var(--font-heading-style);
+  text-transform: none;
+  letter-spacing: var(--heading-letter-spacing);
+}
+
+/* ===================================
+   Gradient fade edges
+   =================================== */
+.marquee--gradient::before,
+.marquee--gradient::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 60px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.marquee--gradient::before {
+  left: 0;
+  background: linear-gradient(to right, rgb(var(--color-background)), transparent);
+}
+
+.marquee--gradient::after {
+  right: 0;
+  background: linear-gradient(to left, rgb(var(--color-background)), transparent);
 }

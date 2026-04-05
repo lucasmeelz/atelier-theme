@@ -43,6 +43,12 @@
   if desktop_layout == 'carousel' and products_to_show > columns_desktop
     assign show_nav = true
   endif
+
+  assign tab_blocks = section.blocks | where: 'type', 'collection_tab'
+  assign has_tabs = false
+  if tab_blocks.size > 1
+    assign has_tabs = true
+  endif
 -%}
 
 {%- style -%}
@@ -97,57 +103,149 @@
       </div>
     {%- endif -%}
 
+    {%- comment -%} Tab bar — only when 2+ collection_tab blocks exist {%- endcomment -%}
+    {%- if has_tabs -%}
+      <div class="featured-collection__tabs" role="tablist" aria-label="{{ heading | default: 'Collections' | escape }}">
+        {%- for block in tab_blocks -%}
+          <button
+            class="featured-collection__tab{% if forloop.first %} featured-collection__tab--active{% endif %}"
+            role="tab"
+            id="fc-tab-{{ section.id }}-{{ forloop.index0 }}"
+            aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+            aria-controls="fc-panel-{{ section.id }}-{{ forloop.index0 }}"
+            data-tab-index="{{ forloop.index0 }}"
+            tabindex="{% if forloop.first %}0{% else %}-1{% endif %}"
+            {{ block.shopify_attributes }}
+          >
+            {{ block.settings.tab_label | default: block.settings.collection.title | default: 'Collection' }}
+          </button>
+        {%- endfor -%}
+        <span class="featured-collection__tab-indicator" aria-hidden="true"></span>
+      </div>
+    {%- endif -%}
+
     {%- comment -%} Product scroller / grid {%- endcomment -%}
-    <product-scroller
-      class="featured-collection__scroller{% if desktop_layout == 'carousel' %} featured-collection__scroller--carousel{% endif %}{% if mobile_layout == 'swipe' %} featured-collection__scroller--swipe-mobile{% endif %}"
-      data-desktop-layout="{{ desktop_layout }}"
-    >
-      <div class="featured-collection__track" data-track {% if settings.stagger_products %}data-stagger-cards{% endif %}>
-        {%- if collection != blank -%}
-          {%- for product in collection.products limit: products_to_show -%}
-            <div class="featured-collection__item" data-index="{{ forloop.index0 }}">
-              {%- render 'card-product',
-                product: product,
-                image_ratio: image_ratio,
-                show_secondary_image: show_secondary_image,
-                show_vendor: show_vendor,
-                show_rating: show_rating,
-                show_quick_add: show_quick_add,
-                show_color_swatches: show_color_swatches,
-                columns: columns_desktop,
-                lazy: true
-              -%}
-            </div>
-          {%- endfor -%}
-        {%- else -%}
-          {%- for i in (1..products_to_show) -%}
-            <div class="featured-collection__item" data-index="{{ forloop.index0 }}">
-              {%- assign card_style = settings.product_card_style | default: 'minimal' -%}
-              <div class="card-product card-product--{{ card_style }}{% if settings.product_card_info_alignment %} card-product--{{ settings.product_card_info_alignment }}{% endif %}">
-                <div class="card-product__media">
-                  <div class="card-product__media-wrapper"{% if image_ratio != 'adapt' %} style="--card-image-ratio: {% case image_ratio %}{% when 'portrait' %}3 / 4{% when 'square' %}1 / 1{% when 'landscape' %}4 / 3{% endcase %};"{% endif %}>
-                    <div class="card-product__placeholder">
-                      {%- capture placeholder_name -%}product-{{ i | modulo: 6 | plus: 1 }}{%- endcapture -%}
-                      {{ placeholder_name | placeholder_svg_tag: 'card-product__placeholder-svg' }}
+    {%- if has_tabs -%}
+
+      {%- comment -%} Multi-tab: one panel per collection_tab block {%- endcomment -%}
+      {%- for block in tab_blocks -%}
+        {%- assign tab_collection = block.settings.collection -%}
+        <div
+          class="featured-collection__panel motion-auto"
+          role="tabpanel"
+          id="fc-panel-{{ section.id }}-{{ forloop.index0 }}"
+          aria-labelledby="fc-tab-{{ section.id }}-{{ forloop.index0 }}"
+          data-tab-panel="{{ forloop.index0 }}"
+          {% unless forloop.first %}hidden{% endunless %}
+        >
+          <product-scroller
+            class="featured-collection__scroller{% if desktop_layout == 'carousel' %} featured-collection__scroller--carousel{% endif %}{% if mobile_layout == 'swipe' %} featured-collection__scroller--swipe-mobile{% endif %}"
+            data-desktop-layout="{{ desktop_layout }}"
+          >
+            <div class="featured-collection__track" data-track {% if settings.stagger_products %}data-stagger-cards{% endif %}>
+              {%- if tab_collection != blank -%}
+                {%- for product in tab_collection.products limit: products_to_show -%}
+                  <div class="featured-collection__item" data-index="{{ forloop.index0 }}">
+                    {%- render 'card-product',
+                      product: product,
+                      image_ratio: image_ratio,
+                      show_secondary_image: show_secondary_image,
+                      show_vendor: show_vendor,
+                      show_rating: show_rating,
+                      show_quick_add: show_quick_add,
+                      show_color_swatches: show_color_swatches,
+                      columns: columns_desktop,
+                      lazy: true
+                    -%}
+                  </div>
+                {%- endfor -%}
+              {%- else -%}
+                {%- for i in (1..products_to_show) -%}
+                  <div class="featured-collection__item" data-index="{{ forloop.index0 }}">
+                    {%- assign card_style = settings.product_card_style | default: 'minimal' -%}
+                    <div class="card-product card-product--{{ card_style }}{% if settings.product_card_info_alignment %} card-product--{{ settings.product_card_info_alignment }}{% endif %}">
+                      <div class="card-product__media">
+                        <div class="card-product__media-wrapper"{% if image_ratio != 'adapt' %} style="--card-image-ratio: {% case image_ratio %}{% when 'portrait' %}3 / 4{% when 'square' %}1 / 1{% when 'landscape' %}4 / 3{% endcase %};"{% endif %}>
+                          <div class="card-product__placeholder">
+                            {%- capture placeholder_name -%}product-{{ i | modulo: 6 | plus: 1 }}{%- endcapture -%}
+                            {{ placeholder_name | placeholder_svg_tag: 'card-product__placeholder-svg' }}
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-product__info">
+                        <h3 class="card-product__title">
+                          <a href="#">{{ 'product.placeholder_title' | t }}</a>
+                        </h3>
+                        <div class="price">
+                          <div class="price__regular">
+                            <span class="price__current">{{ 9999 | money }}</span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="card-product__info">
-                  <h3 class="card-product__title">
-                    <a href="#">{{ 'product.placeholder_title' | t }}</a>
-                  </h3>
-                  <div class="price">
-                    <div class="price__regular">
-                      <span class="price__current">{{ 9999 | money }}</span>
+                {%- endfor -%}
+              {%- endif -%}
+            </div>
+          </product-scroller>
+        </div>
+      {%- endfor -%}
+
+    {%- else -%}
+
+      {%- comment -%} Original single-collection scroller (backward compatible) {%- endcomment -%}
+      <product-scroller
+        class="featured-collection__scroller{% if desktop_layout == 'carousel' %} featured-collection__scroller--carousel{% endif %}{% if mobile_layout == 'swipe' %} featured-collection__scroller--swipe-mobile{% endif %}"
+        data-desktop-layout="{{ desktop_layout }}"
+      >
+        <div class="featured-collection__track" data-track {% if settings.stagger_products %}data-stagger-cards{% endif %}>
+          {%- if collection != blank -%}
+            {%- for product in collection.products limit: products_to_show -%}
+              <div class="featured-collection__item" data-index="{{ forloop.index0 }}">
+                {%- render 'card-product',
+                  product: product,
+                  image_ratio: image_ratio,
+                  show_secondary_image: show_secondary_image,
+                  show_vendor: show_vendor,
+                  show_rating: show_rating,
+                  show_quick_add: show_quick_add,
+                  show_color_swatches: show_color_swatches,
+                  columns: columns_desktop,
+                  lazy: true
+                -%}
+              </div>
+            {%- endfor -%}
+          {%- else -%}
+            {%- for i in (1..products_to_show) -%}
+              <div class="featured-collection__item" data-index="{{ forloop.index0 }}">
+                {%- assign card_style = settings.product_card_style | default: 'minimal' -%}
+                <div class="card-product card-product--{{ card_style }}{% if settings.product_card_info_alignment %} card-product--{{ settings.product_card_info_alignment }}{% endif %}">
+                  <div class="card-product__media">
+                    <div class="card-product__media-wrapper"{% if image_ratio != 'adapt' %} style="--card-image-ratio: {% case image_ratio %}{% when 'portrait' %}3 / 4{% when 'square' %}1 / 1{% when 'landscape' %}4 / 3{% endcase %};"{% endif %}>
+                      <div class="card-product__placeholder">
+                        {%- capture placeholder_name -%}product-{{ i | modulo: 6 | plus: 1 }}{%- endcapture -%}
+                        {{ placeholder_name | placeholder_svg_tag: 'card-product__placeholder-svg' }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-product__info">
+                    <h3 class="card-product__title">
+                      <a href="#">{{ 'product.placeholder_title' | t }}</a>
+                    </h3>
+                    <div class="price">
+                      <div class="price__regular">
+                        <span class="price__current">{{ 9999 | money }}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          {%- endfor -%}
-        {%- endif -%}
-      </div>
-    </product-scroller>
+            {%- endfor -%}
+          {%- endif -%}
+        </div>
+      </product-scroller>
+
+    {%- endif -%}
 
     {%- comment -%} Mobile view all button {%- endcomment -%}
     {%- if button_label != blank -%}
@@ -367,6 +465,26 @@
       "step": 4,
       "unit": "px",
       "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection_tab",
+      "name": "t:sections.featured_collection.block_collection_tab",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "t:sections.featured_collection.tab_collection"
+        },
+        {
+          "type": "text",
+          "id": "tab_label",
+          "label": "t:sections.featured_collection.tab_label",
+          "info": "t:sections.featured_collection.tab_label_info"
+        }
+      ]
     }
   ],
   "presets": [

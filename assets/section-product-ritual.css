@@ -47,7 +47,7 @@
   position: relative;
   overflow: hidden;
   border-radius: var(--card-border-radius);
-  aspect-ratio: 4 / 5;
+  aspect-ratio: var(--ritual-image-ratio, 4 / 5);
   background-color: rgba(var(--color-text), 0.03);
 }
 
@@ -85,6 +85,11 @@
   fill: rgba(var(--color-text), 0.15);
 }
 
+/* Steps wrap — relative for progress bar */
+.product-ritual__steps-wrap {
+  position: relative;
+}
+
 /* Steps list */
 .product-ritual__steps {
   display: flex;
@@ -115,7 +120,7 @@
   }
 }
 
-/* Step number circle */
+/* Step number circle — default size (small / 32px) */
 .product-ritual__step-number {
   position: absolute;
   left: 0;
@@ -130,6 +135,7 @@
   font-family: var(--font-heading-family);
   font-size: 0.75rem;
   font-weight: 500;
+  line-height: 1;
   transition: background-color var(--duration-base) var(--ease-ecrin),
               border-color var(--duration-base) var(--ease-ecrin),
               color var(--duration-base) var(--ease-ecrin);
@@ -139,6 +145,36 @@
   background-color: rgb(var(--color-text));
   border-color: rgb(var(--color-text));
   color: rgb(var(--color-background));
+}
+
+/* Number size — medium */
+.product-ritual--number-medium .product-ritual__step-number {
+  width: 40px;
+  height: 40px;
+  font-size: 0.875rem;
+}
+
+.product-ritual--number-medium .product-ritual__step {
+  padding-left: 56px;
+}
+
+.product-ritual--number-medium .product-ritual__progress {
+  left: 19px;
+}
+
+/* Number size — large */
+.product-ritual--number-large .product-ritual__step-number {
+  width: 48px;
+  height: 48px;
+  font-size: 1rem;
+}
+
+.product-ritual--number-large .product-ritual__step {
+  padding-left: 64px;
+}
+
+.product-ritual--number-large .product-ritual__progress {
+  left: 23px;
 }
 
 /* Step content */

@@ -1,7 +1,7 @@
 {%- comment -%}
   Marquee — Continuous scrolling text ticker
   Uses CSS animation for smooth infinite scroll
-  Respects prefers-reduced-motion (shows static text)
+  Respects prefers-reduced-motion via .motion-auto class
 {%- endcomment -%}
 
 {{ 'section-marquee.css' | asset_url | stylesheet_tag }}
@@ -16,6 +16,9 @@
   assign color_scheme = section.settings.color_scheme
   assign padding_top = section.settings.padding_top | default: 16
   assign padding_bottom = section.settings.padding_bottom | default: 16
+  assign font_choice = section.settings.font_choice | default: 'body'
+  assign show_gradient_overlay = section.settings.show_gradient_overlay
+  assign gap_size = section.settings.gap_size | default: 'medium'
 
   case speed
     when 'slow'
@@ -30,22 +33,32 @@
   if direction == 'right'
     assign anim_direction = 'reverse'
   endif
+
+  case gap_size
+    when 'small'
+      assign gap_px = '8px'
+    when 'large'
+      assign gap_px = '32px'
+    else
+      assign gap_px = '16px'
+  endcase
 -%}
 
 {%- style -%}
   #Section-{{ section.id }} {
     --marquee-duration: {{ duration }};
     --marquee-direction: {{ anim_direction }};
+    --marquee-gap: {{ gap_px }};
   }
 {%- endstyle -%}
 
 <div
   id="Section-{{ section.id }}"
-  class="marquee color-{{ color_scheme }} marquee--{{ text_size }}{% if show_borders %} marquee--bordered{% endif %}"
+  class="marquee color-{{ color_scheme }} marquee--{{ text_size }} marquee--font-{{ font_choice }}{% if show_borders %} marquee--bordered{% endif %}{% if show_gradient_overlay %} marquee--gradient{% endif %}"
   style="--marquee-padding-top: {{ padding_top }}px; --marquee-padding-bottom: {{ padding_bottom }}px;"
   data-pause-on-hover="{{ pause_on_hover }}"
 >
-  <div class="marquee__track" aria-label="{{ 'accessibility.loading' | t }}">
+  <div class="marquee__track motion-auto" aria-label="{{ 'accessibility.loading' | t }}">
     {%- comment -%} Duplicate content 3x for seamless loop {%- endcomment -%}
     {%- for repeat in (1..3) -%}
       <div class="marquee__content" aria-hidden="{% if repeat > 1 %}true{% else %}false{% endif %}">
@@ -121,7 +134,30 @@
       "options": [
         { "value": "small", "label": "t:sections.marquee.size_small" },
         { "value": "medium", "label": "t:sections.marquee.size_medium" },
-        { "value": "large", "label": "t:sections.marquee.size_large" }
+        { "value": "large", "label": "t:sections.marquee.size_large" },
+        { "value": "x-large", "label": "t:sections.marquee.size_x_large" },
+        { "value": "editorial", "label": "t:sections.marquee.size_editorial" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "font_choice",
+      "label": "t:sections.marquee.font_choice",
+      "options": [
+        { "value": "body", "label": "t:sections.marquee.font_body" },
+        { "value": "heading", "label": "t:sections.marquee.font_heading" }
+      ],
+      "default": "body"
+    },
+    {
+      "type": "select",
+      "id": "gap_size",
+      "label": "t:sections.marquee.gap_size",
+      "options": [
+        { "value": "small", "label": "t:sections.marquee.gap_small" },
+        { "value": "medium", "label": "t:sections.marquee.gap_medium" },
+        { "value": "large", "label": "t:sections.marquee.gap_large" }
       ],
       "default": "medium"
     },
@@ -137,6 +173,13 @@
       "label": "t:sections.marquee.show_borders",
       "default": true,
       "info": "t:sections.marquee.show_borders_info"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_gradient_overlay",
+      "label": "t:sections.marquee.show_gradient_overlay",
+      "info": "t:sections.marquee.show_gradient_overlay_info",
+      "default": true
     },
     {
       "type": "color_scheme",

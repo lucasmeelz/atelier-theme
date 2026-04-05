@@ -13,11 +13,30 @@
   assign autoplay = section.settings.autoplay
   assign autoplay_speed = section.settings.autoplay_speed
   assign color_scheme = section.settings.color_scheme
+  assign number_size = section.settings.number_size | default: 'small'
+  assign image_ratio = section.settings.image_ratio | default: 'portrait'
+
+  case image_ratio
+    when 'portrait'
+      assign ratio_value = '4 / 5'
+    when 'square'
+      assign ratio_value = '1 / 1'
+    when 'wide'
+      assign ratio_value = '16 / 9'
+    else
+      assign ratio_value = '4 / 5'
+  endcase
 -%}
+
+{%- style -%}
+  #Section-{{ section.id }} {
+    --ritual-image-ratio: {{ ratio_value }};
+  }
+{%- endstyle -%}
 
 <div
   id="Section-{{ section.id }}"
-  class="product-ritual section-spacing color-{{ color_scheme }}"
+  class="product-ritual section-spacing color-{{ color_scheme }} product-ritual--number-{{ number_size }}"
   data-section-id="{{ section.id }}"
 >
   <div class="container">
@@ -44,11 +63,11 @@
                 alt: block.settings.image.alt | default: block.settings.heading,
                 widths: '375, 750, 1000, 1200',
                 loading: 'lazy',
-                class: 'product-ritual__media-image',
+                class: 'product-ritual__media-image{% if forloop.first %} product-ritual__media-image--active{% endif %}',
                 id: 'ritual-image-' | append: section.id | append: '-' | append: forloop.index0
             }}
           {%- else -%}
-            <div class="product-ritual__media-image product-ritual__media-placeholder" id="ritual-image-{{ section.id }}-{{ forloop.index0 }}">
+            <div class="product-ritual__media-image{% if forloop.first %} product-ritual__media-image--active{% endif %} product-ritual__media-placeholder" id="ritual-image-{{ section.id }}-{{ forloop.index0 }}">
               {{ 'product-' | append: forloop.index | placeholder_svg_tag: 'product-ritual__placeholder-svg' }}
             </div>
           {%- endif -%}
@@ -57,6 +76,10 @@
 
       {%- comment -%} Steps {%- endcomment -%}
       <div class="product-ritual__steps-wrap">
+        <div class="product-ritual__progress" aria-hidden="true">
+          <div class="product-ritual__progress-fill" style="height: {{ 100.0 | divided_by: section.blocks.size }}%;"></div>
+        </div>
+
         <div class="product-ritual__steps" id="ritual-steps-{{ section.id }}">
           {%- for block in section.blocks -%}
             <div
@@ -136,6 +159,7 @@
       var steps = Array.from(section.querySelectorAll('.product-ritual__step'));
       var images = Array.from(section.querySelectorAll('.product-ritual__media-image'));
       var autoplayBtn = section.querySelector('[data-autoplay-toggle]');
+      var progressFill = section.querySelector('.product-ritual__progress-fill');
       var playing = false;
       var timer = null;
       var currentIndex = 0;
@@ -148,6 +172,9 @@
         images.forEach(function(img, i) {
           img.classList.toggle('product-ritual__media-image--active', i === index);
         });
+        if (progressFill) {
+          progressFill.style.height = ((index + 1) / steps.length * 100) + '%';
+        }
       }
 
       /* Activate first step */
@@ -247,6 +274,28 @@
         { "value": "right", "label": "t:sections.product_ritual.media_right" }
       ],
       "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "t:sections.product_ritual.image_ratio",
+      "options": [
+        { "value": "portrait", "label": "t:sections.product_ritual.ratio_portrait" },
+        { "value": "square", "label": "t:sections.product_ritual.ratio_square" },
+        { "value": "wide", "label": "t:sections.product_ritual.ratio_wide" }
+      ],
+      "default": "portrait"
+    },
+    {
+      "type": "select",
+      "id": "number_size",
+      "label": "t:sections.product_ritual.number_size",
+      "options": [
+        { "value": "small", "label": "t:sections.product_ritual.number_small" },
+        { "value": "medium", "label": "t:sections.product_ritual.number_medium" },
+        { "value": "large", "label": "t:sections.product_ritual.number_large" }
+      ],
+      "default": "small"
     },
     {
       "type": "header",
