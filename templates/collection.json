@@ -14,33 +14,49 @@
       "settings": {
         "layout": "plain",
         "show_description": true,
-        "title_size": "h1"
+        "title_size": "h1",
+        "overlay_opacity": 30,
+        "color_scheme": ""
       }
     },
     "main": {
       "type": "main-collection",
       "blocks": {
-        "promo_1": {
-          "type": "promotion",
+        "featured_product_taW7gM": {
+          "type": "featured_product",
           "settings": {
-            "heading": "New Season",
-            "subheading": "Discover the latest arrivals",
-            "button_label": "Shop now",
-            "text_color": "light",
-            "position": 2,
-            "layout": "full_width",
-            "overlay_opacity": 30
+            "product": "pre-order",
+            "position": 1,
+            "heading": "Editor's pick",
+            "show_description": true,
+            "color_scheme": "scheme-1"
           }
         },
         "description_1": {
           "type": "collection_description",
           "settings": {
             "content": "<p>Curated with care — each piece in this collection reflects our commitment to timeless design and exceptional craftsmanship.</p>",
-            "layout": "text_only"
+            "layout": "text_only",
+            "image_position": "left"
+          }
+        },
+        "promo_1": {
+          "type": "promotion",
+          "settings": {
+            "heading": "New Season",
+            "subheading": "Discover the latest arrivals",
+            "button_label": "Shop now",
+            "button_link": "",
+            "text_color": "light",
+            "position": 2,
+            "layout": "full_width",
+            "overlay_opacity": 30,
+            "color_scheme": ""
           }
         }
       },
       "block_order": [
+        "featured_product_taW7gM",
         "description_1",
         "promo_1"
       ],
@@ -52,13 +68,15 @@
         "show_secondary_image": true,
         "show_vendor": false,
         "show_quick_add": true,
+        "grid_gap": "standard",
+        "show_color_swatches": true,
         "show_filters": true,
         "filter_layout": "drawer",
         "show_sort": true,
-        "grid_gap": "standard",
+        "pagination_type": "paginated",
         "show_view_toggle": false,
-        "show_color_swatches": true,
-        "enable_quick_view": true
+        "enable_quick_view": true,
+        "color_scheme": ""
       }
     }
   },
