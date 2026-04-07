@@ -1178,7 +1178,7 @@ collapsible-details + :not(collapsible-details):not(.product__ingredients) {
 
   .product__sticky-atc-inner {
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
   }
 
   .product__sticky-atc-info {
@@ -1198,9 +1198,10 @@ collapsible-details + :not(collapsible-details):not(.product__ingredients) {
   }
 
   .product__sticky-save-badge {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
     text-align: center;
-    margin-top: -4px;
+    font-size: 0.625rem;
   }
 }
 
