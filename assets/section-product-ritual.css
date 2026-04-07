@@ -33,12 +33,12 @@
     align-items: start;
   }
 
-  .product-ritual__layout--media-right {
-    direction: rtl;
+  .product-ritual__layout--media-right .product-ritual__media {
+    order: 2;
   }
 
-  .product-ritual__layout--media-right > * {
-    direction: ltr;
+  .product-ritual__layout--media-right .product-ritual__info {
+    order: 1;
   }
 }
 
