@@ -9,6 +9,7 @@
  */
 {
   "accessibility": {
+    "scrolling_text": "Scrolling text",
     "skip_to_content": "Skip to content",
     "close": "Close",
     "open_menu": "Open menu",
