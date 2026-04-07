@@ -136,7 +136,8 @@
                   {%- endif -%}
                 {%- else -%}
                   <div class="devoilement__scene-placeholder">
-                    {{ 'lifestyle-' | append: scene_index | plus: 1 | placeholder_svg_tag: 'devoilement__placeholder-svg' }}
+                    {%- assign placeholder_num = scene_index | plus: 1 -%}
+                    {{ 'lifestyle-' | append: placeholder_num | placeholder_svg_tag: 'devoilement__placeholder-svg' }}
                   </div>
                 {%- endif -%}
               </div>

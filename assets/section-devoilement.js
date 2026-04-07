@@ -52,11 +52,18 @@ if (!customElements.get('devoilement-section')) {
       this.progressFill = this.viewport.querySelector('[data-progress-fill]');
       this.counterCurrent = this.viewport.querySelector('[data-counter-current]');
       this.dots = Array.from(this.viewport.querySelectorAll('.devoilement__dot'));
+      this.progressTrack = this.viewport.querySelector('.devoilement__progress-track');
+      this.counterEl = this.viewport.querySelector('.devoilement__counter');
 
       if (this.scenes.length === 0) return;
 
-      /* Cache dimensions */
-      this._cacheRect();
+      /* Cache dimensions after layout is stable */
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          this._cacheRect();
+          this._updateScene();
+        });
+      });
 
       /* Intersection Observer — only listen to scroll when in viewport */
       this._initObserver();
@@ -77,9 +84,6 @@ if (!customElements.get('devoilement-section')) {
       if (window.Shopify && Shopify.designMode) {
         this._initEditorEvents();
       }
-
-      /* Initial update */
-      this._updateScene();
     }
 
     disconnectedCallback() {
@@ -187,6 +191,13 @@ if (!customElements.get('devoilement-section')) {
         const mediaEl = scene.querySelector('.devoilement__scene-media');
         const contentEls = scene.querySelectorAll('[data-content-el]');
 
+        /* Remove parallax attributes from non-active scenes */
+        if (i !== sceneIndex && mediaEl) {
+          mediaEl.removeAttribute('data-parallax-active');
+          mediaEl.style.removeProperty('--cursor-x');
+          mediaEl.style.removeProperty('--cursor-y');
+        }
+
         if (i === sceneIndex) {
           /* Active scene */
           scene.classList.add('is-active');
@@ -195,36 +206,45 @@ if (!customElements.get('devoilement-section')) {
 
           /* Clip-path reveal: scene 0 is always fully revealed */
           if (i > 0 && mediaEl && !this.reducedMotion) {
-            mediaEl.style.setProperty('--reveal-progress', sceneProgress < 0.05 ? Math.min(1, sceneProgress * 20) : 1);
-
-            /* During entering phase, do smooth reveal */
+            /* During entering phase (first 50% of scene scroll), do smooth reveal */
             if (sceneProgress < 0.5) {
               const revealVal = this._easeOutCubic(Math.min(1, sceneProgress * 2));
               mediaEl.style.setProperty('--reveal-progress', revealVal);
               scene.classList.add('is-entering');
               scene.classList.remove('is-active');
+            } else {
+              mediaEl.style.setProperty('--reveal-progress', 1);
             }
           }
 
-          /* Content opacity: fade in during first 40% of scene */
-          const contentOpacity = Math.min(1, sceneProgress * 2.5);
-          contentEls.forEach((el) => {
-            el.style.setProperty('--content-opacity', i === 0 ? Math.max(contentOpacity, globalProgress < 0.01 ? 1 : contentOpacity) : contentOpacity);
-          });
+          /* Content opacity:
+             Scene 0 always fully visible.
+             Other scenes fade in during first 40% of scene scroll. */
+          if (i === 0) {
+            contentEls.forEach((el) => {
+              el.style.setProperty('--content-opacity', 1);
+            });
+          } else {
+            const contentOpacity = Math.min(1, sceneProgress * 2.5);
+            contentEls.forEach((el) => {
+              el.style.setProperty('--content-opacity', contentOpacity);
+            });
+          }
 
           /* Preload next scene's images */
           if (i + 1 < this.scenes.length && sceneProgress > 0.3) {
             this._preloadScene(i + 1);
           }
-        } else if (i === sceneIndex - 1 || (i === 0 && sceneIndex === 0)) {
+        } else if (i === sceneIndex - 1) {
           /* Previous scene — stays visible behind active */
           scene.classList.add('is-previous');
           scene.classList.remove('is-active', 'is-entering');
           scene.setAttribute('aria-hidden', 'true');
 
-          /* Keep content visible for previous scene */
+          /* Fade out previous scene content as new scene enters */
+          const fadeOut = Math.max(0, 1 - sceneProgress * 3);
           contentEls.forEach((el) => {
-            el.style.setProperty('--content-opacity', 1);
+            el.style.setProperty('--content-opacity', fadeOut);
           });
         } else {
           /* Inactive scenes */
@@ -235,6 +255,15 @@ if (!customElements.get('devoilement-section')) {
           });
         }
       });
+
+      /* Update indicator colors based on active scene text color */
+      if (sceneIndex !== this.currentScene) {
+        const activeScene = this.scenes[sceneIndex];
+        if (activeScene) {
+          const isDark = activeScene.classList.contains('devoilement__scene--dark');
+          this.viewport.classList.toggle('devoilement__viewport--dark-indicators', isDark);
+        }
+      }
 
       this.currentScene = sceneIndex;
     }
@@ -274,11 +303,16 @@ if (!customElements.get('devoilement-section')) {
     }
 
     _lerpCursor() {
+      if (!this.isActive) {
+        this.cursorRafId = requestAnimationFrame(() => this._lerpCursor());
+        return;
+      }
+
       const lerp = 0.06;
       this.currentX += (this.targetX - this.currentX) * lerp;
       this.currentY += (this.targetY - this.currentY) * lerp;
 
-      /* Apply to current active scene's media */
+      /* Apply only to current active scene's media */
       const activeScene = this.scenes[this.currentScene];
       if (activeScene) {
         const media = activeScene.querySelector('.devoilement__scene-media');

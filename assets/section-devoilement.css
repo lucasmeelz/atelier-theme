@@ -75,11 +75,13 @@
 
 /* Text color variants */
 .devoilement__scene--light {
-  color: #fff;
+  color: rgba(255, 255, 255, 1);
+  --scene-text-rgb: 255, 255, 255;
 }
 
 .devoilement__scene--dark {
   color: rgb(var(--color-text));
+  --scene-text-rgb: var(--color-text);
 }
 
 /* --- Scene media --- */
@@ -120,12 +122,13 @@
   clip-path: circle(calc(var(--reveal-progress, 0) * 150%) at 50% 50%);
 }
 
-/* Diagonal — wipe from bottom-left to top-right */
+/* Diagonal — wipe from left to right with angled edge */
 .devoilement__scene-media[data-reveal="diagonal"] {
   clip-path: polygon(
-    0% 100%,
-    calc(var(--reveal-progress, 0) * 200%) 100%,
-    0% calc(100% - var(--reveal-progress, 0) * 200%)
+    0% 0%,
+    calc(var(--reveal-progress, 0) * 150% - 30%) 0%,
+    calc(var(--reveal-progress, 0) * 150%) 100%,
+    0% 100%
   );
 }
 
@@ -150,7 +153,7 @@
 .devoilement__scene-overlay {
   position: absolute;
   inset: 0;
-  background: #000;
+  background: rgb(0, 0, 0);
   z-index: 1;
   pointer-events: none;
 }
@@ -306,10 +309,10 @@
   align-items: center;
   gap: 12px;
   padding: 10px 16px 10px 10px;
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(var(--scene-text-rgb, 255, 255, 255), 0.12);
   backdrop-filter: blur(var(--backdrop-blur, 16px));
   -webkit-backdrop-filter: blur(var(--backdrop-blur, 16px));
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(var(--scene-text-rgb, 255, 255, 255), 0.15);
   border-radius: var(--card-border-radius);
   text-decoration: none;
   color: inherit;
@@ -320,7 +323,7 @@
 
 @media (hover: hover) {
   .devoilement__product-card:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(var(--scene-text-rgb, 255, 255, 255), 0.2);
   }
 }
 
@@ -370,17 +373,7 @@
   }
 }
 
-/* Dark text variant product card */
-.devoilement__scene--dark .devoilement__product-card {
-  background: rgba(0, 0, 0, 0.06);
-  border-color: rgba(0, 0, 0, 0.1);
-}
-
-@media (hover: hover) {
-  .devoilement__scene--dark .devoilement__product-card:hover {
-    background: rgba(0, 0, 0, 0.1);
-  }
-}
+/* Dark text variant uses --scene-text-rgb automatically */
 
 /* ============================================================
    PROGRESS BAR
@@ -406,26 +399,24 @@
 .devoilement__progress-track {
   width: 100%;
   height: 100%;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(var(--indicator-rgb, 255, 255, 255), 0.2);
   border-radius: 1px;
   overflow: hidden;
+  transition: background var(--duration-fast) var(--ease-ecrin);
 }
 
 .devoilement__progress-fill {
   width: 100%;
   height: var(--progress, 0%);
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(var(--indicator-rgb, 255, 255, 255), 0.8);
   border-radius: 1px;
-  transition: height var(--duration-fast) var(--ease-ecrin);
+  transition: height var(--duration-fast) var(--ease-ecrin),
+              background var(--duration-fast) var(--ease-ecrin);
 }
 
-/* Dark text scene: adjust progress bar colors via parent */
-.devoilement__scene--dark ~ .devoilement__progress .devoilement__progress-track {
-  background: rgba(0, 0, 0, 0.1);
-}
-
-.devoilement__scene--dark ~ .devoilement__progress .devoilement__progress-fill {
-  background: rgba(0, 0, 0, 0.5);
+/* Dark indicators — JS sets --indicator-rgb on viewport via class toggle */
+.devoilement__viewport--dark-indicators {
+  --indicator-rgb: 0, 0, 0;
 }
 
 /* ============================================================
@@ -444,13 +435,14 @@
   font-weight: var(--font-label-weight);
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(var(--indicator-rgb, 255, 255, 255), 0.7);
   pointer-events: none;
+  transition: color var(--duration-fast) var(--ease-ecrin);
 }
 
 .devoilement__counter-current {
   font-size: 16px;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(var(--indicator-rgb, 255, 255, 255), 0.9);
   font-variant-numeric: tabular-nums;
 }
 
@@ -480,13 +472,13 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(var(--indicator-rgb, 255, 255, 255), 0.3);
   transition: background var(--duration-fast) var(--ease-ecrin),
               transform var(--duration-fast) var(--ease-ecrin);
 }
 
 .devoilement__dot--active {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(var(--indicator-rgb, 255, 255, 255), 0.9);
   transform: scale(1.3);
 }
 
@@ -495,7 +487,7 @@
    ============================================================ */
 @media (hover: hover) {
   .devoilement__scene-media[data-parallax-active] .devoilement__scene-img {
-    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: transform var(--duration-slow) var(--ease-ecrin);
     transform: translate(
       calc(var(--cursor-x, 0) * -12px),
       calc(var(--cursor-y, 0) * -12px)
@@ -578,7 +570,7 @@
    Scroll-driven content transitions remain (user-initiated).
    ============================================================ */
 @media (prefers-reduced-motion: reduce) {
-  /* Replace clip-path reveals with simple opacity */
+  /* Replace clip-path reveals with simple opacity crossfade */
   .devoilement__scene-media[data-reveal="circle"],
   .devoilement__scene-media[data-reveal="diagonal"],
   .devoilement__scene-media[data-reveal="split"],
@@ -586,9 +578,8 @@
     clip-path: none !important;
   }
 
-  /* Content transitions: instant */
+  /* Content transitions: keep fade (scroll-driven = user-initiated) but remove translateY */
   [data-content-el] {
-    transition-duration: 0ms;
     transform: none;
   }
 

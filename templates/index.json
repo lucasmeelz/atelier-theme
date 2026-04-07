@@ -38,66 +38,6 @@
         "color_scheme": ""
       }
     },
-    "devoilement_YcqjCd": {
-      "type": "devoilement",
-      "blocks": {
-        "scene_FxbiEU": {
-          "type": "scene",
-          "settings": {
-            "image": "shopify://shop_images/landscape_3to2.jpg",
-            "reveal_style": "circle",
-            "overlay_opacity": 20,
-            "subheading": "Chapter One",
-            "heading": "The beginning",
-            "heading_size": "cinematic",
-            "text": "<p>Every great story starts with a vision. Ours began with a simple belief: luxury should feel effortless.</p>",
-            "button_label": "",
-            "button_link": "",
-            "button_style": "outline-white",
-            "content_position": "auto",
-            "text_color": "light",
-            "product": "",
-            "show_product_card": false
-          }
-        },
-        "scene_K79ycX": {
-          "type": "scene",
-          "settings": {
-            "image": "shopify://shop_images/new-banner-homepage-web-french-bloom-6_73d3fc8f-8c7f-4e38-82b3-5357bd6070f6.webp",
-            "reveal_style": "diagonal",
-            "overlay_opacity": 20,
-            "subheading": "Chapter Two",
-            "heading": "The craft",
-            "heading_size": "large",
-            "text": "<p>Meticulous attention to detail. Hours of handwork. Materials sourced from the finest artisans.</p>",
-            "button_label": "",
-            "button_link": "",
-            "button_style": "outline-white",
-            "content_position": "auto",
-            "text_color": "light",
-            "product": "image-aspect-ratio-portrait",
-            "show_product_card": true
-          }
-        }
-      },
-      "block_order": [
-        "scene_FxbiEU",
-        "scene_K79ycX"
-      ],
-      "name": "t:sections.devoilement.preset_name",
-      "settings": {
-        "heading": "",
-        "subheading": "",
-        "scroll_per_scene": "medium",
-        "content_position": "center",
-        "content_width": "medium",
-        "show_progress": true,
-        "progress_position": "right",
-        "show_counter": true,
-        "enable_cursor_parallax": true,
-        "color_scheme": ""
-      }
-    },
     "marquee": {
       "type": "marquee",
       "blocks": {
@@ -603,10 +543,76 @@
         "heading": "The ritual",
         "subheading": "How to use",
         "media_position": "left",
-        "image_ratio": "portrait",
-        "number_size": "small",
         "autoplay": false,
         "autoplay_speed": 4000,
+        "color_scheme": "scheme-1"
+      }
+    },
+    "devoilement_qa": {
+      "type": "devoilement",
+      "blocks": {
+        "scene_1": {
+          "type": "scene",
+          "settings": {
+            "heading": "The beginning",
+            "subheading": "Chapter One",
+            "text": "<p>Every great story starts with a vision. Ours began with a simple belief: luxury should feel effortless.</p>",
+            "reveal_style": "circle",
+            "heading_size": "cinematic",
+            "overlay_opacity": 30,
+            "content_position": "auto",
+            "text_color": "light",
+            "button_label": "",
+            "button_style": "outline-white"
+          }
+        },
+        "scene_2": {
+          "type": "scene",
+          "settings": {
+            "heading": "The craft",
+            "subheading": "Chapter Two",
+            "text": "<p>Meticulous attention to detail. Hours of handwork. Materials sourced from the finest artisans.</p>",
+            "reveal_style": "curtain",
+            "heading_size": "large",
+            "overlay_opacity": 25,
+            "content_position": "bottom-left",
+            "text_color": "light",
+            "button_label": "",
+            "button_style": "outline-white"
+          }
+        },
+        "scene_3": {
+          "type": "scene",
+          "settings": {
+            "heading": "The collection",
+            "subheading": "Chapter Three",
+            "text": "<p>Discover pieces designed to transcend seasons and trends.</p>",
+            "reveal_style": "diagonal",
+            "heading_size": "large",
+            "overlay_opacity": 20,
+            "content_position": "auto",
+            "text_color": "light",
+            "button_label": "Explore",
+            "button_link": "",
+            "button_style": "outline-white"
+          }
+        }
+      },
+      "block_order": [
+        "scene_1",
+        "scene_2",
+        "scene_3"
+      ],
+      "settings": {
+        "heading": "",
+        "subheading": "",
+        "scroll_per_scene": "medium",
+        "content_position": "center",
+        "content_width": "medium",
+        "show_progress": true,
+        "progress_position": "right",
+        "show_counter": true,
+        "enable_cursor_parallax": true,
         "color_scheme": "scheme-1"
       }
     },
@@ -662,7 +668,6 @@
   },
   "order": [
     "hero",
-    "devoilement_YcqjCd",
     "marquee",
     "featured-collection",
     "image-with-text",
@@ -676,6 +681,7 @@
     "countdown_qa",
     "atelier_qa",
     "ritual_qa",
+    "devoilement_qa",
     "marquee_9WHVaf"
   ]
 }
