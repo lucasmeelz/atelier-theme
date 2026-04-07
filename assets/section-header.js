@@ -82,7 +82,8 @@ class HeaderComponent extends HTMLElement {
       var currentY = window.scrollY;
       var delta = currentY - self.lastScrollY;
 
-      if (delta > 5 && currentY > 100 && !self.openPanelIndex) {
+      var searchOpen = self.searchPanel && self.searchPanel.classList.contains('is-open');
+      if (delta > 5 && currentY > 100 && !self.openPanelIndex && !searchOpen) {
         self.classList.add('is-hidden');
       } else if (delta < -5) {
         self.classList.remove('is-hidden');

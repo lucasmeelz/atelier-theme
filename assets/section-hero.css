@@ -392,13 +392,13 @@
    Reduced Motion
    =================================== */
 @media (prefers-reduced-motion: reduce) {
+  /* Show content immediately — entrance animations are autonomous */
   .hero__subheading,
   .hero__heading,
   .hero__text,
   .hero__buttons {
     opacity: 1;
     transform: none;
-    transition: none;
   }
 
   .hero__subheading {
@@ -409,7 +409,8 @@
     opacity: 0.85;
   }
 
-  .hero__scroll-indicator {
+  /* Only disable autonomous animations via .motion-auto */
+  .hero__scroll-indicator.motion-auto {
     animation: none;
   }
 
