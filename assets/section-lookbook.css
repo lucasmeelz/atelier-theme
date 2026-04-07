@@ -84,7 +84,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .lookbook__hotspot-dot::before {
+  .lookbook__hotspot-dot.motion-auto::before {
     animation: none;
   }
 }
