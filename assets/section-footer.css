@@ -270,6 +270,7 @@
 
 .footer__select {
   padding: 6px 8px;
+  min-height: 44px;
   border: 1px solid rgb(var(--color-border));
   border-radius: var(--input-border-radius);
   font-size: 13px;

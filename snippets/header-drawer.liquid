@@ -215,10 +215,11 @@
                           {%- if promo_link != blank -%}
                             <a href="{{ promo_link }}" class="header-drawer__editorial-link">
                           {%- endif -%}
+                            {%- assign promo_alt = promo_heading | default: promo_sub | default: shop.name -%}
                             {{ promo_img | image_url: width: 800 | image_tag:
                               loading: 'lazy',
                               class: 'header-drawer__editorial-img',
-                              alt: promo_heading | default: ''
+                              alt: promo_alt
                             }}
                             {%- if promo_heading != blank -%}
                               <div class="header-drawer__editorial-content">
