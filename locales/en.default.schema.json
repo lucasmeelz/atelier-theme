@@ -1570,5 +1570,28 @@
       "scene_show_product_card": "Show product card",
       "preset_name": "Dévoilement"
     }
+  },
+  "labels": {
+    "layout_direction": "Layout direction",
+    "alignment": "Alignment",
+    "padding": "Padding",
+    "text": "Text",
+    "text_style": "Text style"
+  },
+  "options": {
+    "direction": {
+      "horizontal": "Horizontal",
+      "vertical": "Vertical"
+    },
+    "alignment": {
+      "left": "Left",
+      "center": "Center",
+      "right": "Right"
+    },
+    "text_style": {
+      "title": "Title",
+      "subtitle": "Subtitle",
+      "normal": "Normal"
+    }
   }
 }
