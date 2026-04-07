@@ -86,11 +86,77 @@ if (!customElements.get('main-product')) {
       const item = this.querySelector(`.product__media-item[data-media-id="${mediaId}"]`);
       if (item) {
         item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        // Update dots after scroll completes
+        setTimeout(() => this._updateActiveDot(), 400);
       }
       // For thumbnail gallery: switch slide
       this._switchMedia(mediaId);
       const thumb = this.querySelector(`[data-thumbnail][data-media-id="${mediaId}"]`);
       if (thumb) this._setActiveThumbnail(thumb);
+    }
+
+    /* ===================================
+       Gallery Dots (Mobile)
+       =================================== */
+    _initGalleryDots() {
+      this._galleryDotsContainer = this.querySelector('[data-gallery-dots]');
+      this._mediaList = this.querySelector('.product__media-list--stacked');
+      if (!this._galleryDotsContainer || !this._mediaList) return;
+
+      this._galleryDots = Array.from(this._galleryDotsContainer.querySelectorAll('[data-gallery-dot]'));
+      this._mediaItems = Array.from(this._mediaList.querySelectorAll('.product__media-item'));
+
+      if (this._galleryDots.length === 0 || this._mediaItems.length === 0) return;
+
+      // Click delegation on dots container
+      this._galleryDotsContainer.addEventListener('click', (e) => {
+        const dot = e.target.closest('[data-gallery-dot]');
+        if (!dot) return;
+        const index = parseInt(dot.dataset.galleryDot, 10);
+        const targetItem = this._mediaItems[index];
+        if (targetItem) {
+          targetItem.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
+      });
+
+      // Scroll listener on media list (RAF-throttled)
+      let dotTicking = false;
+      this._dotScrollHandler = () => {
+        if (!dotTicking) {
+          requestAnimationFrame(() => {
+            this._updateActiveDot();
+            dotTicking = false;
+          });
+          dotTicking = true;
+        }
+      };
+      this._mediaList.addEventListener('scroll', this._dotScrollHandler, { passive: true });
+    }
+
+    _updateActiveDot() {
+      if (!this._mediaItems || !this._galleryDots) return;
+
+      const containerRect = this._mediaList.getBoundingClientRect();
+      const containerCenter = containerRect.left + containerRect.width / 2;
+
+      let closestIndex = 0;
+      let closestDistance = Infinity;
+
+      this._mediaItems.forEach((item, i) => {
+        const rect = item.getBoundingClientRect();
+        const itemCenter = rect.left + rect.width / 2;
+        const distance = Math.abs(itemCenter - containerCenter);
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestIndex = i;
+        }
+      });
+
+      this._galleryDots.forEach((dot, i) => {
+        const isActive = i === closestIndex;
+        dot.classList.toggle('product__gallery-dot--active', isActive);
+        dot.setAttribute('aria-current', isActive ? 'true' : 'false');
+      });
     }
 
     /* ===================================
@@ -503,6 +569,9 @@ if (!customElements.get('main-product')) {
       this._initialized = false;
       if (this._stickyScrollHandler) {
         window.removeEventListener('scroll', this._stickyScrollHandler);
+      }
+      if (this._dotScrollHandler && this._mediaList) {
+        this._mediaList.removeEventListener('scroll', this._dotScrollHandler);
       }
     }
   }
