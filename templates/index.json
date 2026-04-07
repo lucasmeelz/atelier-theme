@@ -543,6 +543,8 @@
         "heading": "The ritual",
         "subheading": "How to use",
         "media_position": "left",
+        "image_ratio": "portrait",
+        "number_size": "small",
         "autoplay": false,
         "autoplay_speed": 4000,
         "color_scheme": "scheme-1"
@@ -554,47 +556,55 @@
         "scene_1": {
           "type": "scene",
           "settings": {
-            "heading": "The beginning",
-            "subheading": "Chapter One",
-            "text": "<p>Every great story starts with a vision. Ours began with a simple belief: luxury should feel effortless.</p>",
             "reveal_style": "circle",
-            "heading_size": "cinematic",
             "overlay_opacity": 30,
+            "subheading": "Chapter One",
+            "heading": "The beginning",
+            "heading_size": "cinematic",
+            "text": "<p>Every great story starts with a vision. Ours began with a simple belief: luxury should feel effortless.</p>",
+            "button_label": "",
+            "button_link": "",
+            "button_style": "outline-white",
             "content_position": "auto",
             "text_color": "light",
-            "button_label": "",
-            "button_style": "outline-white"
+            "product": "",
+            "show_product_card": false
           }
         },
         "scene_2": {
           "type": "scene",
           "settings": {
-            "heading": "The craft",
-            "subheading": "Chapter Two",
-            "text": "<p>Meticulous attention to detail. Hours of handwork. Materials sourced from the finest artisans.</p>",
-            "reveal_style": "curtain",
-            "heading_size": "large",
+            "reveal_style": "circle",
             "overlay_opacity": 25,
+            "subheading": "Chapter Two",
+            "heading": "The craft",
+            "heading_size": "large",
+            "text": "<p>Meticulous attention to detail. Hours of handwork. Materials sourced from the finest artisans.</p>",
+            "button_label": "",
+            "button_link": "",
+            "button_style": "outline-white",
             "content_position": "bottom-left",
             "text_color": "light",
-            "button_label": "",
-            "button_style": "outline-white"
+            "product": "",
+            "show_product_card": false
           }
         },
         "scene_3": {
           "type": "scene",
           "settings": {
-            "heading": "The collection",
-            "subheading": "Chapter Three",
-            "text": "<p>Discover pieces designed to transcend seasons and trends.</p>",
             "reveal_style": "diagonal",
-            "heading_size": "large",
             "overlay_opacity": 20,
-            "content_position": "auto",
-            "text_color": "light",
+            "subheading": "Chapter Three",
+            "heading": "The collection",
+            "heading_size": "large",
+            "text": "<p>Discover pieces designed to transcend seasons and trends.</p>",
             "button_label": "Explore",
             "button_link": "",
-            "button_style": "outline-white"
+            "button_style": "outline-white",
+            "content_position": "auto",
+            "text_color": "light",
+            "product": "",
+            "show_product_card": false
           }
         }
       },
