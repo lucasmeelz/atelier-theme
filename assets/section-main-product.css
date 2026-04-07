@@ -1150,11 +1150,120 @@ collapsible-details + :not(collapsible-details):not(.product__ingredients) {
   padding: 8px 24px;
 }
 
-/* Hide sticky on mobile — always show regular ATC */
+/* Inline price on sticky button — hidden on desktop, shown on mobile */
+.product__sticky-atc-btn-price {
+  display: none;
+}
+
+/* Save badge in sticky bar — hidden on desktop */
+.product__sticky-save-badge {
+  display: none;
+}
+
+/* Sticky ATC — Mobile layout */
 @media screen and (max-width: 989px) {
   .product__sticky-atc {
+    padding: 10px var(--page-margin, 20px);
+    padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .product__sticky-atc .container {
+    padding: 0;
+    max-width: none;
+  }
+
+  .product__sticky-atc-inner {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .product__sticky-atc-info {
     display: none;
   }
+
+  .product__sticky-atc-btn {
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 24px;
+    font-size: 0.875rem;
+  }
+
+  .product__sticky-atc-btn-price {
+    display: inline;
+    opacity: 0.85;
+  }
+
+  .product__sticky-save-badge {
+    display: inline-block;
+    text-align: center;
+    margin-top: -4px;
+  }
+}
+
+/* ===================================
+   Save Badge (SAVE X%)
+   =================================== */
+.price__save-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background-color: rgb(var(--color-accent, 183, 107, 73));
+  color: rgb(var(--color-background, 255, 255, 255));
+  border-radius: 2px;
+  vertical-align: middle;
+  margin-left: 8px;
+  white-space: nowrap;
+}
+
+/* ===================================
+   Gallery Dots (Mobile)
+   =================================== */
+.product__gallery-dots {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 0 4px;
+}
+
+@media screen and (max-width: 989px) {
+  .product__gallery-dots {
+    display: flex;
+  }
+}
+
+.product__gallery-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  background-color: rgba(var(--color-text, 0, 0, 0), 0.2);
+  cursor: pointer;
+  transition: background-color var(--duration-fast, 200ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1)),
+              transform var(--duration-fast, 200ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
+  position: relative;
+}
+
+/* Touch target 24px via pseudo-element */
+.product__gallery-dot::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+}
+
+.product__gallery-dot--active {
+  background-color: rgb(var(--color-text, 0, 0, 0));
+  transform: scale(1.3);
+}
+
+.product__gallery-dot:focus-visible {
+  outline: 2px solid rgb(var(--color-text, 0, 0, 0));
+  outline-offset: 3px;
+  border-radius: 50%;
 }
 
 /* ===================================
