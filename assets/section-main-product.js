@@ -207,6 +207,40 @@ if (!customElements.get('main-product')) {
           variant.compare_at_price && variant.compare_at_price > variant.price
         );
       }
+
+      // Update save badge
+      const saveBadge = this.querySelector('[data-save-badge]');
+      if (saveBadge) {
+        if (variant.compare_at_price && variant.compare_at_price > variant.price) {
+          const savePercent = Math.round((variant.compare_at_price - variant.price) / variant.compare_at_price * 100);
+          const template = saveBadge.dataset.saveTemplate || 'Save PLACEHOLDER%';
+          saveBadge.textContent = template.replace('PLACEHOLDER', savePercent);
+          saveBadge.hidden = false;
+        } else {
+          saveBadge.hidden = true;
+        }
+      }
+
+      // Update sticky ATC price + save badge
+      const stickyBtnPrice = this.querySelector('[data-sticky-atc-btn-price]');
+      if (stickyBtnPrice) {
+        stickyBtnPrice.innerHTML = '&middot; ' + this._formatMoney(variant.price);
+      }
+      const stickyPrice = this.querySelector('[data-sticky-price]');
+      if (stickyPrice) {
+        stickyPrice.textContent = this._formatMoney(variant.price);
+      }
+      const stickySaveBadge = this.querySelector('[data-sticky-save-badge]');
+      if (stickySaveBadge) {
+        if (variant.compare_at_price && variant.compare_at_price > variant.price) {
+          const savePercent = Math.round((variant.compare_at_price - variant.price) / variant.compare_at_price * 100);
+          const template = (saveBadge && saveBadge.dataset.saveTemplate) || 'Save PLACEHOLDER%';
+          stickySaveBadge.textContent = template.replace('PLACEHOLDER', savePercent);
+          stickySaveBadge.hidden = false;
+        } else {
+          stickySaveBadge.hidden = true;
+        }
+      }
     }
 
     _formatMoney(cents) {
@@ -234,6 +268,18 @@ if (!customElements.get('main-product')) {
       } else {
         btn.disabled = true;
         text.textContent = btn.dataset.soldOutText || 'Sold out';
+      }
+
+      // Update sticky ATC button state
+      const stickyBtn = this.querySelector('[data-sticky-atc-button]');
+      const stickyText = this.querySelector('[data-sticky-atc-text]');
+      if (stickyBtn) {
+        stickyBtn.disabled = !variant.available;
+        if (stickyText) {
+          stickyText.textContent = variant.available
+            ? (stickyBtn.dataset.addText || 'Add to cart')
+            : (stickyBtn.dataset.soldOutText || 'Sold out');
+        }
       }
     }
 
