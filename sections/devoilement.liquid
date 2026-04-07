@@ -46,13 +46,13 @@
 
 <devoilement-section
   id="Section-{{ section.id }}"
-  class="devoilement-wrapper color-{{ color_scheme }}"
+  class="devoilement-wrapper full-width color-{{ color_scheme }}"
   data-section-id="{{ section.id }}"
   data-scene-count="{{ scene_count }}"
   data-vh-per-scene="{{ vh_per_scene }}"
   {% if enable_cursor %}data-cursor-parallax{% endif %}
 >
-  <div id="Devoilement-{{ section.id }}" class="devoilement full-width">
+  <div id="Devoilement-{{ section.id }}" class="devoilement">
 
     {%- if heading != blank or subheading != blank -%}
       <div class="devoilement__intro">
