@@ -18,6 +18,7 @@ if (!customElements.get('main-product')) {
       this.currentVariant = null;
 
       this._initGallery();
+      this._initGalleryDots();
       this._initVariantPicker();
       this._initQuantity();
       this._initAddToCart();
