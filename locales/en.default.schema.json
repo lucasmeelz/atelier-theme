@@ -880,6 +880,7 @@
         "size_medium": "Medium",
         "size_small": "Small",
         "price": "Price",
+        "show_save_badge": "Show save percentage badge",
         "show_tax_notice": "Show tax and shipping notice",
         "badges": "Sale & sold-out badges",
         "rating": "Star rating",
