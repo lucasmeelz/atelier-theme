@@ -233,6 +233,20 @@
               {%- when 'price' -%}
                 <div class="product__price" data-product-price {{ block.shopify_attributes }}>
                   {%- render 'price', product: product, show_badges: true, hide_tax_notice: true -%}
+                  {%- if block.settings.show_save_badge -%}
+                    <span
+                      class="price__save-badge"
+                      data-save-badge
+                      data-save-template="{{ 'product.save_percentage' | t: percentage: 'PLACEHOLDER' }}"
+                      {% unless current_variant.compare_at_price > current_variant.price %}hidden{% endunless %}
+                    >
+                      {%- if current_variant.compare_at_price > current_variant.price -%}
+                        {%- assign save_amount = current_variant.compare_at_price | minus: current_variant.price -%}
+                        {%- assign save_percent = save_amount | times: 100 | divided_by: current_variant.compare_at_price -%}
+                        {{ 'product.save_percentage' | t: percentage: save_percent }}
+                      {%- endif -%}
+                    </span>
+                  {%- endif -%}
                   {%- if block.settings.show_tax_notice -%}
                     {%- if cart.taxes_included -%}
                       <p class="product__tax-notice">{{ 'product.tax_included' | t }}</p>
@@ -1112,6 +1126,12 @@
       "name": "t:sections.main_product.blocks.price",
       "limit": 1,
       "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_save_badge",
+          "label": "t:sections.main_product.blocks.show_save_badge",
+          "default": true
+        },
         {
           "type": "checkbox",
           "id": "show_tax_notice",
