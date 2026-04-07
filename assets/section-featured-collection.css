@@ -259,6 +259,7 @@ h3.featured-collection__heading {
 .featured-collection__tab {
   position: relative;
   flex: 0 0 auto;
+  min-height: 44px;
   padding: 12px 24px;
   background: none;
   border: none;
