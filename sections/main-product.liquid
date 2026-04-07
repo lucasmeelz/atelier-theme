@@ -114,6 +114,20 @@
               {%- endif -%}
             </div>
 
+            {%- if product.media.size > 1 -%}
+              <div class="product__gallery-dots" data-gallery-dots>
+                {%- for media in product.media -%}
+                  <button
+                    type="button"
+                    class="product__gallery-dot{% if forloop.first %} product__gallery-dot--active{% endif %}"
+                    data-gallery-dot="{{ forloop.index0 }}"
+                    aria-label="{{ 'accessibility.slide_number' | t: number: forloop.index, total: product.media.size }}"
+                    aria-current="{% if forloop.first %}true{% else %}false{% endif %}"
+                  ></button>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+
           {%- else -%}
             {%- comment -%} Thumbnail layouts: main image + thumbnails {%- endcomment -%}
             <div class="product__media-main" data-main-media>
