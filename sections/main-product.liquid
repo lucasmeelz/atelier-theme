@@ -1034,17 +1034,36 @@
             type="button"
             class="btn btn--primary product__sticky-atc-btn"
             data-sticky-atc-button
+            data-add-text="{{ 'product.add_to_cart' | t }}"
+            data-sold-out-text="{{ 'product.sold_out' | t }}"
             {% unless current_variant.available %}disabled{% endunless %}
           >
             <span class="btn__label">
-              {%- if current_variant.available -%}
-                {{ 'product.add_to_cart' | t }}
-              {%- else -%}
-                {{ 'product.sold_out' | t }}
-              {%- endif -%}
+              <span data-sticky-atc-text>
+                {%- if current_variant.available -%}
+                  {{ 'product.add_to_cart' | t }}
+                {%- else -%}
+                  {{ 'product.sold_out' | t }}
+                {%- endif -%}
+              </span>
+              <span class="product__sticky-atc-btn-price" data-sticky-atc-btn-price>
+                &middot; {{ current_variant.price | money }}
+              </span>
             </span>
             <span class="btn__fill" aria-hidden="true"></span>
           </button>
+          {%- comment -%} Save badge in sticky bar (mobile) {%- endcomment -%}
+          <span
+            class="price__save-badge product__sticky-save-badge"
+            data-sticky-save-badge
+            {% unless current_variant.compare_at_price > current_variant.price %}hidden{% endunless %}
+          >
+            {%- if current_variant.compare_at_price > current_variant.price -%}
+              {%- assign save_amount = current_variant.compare_at_price | minus: current_variant.price -%}
+              {%- assign save_percent = save_amount | times: 100 | divided_by: current_variant.compare_at_price -%}
+              {{ 'product.save_percentage' | t: percentage: save_percent }}
+            {%- endif -%}
+          </span>
         </div>
       </div>
     </div>
