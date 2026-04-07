@@ -17,6 +17,11 @@
   text-align: center;
   gap: 12px;
   padding: var(--section-spacing-mobile) var(--page-margin) 40px;
+  color: inherit;
+}
+
+.devoilement__intro-heading {
+  color: inherit;
 }
 
 @media screen and (min-width: 990px) {
@@ -255,6 +260,7 @@
   text-transform: var(--heading-text-transform);
   letter-spacing: var(--heading-letter-spacing);
   line-height: var(--heading-line-height);
+  color: inherit;
 }
 
 .devoilement__scene-heading--medium {
