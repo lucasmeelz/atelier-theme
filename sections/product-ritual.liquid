@@ -61,13 +61,14 @@
               assign media_class = media_class | append: ' product-ritual__media-image--active'
             endif
             assign media_id = 'ritual-image-' | append: section.id | append: '-' | append: forloop.index0
+            assign media_alt = block.settings.image.alt | default: block.settings.heading | default: ''
           -%}
           {%- if block.settings.image != blank -%}
             {{
               block.settings.image
               | image_url: width: 1200
               | image_tag:
-                alt: block.settings.image.alt | default: block.settings.heading,
+                alt: media_alt,
                 widths: '375, 750, 1000, 1200',
                 loading: 'lazy',
                 class: media_class,
