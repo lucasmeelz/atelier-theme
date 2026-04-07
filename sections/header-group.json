@@ -26,7 +26,7 @@
         "announcement_1"
       ],
       "settings": {
-        "color_scheme": "scheme-1",
+        "color_scheme": "scheme-2",
         "auto_rotate": true,
         "auto_rotate_speed": 5,
         "show_close_button": false
@@ -59,7 +59,7 @@
         "mega_menu_1"
       ],
       "settings": {
-        "color_scheme": "",
+        "color_scheme": "scheme-2",
         "desktop_layout": "drawer",
         "mobile_layout": "logo_center_split",
         "enable_sticky": true,
