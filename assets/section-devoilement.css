@@ -72,7 +72,7 @@
 }
 
 /* First scene visible by default (before JS loads) */
-.devoilement__scene[data-scene-index="0"] {
+.devoilement__scene[data-scene-index="0"]:not(.is-previous) {
   opacity: 1;
   visibility: visible;
   z-index: 2;
@@ -105,7 +105,7 @@
 }
 
 .devoilement__scene-placeholder {
-  background: rgb(var(--color-border));
+  background: rgb(60, 60, 60);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -238,7 +238,7 @@
 [data-content-el]:nth-child(5) { transition-delay: 320ms; }
 
 /* First scene: show content immediately (before JS) */
-.devoilement__scene[data-scene-index="0"] [data-content-el] {
+.devoilement__scene[data-scene-index="0"]:not(.is-previous) [data-content-el] {
   --content-opacity: 1;
 }
 
