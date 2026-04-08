@@ -1,5 +1,10 @@
 /* Editorial Story — Immersive vertical storytelling */
 
+.editorial {
+  padding-top: var(--section-padding-top);
+  padding-bottom: var(--section-padding-bottom);
+}
+
 .editorial__block {
   position: relative;
 }
