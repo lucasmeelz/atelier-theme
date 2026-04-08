@@ -43,7 +43,7 @@
   assign primary_image = product.featured_image
   assign secondary_image = nil
   assign needs_secondary = false
-  if hover_effect == 'slide-up' or hover_effect == 'zoom-fade'
+  if hover_effect == 'cinematic' or hover_effect == 'reveal'
     assign needs_secondary = true
   endif
   if show_secondary and needs_secondary and product.images.size > 1
