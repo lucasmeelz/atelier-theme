@@ -24,12 +24,12 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
   margin: 0 0 0.5rem;
-  color: var(--color-text);
+  color: rgb(var(--color-text));
 }
 
 .customer__header p {
   font-size: 0.875rem;
-  color: var(--color-text);
+  color: rgb(var(--color-text));
   opacity: 0.6;
   margin: 0;
 }
@@ -58,16 +58,16 @@
   font-size: 0.75rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-text);
+  color: rgb(var(--color-text));
   opacity: 0.7;
 }
 
 .customer__form .field input {
   width: 100%;
   padding: 0.875rem 1rem;
-  border: 1px solid var(--color-border);
+  border: 1px solid rgb(var(--color-border));
   background: transparent;
-  color: var(--color-text);
+  color: rgb(var(--color-text));
   font-family: inherit;
   font-size: 0.9375rem;
   transition: border-color var(--duration-base) var(--ease-ecrin);
@@ -75,7 +75,7 @@
 
 .customer__form .field input:focus {
   outline: none;
-  border-color: var(--color-text);
+  border-color: rgb(var(--color-text));
 }
 
 .customer__form .btn {
@@ -92,7 +92,7 @@
 
 .customer__form-footer a {
   font-size: 0.8125rem;
-  color: var(--color-text);
+  color: rgb(var(--color-text));
   opacity: 0.6;
   text-decoration: underline;
   text-underline-offset: 3px;
@@ -127,8 +127,8 @@
 }
 
 .customer__form-success {
-  border: 1px solid var(--color-border);
-  color: var(--color-text);
+  border: 1px solid rgb(var(--color-border));
+  color: rgb(var(--color-text));
 }
 
 /* Account dashboard
@@ -145,7 +145,7 @@
   font-size: 0.8125rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--color-text);
+  color: rgb(var(--color-text));
   opacity: 0.5;
   text-decoration: none;
   transition: opacity var(--duration-base) var(--ease-ecrin);
@@ -170,7 +170,7 @@
 }
 
 .customer__orders thead {
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid rgb(var(--color-border));
 }
 
 .customer__orders th {
@@ -178,7 +178,7 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   font-weight: 400;
-  color: var(--color-text);
+  color: rgb(var(--color-text));
   opacity: 0.5;
   padding: 0 0 1rem;
   text-align: left;
@@ -187,8 +187,8 @@
 .customer__orders td {
   padding: 1.25rem 1rem 1.25rem 0;
   font-size: 0.875rem;
-  color: var(--color-text);
-  border-bottom: 1px solid var(--color-border);
+  color: rgb(var(--color-text));
+  border-bottom: 1px solid rgb(var(--color-border));
   vertical-align: middle;
 }
 
@@ -197,7 +197,7 @@
 }
 
 .customer__orders td a {
-  color: var(--color-text);
+  color: rgb(var(--color-text));
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -206,7 +206,7 @@
   text-align: center;
   padding: 4rem 0;
   font-size: 0.9375rem;
-  color: var(--color-text);
+  color: rgb(var(--color-text));
   opacity: 0.5;
 }
 
@@ -219,7 +219,7 @@
   flex-wrap: wrap;
   margin-bottom: 3rem;
   padding-bottom: 2rem;
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid rgb(var(--color-border));
 }
 
 .customer__order-meta dt {
@@ -242,7 +242,7 @@
 }
 
 .customer__order-table thead {
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid rgb(var(--color-border));
 }
 
 .customer__order-table th {
@@ -250,7 +250,7 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   font-weight: 400;
-  color: var(--color-text);
+  color: rgb(var(--color-text));
   opacity: 0.5;
   padding: 0 0 1rem;
   text-align: left;
@@ -263,8 +263,8 @@
 .customer__order-table td {
   padding: 1.25rem 1rem 1.25rem 0;
   font-size: 0.875rem;
-  color: var(--color-text);
-  border-bottom: 1px solid var(--color-border);
+  color: rgb(var(--color-text));
+  border-bottom: 1px solid rgb(var(--color-border));
   vertical-align: middle;
 }
 
@@ -291,11 +291,11 @@
   justify-content: space-between;
   padding: 0.625rem 0;
   font-size: 0.875rem;
-  color: var(--color-text);
+  color: rgb(var(--color-text));
 }
 
 .customer__order-totals-row:last-child {
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid rgb(var(--color-border));
   padding-top: 1rem;
   margin-top: 0.5rem;
   font-weight: 500;
@@ -307,7 +307,7 @@
   gap: 3rem;
   margin-top: 3rem;
   padding-top: 3rem;
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid rgb(var(--color-border));
 }
 
 .customer__order-address h3 {
@@ -336,13 +336,13 @@
 }
 
 .customer__address-card {
-  border: 1px solid var(--color-border);
+  border: 1px solid rgb(var(--color-border));
   padding: 2rem;
   position: relative;
 }
 
 .customer__address-card--default {
-  border-color: var(--color-text);
+  border-color: rgb(var(--color-text));
 }
 
 .customer__address-card h3 {
@@ -364,7 +364,7 @@
   font-size: 0.875rem;
   line-height: 1.7;
   margin: 0 0 1.5rem;
-  color: var(--color-text);
+  color: rgb(var(--color-text));
 }
 
 .customer__address-actions {
@@ -379,7 +379,7 @@
   text-transform: uppercase;
   text-decoration: underline;
   text-underline-offset: 3px;
-  color: var(--color-text);
+  color: rgb(var(--color-text));
   opacity: 0.6;
   background: none;
   border: none;
@@ -405,7 +405,7 @@
 .customer__address-form {
   max-width: 600px;
   margin: 0 auto 3rem;
-  border: 1px solid var(--color-border);
+  border: 1px solid rgb(var(--color-border));
   padding: 2.5rem;
 }
 
@@ -434,7 +434,7 @@
   font-size: 0.75rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-text);
+  color: rgb(var(--color-text));
   opacity: 0.7;
 }
 
@@ -442,9 +442,9 @@
 .customer__address-form .field select {
   width: 100%;
   padding: 0.875rem 1rem;
-  border: 1px solid var(--color-border);
+  border: 1px solid rgb(var(--color-border));
   background: transparent;
-  color: var(--color-text);
+  color: rgb(var(--color-text));
   font-family: inherit;
   font-size: 0.9375rem;
   transition: border-color var(--duration-base) var(--ease-ecrin);
@@ -453,7 +453,7 @@
 .customer__address-form .field input:focus,
 .customer__address-form .field select:focus {
   outline: none;
-  border-color: var(--color-text);
+  border-color: rgb(var(--color-text));
 }
 
 .customer__address-form .field-checkbox {
@@ -490,7 +490,7 @@
   gap: 0.5rem;
   font-size: 0.8125rem;
   letter-spacing: 0.04em;
-  color: var(--color-text);
+  color: rgb(var(--color-text));
   opacity: 0.5;
   text-decoration: none;
   margin-bottom: 2rem;
@@ -534,7 +534,7 @@
 
   .customer__orders tr {
     padding: 1.25rem 0;
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid rgb(var(--color-border));
   }
 
   .customer__orders td {
@@ -566,7 +566,7 @@
 
   .customer__order-table tr {
     padding: 1.25rem 0;
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid rgb(var(--color-border));
   }
 
   .customer__order-table td {
