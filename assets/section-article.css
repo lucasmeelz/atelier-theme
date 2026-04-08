@@ -220,7 +220,7 @@
 @media (hover: hover) {
   .article__tag:hover {
     background-color: rgb(var(--color-text));
-    color: var(--color-background);
+    color: rgb(var(--color-background));
     border-color: rgb(var(--color-text));
   }
 }
@@ -272,7 +272,7 @@
 @media (hover: hover) {
   .article__share-button:hover {
     background-color: rgb(var(--color-text));
-    color: var(--color-background);
+    color: rgb(var(--color-background));
   }
 }
 
@@ -411,7 +411,7 @@
   margin-bottom: 1.5rem;
   border: 1px solid rgb(var(--color-border));
   border-radius: var(--input-corners, 0px);
-  background-color: rgba(200, 50, 50, 0.05);
+  background-color: rgba(var(--color-error, 194, 58, 58), 0.05);
 }
 
 .article__form-errors ul {
@@ -436,7 +436,7 @@
   font-size: 0.875rem;
   border: 1px solid rgb(var(--color-border));
   border-radius: var(--input-corners, 0px);
-  background-color: rgba(50, 150, 80, 0.05);
+  background-color: rgba(var(--color-success, 45, 125, 70), 0.05);
   color: rgb(var(--color-text));
 }
 
