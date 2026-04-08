@@ -59,7 +59,7 @@
   font-size: 0.8125rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--color-text-subdued, var(--color-text));
+  color: rgb(var(--color-text-subdued, rgb(var(--color-text))));
   text-decoration: none;
   margin-bottom: 2rem;
   transition: color var(--duration-fast) var(--ease-ecrin);
@@ -67,7 +67,7 @@
 
 @media (hover: hover) {
   .article__back-link:hover {
-    color: var(--color-text);
+    color: rgb(var(--color-text));
   }
 }
 
@@ -94,7 +94,7 @@
   font-size: 0.8125rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--color-text-subdued, var(--color-text));
+  color: rgb(var(--color-text-subdued, rgb(var(--color-text))));
 }
 
 .article__meta-separator {
@@ -118,7 +118,7 @@
 .article__content.rte {
   font-size: 1.0625rem;
   line-height: 1.7;
-  color: var(--color-text);
+  color: rgb(var(--color-text));
 }
 
 .article__content.rte h2 {
@@ -154,12 +154,12 @@
 }
 
 .article__content.rte blockquote {
-  border-left: 2px solid var(--color-border);
+  border-left: 2px solid rgb(var(--color-border));
   padding-left: 1.5rem;
   margin: 2rem 0;
   font-style: italic;
   font-size: 1.125rem;
-  color: var(--color-text-subdued, var(--color-text));
+  color: rgb(var(--color-text-subdued, rgb(var(--color-text))));
 }
 
 .article__content.rte img {
@@ -180,7 +180,7 @@
 }
 
 .article__content.rte a {
-  color: var(--color-text);
+  color: rgb(var(--color-text));
   text-decoration: underline;
   text-underline-offset: 3px;
   transition: opacity var(--duration-fast) var(--ease-ecrin);
@@ -210,8 +210,8 @@
   font-size: 0.75rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--color-text-subdued, var(--color-text));
-  border: 1px solid var(--color-border);
+  color: rgb(var(--color-text-subdued, rgb(var(--color-text))));
+  border: 1px solid rgb(var(--color-border));
   border-radius: 100px;
   text-decoration: none;
   transition: background-color var(--duration-fast) var(--ease-ecrin), color var(--duration-fast) var(--ease-ecrin);
@@ -219,9 +219,9 @@
 
 @media (hover: hover) {
   .article__tag:hover {
-    background-color: var(--color-text);
+    background-color: rgb(var(--color-text));
     color: var(--color-background);
-    border-color: var(--color-text);
+    border-color: rgb(var(--color-text));
   }
 }
 
@@ -232,7 +232,7 @@
   max-width: 720px;
   margin-inline: auto;
   padding-top: 2rem;
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid rgb(var(--color-border));
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -251,7 +251,7 @@
   font-size: 0.8125rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--color-text-subdued, var(--color-text));
+  color: rgb(var(--color-text-subdued, rgb(var(--color-text))));
 }
 
 .article__share-button {
@@ -261,17 +261,17 @@
   padding: 0.5rem 1rem;
   font-size: 0.8125rem;
   letter-spacing: 0.04em;
-  border: 1px solid var(--color-border);
+  border: 1px solid rgb(var(--color-border));
   border-radius: var(--button-corners, 0px);
   background: transparent;
-  color: var(--color-text);
+  color: rgb(var(--color-text));
   cursor: pointer;
   transition: background-color var(--duration-fast) var(--ease-ecrin), color var(--duration-fast) var(--ease-ecrin);
 }
 
 @media (hover: hover) {
   .article__share-button:hover {
-    background-color: var(--color-text);
+    background-color: rgb(var(--color-text));
     color: var(--color-background);
   }
 }
@@ -284,7 +284,7 @@
 
 .article__share-feedback {
   font-size: 0.8125rem;
-  color: var(--color-text-subdued, var(--color-text));
+  color: rgb(var(--color-text-subdued, rgb(var(--color-text))));
   opacity: 0;
   transition: opacity var(--duration-base) var(--ease-ecrin);
 }
@@ -310,11 +310,11 @@
 /* Individual comment */
 .article__comment {
   padding: 1.5rem 0;
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid rgb(var(--color-border));
 }
 
 .article__comment:first-child {
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid rgb(var(--color-border));
 }
 
 .article__comment-header {
@@ -331,7 +331,7 @@
 
 .article__comment-date {
   font-size: 0.8125rem;
-  color: var(--color-text-subdued, var(--color-text));
+  color: rgb(var(--color-text-subdued, rgb(var(--color-text))));
 }
 
 .article__comment-body {
@@ -353,7 +353,7 @@
 .article__comment-form {
   margin-top: 3rem;
   padding-top: 2rem;
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid rgb(var(--color-border));
 }
 
 .article__comment-form-heading {
@@ -371,7 +371,7 @@
   font-size: 0.8125rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--color-text-subdued, var(--color-text));
+  color: rgb(var(--color-text-subdued, rgb(var(--color-text))));
   margin-bottom: 0.5rem;
 }
 
@@ -382,9 +382,9 @@
   padding: 0.75rem 1rem;
   font-size: 0.9375rem;
   font-family: inherit;
-  color: var(--color-text);
+  color: rgb(var(--color-text));
   background-color: transparent;
-  border: 1px solid var(--color-border);
+  border: 1px solid rgb(var(--color-border));
   border-radius: var(--input-corners, 0px);
   transition: border-color var(--duration-fast) var(--ease-ecrin);
 }
@@ -392,7 +392,7 @@
 .article__form-input:focus,
 .article__form-textarea:focus {
   outline: none;
-  border-color: var(--color-text);
+  border-color: rgb(var(--color-text));
 }
 
 .article__form-textarea {
@@ -409,7 +409,7 @@
 .article__form-errors {
   padding: 1rem;
   margin-bottom: 1.5rem;
-  border: 1px solid var(--color-border);
+  border: 1px solid rgb(var(--color-border));
   border-radius: var(--input-corners, 0px);
   background-color: rgba(200, 50, 50, 0.05);
 }
@@ -434,10 +434,10 @@
   padding: 1rem;
   margin-bottom: 1.5rem;
   font-size: 0.875rem;
-  border: 1px solid var(--color-border);
+  border: 1px solid rgb(var(--color-border));
   border-radius: var(--input-corners, 0px);
   background-color: rgba(50, 150, 80, 0.05);
-  color: var(--color-text);
+  color: rgb(var(--color-text));
 }
 
 .article__form-submit {
