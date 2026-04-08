@@ -92,7 +92,7 @@
   .list-collections__card-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0) 60%);
+    background: linear-gradient(to top, rgba(var(--color-text, 0, 0, 0), 0.45) 0%, rgba(var(--color-text, 0, 0, 0), 0) 60%);
     pointer-events: none;
     transition: opacity var(--duration-base, 350ms) var(--ease-ecrin, ease);
   }
@@ -103,7 +103,7 @@
     left: 0;
     right: 0;
     padding: 20px;
-    color: #fff;
+    color: rgb(var(--color-button-text, 255, 255, 255));
     z-index: 1;
   }
 
