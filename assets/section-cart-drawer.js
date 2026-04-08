@@ -48,6 +48,7 @@ class CartDrawer extends HTMLElement {
   }
 
   open() {
+    this._triggerElement = document.activeElement;
     this.scrollPosition = window.scrollY;
     document.body.style.overflow = 'hidden';
     document.body.style.position = 'fixed';
@@ -55,6 +56,14 @@ class CartDrawer extends HTMLElement {
     document.body.style.width = '100%';
 
     this.setAttribute('aria-hidden', 'false');
+
+    /* Focus the close button */
+    const closeBtn = this.querySelector('[data-cart-drawer-close]');
+    if (closeBtn) requestAnimationFrame(() => closeBtn.focus());
+
+    /* Enable focus trap */
+    this._boundTrapFocus = (e) => this._trapFocus(e);
+    this.addEventListener('keydown', this._boundTrapFocus);
   }
 
   close() {
@@ -65,6 +74,38 @@ class CartDrawer extends HTMLElement {
     document.body.style.top = '';
     document.body.style.width = '';
     window.scrollTo(0, this.scrollPosition);
+
+    /* Remove focus trap */
+    if (this._boundTrapFocus) {
+      this.removeEventListener('keydown', this._boundTrapFocus);
+      this._boundTrapFocus = null;
+    }
+
+    /* Restore focus to trigger element */
+    if (this._triggerElement) {
+      this._triggerElement.focus();
+      this._triggerElement = null;
+    }
+  }
+
+  _trapFocus(e) {
+    if (e.key !== 'Tab') return;
+
+    const focusable = this.panel
+      ? this.panel.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])')
+      : [];
+    if (focusable.length === 0) return;
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
   }
 
   setupQuantityControls() {

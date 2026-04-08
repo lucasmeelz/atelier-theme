@@ -260,7 +260,12 @@ if (!customElements.get('main-product')) {
       }
       if (compareEl) {
         if (variant.compare_at_price && variant.compare_at_price > variant.price) {
-          compareEl.textContent = this._formatMoney(variant.compare_at_price);
+          const wasEl = compareEl.querySelector('.price__was');
+          if (wasEl) {
+            wasEl.textContent = this._formatMoney(variant.compare_at_price);
+          } else {
+            compareEl.textContent = this._formatMoney(variant.compare_at_price);
+          }
           compareEl.hidden = false;
         } else {
           compareEl.hidden = true;

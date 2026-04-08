@@ -123,7 +123,7 @@
               transform var(--duration-base) var(--ease-ecrin);
 }
 
-.lookbook__hotspot[aria-expanded="true"] .lookbook__tooltip {
+.lookbook__hotspot.is-open .lookbook__tooltip {
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0);
@@ -142,11 +142,11 @@
   transform: translateX(-50%) translateY(-8px);
 }
 
-.lookbook__hotspot[aria-expanded="true"] .lookbook__tooltip--below {
+.lookbook__hotspot.is-open .lookbook__tooltip--below {
   transform: translateX(-50%) translateY(0);
 }
 
-.lookbook__hotspot[aria-expanded="true"] .lookbook__tooltip--above {
+.lookbook__hotspot.is-open .lookbook__tooltip--above {
   transform: translateX(-50%) translateY(0);
 }
 

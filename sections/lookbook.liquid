@@ -69,12 +69,12 @@
           <div
             class="lookbook__hotspot"
             style="left: {{ pos_x }}%; top: {{ pos_y }}%;"
-            aria-expanded="false"
             {{ block.shopify_attributes }}
           >
             <button
               class="lookbook__hotspot-dot motion-auto"
               type="button"
+              aria-expanded="false"
               aria-label="{{ product.title | default: 'View product' }}"
             >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -159,7 +159,10 @@
 
     function closeAllHotspots(section) {
       section.querySelectorAll('.lookbook__hotspot').forEach(function(h) {
-        h.setAttribute('aria-expanded', 'false');
+        h.classList.remove('is-open');
+      });
+      section.querySelectorAll('.lookbook__hotspot-dot').forEach(function(dot) {
+        dot.setAttribute('aria-expanded', 'false');
       });
     }
 
@@ -176,12 +179,13 @@
 
         dot.addEventListener('click', function(e) {
           e.stopPropagation();
-          var isOpen = hotspot.getAttribute('aria-expanded') === 'true';
+          var isOpen = dot.getAttribute('aria-expanded') === 'true';
 
           closeAllHotspots(section);
 
           if (!isOpen) {
-            hotspot.setAttribute('aria-expanded', 'true');
+            dot.setAttribute('aria-expanded', 'true');
+            hotspot.classList.add('is-open');
             /* Focus first link in tooltip for keyboard users */
             var firstLink = hotspot.querySelector('.lookbook__tooltip a');
             if (firstLink) firstLink.focus();

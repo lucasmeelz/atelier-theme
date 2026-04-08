@@ -85,8 +85,13 @@ if (!customElements.get('video-player')) {
       }
     }
 
-    // Shopify editor support — cleanup listeners
     disconnectedCallback() {
+      if (this.playBtn && this._handlePlay) {
+        this.playBtn.removeEventListener('click', this._handlePlay);
+      }
+      if (this.poster && this._handlePlay) {
+        this.poster.removeEventListener('click', this._handlePlay);
+      }
       this._initialized = false;
     }
   }

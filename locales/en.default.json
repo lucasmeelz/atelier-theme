@@ -143,6 +143,11 @@
     "gift_wrapping": {
       "yes": "Yes",
       "free": "Free"
+    },
+    "before_after": {
+      "before": "Before",
+      "after": "After",
+      "drag_to_compare": "Drag to compare"
     }
   },
   "collection": {
