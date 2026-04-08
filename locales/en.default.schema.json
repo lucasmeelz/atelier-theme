@@ -627,6 +627,8 @@
       "video_url": "Video URL",
       "video_url_info": "YouTube or Vimeo URL. Used if no Shopify video is provided.",
       "video_layout": "Layout",
+      "padding_top": "Top padding",
+      "padding_bottom": "Bottom padding",
       "preset_name": "Editorial story"
     },
     "split_screen": {
