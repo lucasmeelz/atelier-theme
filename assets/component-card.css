@@ -138,49 +138,90 @@
 }
 
 .card-product__image--primary {
-  transition: transform var(--duration-slow) var(--ease-ecrin),
-              opacity var(--duration-base) var(--ease-ecrin);
+  transition: transform 800ms var(--ease-ecrin),
+              opacity 500ms var(--ease-ecrin);
 }
 
 .card-product__image--secondary {
   position: absolute;
   inset: 0;
   opacity: 0;
-  transition: opacity var(--duration-base) var(--ease-ecrin),
-              transform var(--duration-slow) var(--ease-ecrin);
+  transition: opacity 500ms var(--ease-ecrin),
+              transform 700ms var(--ease-ecrin),
+              clip-path 700ms var(--ease-ecrin);
 }
 
 /* ─── Hover effects ─── */
+
+/* --- A. Cinematic (Jacquemus/Khaite) ---
+   Slow image zoom + title lift + price fade-in cascade */
+
+[data-card-hover="cinematic"] .card-product__title {
+  transition: transform 500ms var(--ease-ecrin) 100ms;
+}
+
+[data-card-hover="cinematic"] .price {
+  opacity: 0.55;
+  transition: opacity 400ms var(--ease-ecrin) 150ms;
+}
+
 @media (hover: hover) {
-
-  /* Scale — primary zooms in gently, NO secondary crossfade */
-  [data-card-hover="scale"] .card-product__media:hover .card-product__image--primary {
-    transform: scale(1.04);
-  }
-
-  /* Slide up — secondary slides up from below while fading in */
-  [data-card-hover="slide-up"] .card-product__image--secondary {
-    transform: translateY(8%);
-  }
-
-  [data-card-hover="slide-up"] .card-product__media:hover .card-product__image--secondary {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* Zoom fade — primary fades out with slight zoom, secondary zooms in from larger */
-  [data-card-hover="zoom-fade"] .card-product__image--secondary {
+  [data-card-hover="cinematic"] .card-product__media:hover .card-product__image--primary {
     transform: scale(1.06);
   }
 
-  [data-card-hover="zoom-fade"] .card-product__media:hover .card-product__image--primary {
-    transform: scale(1.04);
-    opacity: 0;
+  [data-card-hover="cinematic"] .card-product__media:hover .card-product__image--secondary {
+    opacity: 1;
   }
 
-  [data-card-hover="zoom-fade"] .card-product__media:hover .card-product__image--secondary {
+  [data-card-hover="cinematic"] .card-product:hover .card-product__title {
+    transform: translateY(-4px);
+  }
+
+  [data-card-hover="cinematic"] .card-product:hover .price {
     opacity: 1;
-    transform: scale(1);
+  }
+}
+
+/* --- B. Editorial (COS/Aesop) ---
+   Still image, overlay gradient + animated title underline on card hover */
+
+[data-card-hover="editorial"] .card-product__media-wrapper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(to top, rgba(var(--color-text), 0.12) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 500ms var(--ease-ecrin);
+  pointer-events: none;
+}
+
+@media (hover: hover) {
+  [data-card-hover="editorial"] .card-product:hover .card-product__media-wrapper::after {
+    opacity: 1;
+  }
+
+  [data-card-hover="editorial"] .card-product:hover .card-product__title a {
+    background-size: 100% 1px;
+  }
+}
+
+/* --- C. Reveal (Bottega Veneta/The Row) ---
+   Secondary image wipes in from left via clip-path + subtle primary zoom */
+
+[data-card-hover="reveal"] .card-product__image--secondary {
+  clip-path: inset(0 100% 0 0);
+  opacity: 1;
+}
+
+@media (hover: hover) {
+  [data-card-hover="reveal"] .card-product__media:hover .card-product__image--primary {
+    transform: scale(1.02);
+  }
+
+  [data-card-hover="reveal"] .card-product__media:hover .card-product__image--secondary {
+    clip-path: inset(0 0 0 0);
   }
 }
 
