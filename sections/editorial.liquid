@@ -8,7 +8,16 @@
 
 {%- liquid
   assign color_scheme = section.settings.color_scheme
+  assign padding_top = section.settings.padding_top
+  assign padding_bottom = section.settings.padding_bottom
 -%}
+
+{%- style -%}
+  #Section-{{ section.id }} {
+    --section-padding-top: {{ padding_top }}px;
+    --section-padding-bottom: {{ padding_bottom }}px;
+  }
+{%- endstyle -%}
 
 <div
   id="Section-{{ section.id }}"
