@@ -27,11 +27,14 @@
   assign card_style = settings.product_card_style | default: 'minimal'
   assign image_fit = settings.product_card_image_fit | default: 'cover'
   assign hover_effect = settings.card_hover_effect
+  assign enable_carousel = settings.product_card_enable_carousel
   assign card_color_scheme = color_scheme | default: settings.product_card_color_scheme
+
   assign is_carousel = false
-  if hover_effect == 'carousel' and product.images.size > 1
+  if enable_carousel and product.images.size > 1
     assign is_carousel = true
   endif
+
   assign loading = 'lazy'
   if lazy == false
     assign loading = 'eager'
@@ -42,11 +45,7 @@
 
   assign primary_image = product.featured_image
   assign secondary_image = nil
-  assign needs_secondary = false
-  if hover_effect == 'cinematic' or hover_effect == 'reveal'
-    assign needs_secondary = true
-  endif
-  if show_secondary and needs_secondary and product.images.size > 1
+  if show_secondary and is_carousel == false and product.images.size > 1
     assign secondary_image = product.images[1]
   endif
 

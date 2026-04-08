@@ -142,51 +142,55 @@
               opacity 500ms var(--ease-ecrin);
 }
 
+/* ─── Secondary image — standalone crossfade ─── */
+/* Works with any hover effect or none. If the element is not in the DOM
+   (carousel mode or secondary OFF), these rules simply do nothing. */
+
 .card-product__image--secondary {
   position: absolute;
   inset: 0;
   opacity: 0;
-  transition: opacity 500ms var(--ease-ecrin),
-              transform 700ms var(--ease-ecrin),
-              clip-path 700ms var(--ease-ecrin);
+  transition: opacity 500ms var(--ease-ecrin);
+}
+
+@media (hover: hover) {
+  .card-product__media:hover .card-product__image--secondary {
+    opacity: 1;
+  }
 }
 
 /* ─── Hover effects ─── */
 
-/* --- A. Cinematic (Jacquemus/Khaite) ---
+/* --- Zoom ---
    Slow image zoom + title lift + price fade-in cascade */
 
-[data-card-hover="cinematic"] .card-product__title {
+[data-card-hover="zoom"] .card-product__title {
   transition: transform 500ms var(--ease-ecrin) 100ms;
 }
 
-[data-card-hover="cinematic"] .price {
+[data-card-hover="zoom"] .price {
   opacity: 0.55;
   transition: opacity 400ms var(--ease-ecrin) 150ms;
 }
 
 @media (hover: hover) {
-  [data-card-hover="cinematic"] .card-product__media:hover .card-product__image--primary {
+  [data-card-hover="zoom"] .card-product__media:hover .card-product__image--primary {
     transform: scale(1.06);
   }
 
-  [data-card-hover="cinematic"] .card-product__media:hover .card-product__image--secondary {
-    opacity: 1;
-  }
-
-  [data-card-hover="cinematic"] .card-product:hover .card-product__title {
+  [data-card-hover="zoom"] .card-product:hover .card-product__title {
     transform: translateY(-4px);
   }
 
-  [data-card-hover="cinematic"] .card-product:hover .price {
+  [data-card-hover="zoom"] .card-product:hover .price {
     opacity: 1;
   }
 }
 
-/* --- B. Editorial (COS/Aesop) ---
-   Still image, overlay gradient + animated title underline on card hover */
+/* --- Overlay ---
+   Still image, gradient overlay + animated title underline */
 
-[data-card-hover="editorial"] .card-product__media-wrapper::after {
+[data-card-hover="overlay"] .card-product__media-wrapper::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -198,29 +202,31 @@
 }
 
 @media (hover: hover) {
-  [data-card-hover="editorial"] .card-product:hover .card-product__media-wrapper::after {
+  [data-card-hover="overlay"] .card-product:hover .card-product__media-wrapper::after {
     opacity: 1;
   }
 
-  [data-card-hover="editorial"] .card-product:hover .card-product__title a {
+  [data-card-hover="overlay"] .card-product:hover .card-product__title a {
     background-size: 100% 1px;
   }
 }
 
-/* --- C. Reveal (Bottega Veneta/The Row) ---
-   Secondary image wipes in from left via clip-path + subtle primary zoom */
+/* --- Wipe ---
+   Secondary image wipes in from left via clip-path + subtle primary zoom.
+   Overrides the default crossfade when secondary image is present. */
 
-[data-card-hover="reveal"] .card-product__image--secondary {
+[data-card-hover="wipe"] .card-product__image--secondary {
   clip-path: inset(0 100% 0 0);
   opacity: 1;
+  transition: clip-path 700ms var(--ease-ecrin);
 }
 
 @media (hover: hover) {
-  [data-card-hover="reveal"] .card-product__media:hover .card-product__image--primary {
+  [data-card-hover="wipe"] .card-product__media:hover .card-product__image--primary {
     transform: scale(1.02);
   }
 
-  [data-card-hover="reveal"] .card-product__media:hover .card-product__image--secondary {
+  [data-card-hover="wipe"] .card-product__media:hover .card-product__image--secondary {
     clip-path: inset(0 0 0 0);
   }
 }

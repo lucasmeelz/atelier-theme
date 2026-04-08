@@ -5,7 +5,7 @@
 
 {{ 'section-featured-collection.css' | asset_url | stylesheet_tag }}
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
-{%- if settings.card_hover_effect == 'carousel' -%}
+{%- if settings.product_card_enable_carousel -%}
   <script src="{{ 'component-card-carousel.js' | asset_url }}" defer="defer"></script>
 {%- endif -%}
 {%- if section.settings.show_quick_add -%}

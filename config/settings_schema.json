@@ -461,10 +461,35 @@
         "default": "cover"
       },
       {
+        "type": "header",
+        "content": "t:settings_schema.product_cards.hover_and_images"
+      },
+      {
         "type": "checkbox",
         "id": "product_card_show_secondary_image",
         "label": "t:settings_schema.product_cards.show_secondary_image",
+        "info": "t:settings_schema.product_cards.show_secondary_image_info",
         "default": true
+      },
+      {
+        "type": "select",
+        "id": "card_hover_effect",
+        "label": "t:settings_schema.product_cards.hover_effect",
+        "info": "t:settings_schema.product_cards.hover_effect_info",
+        "options": [
+          { "value": "none", "label": "t:settings_schema.product_cards.effect_none" },
+          { "value": "zoom", "label": "t:settings_schema.product_cards.effect_zoom" },
+          { "value": "overlay", "label": "t:settings_schema.product_cards.effect_overlay" },
+          { "value": "wipe", "label": "t:settings_schema.product_cards.effect_wipe" }
+        ],
+        "default": "zoom"
+      },
+      {
+        "type": "checkbox",
+        "id": "product_card_enable_carousel",
+        "label": "t:settings_schema.product_cards.enable_carousel",
+        "info": "t:settings_schema.product_cards.enable_carousel_info",
+        "default": false
       },
       {
         "type": "select",
@@ -500,19 +525,6 @@
         "id": "product_card_show_color_swatches",
         "label": "t:settings_schema.product_cards.show_color_swatches",
         "default": true
-      },
-      {
-        "type": "select",
-        "id": "card_hover_effect",
-        "label": "t:settings_schema.product_cards.hover_effect",
-        "options": [
-          { "value": "none", "label": "t:settings_schema.product_cards.none" },
-          { "value": "cinematic", "label": "t:settings_schema.product_cards.cinematic" },
-          { "value": "editorial", "label": "t:settings_schema.product_cards.editorial" },
-          { "value": "reveal", "label": "t:settings_schema.product_cards.reveal" },
-          { "value": "carousel", "label": "t:settings_schema.product_cards.carousel" }
-        ],
-        "default": "cinematic"
       },
       {
         "type": "select",
