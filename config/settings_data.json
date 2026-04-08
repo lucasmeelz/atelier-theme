@@ -52,7 +52,7 @@
     "product_card_show_rating": false,
     "product_card_show_quick_add": true,
     "product_card_show_color_swatches": true,
-    "card_hover_effect": "carousel",
+    "card_hover_effect": "editorial",
     "product_card_swatch_position": "on_image",
     "product_card_swatch_shape": "circle",
     "product_card_badge_style": "text_only",
@@ -76,9 +76,9 @@
           "button_background": "#0a0a0a",
           "button_label": "#ffffff",
           "button_hover_background": "#333333",
-          "button_hover_label": "#FFFFFF",
-          "secondary_button_background": "#FFFFFF",
-          "secondary_button_label": "#0A0A0A"
+          "button_hover_label": "#ffffff",
+          "secondary_button_background": "#ffffff",
+          "secondary_button_label": "#0a0a0a"
         }
       },
       "scheme-2": {
@@ -92,9 +92,9 @@
           "button_background": "#0a0a0a",
           "button_label": "#ffffff",
           "button_hover_background": "#333333",
-          "button_hover_label": "#FFFFFF",
-          "secondary_button_background": "#FFFFFF",
-          "secondary_button_label": "#0A0A0A"
+          "button_hover_label": "#ffffff",
+          "secondary_button_background": "#ffffff",
+          "secondary_button_label": "#0a0a0a"
         }
       },
       "scheme-3": {
@@ -108,9 +108,9 @@
           "button_background": "#ffffff",
           "button_label": "#0a0a0a",
           "button_hover_background": "#333333",
-          "button_hover_label": "#FFFFFF",
-          "secondary_button_background": "#FFFFFF",
-          "secondary_button_label": "#0A0A0A"
+          "button_hover_label": "#ffffff",
+          "secondary_button_background": "#ffffff",
+          "secondary_button_label": "#0a0a0a"
         }
       }
     }
