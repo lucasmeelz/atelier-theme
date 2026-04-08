@@ -52,7 +52,7 @@
     "product_card_show_rating": false,
     "product_card_show_quick_add": true,
     "product_card_show_color_swatches": true,
-    "card_hover_effect": "editorial",
+    "card_hover_effect": "reveal",
     "product_card_swatch_position": "on_image",
     "product_card_swatch_shape": "circle",
     "product_card_badge_style": "text_only",
