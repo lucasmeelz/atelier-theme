@@ -73,7 +73,7 @@
   transition: border-color var(--duration-base) var(--ease-ecrin);
 }
 
-.customer__form .field input:focus {
+.customer__form .field input:focus-visible {
   outline: none;
   border-color: rgb(var(--color-text));
 }
@@ -450,8 +450,8 @@
   transition: border-color var(--duration-base) var(--ease-ecrin);
 }
 
-.customer__address-form .field input:focus,
-.customer__address-form .field select:focus {
+.customer__address-form .field input:focus-visible,
+.customer__address-form .field select:focus-visible {
   outline: none;
   border-color: rgb(var(--color-text));
 }
