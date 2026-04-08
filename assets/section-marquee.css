@@ -54,6 +54,13 @@
   }
 }
 
+/* Reduced motion: slow gentle scroll instead of frozen */
+@media (prefers-reduced-motion: reduce) {
+  .marquee__track {
+    animation: marquee-scroll 120s linear infinite;
+  }
+}
+
 /* ===================================
    Content — repeated 3x for seamless loop
    =================================== */
