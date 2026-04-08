@@ -53,7 +53,7 @@
 }
 
 .collapsible-content__item summary:focus-visible {
-  outline: 2px solid var(--color-text);
+  outline: 2px solid rgb(var(--color-text));
   outline-offset: -2px;
 }
 
@@ -76,7 +76,7 @@
   width: 16px;
   height: 16px;
   transform: translateY(-50%);
-  background-color: var(--color-text);
+  background-color: rgb(var(--color-text));
   -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cline x1='8' y1='2' x2='8' y2='14' stroke='black' stroke-width='1.25' stroke-linecap='round'/%3E%3Cline x1='2' y1='8' x2='14' y2='8' stroke='black' stroke-width='1.25' stroke-linecap='round'/%3E%3C/svg%3E");
   mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cline x1='8' y1='2' x2='8' y2='14' stroke='black' stroke-width='1.25' stroke-linecap='round'/%3E%3Cline x1='2' y1='8' x2='14' y2='8' stroke='black' stroke-width='1.25' stroke-linecap='round'/%3E%3C/svg%3E");
   -webkit-mask-size: contain;
