@@ -409,6 +409,9 @@
       "copy_link": "Copy link",
       "tags_label": "Article tags",
       "comments_label": "Article comments"
+    },
+    "collapsible_content": {
+      "default_heading": "Question"
     }
   }
 }

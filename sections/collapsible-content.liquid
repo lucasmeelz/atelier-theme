@@ -51,7 +51,7 @@
         >
           <summary>
             <span class="collapsible-content__item-heading">
-              {{ block.settings.heading | default: 'sections.collapsible_content.default_heading' | t }}
+              {%- if block.settings.heading != blank -%}{{ block.settings.heading }}{%- else -%}{{ 'sections.collapsible_content.default_heading' | t }}{%- endif -%}
             </span>
           </summary>
           <div class="collapsible-content__body">
