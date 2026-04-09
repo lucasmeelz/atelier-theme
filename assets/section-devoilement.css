@@ -556,20 +556,10 @@
    Scroll-driven content transitions remain (user-initiated).
    ============================================================ */
 @media (prefers-reduced-motion: reduce) {
-  /* Replace clip-path reveals with simple opacity crossfade */
-  .devoilement__scene-media[data-reveal="circle"],
-  .devoilement__scene-media[data-reveal="diagonal"],
-  .devoilement__scene-media[data-reveal="split"],
-  .devoilement__scene-media[data-reveal="curtain"] {
-    clip-path: none !important;
-  }
+  /* Clip-path reveals are scroll-driven (user-initiated), so they remain active.
+     Only autonomous animations (parallax) are disabled per WCAG guidelines. */
 
-  /* Content transitions: keep fade (scroll-driven = user-initiated) but remove translateY */
-  [data-content-el] {
-    transform: none;
-  }
-
-  /* Disable cursor parallax transforms */
+  /* Disable cursor parallax transforms (autonomous motion) */
   .devoilement__scene-media[data-parallax-active] .devoilement__scene-img {
     transform: none !important;
     transition: none !important;
