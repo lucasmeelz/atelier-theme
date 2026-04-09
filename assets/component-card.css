@@ -178,11 +178,11 @@
     transform: scale(1.06);
   }
 
-  [data-card-hover="zoom"] .card-product:hover .card-product__title {
+  .card-product[data-card-hover="zoom"]:hover .card-product__title {
     transform: translateY(-4px);
   }
 
-  [data-card-hover="zoom"] .card-product:hover .price {
+  .card-product[data-card-hover="zoom"]:hover .price {
     opacity: 1;
   }
 }
@@ -202,11 +202,11 @@
 }
 
 @media (hover: hover) {
-  [data-card-hover="overlay"] .card-product:hover .card-product__media-wrapper::after {
+  .card-product[data-card-hover="overlay"]:hover .card-product__media-wrapper::after {
     opacity: 1;
   }
 
-  [data-card-hover="overlay"] .card-product:hover .card-product__title a {
+  .card-product[data-card-hover="overlay"]:hover .card-product__title a {
     background-size: 100% 1px;
   }
 }
@@ -408,6 +408,12 @@ card-carousel {
   letter-spacing: 0.06em;
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
+}
+
+/* Pill badges — rounded capsule shape */
+.card-product__badge--pill {
+  border-radius: 2rem;
+  padding: 5px 14px;
 }
 
 /* Quick add — full-width bar, slides up on hover */
