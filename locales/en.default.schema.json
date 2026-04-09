@@ -83,6 +83,8 @@
       "image_hover": "Image hover effect",
       "stagger_products": "Stagger product cards on scroll",
       "stagger_blog_posts": "Stagger blog posts on scroll",
+      "enable_smooth_scroll": "Enable smooth scroll",
+      "smooth_scroll_info": "Adds a fluid, premium scrolling feel to the page.",
       "none": "None",
       "fade": "Fade",
       "fade_up": "Fade up",

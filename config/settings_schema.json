@@ -370,6 +370,13 @@
         "default": "fade"
       },
       {
+        "type": "checkbox",
+        "id": "enable_smooth_scroll",
+        "label": "t:settings_schema.animations.enable_smooth_scroll",
+        "info": "t:settings_schema.animations.smooth_scroll_info",
+        "default": true
+      },
+      {
         "type": "select",
         "id": "scroll_reveal",
         "label": "t:settings_schema.animations.scroll_reveal",
