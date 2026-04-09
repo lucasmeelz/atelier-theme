@@ -38,6 +38,7 @@
     "icon_stroke_width": 1.2,
     "backdrop_blur": 6,
     "page_transition": "fade",
+    "enable_smooth_scroll": true,
     "scroll_reveal": "fade-in",
     "button_hover_effect": "fade",
     "image_hover_effect": "zoom",
