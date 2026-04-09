@@ -205,8 +205,10 @@ if (!customElements.get('devoilement-section')) {
           scene.setAttribute('aria-hidden', 'false');
 
           /* Clip-path reveal: scene 0 is always fully revealed */
-          if (i > 0 && mediaEl && !this.reducedMotion) {
-            /* During entering phase (first 50% of scene scroll), do smooth reveal */
+          if (i > 0 && mediaEl) {
+            /* Clip-path reveal is scroll-driven (user-initiated), so it runs
+               even with prefers-reduced-motion. Only autonomous animations
+               (parallax, autoplay) are disabled for reduced motion. */
             if (sceneProgress < 0.5) {
               const revealVal = this._easeOutCubic(Math.min(1, sceneProgress * 2));
               mediaEl.style.setProperty('--reveal-progress', revealVal);

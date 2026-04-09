@@ -138,6 +138,7 @@
       "badge_style": "Badge style",
       "badge_filled": "Filled",
       "badge_text_only": "Text only",
+      "badge_pill": "Pill",
       "show_sale_badge": "Show sale badge",
       "sale_badge_style": "Sale badge style",
       "percentage": "Percentage (e.g. -20%)",
