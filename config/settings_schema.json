@@ -560,7 +560,8 @@
         "label": "t:settings_schema.product_cards.badge_style",
         "options": [
           { "value": "filled", "label": "t:settings_schema.product_cards.badge_filled" },
-          { "value": "text_only", "label": "t:settings_schema.product_cards.badge_text_only" }
+          { "value": "text_only", "label": "t:settings_schema.product_cards.badge_text_only" },
+          { "value": "pill", "label": "t:settings_schema.product_cards.badge_pill" }
         ],
         "default": "text_only"
       },
