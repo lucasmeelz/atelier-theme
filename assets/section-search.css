@@ -52,7 +52,7 @@
   border: none;
   background: transparent;
   font-family: var(--font-body-family);
-  font-size: var(--body-font-size-desktop);
+  font-size: var(--body-font-size);
   color: rgb(var(--color-text));
   outline: none;
 }

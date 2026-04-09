@@ -593,7 +593,7 @@ h3.product__title {
   align-items: center;
   gap: 8px;
   cursor: pointer;
-  font-size: var(--body-font-size-desktop);
+  font-size: var(--body-font-size);
 }
 
 .product__selling-plan-option input[type="radio"] {

@@ -103,18 +103,12 @@ body {
   font-family: var(--font-body-family);
   font-style: var(--font-body-style);
   font-weight: var(--font-body-weight);
-  font-size: var(--body-font-size-mobile);
+  font-size: var(--body-font-size);
   line-height: var(--body-line-height);
   background-color: rgb(var(--color-background));
   color: rgb(var(--color-text));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-@media screen and (min-width: 750px) {
-  body {
-    font-size: var(--body-font-size-desktop);
-  }
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -127,21 +121,12 @@ h1, h2, h3, h4, h5, h6 {
   color: rgb(var(--color-text));
 }
 
-h1 { font-size: var(--h1-mobile); }
-h2 { font-size: var(--h2-mobile); }
-h3 { font-size: var(--h3-mobile); }
-h4 { font-size: var(--h4-mobile); }
-h5 { font-size: var(--h5-mobile); }
-h6 { font-size: var(--h6-mobile); }
-
-@media screen and (min-width: 750px) {
-  h1 { font-size: var(--h1-desktop); }
-  h2 { font-size: var(--h2-desktop); }
-  h3 { font-size: var(--h3-desktop); }
-  h4 { font-size: var(--h4-desktop); }
-  h5 { font-size: var(--h5-desktop); }
-  h6 { font-size: var(--h6-desktop); }
-}
+h1 { font-size: var(--h1-size); }
+h2 { font-size: var(--h2-size); }
+h3 { font-size: var(--h3-size); }
+h4 { font-size: var(--h4-size); }
+h5 { font-size: var(--h5-size); }
+h6 { font-size: var(--h6-size); }
 
 /* Label / subheading utility */
 .label,

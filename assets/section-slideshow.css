@@ -165,23 +165,9 @@
   margin: 0 0 16px;
 }
 
-.slideshow__heading--h1 {
-  font-size: var(--h1-mobile);
-}
-
-.slideshow__heading--h2 {
-  font-size: var(--h2-mobile);
-}
-
-.slideshow__heading--h3 {
-  font-size: var(--h3-mobile);
-}
-
-@media screen and (min-width: 750px) {
-  .slideshow__heading--h1 { font-size: var(--h1-desktop); }
-  .slideshow__heading--h2 { font-size: var(--h2-desktop); }
-  .slideshow__heading--h3 { font-size: var(--h3-desktop); }
-}
+.slideshow__heading--h1 { font-size: var(--h1-size); }
+.slideshow__heading--h2 { font-size: var(--h2-size); }
+.slideshow__heading--h3 { font-size: var(--h3-size); }
 
 /* Body text */
 .slideshow__text {

@@ -264,42 +264,22 @@
 }
 
 .devoilement__scene-heading--medium {
-  font-size: var(--h3-mobile);
+  font-size: var(--h3-size);
 }
 
 .devoilement__scene-heading--large {
-  font-size: var(--h2-mobile);
+  font-size: var(--h2-size);
 }
 
 .devoilement__scene-heading--cinematic {
-  font-size: var(--h1-mobile);
-}
-
-@media screen and (min-width: 750px) {
-  .devoilement__scene-heading--medium {
-    font-size: var(--h3-desktop);
-  }
-
-  .devoilement__scene-heading--large {
-    font-size: var(--h2-desktop);
-  }
-
-  .devoilement__scene-heading--cinematic {
-    font-size: calc(var(--h1-desktop) * 1.4);
-  }
+  font-size: calc(var(--h1-size) * 1.4);
 }
 
 /* --- Scene text --- */
 .devoilement__scene-text {
-  font-size: var(--body-font-size-mobile);
+  font-size: var(--body-font-size);
   line-height: var(--body-line-height);
   max-width: 50ch;
-}
-
-@media screen and (min-width: 750px) {
-  .devoilement__scene-text {
-    font-size: var(--body-font-size-desktop);
-  }
 }
 
 /* --- Button --- */

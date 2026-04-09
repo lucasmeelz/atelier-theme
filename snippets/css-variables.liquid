@@ -31,8 +31,13 @@
     --font-body-family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
     --font-body-style: {{ settings.type_body_font.style }};
     --font-body-weight: {{ settings.type_body_font.weight }};
-    --body-font-size-mobile: {{ settings.body_font_size_mobile }}px;
-    --body-font-size-desktop: {{ settings.body_font_size_desktop }}px;
+    {%- liquid
+      assign body_min = settings.body_font_size_mobile
+      assign body_max = settings.body_font_size_desktop
+      assign body_slope_vw = body_max | minus: body_min | times: 100.0 | divided_by: 1065.0
+      assign body_intercept_px = body_slope_vw | times: 3.75 | times: -1.0 | plus: body_min
+    -%}
+    --body-font-size: clamp({{ body_min }}px, {{ body_intercept_px | round: 3 }}px + {{ body_slope_vw | round: 3 }}vw, {{ body_max }}px);
     --body-line-height: {{ settings.body_line_height }};
 
     /* Labels and subheadings */
@@ -54,19 +59,14 @@
     --button-text-transform: {{ settings.button_text_transform }};
     --button-letter-spacing: {{ settings.button_letter_spacing | divided_by: 100.0 }}em;
 
-    /* Heading sizes (responsive, scaled by --heading-scale) */
-    --h1-mobile: calc(36px * var(--heading-scale));
-    --h1-desktop: calc(56px * var(--heading-scale));
-    --h2-mobile: calc(28px * var(--heading-scale));
-    --h2-desktop: calc(40px * var(--heading-scale));
-    --h3-mobile: calc(22px * var(--heading-scale));
-    --h3-desktop: calc(28px * var(--heading-scale));
-    --h4-mobile: calc(18px * var(--heading-scale));
-    --h4-desktop: calc(22px * var(--heading-scale));
-    --h5-mobile: calc(16px * var(--heading-scale));
-    --h5-desktop: calc(18px * var(--heading-scale));
-    --h6-mobile: calc(14px * var(--heading-scale));
-    --h6-desktop: calc(16px * var(--heading-scale));
+    /* Heading sizes — fluid typography with clamp()
+       Scales smoothly between 375px and 1440px viewport, multiplied by --heading-scale */
+    --h1-size: calc(var(--heading-scale) * clamp(2.25rem, 1.81rem + 1.878vw, 3.5rem));
+    --h2-size: calc(var(--heading-scale) * clamp(1.75rem, 1.486rem + 1.127vw, 2.5rem));
+    --h3-size: calc(var(--heading-scale) * clamp(1.375rem, 1.243rem + 0.563vw, 1.75rem));
+    --h4-size: calc(var(--heading-scale) * clamp(1.125rem, 1.037rem + 0.376vw, 1.375rem));
+    --h5-size: calc(var(--heading-scale) * clamp(1rem, 0.956rem + 0.188vw, 1.125rem));
+    --h6-size: calc(var(--heading-scale) * clamp(0.875rem, 0.831rem + 0.188vw, 1rem));
 
     /* ===== LAYOUT ===== */
     --page-width: {{ settings.page_width }}px;

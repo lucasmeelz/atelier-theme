@@ -133,15 +133,9 @@
 .atelier-process__step-heading {
   font-family: var(--font-heading-family);
   font-weight: var(--font-heading-weight);
-  font-size: var(--h4-mobile);
+  font-size: var(--h4-size);
   line-height: var(--heading-line-height);
   margin-bottom: 8px;
-}
-
-@media screen and (min-width: 750px) {
-  .atelier-process__step-heading {
-    font-size: var(--h4-desktop);
-  }
 }
 
 .atelier-process__step-text {
