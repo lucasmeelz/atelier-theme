@@ -162,24 +162,29 @@
 /* ─── Hover effects ─── */
 
 /* --- Zoom ---
-   Slow image zoom + title lift + price fade-in cascade */
+   Cinematic image zoom + title lift + price fade-in cascade.
+   Scale is generous so the effect reads clearly on all image types. */
+
+[data-card-hover="zoom"] .card-product__media-wrapper {
+  will-change: transform;
+}
 
 [data-card-hover="zoom"] .card-product__title {
-  transition: transform 500ms var(--ease-ecrin) 100ms;
+  transition: transform 500ms var(--ease-ecrin) 80ms;
 }
 
 [data-card-hover="zoom"] .price {
-  opacity: 0.55;
-  transition: opacity 400ms var(--ease-ecrin) 150ms;
+  opacity: 0.5;
+  transition: opacity 400ms var(--ease-ecrin) 120ms;
 }
 
 @media (hover: hover) {
   [data-card-hover="zoom"] .card-product__media:hover .card-product__image--primary {
-    transform: scale(1.06);
+    transform: scale(1.1);
   }
 
   .card-product[data-card-hover="zoom"]:hover .card-product__title {
-    transform: translateY(-4px);
+    transform: translateY(-6px);
   }
 
   .card-product[data-card-hover="zoom"]:hover .price {
@@ -188,22 +193,31 @@
 }
 
 /* --- Overlay ---
-   Still image, gradient overlay + animated title underline */
+   Rich gradient veil over image + title underline reveal.
+   Gradient is strong enough to read on any image. Image gets a subtle zoom. */
 
 [data-card-hover="overlay"] .card-product__media-wrapper::after {
   content: '';
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(to top, rgba(var(--color-text), 0.12) 0%, transparent 50%);
+  background: linear-gradient(to top, rgba(var(--color-text), 0.28) 0%, transparent 60%);
   opacity: 0;
-  transition: opacity 500ms var(--ease-ecrin);
+  transition: opacity 600ms var(--ease-ecrin);
   pointer-events: none;
+}
+
+[data-card-hover="overlay"] .card-product__image--primary {
+  transition: transform 800ms var(--ease-ecrin);
 }
 
 @media (hover: hover) {
   .card-product[data-card-hover="overlay"]:hover .card-product__media-wrapper::after {
     opacity: 1;
+  }
+
+  .card-product[data-card-hover="overlay"]:hover .card-product__image--primary {
+    transform: scale(1.04);
   }
 
   .card-product[data-card-hover="overlay"]:hover .card-product__title a {
@@ -212,7 +226,7 @@
 }
 
 /* --- Wipe ---
-   Secondary image wipes in from left via clip-path + subtle primary zoom.
+   Secondary image wipes in from left via clip-path + primary zoom.
    Overrides the default crossfade when secondary image is present. */
 
 [data-card-hover="wipe"] .card-product__image--secondary {
@@ -223,7 +237,7 @@
 
 @media (hover: hover) {
   [data-card-hover="wipe"] .card-product__media:hover .card-product__image--primary {
-    transform: scale(1.02);
+    transform: scale(1.04);
   }
 
   [data-card-hover="wipe"] .card-product__media:hover .card-product__image--secondary {
