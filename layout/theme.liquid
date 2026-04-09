@@ -67,6 +67,12 @@
       </div>
     </dialog>
 
+    {%- comment -%} Smooth scroll (Lenis) {%- endcomment -%}
+    {%- if settings.enable_smooth_scroll -%}
+      <script src="{{ 'vendor-lenis.min.js' | asset_url }}" defer></script>
+      <script src="{{ 'smooth-scroll.js' | asset_url }}" defer></script>
+    {%- endif -%}
+
     {%- comment -%} Scroll reveal animations {%- endcomment -%}
     {%- if settings.scroll_reveal != 'none' -%}
       <script>
