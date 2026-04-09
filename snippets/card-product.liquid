@@ -144,7 +144,7 @@
 
     {%- comment -%} Badges {%- endcomment -%}
     {%- if settings.product_card_show_sale_badge and on_sale -%}
-      <span class="card-product__badge card-product__badge--sale{% if badge_style == 'text_only' %} card-product__badge--text-only{% endif %}">
+      <span class="card-product__badge card-product__badge--sale{% if badge_style == 'text_only' %} card-product__badge--text-only{% elsif badge_style == 'pill' %} card-product__badge--pill{% endif %}">
         {%- case settings.product_card_sale_badge_style -%}
           {%- when 'percentage' -%}
             {%- assign discount = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
@@ -159,7 +159,7 @@
     {%- endif -%}
 
     {%- if settings.product_card_show_sold_out_badge and sold_out -%}
-      <span class="card-product__badge card-product__badge--sold-out{% if badge_style == 'text_only' %} card-product__badge--text-only{% endif %}">
+      <span class="card-product__badge card-product__badge--sold-out{% if badge_style == 'text_only' %} card-product__badge--text-only{% elsif badge_style == 'pill' %} card-product__badge--pill{% endif %}">
         {{ 'product.sold_out' | t }}
       </span>
     {%- endif -%}
