@@ -155,7 +155,7 @@
       "settings": {
         "image_ratio": "adapt",
         "layout": "text_first",
-        "desktop_image_width": "medium",
+        "desktop_image_width": "large",
         "vertical_alignment": "middle",
         "mobile_layout": "image_first",
         "full_width": false,
