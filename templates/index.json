@@ -154,7 +154,7 @@
       "type": "image-with-text",
       "settings": {
         "image_ratio": "adapt",
-        "layout": "image_first",
+        "layout": "text_first",
         "desktop_image_width": "medium",
         "vertical_alignment": "middle",
         "mobile_layout": "image_first",
