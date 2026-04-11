@@ -62,7 +62,7 @@
                   widths: '300,400,600,800,1000,1200',
                   sizes: '(min-width: 750px) ' | append: img_max_w | append: 'px, ' | append: img_mobile_max_w | append: 'px',
                   class: 'rich-text__img',
-                  alt: block.settings.image.alt | default: ''
+                  alt: block.settings.image.alt
                 }}
               {%- else -%}
                 {{ 'image' | placeholder_svg_tag: 'rich-text__placeholder-svg' }}
