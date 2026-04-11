@@ -231,7 +231,7 @@ button.collection__filter-toggle.btn {
 
 .collection__filter-group-title {
   font-family: var(--font-body-family, sans-serif);
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -359,7 +359,7 @@ button.collection__filter-toggle.btn {
 }
 
 .collection__price-range-field label {
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   font-weight: 500;
   letter-spacing: 0.04em;
   display: block;
@@ -445,7 +445,7 @@ button.collection__filter-toggle.btn {
   padding: 8px 16px;
   border: 1px solid rgb(var(--color-border, 226, 224, 219));
   border-radius: 0;
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   font-weight: 500;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -471,7 +471,7 @@ button.collection__filter-toggle.btn {
 }
 
 .collection__active-filter-clear {
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   font-weight: 500;
   letter-spacing: 0.06em;
   color: rgb(var(--color-text-subdued, 107, 107, 107));
@@ -905,7 +905,7 @@ collection-filters {
 }
 
 .collection__promotion-subheading {
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -1004,7 +1004,7 @@ collection-filters {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
