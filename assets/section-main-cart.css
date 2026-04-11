@@ -198,7 +198,7 @@
 .main-cart__item-remove {
   font-size: 0.75rem;
   color: rgb(var(--color-text, 10, 10, 10));
-  opacity: 0.6;
+  opacity: 0.75;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
