@@ -138,17 +138,18 @@ h4.newsletter__heading {
 .newsletter__input {
   flex: 1;
   min-width: 0;
-  height: 50px;
+  height: 54px;
   padding: 0 18px;
   border: 1px solid currentColor;
   border-right: none;
   background-color: transparent;
   color: inherit;
   font-family: var(--font-body-family, sans-serif);
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   letter-spacing: 0.02em;
   outline: none;
-  transition: border-color var(--duration-fast, 200ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
+  transition: border-color var(--duration-fast, 200ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1)),
+              box-shadow var(--duration-fast, 200ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
 }
 
 .newsletter__input::placeholder {
@@ -158,6 +159,7 @@ h4.newsletter__heading {
 
 .newsletter__input:focus {
   border-color: currentColor;
+  box-shadow: 0 0 0 3px rgba(var(--color-accent, 10, 10, 10), 0.08);
 }
 
 /* Without bg: refined border */
@@ -171,7 +173,7 @@ h4.newsletter__heading {
 
 .newsletter__submit {
   flex-shrink: 0;
-  height: 50px;
+  height: 54px;
   border-radius: 0;
 }
 
