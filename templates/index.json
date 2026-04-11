@@ -33,7 +33,7 @@
         "button_label_2": "",
         "button_link_2": "",
         "button_style_2": "filled-white",
-        "show_scroll_indicator": true,
+        "show_scroll_indicator": false,
         "enable_parallax": true,
         "color_scheme": ""
       }
