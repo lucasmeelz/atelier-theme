@@ -35,7 +35,7 @@
         "button_style_2": "filled-white",
         "show_scroll_indicator": true,
         "enable_parallax": true,
-        "color_scheme": ""
+        "color_scheme": "scheme-2"
       }
     },
     "marquee": {
@@ -90,7 +90,7 @@
         "pause_on_hover": true,
         "show_borders": true,
         "show_gradient_overlay": true,
-        "color_scheme": "",
+        "color_scheme": "scheme-2",
         "padding_top": 16,
         "padding_bottom": 16
       }
@@ -145,7 +145,7 @@
         "button_label": "View all",
         "button_link": "",
         "button_style": "outline",
-        "color_scheme": "",
+        "color_scheme": "scheme-2",
         "padding_top": 60,
         "padding_bottom": 60
       }
@@ -166,7 +166,7 @@
         "button_label": "Learn more",
         "button_link": "",
         "button_style": "primary",
-        "color_scheme": "",
+        "color_scheme": "scheme-2",
         "padding_top": 60,
         "padding_bottom": 60
       }
@@ -182,7 +182,7 @@
         "show_controls": true,
         "video_ratio": "21-9",
         "full_width": true,
-        "color_scheme": "",
+        "color_scheme": "scheme-2",
         "padding_top": 60,
         "padding_bottom": 60
       }
@@ -229,7 +229,7 @@
         "button"
       ],
       "settings": {
-        "color_scheme": "",
+        "color_scheme": "scheme-2",
         "content_width": "md",
         "text_alignment": "center",
         "padding_top": 80,
@@ -285,7 +285,7 @@
         "image_width": "medium",
         "image_ratio": "adapt",
         "show_borders": false,
-        "color_scheme": "",
+        "color_scheme": "scheme-2",
         "padding_top": 40,
         "padding_bottom": 40
       }
@@ -300,7 +300,7 @@
         "disclaimer": "<p>By signing up, you agree to our <a href=\"#\">privacy policy</a>.</p>",
         "layout": "centered",
         "overlay_opacity": 40,
-        "color_scheme": "",
+        "color_scheme": "scheme-2",
         "padding_top": 80,
         "padding_bottom": 80
       }
@@ -670,7 +670,7 @@
         "pause_on_hover": true,
         "show_borders": true,
         "show_gradient_overlay": true,
-        "color_scheme": "",
+        "color_scheme": "scheme-2",
         "padding_top": 16,
         "padding_bottom": 16
       }
