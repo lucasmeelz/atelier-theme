@@ -43,15 +43,18 @@ class HeaderComponent extends HTMLElement {
       totalHeight += section.offsetHeight;
     });
 
-    /* --header-bottom = actual bottom edge of the header wrapper on screen.
-       Used by dropdown/search to position flush below the header bar. */
-    var wrapperBottom = this.wrapper
-      ? this.wrapper.getBoundingClientRect().bottom + window.scrollY
-      : totalHeight;
-
     document.documentElement.style.setProperty('--header-height', totalHeight + 'px');
     document.documentElement.style.setProperty('--header-wrapper-height', wrapperHeight + 'px');
-    document.documentElement.style.setProperty('--header-bottom', wrapperBottom + 'px');
+    this._updateHeaderBottom();
+  }
+
+  _updateHeaderBottom() {
+    /* --header-bottom = viewport-relative bottom of header wrapper.
+       Dropdown/search use position:fixed, so this must be viewport-relative.
+       Updated on scroll because announcement bar scrolls away. */
+    if (!this.wrapper) return;
+    var bottom = Math.round(this.wrapper.getBoundingClientRect().bottom);
+    document.documentElement.style.setProperty('--header-bottom', bottom + 'px');
   }
 
   /* --- Transparent header --- */
