@@ -131,7 +131,7 @@
         "subheading": "",
         "collection": "",
         "products_to_show": 4,
-        "desktop_layout": "grid",
+        "desktop_layout": "carousel",
         "mobile_layout": "swipe",
         "columns_desktop": 4,
         "columns_mobile": "2",
