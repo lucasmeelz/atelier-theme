@@ -18,7 +18,7 @@
         "video_url": "",
         "overlay_color": "#000000",
         "overlay_opacity": 20,
-        "height": "medium",
+        "height": "small",
         "height_mobile": "auto",
         "text_position": "bottom-left",
         "text_position_mobile": "auto",
