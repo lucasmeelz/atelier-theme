@@ -100,14 +100,16 @@ h3.testimonials__heading {
    =================================== */
 .testimonials__card {
   position: relative;
-  padding: 2.5rem;
-  border: 1px solid rgba(var(--color-border, 226, 224, 219), 0.6);
-  transition: border-color var(--duration-base, 350ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
+  padding: 3rem;
+  border: 1px solid rgba(var(--color-border, 226, 224, 219), 0.4);
+  transition: border-color var(--duration-base, 350ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1)),
+              box-shadow var(--duration-base, 350ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
 }
 
 @media (hover: hover) {
   .testimonials__card:hover {
-    border-color: rgba(var(--color-text, 10, 10, 10), 0.3);
+    border-color: rgba(var(--color-text, 10, 10, 10), 0.2);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
   }
 }
 
@@ -151,7 +153,7 @@ h3.testimonials__heading {
    =================================== */
 .testimonials__quote {
   font-family: var(--font-heading-family, serif);
-  font-size: 1rem;
+  font-size: 1.0625rem;
   line-height: 1.7;
   margin: 0 0 1.75rem;
   color: rgb(var(--color-text, 10, 10, 10));
