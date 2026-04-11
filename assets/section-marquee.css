@@ -34,7 +34,10 @@
 .marquee__track {
   display: flex;
   width: max-content;
-  animation: marquee-scroll var(--marquee-duration, 25s) linear infinite;
+  animation-name: marquee-scroll;
+  animation-duration: var(--marquee-duration, 25s);
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
   animation-direction: var(--marquee-direction, normal);
 }
 
