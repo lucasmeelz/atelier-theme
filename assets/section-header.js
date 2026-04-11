@@ -50,6 +50,14 @@ class HeaderComponent extends HTMLElement {
   setupTransparentHeader() {
     if (!this.isTransparent || !this.sentinel) return;
 
+    /* The sentinel must live OUTSIDE the sticky section so it scrolls
+       with the page while the header stays pinned. Move it before the
+       header-group wrapper (or the section itself). */
+    var stickySection = this.closest('.shopify-section-header');
+    if (stickySection && stickySection.contains(this.sentinel)) {
+      stickySection.parentElement.insertBefore(this.sentinel, stickySection);
+    }
+
     var self = this;
     this.transparentObserver = new IntersectionObserver(
       function(entries) {
