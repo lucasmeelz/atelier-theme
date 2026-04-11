@@ -28,6 +28,7 @@ class HeaderComponent extends HTMLElement {
     this.updateHeaderHeight();
 
     window.addEventListener('resize', this.updateHeaderHeight.bind(this));
+    window.addEventListener('scroll', this._updateHeaderBottom.bind(this), { passive: true });
     document.addEventListener('shopify:section:load', this.updateHeaderHeight.bind(this));
   }
 
