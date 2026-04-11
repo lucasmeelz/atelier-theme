@@ -20,7 +20,7 @@
         "overlay_opacity": 20,
         "height": "large",
         "height_mobile": "auto",
-        "text_position": "top-center",
+        "text_position": "bottom-left",
         "text_position_mobile": "auto",
         "content_alignment": "left",
         "subheading": "New Collection",
