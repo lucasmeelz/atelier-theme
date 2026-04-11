@@ -69,7 +69,7 @@
       "settings": {
         "color_scheme": "scheme-2",
         "desktop_layout": "logo_center_nav_split",
-        "mobile_layout": "logo_left_menu_right",
+        "mobile_layout": "logo_center_split",
         "enable_sticky": true,
         "hide_on_scroll": false,
         "logo_width": 120,
