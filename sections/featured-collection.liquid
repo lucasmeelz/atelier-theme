@@ -105,7 +105,7 @@
 
     {%- comment -%} Tab bar — only when 2+ collection_tab blocks exist {%- endcomment -%}
     {%- if has_tabs -%}
-      <div class="featured-collection__tabs" role="tablist" aria-label="{{ heading | default: 'Collections' | escape }}">
+      <div class="featured-collection__tabs" role="tablist" aria-label="{{ heading | default: 'collections.title' | t | escape }}">
         {%- for block in tab_blocks -%}
           <button
             class="featured-collection__tab{% if forloop.first %} featured-collection__tab--active{% endif %}"
@@ -117,7 +117,7 @@
             tabindex="{% if forloop.first %}0{% else %}-1{% endif %}"
             {{ block.shopify_attributes }}
           >
-            {{ block.settings.tab_label | default: block.settings.collection.title | default: 'Collection' }}
+            {{ block.settings.tab_label | default: block.settings.collection.title | default: 'general.collection' | t }}
           </button>
         {%- endfor -%}
         <span class="featured-collection__tab-indicator" aria-hidden="true"></span>
