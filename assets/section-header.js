@@ -32,18 +32,19 @@ class HeaderComponent extends HTMLElement {
   }
 
   updateHeaderHeight() {
-    /* Measure header wrapper height + any announcement bar above it for dropdown positioning */
-    var height = this.wrapper ? this.wrapper.offsetHeight : 0;
+    var wrapperHeight = this.wrapper ? this.wrapper.offsetHeight : 0;
+    var totalHeight = wrapperHeight;
 
-    /* Check for announcement bar sections rendered before the header in the group */
+    /* Add announcement bar / other sections above the header in the group */
     var allGroupSections = document.querySelectorAll('.shopify-section-group-header-group');
     var self = this;
     allGroupSections.forEach(function(section) {
-      if (section.contains(self)) return; /* skip our own section */
-      height += section.offsetHeight;
+      if (section.contains(self)) return;
+      totalHeight += section.offsetHeight;
     });
 
-    document.documentElement.style.setProperty('--header-height', height + 'px');
+    document.documentElement.style.setProperty('--header-height', totalHeight + 'px');
+    document.documentElement.style.setProperty('--header-wrapper-height', wrapperHeight + 'px');
   }
 
   /* --- Transparent header --- */
