@@ -17,7 +17,7 @@
         "image_mobile": "shopify://shop_images/portrait_3to4.jpg",
         "video_url": "",
         "overlay_color": "#000000",
-        "overlay_opacity": 20,
+        "overlay_opacity": 0,
         "height": "large",
         "height_mobile": "auto",
         "text_position": "bottom-left",
