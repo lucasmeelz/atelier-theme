@@ -117,7 +117,7 @@
             tabindex="{% if forloop.first %}0{% else %}-1{% endif %}"
             {{ block.shopify_attributes }}
           >
-            {{ block.settings.tab_label | default: block.settings.collection.title | default: 'collections.title' | t }}
+            {{ block.settings.tab_label | default: block.settings.collection.title | default: 'general.collection' | t }}
           </button>
         {%- endfor -%}
         <span class="featured-collection__tab-indicator" aria-hidden="true"></span>
