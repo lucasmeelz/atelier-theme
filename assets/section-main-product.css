@@ -5,8 +5,8 @@
    =================================== */
 
 .product-section {
-  padding-top: var(--section-padding-top, 40px);
-  padding-bottom: var(--section-padding-bottom, 40px);
+  padding-top: var(--section-padding-top, 60px);
+  padding-bottom: var(--section-padding-bottom, 80px);
 }
 
 /* ===================================
@@ -14,7 +14,7 @@
    =================================== */
 .product__grid {
   display: grid;
-  gap: 40px;
+  gap: 24px;
 }
 
 @media screen and (min-width: 990px) {
