@@ -68,7 +68,7 @@
       ],
       "settings": {
         "color_scheme": "scheme-2",
-        "desktop_layout": "logo_center_nav_split",
+        "desktop_layout": "logo_left_nav_right",
         "mobile_layout": "logo_left_menu_right",
         "enable_sticky": true,
         "hide_on_scroll": false,
