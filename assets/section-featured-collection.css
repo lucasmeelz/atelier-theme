@@ -305,7 +305,7 @@ h3.featured-collection__heading {
    Tab Panels
    =================================== */
 .featured-collection__panel {
-  animation: fc-panel-in var(--duration-base) var(--ease-ecrin);
+  animation: fc-panel-in var(--duration-slow) var(--ease-ecrin);
 }
 
 .featured-collection__panel[hidden] {
