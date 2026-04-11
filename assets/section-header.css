@@ -369,11 +369,11 @@
 
 .header__dropdown {
   position: fixed;
-  top: var(--header-wrapper-height, 72px);
+  top: var(--header-bottom, var(--header-height, 72px));
   left: 0;
   width: 100%;
   z-index: 99;
-  max-height: calc(80vh - var(--header-wrapper-height, 72px));
+  max-height: calc(80vh - var(--header-bottom, var(--header-height, 72px)));
   overflow-y: auto;
   background-color: rgb(var(--color-background, 255, 255, 255));
   color: rgb(var(--color-text, 10, 10, 10));
@@ -575,7 +575,7 @@
 
 .header__search-panel {
   position: fixed;
-  top: var(--header-wrapper-height, 72px);
+  top: var(--header-bottom, var(--header-height, 72px));
   left: 0;
   width: 100%;
   z-index: 99;
