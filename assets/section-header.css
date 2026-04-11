@@ -4,6 +4,7 @@
 
 :root {
   --header-height: 0px;
+  --header-wrapper-height: 0px;
   --header-text-color: rgb(var(--color-text));
 }
 
@@ -574,7 +575,7 @@
 
 .header__search-panel {
   position: fixed;
-  top: var(--header-height, 72px);
+  top: var(--header-wrapper-height, 72px);
   left: 0;
   width: 100%;
   z-index: 99;
