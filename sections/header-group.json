@@ -71,7 +71,7 @@
         "desktop_layout": "logo_center_nav_split",
         "mobile_layout": "logo_center_split",
         "enable_sticky": true,
-        "hide_on_scroll": true,
+        "hide_on_scroll": false,
         "logo_width": 120,
         "logo_width_mobile": 90,
         "menu": "menu-2",
