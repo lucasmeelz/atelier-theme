@@ -194,7 +194,8 @@
     "days": "Days",
     "hours": "Hours",
     "minutes": "Min",
-    "seconds": "Sec"
+    "seconds": "Sec",
+    "expired": "This promotion has ended."
   },
   "lookbook": {
     "view_product": "View product"
