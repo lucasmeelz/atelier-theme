@@ -30,10 +30,10 @@
         "button_label": "Discover",
         "button_link": "shopify://products/pre-order",
         "button_style": "filled-dark",
-        "button_label_2": "Learn more",
+        "button_label_2": "",
         "button_link_2": "",
         "button_style_2": "filled-white",
-        "show_scroll_indicator": false,
+        "show_scroll_indicator": true,
         "enable_parallax": true,
         "color_scheme": ""
       }
