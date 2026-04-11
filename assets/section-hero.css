@@ -158,10 +158,10 @@
   justify-content: center;
 }
 
-/* Content alignment override (text-align independent of position) */
+/* Content alignment override — only controls text-align and button layout.
+   Does NOT override align-items (that belongs to text_position). */
 .hero__content--align-center {
   text-align: center;
-  align-items: center;
 }
 
 .hero__content--align-center .hero__buttons {
@@ -170,7 +170,10 @@
 
 .hero__content--align-left {
   text-align: left;
-  align-items: flex-start;
+}
+
+.hero__content--align-left .hero__buttons {
+  justify-content: flex-start;
 }
 
 /* Mobile position override */
