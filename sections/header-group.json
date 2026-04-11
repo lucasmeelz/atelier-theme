@@ -68,7 +68,7 @@
       ],
       "settings": {
         "color_scheme": "scheme-2",
-        "desktop_layout": "drawer",
+        "desktop_layout": "logo_center_nav_split",
         "mobile_layout": "logo_left_menu_right",
         "enable_sticky": true,
         "hide_on_scroll": false,
@@ -77,7 +77,7 @@
         "menu": "menu-2",
         "menu_open_trigger": "hover",
         "transparent_header": true,
-        "transparent_header_text_color": "#000000",
+        "transparent_header_text_color": "#ffffff",
         "show_search": true,
         "show_country_selector": true,
         "show_country_flag": true,
