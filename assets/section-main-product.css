@@ -234,7 +234,7 @@
   max-width: 100%;
   overflow: clip;
   overflow-clip-margin: 5px;
-  --product-block-spacing: 16px;
+  --product-block-spacing: 24px;
 }
 
 /* ===================================
@@ -324,7 +324,7 @@ h3.product__title {
   flex-wrap: wrap;
   align-items: center;
   gap: 8px;
-  font-size: 1.0625rem;
+  font-size: 1.125rem;
   letter-spacing: 0.02em;
 }
 
