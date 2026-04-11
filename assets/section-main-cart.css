@@ -347,7 +347,7 @@
 
 .main-cart__taxes-note {
   font-size: 0.75rem;
-  opacity: 0.6;
+  opacity: 0.75;
   margin: 8px 0 0;
 }
 
@@ -392,7 +392,7 @@
 .main-cart__empty p {
   font-size: 1.125rem;
   margin-bottom: 24px;
-  opacity: 0.6;
+  opacity: 0.75;
 }
 
 /* ===================================
@@ -405,7 +405,7 @@
 }
 
 .main-cart__shipping-progress {
-  height: 4px;
+  height: 6px;
   background-color: rgb(var(--color-border, 226, 224, 219));
   border-radius: 2px;
   overflow: hidden;
