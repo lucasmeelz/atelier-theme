@@ -157,7 +157,7 @@
         "layout": "image_first",
         "desktop_image_width": "medium",
         "vertical_alignment": "middle",
-        "mobile_layout": "text_first",
+        "mobile_layout": "image_first",
         "full_width": false,
         "label": "Our Story",
         "heading": "Crafted with care",
