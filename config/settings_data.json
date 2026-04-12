@@ -48,7 +48,7 @@
     "product_card_style": "minimal",
     "product_card_image_ratio": "portrait",
     "product_card_show_secondary_image": true,
-    "card_hover_effect": "overlay",
+    "card_hover_effect": "zoom",
     "product_card_enable_carousel": false,
     "product_card_info_alignment": "left",
     "product_card_show_vendor": false,
