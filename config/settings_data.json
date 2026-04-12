@@ -42,7 +42,7 @@
     "scroll_reveal": "fade-in",
     "button_hover_effect": "fade",
     "image_hover_effect": "zoom",
-    "stagger_products": true,
+    "stagger_products": false,
     "stagger_blog_posts": true,
     "product_card_color_scheme": "scheme-1",
     "product_card_style": "minimal",
