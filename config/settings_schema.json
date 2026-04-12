@@ -487,7 +487,9 @@
           { "value": "none", "label": "t:settings_schema.product_cards.effect_none" },
           { "value": "zoom", "label": "t:settings_schema.product_cards.effect_zoom" },
           { "value": "overlay", "label": "t:settings_schema.product_cards.effect_overlay" },
-          { "value": "wipe", "label": "t:settings_schema.product_cards.effect_wipe" }
+          { "value": "wipe", "label": "t:settings_schema.product_cards.effect_wipe" },
+          { "value": "lift", "label": "t:settings_schema.product_cards.effect_lift" },
+          { "value": "fade", "label": "t:settings_schema.product_cards.effect_fade" }
         ],
         "default": "zoom"
       },
