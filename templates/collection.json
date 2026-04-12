@@ -74,7 +74,7 @@
         "filter_layout": "drawer",
         "show_sort": true,
         "pagination_type": "paginated",
-        "show_view_toggle": false,
+        "show_view_toggle": true,
         "enable_quick_view": true,
         "color_scheme": ""
       }
