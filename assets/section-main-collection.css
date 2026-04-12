@@ -182,6 +182,17 @@ button.collection__filter-toggle.btn {
     align-items: start;
   }
 
+  /* Sidebar stays in column 1, spanning all rows */
+  .collection__layout--sidebar > .collection__filters--sidebar {
+    grid-column: 1;
+    grid-row: 1 / -1;
+  }
+
+  /* All content (description, grid, pagination) flows in column 2 */
+  .collection__layout--sidebar > :not(.collection__filters--sidebar) {
+    grid-column: 2;
+  }
+
   .collection__filters--sidebar {
     position: sticky;
     top: calc(var(--header-height, 64px) + 24px);
