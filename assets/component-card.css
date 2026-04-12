@@ -227,12 +227,13 @@
 
 /* --- Wipe ---
    Secondary image wipes in from left via clip-path + primary zoom.
-   Overrides the default crossfade when secondary image is present. */
+   Uses opacity 0 by default (same as crossfade) so lazy-loading works,
+   then switches to clip-path reveal on hover. */
 
 [data-card-hover="wipe"] .card-product__image--secondary {
   clip-path: inset(0 100% 0 0);
-  opacity: 1;
-  transition: clip-path 700ms var(--ease-ecrin);
+  transition: clip-path 700ms var(--ease-ecrin),
+              opacity 0ms linear;
 }
 
 @media (hover: hover) {
@@ -241,6 +242,7 @@
   }
 
   [data-card-hover="wipe"] .card-product__media:hover .card-product__image--secondary {
+    opacity: 1;
     clip-path: inset(0 0 0 0);
   }
 }
