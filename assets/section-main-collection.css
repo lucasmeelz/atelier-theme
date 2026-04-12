@@ -611,6 +611,14 @@ button.collection__filter-toggle.btn {
   padding-top: 0;
 }
 
+/* In list view, all spanning items collapse to single column */
+.collection__grid--list-view .collection__grid-item--full,
+.collection__grid--list-view .collection__grid-item--span2,
+.collection__grid--list-view .collection__featured-product,
+.collection__grid--list-view .collection__promotion {
+  grid-column: 1 !important;
+}
+
 /* AJAX loading state */
 .collection__grid--loading {
   opacity: 0.4;
