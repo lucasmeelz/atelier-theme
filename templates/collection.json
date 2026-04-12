@@ -71,7 +71,7 @@
         "grid_gap": "standard",
         "show_color_swatches": true,
         "show_filters": true,
-        "filter_layout": "sidebar",
+        "filter_layout": "drawer",
         "show_sort": true,
         "pagination_type": "paginated",
         "show_view_toggle": false,
