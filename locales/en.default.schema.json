@@ -118,6 +118,8 @@
       "effect_zoom": "Zoom",
       "effect_overlay": "Overlay",
       "effect_wipe": "Wipe",
+      "effect_lift": "Lift",
+      "effect_fade": "Fade",
       "enable_carousel": "Show image carousel",
       "enable_carousel_info": "Lets customers browse product images with arrows and dots.",
       "info_alignment": "Product info alignment",
