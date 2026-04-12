@@ -247,6 +247,77 @@
   }
 }
 
+/* --- Lift (NET-A-PORTER / Ssense) ---
+   Card lifts with shadow + subtle image brightness. Elegant, editorial. */
+
+[data-card-hover="lift"] .card-product {
+  transition: transform var(--duration-base) var(--ease-ecrin),
+              box-shadow var(--duration-base) var(--ease-ecrin);
+}
+
+[data-card-hover="lift"] .card-product__image--primary {
+  transition: filter var(--duration-base) var(--ease-ecrin),
+              transform 800ms var(--ease-ecrin);
+}
+
+@media (hover: hover) {
+  [data-card-hover="lift"] .card-product:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08),
+                0 4px 12px rgba(0, 0, 0, 0.04);
+  }
+
+  [data-card-hover="lift"] .card-product:hover .card-product__image--primary {
+    filter: brightness(1.03);
+  }
+
+  .card-product[data-card-hover="lift"]:hover .card-product__title a {
+    background-size: 100% 1px;
+  }
+}
+
+/* --- Fade (Jacquemus / The Row) ---
+   Image darkens with veil, title text appears in white over the image.
+   Creates a dramatic editorial reveal on hover. */
+
+[data-card-hover="fade"] .card-product__media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: rgb(var(--color-text));
+  opacity: 0;
+  transition: opacity 600ms var(--ease-ecrin);
+  pointer-events: none;
+}
+
+[data-card-hover="fade"] .card-product__title {
+  transition: transform 500ms var(--ease-ecrin),
+              color 400ms var(--ease-ecrin);
+}
+
+@media (hover: hover) {
+  .card-product[data-card-hover="fade"]:hover .card-product__media::after {
+    opacity: 0.4;
+  }
+
+  .card-product[data-card-hover="fade"]:hover .card-product__image--primary {
+    transform: scale(1.03);
+  }
+
+  .card-product[data-card-hover="fade"]:hover .card-product__title {
+    transform: translateY(-4px);
+  }
+
+  .card-product[data-card-hover="fade"]:hover .card-product__title a {
+    background-size: 100% 1px;
+  }
+
+  .card-product[data-card-hover="fade"]:hover .price {
+    opacity: 0.7;
+  }
+}
+
 /* ─── Carousel mode (luxury-inspired) ─── */
 
 card-carousel {
