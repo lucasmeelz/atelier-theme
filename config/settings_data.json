@@ -45,7 +45,7 @@
     "stagger_products": true,
     "stagger_blog_posts": true,
     "product_card_color_scheme": "scheme-1",
-    "product_card_style": "minimal",
+    "product_card_style": "outlined",
     "product_card_image_ratio": "portrait",
     "product_card_show_secondary_image": true,
     "card_hover_effect": "overlay",
