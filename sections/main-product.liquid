@@ -252,7 +252,7 @@
                       class="price__save-badge"
                       data-save-badge
                       data-save-template="{{ 'product.save_percentage' | t: percentage: 'PLACEHOLDER' }}"
-                      {% unless current_variant.compare_at_price > current_variant.price %}hidden{% endunless %}
+                      {% unless current_variant.compare_at_price and current_variant.compare_at_price > current_variant.price %}hidden{% endunless %}
                     >
                       {%- if current_variant.compare_at_price > current_variant.price -%}
                         {%- assign save_amount = current_variant.compare_at_price | minus: current_variant.price -%}
