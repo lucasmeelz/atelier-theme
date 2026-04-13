@@ -205,7 +205,14 @@
                   endif
                 endif
               -%}
-              <li class="card-product__swatch card-product__swatch--{{ settings.product_card_swatch_shape }}"
+              {%- liquid
+                assign is_light = false
+                assign color_lower = value | downcase
+                if color_lower == 'white' or color_lower == 'cream' or color_lower == 'ivory' or color_lower == 'beige' or color_lower == 'off-white' or color_lower == 'natural' or color_lower == 'ecru'
+                  assign is_light = true
+                endif
+              -%}
+              <li class="card-product__swatch card-product__swatch--{{ settings.product_card_swatch_shape }}{% if is_light %} card-product__swatch--bordered{% endif %}"
                   style="{{ swatch_style }}"
                   title="{{ value }}"
                   aria-label="{{ value }}">
@@ -312,7 +319,14 @@
                   endif
                 endif
               -%}
-              <li class="card-product__swatch card-product__swatch--{{ settings.product_card_swatch_shape }}"
+              {%- liquid
+                assign is_light = false
+                assign color_lower = value | downcase
+                if color_lower == 'white' or color_lower == 'cream' or color_lower == 'ivory' or color_lower == 'beige' or color_lower == 'off-white' or color_lower == 'natural' or color_lower == 'ecru'
+                  assign is_light = true
+                endif
+              -%}
+              <li class="card-product__swatch card-product__swatch--{{ settings.product_card_swatch_shape }}{% if is_light %} card-product__swatch--bordered{% endif %}"
                   style="{{ swatch_style }}"
                   title="{{ value }}"
                   aria-label="{{ value }}">
