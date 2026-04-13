@@ -77,7 +77,7 @@
         "menu": "menu-2",
         "menu_open_trigger": "hover",
         "transparent_header": true,
-        "transparent_header_text_color": "#ffffff",
+        "transparent_header_text_color": "#0a0a0a",
         "show_search": true,
         "show_country_selector": true,
         "show_country_flag": true,
