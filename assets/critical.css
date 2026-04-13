@@ -427,24 +427,26 @@ main {
   transform-origin: left;
 }
 
-/* Image hover effects — global setting */
+/* Image hover effects — global setting.
+   Excluded from product card images (.card-product__image) which are
+   controlled by their own card_hover_effect setting. */
 @media (hover: hover) {
-  [data-image-hover="zoom"] img:not(.card-product__carousel-slide) {
+  [data-image-hover="zoom"] img:not(.card-product__image):not(.card-product__carousel-slide) {
     transition: transform var(--duration-slow, 0.6s) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
   }
 
-  [data-image-hover="zoom"] a:hover img:not(.card-product__carousel-slide),
-  [data-image-hover="zoom"] .has-hover:hover img:not(.card-product__carousel-slide) {
+  [data-image-hover="zoom"] a:hover img:not(.card-product__image):not(.card-product__carousel-slide),
+  [data-image-hover="zoom"] .has-hover:hover img:not(.card-product__image):not(.card-product__carousel-slide) {
     transform: scale(1.03);
   }
 
-  [data-image-hover="zoom-fade"] img:not(.card-product__carousel-slide) {
+  [data-image-hover="zoom-fade"] img:not(.card-product__image):not(.card-product__carousel-slide) {
     transition: transform var(--duration-slow, 0.6s) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1)),
                 opacity var(--duration-slow, 0.6s) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
   }
 
-  [data-image-hover="zoom-fade"] a:hover img:not(.card-product__carousel-slide),
-  [data-image-hover="zoom-fade"] .has-hover:hover img:not(.card-product__carousel-slide) {
+  [data-image-hover="zoom-fade"] a:hover img:not(.card-product__image):not(.card-product__carousel-slide),
+  [data-image-hover="zoom-fade"] .has-hover:hover img:not(.card-product__image):not(.card-product__carousel-slide) {
     transform: scale(1.03);
     opacity: 0.9;
   }

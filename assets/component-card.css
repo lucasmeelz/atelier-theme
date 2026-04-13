@@ -199,10 +199,6 @@
     opacity: 1;
   }
 
-  .card-product[data-card-hover="overlay"]:hover .card-product__image--primary {
-    transform: scale(1.04);
-  }
-
   .card-product[data-card-hover="overlay"]:hover .card-product__title a {
     background-size: 100% 1px;
   }
@@ -218,10 +214,6 @@
 }
 
 @media (hover: hover) {
-  .card-product[data-card-hover="wipe"]:hover .card-product__image--primary {
-    transform: scale(1.04);
-  }
-
   .card-product[data-card-hover="wipe"]:hover .card-product__image--secondary {
     opacity: 1;
     clip-path: inset(0 0 0 0);
@@ -269,10 +261,6 @@
 @media (hover: hover) {
   .card-product[data-card-hover="fade"]:hover .card-product__media::after {
     opacity: 0.4;
-  }
-
-  .card-product[data-card-hover="fade"]:hover .card-product__image--primary {
-    transform: scale(1.03);
   }
 
   .card-product[data-card-hover="fade"]:hover .card-product__title a {
@@ -696,7 +684,8 @@ card-carousel {
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-/* Stagger animation */
+/* Stagger animation — triggered by IntersectionObserver via .is-staggering class.
+   Without JS, cards are visible immediately (no animation). */
 @keyframes card-reveal {
   from {
     opacity: 0;
@@ -704,25 +693,21 @@ card-carousel {
   }
 }
 
-[data-stagger-cards] .card-product,
-[data-stagger-cards] .blog-posts__card,
-[data-stagger-cards] > * {
+[data-stagger-cards].is-staggering > * {
   animation: card-reveal var(--duration-slow) var(--ease-ecrin) both;
 }
 
-[data-stagger-cards] > *:nth-child(1) { animation-delay: 0ms; }
-[data-stagger-cards] > *:nth-child(2) { animation-delay: 80ms; }
-[data-stagger-cards] > *:nth-child(3) { animation-delay: 160ms; }
-[data-stagger-cards] > *:nth-child(4) { animation-delay: 240ms; }
-[data-stagger-cards] > *:nth-child(5) { animation-delay: 320ms; }
-[data-stagger-cards] > *:nth-child(6) { animation-delay: 400ms; }
-[data-stagger-cards] > *:nth-child(7) { animation-delay: 480ms; }
-[data-stagger-cards] > *:nth-child(8) { animation-delay: 560ms; }
+[data-stagger-cards].is-staggering > *:nth-child(1) { animation-delay: 0ms; }
+[data-stagger-cards].is-staggering > *:nth-child(2) { animation-delay: 80ms; }
+[data-stagger-cards].is-staggering > *:nth-child(3) { animation-delay: 160ms; }
+[data-stagger-cards].is-staggering > *:nth-child(4) { animation-delay: 240ms; }
+[data-stagger-cards].is-staggering > *:nth-child(5) { animation-delay: 320ms; }
+[data-stagger-cards].is-staggering > *:nth-child(6) { animation-delay: 400ms; }
+[data-stagger-cards].is-staggering > *:nth-child(7) { animation-delay: 480ms; }
+[data-stagger-cards].is-staggering > *:nth-child(8) { animation-delay: 560ms; }
 
 @media (prefers-reduced-motion: reduce) {
-  [data-stagger-cards] .card-product,
-  [data-stagger-cards] .blog-posts__card,
-  [data-stagger-cards] > * {
+  [data-stagger-cards].is-staggering > * {
     animation: none;
   }
 }
