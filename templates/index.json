@@ -555,6 +555,7 @@
         "scene_1": {
           "type": "scene",
           "settings": {
+            "image": "shopify://shop_images/landscape_16to9.jpg",
             "reveal_style": "circle",
             "overlay_opacity": 30,
             "subheading": "Chapter One",
@@ -573,6 +574,7 @@
         "scene_2": {
           "type": "scene",
           "settings": {
+            "image": "shopify://shop_images/kids-beanie.jpg",
             "reveal_style": "circle",
             "overlay_opacity": 25,
             "subheading": "Chapter Two",
@@ -591,6 +593,7 @@
         "scene_3": {
           "type": "scene",
           "settings": {
+            "image": "shopify://shop_images/red-t-shirt_75b7e00c-035b-48fe-9b0b-c4c040888cc4.jpg",
             "reveal_style": "diagonal",
             "overlay_opacity": 20,
             "subheading": "Chapter Three",
