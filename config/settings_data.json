@@ -49,7 +49,7 @@
     "product_card_image_ratio": "portrait",
     "product_card_show_secondary_image": true,
     "card_hover_effect": "overlay",
-    "product_card_enable_carousel": false,
+    "product_card_enable_carousel": true,
     "product_card_info_alignment": "left",
     "product_card_show_vendor": false,
     "product_card_show_rating": false,
