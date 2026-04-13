@@ -27,7 +27,7 @@
           "type": "price",
           "settings": {
             "show_save_badge": true,
-            "show_tax_notice": false
+            "show_tax_notice": true
           }
         },
         "shipping_tab": {
