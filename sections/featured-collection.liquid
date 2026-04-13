@@ -23,7 +23,6 @@
   assign desktop_layout = section.settings.desktop_layout
   assign mobile_layout = section.settings.mobile_layout
   assign image_ratio = section.settings.image_ratio
-  assign show_secondary_image = section.settings.show_secondary_image
   assign show_vendor = section.settings.show_vendor
   assign show_rating = section.settings.show_rating
   assign show_quick_add = section.settings.show_quick_add
@@ -149,7 +148,6 @@
                     {%- render 'card-product',
                       product: product,
                       image_ratio: image_ratio,
-                      show_secondary_image: show_secondary_image,
                       show_vendor: show_vendor,
                       show_rating: show_rating,
                       show_quick_add: show_quick_add,
@@ -205,7 +203,6 @@
                 {%- render 'card-product',
                   product: product,
                   image_ratio: image_ratio,
-                  show_secondary_image: show_secondary_image,
                   show_vendor: show_vendor,
                   show_rating: show_rating,
                   show_quick_add: show_quick_add,
@@ -378,12 +375,6 @@
     {
       "type": "header",
       "content": "t:sections.featured_collection.card_header"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_secondary_image",
-      "label": "t:sections.featured_collection.show_secondary_image",
-      "default": true
     },
     {
       "type": "checkbox",

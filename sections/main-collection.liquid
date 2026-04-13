@@ -19,7 +19,6 @@
   assign columns_desktop = section.settings.columns_desktop
   assign columns_mobile = section.settings.columns_mobile
   assign image_ratio = section.settings.image_ratio
-  assign show_secondary_image = section.settings.show_secondary_image
   assign show_vendor = section.settings.show_vendor
   assign show_quick_add = section.settings.show_quick_add
   assign grid_gap = section.settings.grid_gap | default: 'standard'
@@ -436,7 +435,6 @@
             {%- render 'card-product',
               product: product,
               image_ratio: image_ratio,
-              show_secondary_image: show_secondary_image,
               show_vendor: show_vendor,
               show_quick_add: show_quick_add,
               show_color_swatches: show_color_swatches,
@@ -927,12 +925,6 @@
         { "value": "landscape", "label": "t:sections.main_collection.ratio_landscape" }
       ],
       "default": "portrait"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_secondary_image",
-      "label": "t:sections.main_collection.show_secondary_image",
-      "default": true
     },
     {
       "type": "checkbox",
