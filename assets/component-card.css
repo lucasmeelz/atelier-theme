@@ -693,6 +693,11 @@ card-carousel {
   }
 }
 
+/* Hide cards before stagger triggers — they appear via the animation */
+[data-stagger-cards]:not(.is-staggering) > * {
+  opacity: 0;
+}
+
 [data-stagger-cards].is-staggering > * {
   animation: card-reveal var(--duration-slow) var(--ease-ecrin) both;
 }

@@ -51,7 +51,7 @@
        Scroll-triggered = user-initiated, so NOT disabled by reduced-motion.
        The CSS reduced-motion media query handles autonomous animations only. {%- endcomment -%}
     <script>
-      (function() {
+      document.addEventListener('DOMContentLoaded', function() {
         var grids = document.querySelectorAll('[data-stagger-cards]');
         if (!grids.length || !('IntersectionObserver' in window)) return;
         var observer = new IntersectionObserver(function(entries) {
@@ -63,7 +63,7 @@
           });
         }, { threshold: 0.1 });
         grids.forEach(function(grid) { observer.observe(grid); });
-      })();
+      });
     </script>
 
     {%- comment -%} Quick View modal (shared across pages) {%- endcomment -%}
