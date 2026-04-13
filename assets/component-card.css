@@ -587,32 +587,36 @@ card-carousel {
   justify-content: center;
 }
 
+/* ===== Swatches — Jacquemus-inspired squares =====
+   Always visible, no hover-reveal. Squares not circles.
+   Borderless except for light colors (--bordered class). */
+
 .card-product__swatch {
-  width: 14px;
-  height: 14px;
-  border: 1.5px solid rgba(var(--color-text), 0.08);
+  width: 13px;
+  height: 13px;
+  border: none;
+  border-radius: 1px;
   cursor: pointer;
-  transition: border-color var(--duration-fast) var(--ease-ecrin),
-              box-shadow var(--duration-fast) var(--ease-ecrin);
-  box-shadow: 0 0 0 0 transparent;
+  transition: border-color var(--duration-fast) var(--ease-ecrin);
+}
+
+/* Light colors (white, cream, etc.) get a subtle border for visibility */
+.card-product__swatch--bordered {
+  border: 0.5px solid rgba(0, 0, 0, 0.15);
+}
+
+/* Active swatch — stronger border */
+.card-product__swatch.is-active {
+  border: 1px solid rgba(var(--color-text, 10, 10, 10), 0.6);
 }
 
 @media (hover: hover) {
   .card-product__swatch:hover {
-    border-color: rgba(var(--color-text), 0.5);
-    box-shadow: 0 0 0 2px rgba(var(--color-background), 1),
-                0 0 0 3px rgba(var(--color-text), 0.3);
+    border: 1px solid rgba(var(--color-text, 10, 10, 10), 0.4);
   }
 }
 
-.card-product__swatch--circle {
-  border-radius: 50%;
-}
-
-.card-product__swatch--square {
-  border-radius: 1px;
-}
-
+/* Overflow counter (+N) */
 .card-product__swatch--more {
   display: flex;
   align-items: center;
@@ -626,59 +630,24 @@ card-carousel {
   padding-inline: 2px;
 }
 
-/* Color swatches — on image, top-right position.
-   Premium capsule style with frosted background. */
+/* Shape variants — kept for setting compatibility */
+.card-product__swatch--circle { border-radius: 50%; }
+.card-product__swatch--square { border-radius: 1px; }
+
+/* --- On image position (Jacquemus: bottom-left, always visible) --- */
 .card-product__swatches--on-image {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  bottom: auto;
-  left: auto;
+  bottom: 10px;
+  left: 10px;
   z-index: 3;
   margin: 0;
   gap: 5px;
-  padding: 5px 7px;
-  background: rgba(var(--color-background, 255, 255, 255), 0.85);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  border-radius: 20px;
-  opacity: 0;
-  transform: translateY(-4px);
-  transition: opacity var(--duration-base) var(--ease-ecrin),
-              transform var(--duration-base) var(--ease-ecrin);
-}
-
-@media (hover: hover) {
-  .card-product__media:hover .card-product__swatches--on-image {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@media (hover: none) {
-  .card-product__swatches--on-image {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.card-product__swatches--on-image .card-product__swatch {
-  width: 12px;
-  height: 12px;
-  border: 1.5px solid rgba(var(--color-text, 10, 10, 10), 0.12);
-  box-shadow: none;
-}
-
-@media (hover: hover) {
-  .card-product__swatches--on-image .card-product__swatch:hover {
-    border-color: rgba(var(--color-text, 10, 10, 10), 0.5);
-  }
 }
 
 .card-product__swatches--on-image .card-product__swatch--more {
   font-size: 0.5rem;
-  color: rgb(var(--color-text-subdued, 107, 107, 107));
-  text-shadow: none;
+  color: rgba(255, 255, 255, 0.8);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 /* Stagger animation — triggered by IntersectionObserver via .is-staggering class.
