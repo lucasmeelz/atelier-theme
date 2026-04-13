@@ -95,7 +95,7 @@
   justify-content: center;
   opacity: 0;
   animation-duration: var(--announcement-total-duration);
-  animation-timing-function: var(--ease-ecrin, ease-in-out);
+  animation-timing-function: var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
   animation-iteration-count: infinite;
 }
 
