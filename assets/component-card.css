@@ -220,23 +220,16 @@
   }
 }
 
-/* --- Lift (NET-A-PORTER / Ssense) ---
-   Card lifts with shadow + subtle brightness. Elegant, editorial. */
+/* --- Lift ---
+   Card lifts on hover. Clean motion, no shadow — luxury minimal. */
 
 .card-product[data-card-hover="lift"] {
-  transition: transform var(--duration-base) var(--ease-ecrin),
-              box-shadow var(--duration-base) var(--ease-ecrin);
+  transition: transform var(--duration-base) var(--ease-ecrin);
 }
 
 @media (hover: hover) {
   .card-product[data-card-hover="lift"]:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08),
-                0 4px 12px rgba(0, 0, 0, 0.04);
-  }
-
-  .card-product[data-card-hover="lift"]:hover .card-product__image--primary {
-    filter: brightness(1.03);
+    transform: translateY(-6px);
   }
 
   .card-product[data-card-hover="lift"]:hover .card-product__title a {
