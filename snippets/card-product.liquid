@@ -35,6 +35,17 @@
     assign is_carousel = true
   endif
 
+  comment
+    Wipe effect requires secondary image. If secondary is off or product
+    has < 2 images, fall back to overlay so the merchant still gets a
+    visible hover effect.
+  endcomment
+  if hover_effect == 'wipe'
+    unless show_secondary and is_carousel == false and product.images.size > 1
+      assign hover_effect = 'overlay'
+    endunless
+  endif
+
   assign loading = 'lazy'
   if lazy == false
     assign loading = 'eager'
