@@ -208,7 +208,6 @@
         "products_to_show": 4,
         "columns_desktop": 4,
         "image_ratio": "portrait",
-        "show_secondary_image": true,
         "show_vendor": false,
         "show_rating": false,
         "show_quick_add": true,

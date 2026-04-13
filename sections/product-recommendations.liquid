@@ -18,7 +18,6 @@
   assign products_to_show = section.settings.products_to_show
   assign columns_desktop = section.settings.columns_desktop
   assign image_ratio = section.settings.image_ratio
-  assign show_secondary_image = section.settings.show_secondary_image
   assign show_vendor = section.settings.show_vendor
   assign show_rating = section.settings.show_rating
   assign show_quick_add = section.settings.show_quick_add
@@ -59,7 +58,6 @@
             {%- render 'card-product',
               product: product,
               image_ratio: image_ratio,
-              show_secondary_image: show_secondary_image,
               show_vendor: show_vendor,
               show_rating: show_rating,
               show_quick_add: show_quick_add,
@@ -137,12 +135,6 @@
         { "value": "square", "label": "t:sections.product_recommendations.ratio_square" }
       ],
       "default": "portrait"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_secondary_image",
-      "label": "t:sections.product_recommendations.show_secondary_image",
-      "default": true
     },
     {
       "type": "checkbox",

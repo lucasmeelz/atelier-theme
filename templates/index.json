@@ -137,7 +137,6 @@
         "columns_mobile": "2",
         "image_ratio": "portrait",
         "full_width": false,
-        "show_secondary_image": true,
         "show_vendor": false,
         "show_rating": false,
         "show_quick_add": true,
