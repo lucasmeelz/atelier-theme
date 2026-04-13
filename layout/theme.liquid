@@ -47,10 +47,11 @@
 
     <script src="{{ 'quick-view.js' | asset_url }}" defer></script>
 
-    {%- comment -%} Stagger animation — trigger when cards enter viewport {%- endcomment -%}
+    {%- comment -%} Stagger animation — trigger when cards enter viewport.
+       Scroll-triggered = user-initiated, so NOT disabled by reduced-motion.
+       The CSS reduced-motion media query handles autonomous animations only. {%- endcomment -%}
     <script>
       (function() {
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
         var grids = document.querySelectorAll('[data-stagger-cards]');
         if (!grids.length || !('IntersectionObserver' in window)) return;
         var observer = new IntersectionObserver(function(entries) {

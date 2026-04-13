@@ -706,8 +706,5 @@ card-carousel {
 [data-stagger-cards].is-staggering > *:nth-child(7) { animation-delay: 480ms; }
 [data-stagger-cards].is-staggering > *:nth-child(8) { animation-delay: 560ms; }
 
-@media (prefers-reduced-motion: reduce) {
-  [data-stagger-cards].is-staggering > * {
-    animation: none;
-  }
-}
+/* Stagger is scroll-triggered (user-initiated) so NOT disabled by reduced-motion.
+   Only autonomous/looping animations should be disabled per WCAG. */
