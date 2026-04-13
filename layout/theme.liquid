@@ -47,6 +47,24 @@
 
     <script src="{{ 'quick-view.js' | asset_url }}" defer></script>
 
+    {%- comment -%} Stagger animation — trigger when cards enter viewport {%- endcomment -%}
+    <script>
+      (function() {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var grids = document.querySelectorAll('[data-stagger-cards]');
+        if (!grids.length || !('IntersectionObserver' in window)) return;
+        var observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-staggering');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.1 });
+        grids.forEach(function(grid) { observer.observe(grid); });
+      })();
+    </script>
+
     {%- comment -%} Quick View modal (shared across pages) {%- endcomment -%}
     <dialog
       class="quick-view-dialog"
