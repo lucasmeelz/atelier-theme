@@ -141,11 +141,22 @@
 
     {%- comment -%} Filters {%- endcomment -%}
     {%- if show_filters and collection.filters.size > 0 -%}
+      {%- if filter_layout == 'drawer' -%}
+        <div class="collection__filter-overlay" data-filter-overlay></div>
+      {%- endif -%}
       <div
         id="collection-filters-{{ section.id }}"
         class="collection__filters collection__filters--{{ filter_layout }}"
         aria-hidden="{% if filter_layout == 'sidebar' %}false{% else %}true{% endif %}"
       >
+        {%- if filter_layout == 'drawer' -%}
+          <div class="collection__filter-drawer-header">
+            <span class="collection__filter-drawer-title">{{ 'collection.filters' | t }}</span>
+            <button type="button" class="collection__filter-drawer-close" data-filter-close aria-label="{{ 'accessibility.close' | t }}">
+              {%- render 'icon', name: 'close', size: 18 -%}
+            </button>
+          </div>
+        {%- endif -%}
         <form id="collection-filter-form" class="collection__filter-form">
           {%- for filter in collection.filters -%}
             <details class="collection__filter-group" open>
@@ -580,13 +591,38 @@
         /* Filter drawer toggle */
         var toggle = this.querySelector('.collection__filter-toggle');
         var filtersEl = this.querySelector('#collection-filters-' + this.sectionId);
-        if (toggle && filtersEl) {
+        var overlay = this.querySelector('[data-filter-overlay]');
+        var closeBtn = this.querySelector('[data-filter-close]');
+        var self = this;
+
+        function openFilters() {
+          if (!filtersEl) return;
+          toggle && toggle.setAttribute('aria-expanded', 'true');
+          filtersEl.setAttribute('aria-hidden', 'false');
+          if (overlay) overlay.classList.add('is-visible');
+          document.body.classList.add('drawer-open');
+        }
+        function closeFilters() {
+          if (!filtersEl) return;
+          toggle && toggle.setAttribute('aria-expanded', 'false');
+          filtersEl.setAttribute('aria-hidden', 'true');
+          if (overlay) overlay.classList.remove('is-visible');
+          document.body.classList.remove('drawer-open');
+        }
+
+        if (toggle) {
           toggle.addEventListener('click', function() {
             var expanded = this.getAttribute('aria-expanded') === 'true';
-            this.setAttribute('aria-expanded', String(!expanded));
-            filtersEl.setAttribute('aria-hidden', String(expanded));
+            expanded ? closeFilters() : openFilters();
           });
         }
+        if (closeBtn) closeBtn.addEventListener('click', closeFilters);
+        if (overlay) overlay.addEventListener('click', closeFilters);
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape' && filtersEl && filtersEl.getAttribute('aria-hidden') === 'false') {
+            closeFilters();
+          }
+        });
 
         /* Active filter chip removal */
         this.addEventListener('click', (function(e) {

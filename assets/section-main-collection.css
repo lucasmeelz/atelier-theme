@@ -140,33 +140,76 @@ button.collection__filter-toggle.btn {
 /* ===================================
    Filters
    =================================== */
-/* Filters — animated open/close via CSS grid trick */
-.collection__filters {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows var(--duration-slow, 600ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1)),
-              margin var(--duration-slow, 600ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1)),
-              padding var(--duration-slow, 600ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
-  margin-bottom: 0;
-}
 
-.collection__filters > * {
-  overflow: hidden;
-}
-
-.collection__filters[aria-hidden="false"] {
-  grid-template-rows: 1fr;
-  margin-bottom: 32px;
-}
-
-/* Drawer layout — full width below toolbar */
+/* Drawer layout — side panel that slides in from left (luxury pattern) */
 .collection__filters--drawer {
-  border-bottom: 1px solid rgb(var(--color-border, 226, 224, 219));
-  padding-bottom: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: min(85vw, 380px);
+  z-index: 200;
+  background-color: rgb(var(--color-background, 255, 255, 255));
+  transform: translateX(-100%);
+  transition: transform var(--duration-slow, 600ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
+  overflow-y: auto;
+  padding: 24px;
+  padding-top: 0;
 }
 
 .collection__filters--drawer[aria-hidden="false"] {
-  padding-bottom: 28px;
+  transform: translateX(0);
+}
+
+/* Drawer header — title + close button */
+.collection__filter-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(var(--color-border, 226, 224, 219), 0.5);
+  margin-bottom: 24px;
+  position: sticky;
+  top: 0;
+  background-color: rgb(var(--color-background, 255, 255, 255));
+  z-index: 1;
+}
+
+.collection__filter-drawer-title {
+  font-family: var(--font-heading-family, serif);
+  font-size: 1.125rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+.collection__filter-drawer-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: inherit;
+}
+
+/* Overlay behind filter drawer */
+.collection__filter-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 199;
+  background: rgba(0, 0, 0, 0);
+  backdrop-filter: blur(0px);
+  pointer-events: none;
+  transition: background var(--duration-slow, 600ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1)),
+              backdrop-filter var(--duration-slow, 600ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
+}
+
+.collection__filter-overlay.is-visible {
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(var(--backdrop-blur, 2px));
+  pointer-events: auto;
 }
 
 /* Sidebar layout wrapper */
