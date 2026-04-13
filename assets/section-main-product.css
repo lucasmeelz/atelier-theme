@@ -1143,7 +1143,12 @@ collapsible-details + :not(collapsible-details):not(.product__ingredients) {
   color: rgb(var(--color-background, 255, 255, 255));
   border-radius: 2px;
   white-space: nowrap;
-  line-height: 1;
+}
+
+/* Hide badge when empty (no discount text) */
+.price__save-badge:empty,
+.price__save-badge[hidden] {
+  display: none;
 }
 
 /* ===================================
