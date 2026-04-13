@@ -851,6 +851,14 @@ collection-filters {
   min-height: 280px;
 }
 
+/* Collapse promotion when no background image is present */
+.collection__promotion--no-image {
+  min-height: auto;
+  aspect-ratio: auto !important;
+  padding: 60px 24px;
+  background-color: rgba(var(--color-text), 0.03);
+}
+
 /* Aspect ratios by layout */
 .collection__promotion--full_width {
   aspect-ratio: 21 / 9;

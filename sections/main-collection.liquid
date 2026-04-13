@@ -326,7 +326,7 @@
                 -%}
                 {%- if item_index == promo_trigger -%}
                   <div
-                    class="collection__grid-item collection__grid-item--full collection__promotion collection__promotion--{{ promo_layout }} collection__promotion--{{ promo_text_color }}{% if promo_color_scheme != blank %} color-{{ promo_color_scheme }}{% endif %}"
+                    class="collection__grid-item collection__grid-item--full collection__promotion collection__promotion--{{ promo_layout }} collection__promotion--{{ promo_text_color }}{% if block.settings.image == blank %} collection__promotion--no-image{% endif %}{% if promo_color_scheme != blank %} color-{{ promo_color_scheme }}{% endif %}"
                     {{ block.shopify_attributes }}
                   >
                     {%- if block.settings.image != blank -%}
