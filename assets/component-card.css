@@ -160,43 +160,30 @@
 }
 
 /* ─── Hover effects ─── */
+/* ALL selectors use .card-product[data-card-hover] (not ancestor [data-card-hover])
+   so the customizer live-preview updates correctly without full page reload. */
 
 /* --- Zoom ---
-   Cinematic image zoom + title lift + price fade-in cascade.
-   Scale is generous so the effect reads clearly on all image types. */
+   Image zoom + title underline. Clean and clear. */
 
-[data-card-hover="zoom"] .card-product__media-wrapper {
+.card-product[data-card-hover="zoom"] .card-product__media-wrapper {
   will-change: transform;
 }
 
-[data-card-hover="zoom"] .card-product__title {
-  transition: transform 500ms var(--ease-ecrin) 80ms;
-}
-
-[data-card-hover="zoom"] .price {
-  opacity: 0.5;
-  transition: opacity 400ms var(--ease-ecrin) 120ms;
-}
-
 @media (hover: hover) {
-  [data-card-hover="zoom"] .card-product__media:hover .card-product__image--primary {
-    transform: scale(1.1);
+  .card-product[data-card-hover="zoom"]:hover .card-product__image--primary {
+    transform: scale(1.08);
   }
 
-  .card-product[data-card-hover="zoom"]:hover .card-product__title {
-    transform: translateY(-6px);
-  }
-
-  .card-product[data-card-hover="zoom"]:hover .price {
-    opacity: 1;
+  .card-product[data-card-hover="zoom"]:hover .card-product__title a {
+    background-size: 100% 1px;
   }
 }
 
 /* --- Overlay ---
-   Rich gradient veil over image + title underline reveal.
-   Gradient is strong enough to read on any image. Image gets a subtle zoom. */
+   Rich gradient veil over image + title underline reveal + subtle zoom. */
 
-[data-card-hover="overlay"] .card-product__media-wrapper::after {
+.card-product[data-card-hover="overlay"] .card-product__media-wrapper::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -205,10 +192,6 @@
   opacity: 0;
   transition: opacity 600ms var(--ease-ecrin);
   pointer-events: none;
-}
-
-[data-card-hover="overlay"] .card-product__image--primary {
-  transition: transform 800ms var(--ease-ecrin);
 }
 
 @media (hover: hover) {
@@ -226,48 +209,41 @@
 }
 
 /* --- Wipe ---
-   Secondary image wipes in from left via clip-path + primary zoom.
-   Uses opacity 0 by default (same as crossfade) so lazy-loading works,
-   then switches to clip-path reveal on hover. */
+   Secondary image wipes in from left via clip-path + subtle primary zoom. */
 
-[data-card-hover="wipe"] .card-product__image--secondary {
+.card-product[data-card-hover="wipe"] .card-product__image--secondary {
   clip-path: inset(0 100% 0 0);
   transition: clip-path 700ms var(--ease-ecrin),
               opacity 0ms linear;
 }
 
 @media (hover: hover) {
-  [data-card-hover="wipe"] .card-product__media:hover .card-product__image--primary {
+  .card-product[data-card-hover="wipe"]:hover .card-product__image--primary {
     transform: scale(1.04);
   }
 
-  [data-card-hover="wipe"] .card-product__media:hover .card-product__image--secondary {
+  .card-product[data-card-hover="wipe"]:hover .card-product__image--secondary {
     opacity: 1;
     clip-path: inset(0 0 0 0);
   }
 }
 
 /* --- Lift (NET-A-PORTER / Ssense) ---
-   Card lifts with shadow + subtle image brightness. Elegant, editorial. */
+   Card lifts with shadow + subtle brightness. Elegant, editorial. */
 
-[data-card-hover="lift"] .card-product {
+.card-product[data-card-hover="lift"] {
   transition: transform var(--duration-base) var(--ease-ecrin),
               box-shadow var(--duration-base) var(--ease-ecrin);
 }
 
-[data-card-hover="lift"] .card-product__image--primary {
-  transition: filter var(--duration-base) var(--ease-ecrin),
-              transform 800ms var(--ease-ecrin);
-}
-
 @media (hover: hover) {
-  [data-card-hover="lift"] .card-product:hover {
+  .card-product[data-card-hover="lift"]:hover {
     transform: translateY(-8px);
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08),
                 0 4px 12px rgba(0, 0, 0, 0.04);
   }
 
-  [data-card-hover="lift"] .card-product:hover .card-product__image--primary {
+  .card-product[data-card-hover="lift"]:hover .card-product__image--primary {
     filter: brightness(1.03);
   }
 
@@ -277,10 +253,9 @@
 }
 
 /* --- Fade (Jacquemus / The Row) ---
-   Image darkens with veil, title text appears in white over the image.
-   Creates a dramatic editorial reveal on hover. */
+   Image darkens with veil. Dramatic editorial reveal. */
 
-[data-card-hover="fade"] .card-product__media::after {
+.card-product[data-card-hover="fade"] .card-product__media::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -289,11 +264,6 @@
   opacity: 0;
   transition: opacity 600ms var(--ease-ecrin);
   pointer-events: none;
-}
-
-[data-card-hover="fade"] .card-product__title {
-  transition: transform 500ms var(--ease-ecrin),
-              color 400ms var(--ease-ecrin);
 }
 
 @media (hover: hover) {
@@ -305,16 +275,8 @@
     transform: scale(1.03);
   }
 
-  .card-product[data-card-hover="fade"]:hover .card-product__title {
-    transform: translateY(-4px);
-  }
-
   .card-product[data-card-hover="fade"]:hover .card-product__title a {
     background-size: 100% 1px;
-  }
-
-  .card-product[data-card-hover="fade"]:hover .price {
-    opacity: 0.7;
   }
 }
 
