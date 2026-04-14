@@ -17,21 +17,21 @@
       "type": "collapsible-content",
       "blocks": {
         "q1": {
-          "type": "collapsible_row",
+          "type": "row",
           "settings": {
             "heading": "What is your return policy?",
             "content": "<p>We offer free returns within 30 days of purchase. Items must be unworn and in original packaging.</p>"
           }
         },
         "q2": {
-          "type": "collapsible_row",
+          "type": "row",
           "settings": {
             "heading": "How long does shipping take?",
             "content": "<p>Standard shipping takes 3-5 business days. Express shipping is available at checkout for 1-2 day delivery.</p>"
           }
         },
         "q3": {
-          "type": "collapsible_row",
+          "type": "row",
           "settings": {
             "heading": "Do you ship internationally?",
             "content": "<p>Yes, we ship to over 50 countries worldwide. International shipping times vary by destination.</p>"
