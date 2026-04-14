@@ -1380,6 +1380,9 @@ collapsible-details + :not(collapsible-details):not(.product__ingredients) {
 }
 
 .product-variant-picker__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-width: 48px;
   min-height: 40px;
   padding: 6px 20px;
@@ -1388,6 +1391,7 @@ collapsible-details + :not(collapsible-details):not(.product__ingredients) {
   background: transparent;
   color: rgb(var(--color-text));
   font-size: 0.8125rem;
+  text-align: center;
   cursor: pointer;
   transition: border-color var(--duration-fast) var(--ease-ecrin),
               background-color var(--duration-fast) var(--ease-ecrin);
