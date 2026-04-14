@@ -209,8 +209,8 @@ if (!customElements.get('devoilement-section')) {
             /* Clip-path reveal is scroll-driven (user-initiated), so it runs
                even with prefers-reduced-motion. Only autonomous animations
                (parallax, autoplay) are disabled for reduced motion. */
-            if (sceneProgress < 0.5) {
-              const revealVal = this._easeOutCubic(Math.min(1, sceneProgress * 2));
+            if (sceneProgress < 0.67) {
+              const revealVal = this._easeOutCubic(Math.min(1, sceneProgress * 1.5));
               mediaEl.style.setProperty('--reveal-progress', revealVal);
               scene.classList.add('is-entering');
               scene.classList.remove('is-active');
@@ -221,13 +221,13 @@ if (!customElements.get('devoilement-section')) {
 
           /* Content opacity:
              Scene 0 always fully visible.
-             Other scenes fade in during first 40% of scene scroll. */
+             Other scenes fade in during first 56% of scene scroll. */
           if (i === 0) {
             contentEls.forEach((el) => {
               el.style.setProperty('--content-opacity', 1);
             });
           } else {
-            const contentOpacity = Math.min(1, sceneProgress * 2.5);
+            const contentOpacity = Math.min(1, sceneProgress * 1.8);
             contentEls.forEach((el) => {
               el.style.setProperty('--content-opacity', contentOpacity);
             });
@@ -244,7 +244,7 @@ if (!customElements.get('devoilement-section')) {
           scene.setAttribute('aria-hidden', 'true');
 
           /* Fade out previous scene content as new scene enters */
-          const fadeOut = Math.max(0, 1 - sceneProgress * 3);
+          const fadeOut = Math.max(0, 1 - sceneProgress * 2);
           contentEls.forEach((el) => {
             el.style.setProperty('--content-opacity', fadeOut);
           });
