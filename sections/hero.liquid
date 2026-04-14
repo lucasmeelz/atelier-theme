@@ -91,7 +91,7 @@
               allow="autoplay; encrypted-media"
               allowfullscreen
               loading="lazy"
-              title="{{ heading | default: 'Hero video' | escape }}"
+              title="{{ heading | default: 'accessibility.video' | t | escape }}"
             ></iframe>
           {%- elsif video_url.type == 'vimeo' -%}
             <iframe
@@ -100,7 +100,7 @@
               allow="autoplay; encrypted-media"
               allowfullscreen
               loading="lazy"
-              title="{{ heading | default: 'Hero video' | escape }}"
+              title="{{ heading | default: 'accessibility.video' | t | escape }}"
             ></iframe>
           {%- endif -%}
         {%- endif -%}
