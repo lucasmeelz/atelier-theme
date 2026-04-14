@@ -230,19 +230,27 @@
     {%- endif -%}
 
     {%- comment -%} Quick add {%- endcomment -%}
-    {%- if quick_add_visible and product.available -%}
-      {%- if product.has_only_default_variant -%}
-        <form method="post" action="{{ routes.cart_add_url }}" class="card-product__quick-add">
-          <input type="hidden" name="id" value="{{ product.first_available_variant.id }}">
-          <input type="hidden" name="quantity" value="1">
-          <button type="submit" class="card-product__quick-add-btn" aria-label="{{ 'product.add_to_cart' | t }}: {{ product.title | escape }}">
-            {{ 'product.add_to_cart' | t }}
-          </button>
-        </form>
+    {%- if quick_add_visible -%}
+      {%- if product.available -%}
+        {%- if product.has_only_default_variant -%}
+          <form method="post" action="{{ routes.cart_add_url }}" class="card-product__quick-add">
+            <input type="hidden" name="id" value="{{ product.first_available_variant.id }}">
+            <input type="hidden" name="quantity" value="1">
+            <button type="submit" class="card-product__quick-add-btn" aria-label="{{ 'product.add_to_cart' | t }}: {{ product.title | escape }}">
+              {{ 'product.add_to_cart' | t }}
+            </button>
+          </form>
+        {%- else -%}
+          <div class="card-product__quick-add">
+            <button type="button" class="card-product__quick-add-btn" data-quick-view-trigger="{{ product.handle }}" data-quick-view-title="{{ product.title | escape }}" aria-label="{{ 'product.quick_view_open' | t: title: product.title | escape }}">
+              {{ 'product.quick_view' | t }}
+            </button>
+          </div>
+        {%- endif -%}
       {%- else -%}
         <div class="card-product__quick-add">
-          <button type="button" class="card-product__quick-add-btn" data-quick-view-trigger="{{ product.handle }}" data-quick-view-title="{{ product.title | escape }}" aria-label="{{ 'product.quick_view_open' | t: title: product.title | escape }}">
-            {{ 'product.quick_view' | t }}
+          <button type="button" class="card-product__quick-add-btn card-product__quick-add-btn--disabled" disabled aria-label="{{ 'product.sold_out' | t }}">
+            {{ 'product.sold_out' | t }}
           </button>
         </div>
       {%- endif -%}

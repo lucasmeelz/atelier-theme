@@ -516,6 +516,12 @@ card-carousel {
   transform: translateY(0);
 }
 
+/* Sold out quick-add button */
+.card-product__quick-add-btn--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 /* Info section */
 .card-product__info {
   padding-block-start: 14px;
@@ -573,6 +579,11 @@ card-carousel {
   }
 }
 
+/* Disable title underline when setting is off */
+[data-card-title-underline="false"] .card-product__title a {
+  background-image: none;
+}
+
 /* Color swatches — below title (default position) */
 .card-product__swatches {
   display: flex;
@@ -587,22 +598,21 @@ card-carousel {
   justify-content: center;
 }
 
-/* ===== Swatches — Jacquemus-inspired squares =====
-   Always visible, no hover-reveal. Squares not circles.
-   Borderless except for light colors (--bordered class). */
+/* ===== Swatches — premium squares, always visible =====
+   Stacked vertically in top-right corner. Thin uniform border. */
 
 .card-product__swatch {
-  width: 13px;
-  height: 13px;
-  border: none;
-  border-radius: 1px;
+  width: 14px;
+  height: 14px;
+  border: 1px solid rgba(var(--color-text, 10, 10, 10), 0.1);
+  border-radius: 2px;
   cursor: pointer;
   transition: border-color var(--duration-fast) var(--ease-ecrin);
 }
 
-/* Light colors (white, cream, etc.) get a subtle border for visibility */
+/* Light colors get a stronger border for contrast */
 .card-product__swatch--bordered {
-  border: 0.5px solid rgba(0, 0, 0, 0.15);
+  border-color: rgba(var(--color-text, 10, 10, 10), 0.2);
 }
 
 /* Active swatch — stronger border */
@@ -634,13 +644,14 @@ card-carousel {
 .card-product__swatch--circle { border-radius: 50%; }
 .card-product__swatch--square { border-radius: 1px; }
 
-/* --- On image position (Jacquemus: bottom-left, always visible) --- */
+/* --- On image position: top-right, always visible --- */
 .card-product__swatches--on-image {
   position: absolute;
-  bottom: 10px;
-  left: 10px;
+  top: 10px;
+  right: 10px;
   z-index: 3;
   margin: 0;
+  flex-direction: column;
   gap: 5px;
 }
 
