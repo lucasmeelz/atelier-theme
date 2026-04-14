@@ -187,6 +187,12 @@
       "name": "Favicon",
       "image": "Favicon image",
       "info": "32 x 32px .png recommended"
+    },
+    "accessibility": {
+      "name": "Accessibility",
+      "statement_page": "Accessibility statement page",
+      "statement_page_info": "Link to your accessibility statement. Required by RGAA. Displayed in the footer.",
+      "contrast_reminder": "Ensure all color schemes maintain a minimum contrast ratio of 4.5:1 for body text and 3:1 for large text (WCAG AA)."
     }
   },
   "general": {

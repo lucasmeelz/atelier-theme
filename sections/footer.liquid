@@ -200,6 +200,10 @@
       <div class="footer__bottom-center">
         <p class="footer__copyright">
           &copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ powered_by_link }}
+          {%- if settings.a11y_statement_page != blank -%}
+            <span aria-hidden="true"> · </span>
+            <a href="{{ settings.a11y_statement_page.url }}">{{ 'accessibility.a11y_statement' | t }}</a>
+          {%- endif -%}
         </p>
         {%- if section.settings.show_follow_on_shop -%}
           <div class="footer__follow-on-shop">

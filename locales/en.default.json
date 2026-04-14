@@ -30,7 +30,8 @@
     "remove_item": "Remove {{ title }}",
     "pagination": "Pagination",
     "previous": "Previous page",
-    "next": "Next page"
+    "next": "Next page",
+    "a11y_statement": "Accessibility"
   },
   "header": {
     "announcement": "Announcement",

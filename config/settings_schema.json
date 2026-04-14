@@ -701,5 +701,21 @@
         "info": "t:settings_schema.favicon.info"
       }
     ]
+  },
+
+  {
+    "name": "t:settings_schema.accessibility.name",
+    "settings": [
+      {
+        "type": "page",
+        "id": "a11y_statement_page",
+        "label": "t:settings_schema.accessibility.statement_page",
+        "info": "t:settings_schema.accessibility.statement_page_info"
+      },
+      {
+        "type": "paragraph",
+        "content": "t:settings_schema.accessibility.contrast_reminder"
+      }
+    ]
   }
 ]
