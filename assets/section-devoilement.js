@@ -204,37 +204,39 @@ if (!customElements.get('devoilement-section')) {
           scene.classList.remove('is-previous', 'is-entering');
           scene.setAttribute('aria-hidden', 'false');
 
-          /* Clip-path reveal: scene 0 is always fully revealed */
+          /* Clip-path reveal: scene 0 is always fully revealed.
+             Three-zone timeline per scene:
+             - Reveal:    0.00 → 0.40  (clip-path 0→1, linear)
+             - Content:   0.15 → 0.50  (opacity 0→1)
+             - Dwell:     0.50 → 0.75  (nothing animates — user appreciates)
+             - Pre-exit:  0.75 → 1.00  (preload next scene)
+             Scroll-driven = user-initiated, runs with reduced-motion. */
           if (i > 0 && mediaEl) {
-            /* Clip-path reveal is scroll-driven (user-initiated), so it runs
-               even with prefers-reduced-motion. Only autonomous animations
-               (parallax, autoplay) are disabled for reduced motion. */
-            if (sceneProgress < 0.67) {
-              const revealVal = this._easeOutCubic(Math.min(1, sceneProgress * 1.5));
-              mediaEl.style.setProperty('--reveal-progress', revealVal);
+            const revealVal = this._remap(sceneProgress, 0.0, 0.40);
+            mediaEl.style.setProperty('--reveal-progress', revealVal);
+            if (revealVal < 1) {
               scene.classList.add('is-entering');
               scene.classList.remove('is-active');
             } else {
-              mediaEl.style.setProperty('--reveal-progress', 1);
+              scene.classList.remove('is-entering');
             }
           }
 
-          /* Content opacity:
-             Scene 0 always fully visible.
-             Other scenes fade in during first 56% of scene scroll. */
+          /* Content opacity: fade in during 15%→50% of scene scroll.
+             Scene 0 always fully visible. */
           if (i === 0) {
             contentEls.forEach((el) => {
               el.style.setProperty('--content-opacity', 1);
             });
           } else {
-            const contentOpacity = Math.min(1, sceneProgress * 1.8);
+            const contentOpacity = this._remap(sceneProgress, 0.15, 0.50);
             contentEls.forEach((el) => {
               el.style.setProperty('--content-opacity', contentOpacity);
             });
           }
 
-          /* Preload next scene's images */
-          if (i + 1 < this.scenes.length && sceneProgress > 0.3) {
+          /* Preload next scene's images (during dwell zone) */
+          if (i + 1 < this.scenes.length && sceneProgress > 0.6) {
             this._preloadScene(i + 1);
           }
         } else if (i === sceneIndex - 1) {
@@ -243,8 +245,8 @@ if (!customElements.get('devoilement-section')) {
           scene.classList.remove('is-active', 'is-entering');
           scene.setAttribute('aria-hidden', 'true');
 
-          /* Fade out previous scene content as new scene enters */
-          const fadeOut = Math.max(0, 1 - sceneProgress * 2);
+          /* Fade out previous scene content (0%→35% of new scene scroll) */
+          const fadeOut = 1 - this._remap(sceneProgress, 0.0, 0.35);
           contentEls.forEach((el) => {
             el.style.setProperty('--content-opacity', fadeOut);
           });
@@ -270,8 +272,13 @@ if (!customElements.get('devoilement-section')) {
       this.currentScene = sceneIndex;
     }
 
-    _easeOutCubic(t) {
-      return 1 - Math.pow(1 - t, 3);
+    /**
+     * Remap a value from [inMin, inMax] to [0, 1], clamped.
+     * Used for scroll-driven zones: each animation phase occupies
+     * a specific portion of the scene's scroll distance.
+     */
+    _remap(value, inMin, inMax) {
+      return Math.max(0, Math.min(1, (value - inMin) / (inMax - inMin)));
     }
 
     _preloadScene(index) {
@@ -401,8 +408,20 @@ if (!customElements.get('devoilement-section')) {
 
       this._editorSectionLoad = (e) => {
         if (e.detail && e.detail.sectionId === this.dataset.sectionId) {
-          this._cacheRect();
-          this._updateScene();
+          /* Re-read all data attributes and re-query DOM for customizer parity */
+          this.sceneCount = parseInt(this.dataset.sceneCount, 10) || 0;
+          this.vhPerScene = parseInt(this.dataset.vhPerScene, 10) || 180;
+          this.scenes = Array.from(this.viewport.querySelectorAll('.devoilement__scene'));
+          this.progressFill = this.viewport.querySelector('[data-progress-fill]');
+          this.counterCurrent = this.viewport.querySelector('[data-counter-current]');
+          this.dots = Array.from(this.viewport.querySelectorAll('.devoilement__dot'));
+          this.currentScene = 0;
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              this._cacheRect();
+              this._updateScene();
+            });
+          });
         }
       };
 

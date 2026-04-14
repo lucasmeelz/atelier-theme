@@ -22,16 +22,6 @@
     "main": {
       "type": "main-collection",
       "blocks": {
-        "featured_product_taW7gM": {
-          "type": "featured_product",
-          "settings": {
-            "product": "pre-order",
-            "position": 1,
-            "heading": "Editor's pick",
-            "show_description": true,
-            "color_scheme": "scheme-1"
-          }
-        },
         "description_1": {
           "type": "collection_description",
           "settings": {
@@ -39,7 +29,7 @@
             "layout": "text_only",
             "image_position": "left"
           }
-        },
+        }
       },
       "block_order": [
         "description_1"
