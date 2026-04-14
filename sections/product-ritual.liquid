@@ -256,7 +256,10 @@
     var cleanup = initRitual();
 
     document.addEventListener('shopify:section:load', function(e) {
-      if (e.detail.sectionId === sectionId) cleanup = initRitual();
+      if (e.detail.sectionId === sectionId) {
+        if (cleanup) cleanup();
+        cleanup = initRitual();
+      }
     });
 
     document.addEventListener('shopify:section:unload', function(e) {
