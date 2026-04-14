@@ -618,7 +618,7 @@
       "settings": {
         "heading": "",
         "subheading": "",
-        "scroll_per_scene": "medium",
+        "scroll_per_scene": "tall",
         "content_position": "center",
         "content_width": "medium",
         "show_progress": true,
