@@ -181,13 +181,13 @@
                   <details class="main-cart__notes" {{ block.shopify_attributes }}>
                     <summary class="main-cart__notes-toggle label">
                       {%- render 'icon', name: 'gift', size: 14 -%}
-                      {{ block.settings.label | default: 'cart.gift_note' | t }}
+                      {% if block.settings.label != blank %}{{ block.settings.label }}{% else %}{{ 'cart.gift_note' | t }}{% endif %}
                     </summary>
                     <div class="main-cart__notes-content">
                       <textarea
                         name="attributes[gift_note]"
                         class="main-cart__notes-textarea"
-                        placeholder="{{ block.settings.placeholder | default: 'cart.gift_note_placeholder' | t }}"
+                        placeholder="{% if block.settings.placeholder != blank %}{{ block.settings.placeholder }}{% else %}{{ 'cart.gift_note_placeholder' | t }}{% endif %}"
                       >{{ cart.attributes['gift_note'] }}</textarea>
                     </div>
                   </details>
