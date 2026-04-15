@@ -81,7 +81,7 @@
 }
 
 .cart-drawer__shipping-progress {
-  height: 2px;
+  height: 3px;
   background-color: rgba(var(--color-border), 0.8);
   border-radius: 2px;
   overflow: hidden;
