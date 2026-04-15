@@ -92,7 +92,7 @@
                 aria-label="{{ 'footer.newsletter_placeholder' | t }}"
               >
               <button type="submit" class="btn btn--primary newsletter__submit">
-                <span class="btn__label">{{ button_label | default: 'footer.newsletter_submit' | t }}</span>
+                <span class="btn__label">{% if button_label != blank %}{{ button_label }}{% else %}{{ 'footer.newsletter_submit' | t }}{% endif %}</span>
                 <span class="btn__fill" aria-hidden="true"></span>
               </button>
             </div>
