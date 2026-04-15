@@ -412,7 +412,7 @@ if (!customElements.get('devoilement-section')) {
         if (e.detail && e.detail.sectionId === this.dataset.sectionId) {
           /* Re-read all data attributes and re-query DOM for customizer parity */
           this.sceneCount = parseInt(this.dataset.sceneCount, 10) || 0;
-          this.vhPerScene = parseInt(this.dataset.vhPerScene, 10) || 220;
+          this.vhPerScene = parseInt(this.dataset.vhPerScene, 10) || 300;
           this.scenes = Array.from(this.viewport.querySelectorAll('.devoilement__scene'));
           this.progressFill = this.viewport.querySelector('[data-progress-fill]');
           this.counterCurrent = this.viewport.querySelector('[data-counter-current]');
