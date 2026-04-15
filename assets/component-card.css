@@ -579,9 +579,12 @@ card-carousel {
   }
 }
 
-/* Disable title underline when setting is off */
-[data-card-title-underline="false"] .card-product__title a {
+/* Disable title underline when setting is off.
+   Specificity (0,3,1) beats hover rules (0,2,1). */
+[data-card-title-underline="false"] .card-product .card-product__title a,
+[data-card-title-underline="false"] .card-product .card-product__title a:hover {
   background-image: none;
+  background-size: 0 0;
 }
 
 /* Color swatches — below title (default position) */

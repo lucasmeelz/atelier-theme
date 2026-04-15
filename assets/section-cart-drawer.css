@@ -119,7 +119,7 @@
 
 .cart-drawer__item {
   display: grid;
-  grid-template-columns: 80px 1fr;
+  grid-template-columns: 90px 1fr;
   gap: 16px;
   padding: 20px 24px;
   border-bottom: 1px solid rgba(var(--color-border), 0.5);
@@ -351,7 +351,7 @@
 .cart-drawer__checkout-buttons {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
 }
 
 .cart-drawer__dynamic-checkout {

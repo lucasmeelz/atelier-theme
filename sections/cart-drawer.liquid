@@ -204,13 +204,13 @@
               <details class="cart-drawer__note-toggle" {{ block.shopify_attributes }}>
                 <summary class="cart-drawer__note-summary label">
                   {%- render 'icon', name: 'gift', size: 14 -%}
-                  {{ block.settings.label | default: 'cart.gift_note' | t }}
+                  {% if block.settings.label != blank %}{{ block.settings.label }}{% else %}{{ 'cart.gift_note' | t }}{% endif %}
                 </summary>
                 <textarea
                   class="cart-drawer__note-textarea"
                   name="attributes[gift_note]"
                   form="cart-drawer-form"
-                  placeholder="{{ block.settings.placeholder | default: 'cart.gift_note_placeholder' | t }}"
+                  placeholder="{% if block.settings.placeholder != blank %}{{ block.settings.placeholder }}{% else %}{{ 'cart.gift_note_placeholder' | t }}{% endif %}"
                 >{{ cart.attributes['gift_note'] }}</textarea>
               </details>
 

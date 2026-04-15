@@ -40,7 +40,7 @@
 
 <div
   id="Section-{{ section.id }}"
-  class="atelier-process section-spacing color-{{ color_scheme }} atelier-process--{{ layout }} atelier-process--{{ card_style }} atelier-process--{{ content_alignment }}{% if show_step_numbers and number_style == 'badge' %} atelier-process--badge{% elsif show_step_numbers == false or number_style == 'none' %} atelier-process--number-none{% endif %}"
+  class="atelier-process section-spacing color-{{ color_scheme }} full-width atelier-process--{{ layout }} atelier-process--{{ card_style }} atelier-process--{{ content_alignment }}{% if show_step_numbers and number_style == 'badge' %} atelier-process--badge{% elsif show_step_numbers == false or number_style == 'none' %} atelier-process--number-none{% endif %}"
   data-section-id="{{ section.id }}"
 >
   {%- if heading != blank or subheading != blank -%}
