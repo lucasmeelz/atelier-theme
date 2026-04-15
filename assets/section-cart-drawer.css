@@ -202,8 +202,12 @@
 .cart-drawer__item-actions {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 12px;
   margin-top: 8px;
+}
+
+.cart-drawer__item-actions .cart-drawer__remove {
+  margin-inline-start: auto;
 }
 
 .cart-drawer__quantity {
