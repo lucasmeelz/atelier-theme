@@ -63,7 +63,8 @@
   font-size: clamp(1.75rem, 4vw, 3rem);
   line-height: 1.4;
   letter-spacing: -0.02em;
-  font-variant-numeric: tabular-nums;
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings: "lnum" 1, "tnum" 1;
   position: relative;
   display: inline-block;
   overflow: hidden;
