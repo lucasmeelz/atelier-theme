@@ -61,21 +61,22 @@
   font-family: var(--font-heading-family);
   font-weight: var(--font-heading-weight);
   font-size: clamp(1.75rem, 4vw, 3rem);
-  line-height: 1;
+  line-height: 1.4;
   letter-spacing: -0.02em;
-  font-variant-numeric: tabular-nums;
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings: "lnum" 1, "tnum" 1;
   position: relative;
   display: inline-block;
   overflow: hidden;
-  height: 1em;
+  height: 1.4em;
   vertical-align: top;
 }
 
 /* Digit slide animation — each digit is a span inside .countdown__number */
 .countdown__digit {
   display: block;
-  height: 1em;
-  line-height: 1;
+  height: 1.4em;
+  line-height: 1.4;
   transition: transform var(--duration-base, 350ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
 }
 
