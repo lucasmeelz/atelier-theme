@@ -28,11 +28,11 @@
 
   case scroll_per_scene
     when 'short'
-      assign vh_per_scene = 150
+      assign vh_per_scene = 200
     when 'medium'
-      assign vh_per_scene = 220
+      assign vh_per_scene = 300
     when 'tall'
-      assign vh_per_scene = 320
+      assign vh_per_scene = 400
   endcase
 
   assign total_height_vh = scene_count | times: vh_per_scene

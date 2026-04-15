@@ -205,14 +205,15 @@ if (!customElements.get('devoilement-section')) {
           scene.setAttribute('aria-hidden', 'false');
 
           /* Clip-path reveal: scene 0 is always fully revealed.
-             Three-zone timeline per scene:
-             - Reveal:    0.00 → 0.40  (clip-path 0→1, linear)
-             - Content:   0.15 → 0.50  (opacity 0→1)
-             - Dwell:     0.50 → 0.75  (nothing animates — user appreciates)
-             - Pre-exit:  0.75 → 1.00  (preload next scene)
+             Five-zone cinematic timeline per scene:
+             - Prev out:  0.00 → 0.15  (previous content fades)
+             - Reveal:    0.05 → 0.45  (clip-path 0→1, slow cinematic)
+             - Content:   0.35 → 0.55  (text fades in AFTER image is mostly done)
+             - Dwell:     0.55 → 0.90  (nothing animates — 35% pure appreciation)
+             - Preload:   0.80          (preload next scene images)
              Scroll-driven = user-initiated, runs with reduced-motion. */
           if (i > 0 && mediaEl) {
-            const revealVal = this._remap(sceneProgress, 0.0, 0.40);
+            const revealVal = this._remap(sceneProgress, 0.05, 0.45);
             mediaEl.style.setProperty('--reveal-progress', revealVal);
             if (revealVal < 1) {
               scene.classList.add('is-entering');
@@ -222,21 +223,22 @@ if (!customElements.get('devoilement-section')) {
             }
           }
 
-          /* Content opacity: fade in during 15%→50% of scene scroll.
+          /* Content opacity: fade in during 35%→55% of scene scroll.
+             Starts AFTER image is mostly revealed (85%+) for sequential feel.
              Scene 0 always fully visible. */
           if (i === 0) {
             contentEls.forEach((el) => {
               el.style.setProperty('--content-opacity', 1);
             });
           } else {
-            const contentOpacity = this._remap(sceneProgress, 0.15, 0.50);
+            const contentOpacity = this._remap(sceneProgress, 0.35, 0.55);
             contentEls.forEach((el) => {
               el.style.setProperty('--content-opacity', contentOpacity);
             });
           }
 
           /* Preload next scene's images (during dwell zone) */
-          if (i + 1 < this.scenes.length && sceneProgress > 0.6) {
+          if (i + 1 < this.scenes.length && sceneProgress > 0.80) {
             this._preloadScene(i + 1);
           }
         } else if (i === sceneIndex - 1) {
@@ -245,8 +247,8 @@ if (!customElements.get('devoilement-section')) {
           scene.classList.remove('is-active', 'is-entering');
           scene.setAttribute('aria-hidden', 'true');
 
-          /* Fade out previous scene content (0%→35% of new scene scroll) */
-          const fadeOut = 1 - this._remap(sceneProgress, 0.0, 0.35);
+          /* Fade out previous scene content (0%→15% of new scene scroll) */
+          const fadeOut = 1 - this._remap(sceneProgress, 0.0, 0.15);
           contentEls.forEach((el) => {
             el.style.setProperty('--content-opacity', fadeOut);
           });
@@ -410,7 +412,7 @@ if (!customElements.get('devoilement-section')) {
         if (e.detail && e.detail.sectionId === this.dataset.sectionId) {
           /* Re-read all data attributes and re-query DOM for customizer parity */
           this.sceneCount = parseInt(this.dataset.sceneCount, 10) || 0;
-          this.vhPerScene = parseInt(this.dataset.vhPerScene, 10) || 180;
+          this.vhPerScene = parseInt(this.dataset.vhPerScene, 10) || 220;
           this.scenes = Array.from(this.viewport.querySelectorAll('.devoilement__scene'));
           this.progressFill = this.viewport.querySelector('[data-progress-fill]');
           this.counterCurrent = this.viewport.querySelector('[data-counter-current]');
