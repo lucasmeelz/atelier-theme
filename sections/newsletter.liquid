@@ -35,7 +35,7 @@
 
 <div
   id="Section-{{ section.id }}"
-  class="newsletter color-{{ color_scheme }}{% if has_image and layout == 'centered' %} newsletter--has-bg{% endif %}"
+  class="newsletter color-{{ color_scheme }} full-width{% if has_image and layout == 'centered' %} newsletter--has-bg{% endif %}"
 >
   {%- if has_image and layout == 'centered' -%}
     <div class="newsletter__bg">

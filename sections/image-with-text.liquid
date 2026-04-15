@@ -56,7 +56,7 @@
 
 <div
   id="Section-{{ section.id }}"
-  class="image-with-text color-{{ color_scheme }}{% if mobile_layout == 'text_first' %} image-with-text--mobile-text-first{% endif %}{% if full_width %} full-width{% endif %}"
+  class="image-with-text color-{{ color_scheme }} full-width{% if mobile_layout == 'text_first' %} image-with-text--mobile-text-first{% endif %}"
 >
   <div class="{% if full_width %}image-with-text--full-width{% else %}container{% endif %}">
     <div class="image-with-text__grid image-with-text__grid--{{ layout }} image-with-text__grid--align-{{ vertical_alignment }}">
