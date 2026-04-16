@@ -91,7 +91,7 @@
               allow="autoplay; encrypted-media"
               allowfullscreen
               loading="lazy"
-              title="{{ heading | default: 'accessibility.video' | t | escape }}"
+              title="{% if heading != blank %}{{ heading | escape }}{% else %}{{ 'accessibility.video' | t | escape }}{% endif %}"
             ></iframe>
           {%- elsif video_url.type == 'vimeo' -%}
             <iframe
@@ -100,7 +100,7 @@
               allow="autoplay; encrypted-media"
               allowfullscreen
               loading="lazy"
-              title="{{ heading | default: 'accessibility.video' | t | escape }}"
+              title="{% if heading != blank %}{{ heading | escape }}{% else %}{{ 'accessibility.video' | t | escape }}{% endif %}"
             ></iframe>
           {%- endif -%}
         {%- endif -%}

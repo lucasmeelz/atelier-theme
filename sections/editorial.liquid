@@ -122,7 +122,7 @@
                 allow="autoplay; encrypted-media"
                 allowfullscreen
                 loading="lazy"
-                title="{{ block.settings.caption | default: 'accessibility.video' | t }}"
+                title="{% if block.settings.caption != blank %}{{ block.settings.caption | escape }}{% else %}{{ 'accessibility.video' | t | escape }}{% endif %}"
               ></iframe>
             {%- elsif block.settings.video_url.type == 'vimeo' -%}
               <iframe
@@ -131,7 +131,7 @@
                 allow="autoplay; encrypted-media"
                 allowfullscreen
                 loading="lazy"
-                title="{{ block.settings.caption | default: 'accessibility.video' | t }}"
+                title="{% if block.settings.caption != blank %}{{ block.settings.caption | escape }}{% else %}{{ 'accessibility.video' | t | escape }}{% endif %}"
               ></iframe>
             {%- endif -%}
           {%- endif -%}
