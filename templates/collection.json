@@ -38,7 +38,7 @@
         "products_per_page": 24,
         "columns_desktop": 4,
         "columns_mobile": "2",
-        "image_ratio": "portrait",
+        "image_ratio": "natural",
         "show_vendor": false,
         "show_quick_add": true,
         "grid_gap": "standard",
