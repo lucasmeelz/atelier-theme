@@ -117,6 +117,11 @@
     "view_full_details": "View full details",
     "variant_sold_out_or_unavailable": "Variant sold out or unavailable",
     "placeholder_title": "Example product title",
+    "heritage_origin": "Made in",
+    "heritage_craft_time": "Craft time",
+    "heritage_edition": "Edition",
+    "heritage_serial": "Serial №",
+    "heritage_view_certificate": "View certificate",
     "payment_terms": "Shop Pay Installments",
     "inventory": {
       "in_stock": "In stock",
