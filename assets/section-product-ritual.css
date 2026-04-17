@@ -111,12 +111,12 @@
 }
 
 .product-ritual__step:not(.product-ritual__step--active) {
-  opacity: 0.55;
+  opacity: 0.75;
 }
 
 @media (hover: hover) {
   .product-ritual__step:not(.product-ritual__step--active):hover {
-    opacity: 0.8;
+    opacity: 1;
   }
 }
 
@@ -200,7 +200,7 @@
 .product-ritual__step-text {
   font-size: 0.875rem;
   line-height: 1.6;
-  color: rgb(var(--color-text-subdued));
+  color: rgb(var(--color-text));
   margin: 0;
   transition: transform var(--duration-base) var(--ease-ecrin);
 }
@@ -215,9 +215,9 @@
   align-items: center;
   gap: 6px;
   margin-top: 8px;
-  font-size: 0.75rem;
-  color: rgb(var(--color-accent));
-  font-weight: 500;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: rgb(var(--color-text));
 }
 
 .product-ritual__step-duration svg {
