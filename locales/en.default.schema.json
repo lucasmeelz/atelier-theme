@@ -120,7 +120,7 @@
       "effect_wipe": "Wipe (requires secondary image)",
       "effect_lift": "Lift",
       "effect_fade": "Fade",
-      "title_underline": "Show title underline on hover",
+      "title_underline": "Show heading underline on hover",
       "enable_carousel": "Show image carousel",
       "enable_carousel_info": "Lets customers browse product images with arrows and dots.",
       "info_alignment": "Product info alignment",
