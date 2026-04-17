@@ -201,13 +201,8 @@
   font-size: 0.875rem;
   line-height: 1.6;
   color: rgb(var(--color-text));
-  opacity: 0.75;
   margin: 0;
   transition: transform var(--duration-base) var(--ease-ecrin);
-}
-
-.product-ritual__step--active .product-ritual__step-text {
-  opacity: 1;
 }
 
 .product-ritual__step--active .product-ritual__step-heading,
