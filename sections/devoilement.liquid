@@ -102,6 +102,7 @@
                       endif
                     endif
                   -%}
+                  {%- assign scene_alt = block.settings.image.alt | default: block.settings.heading | default: '' -%}
                   {%- if block.settings.image_mobile != blank -%}
                     <picture>
                       <source
@@ -118,7 +119,7 @@
                           widths: '750, 1100, 1500, 1920, 2400',
                           sizes: '100vw',
                           class: 'devoilement__scene-img',
-                          alt: block.settings.image.alt | default: block.settings.heading
+                          alt: scene_alt
                       }}
                     </picture>
                   {%- else -%}
@@ -131,7 +132,7 @@
                         widths: '750, 1100, 1500, 1920, 2400',
                         sizes: '100vw',
                         class: 'devoilement__scene-img',
-                        alt: block.settings.image.alt | default: block.settings.heading
+                        alt: scene_alt
                     }}
                   {%- endif -%}
                 {%- else -%}
