@@ -369,23 +369,23 @@
   top: 50%;
   transform: translateY(-50%);
   z-index: 10;
-  height: 120px;
+  height: 160px;
   width: 2px;
   pointer-events: none;
 }
 
 .devoilement__progress--right {
-  right: var(--page-margin);
+  right: calc(var(--page-margin) / 2);
 }
 
 .devoilement__progress--left {
-  left: var(--page-margin);
+  left: calc(var(--page-margin) / 2);
 }
 
 .devoilement__progress-track {
   width: 100%;
   height: 100%;
-  background: rgba(var(--indicator-rgb, 255, 255, 255), 0.2);
+  background: rgba(var(--indicator-rgb, 255, 255, 255), 0.35);
   border-radius: 1px;
   overflow: hidden;
   transition: background var(--duration-fast) var(--ease-ecrin);
