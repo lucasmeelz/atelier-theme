@@ -931,6 +931,95 @@
                   </div>
                 {%- endif -%}
 
+              {%- comment -%} === HERITAGE & PROVENANCE === {%- endcomment -%}
+              {%- when 'heritage' -%}
+                {%- liquid
+                  assign heritage_has_content = false
+                  if block.settings.artisan_name != blank or block.settings.origin != blank or block.settings.craft_time != blank or block.settings.edition != blank or block.settings.materials_origin != blank
+                    assign heritage_has_content = true
+                  endif
+                  assign heritage_serial = blank
+                  if block.settings.serial_metafield != blank
+                    assign heritage_serial = product.metafields[block.settings.serial_metafield]
+                  endif
+                -%}
+                {%- if heritage_has_content -%}
+                  <div
+                    class="product__heritage product__heritage--{{ block.settings.layout }} product__heritage--border-{{ block.settings.border_style }}"
+                    {{ block.shopify_attributes }}
+                  >
+                    {%- if block.settings.heading != blank -%}
+                      <p class="product__heritage-label label">{{ block.settings.heading }}</p>
+                    {%- endif -%}
+
+                    {%- if block.settings.artisan_image != blank or block.settings.artisan_name != blank -%}
+                      <div class="product__heritage-artisan">
+                        {%- if block.settings.artisan_image != blank -%}
+                          {{
+                            block.settings.artisan_image
+                            | image_url: width: 180
+                            | image_tag:
+                              loading: 'lazy',
+                              widths: '60,120,180',
+                              class: 'product__heritage-avatar',
+                              alt: block.settings.artisan_name | default: ''
+                          }}
+                        {%- endif -%}
+                        <div class="product__heritage-artisan-text">
+                          {%- if block.settings.artisan_name != blank -%}
+                            <p class="product__heritage-artisan-name">{{ block.settings.artisan_name }}</p>
+                          {%- endif -%}
+                          {%- if block.settings.artisan_role != blank -%}
+                            <p class="product__heritage-artisan-role">{{ block.settings.artisan_role }}</p>
+                          {%- endif -%}
+                        </div>
+                      </div>
+                    {%- endif -%}
+
+                    <dl class="product__heritage-meta">
+                      {%- if block.settings.origin != blank -%}
+                        <div class="product__heritage-item">
+                          <span class="product__heritage-icon" aria-hidden="true">{%- render 'icon', name: 'location-pin', size: 16 -%}</span>
+                          <dt class="product__heritage-key">{{ 'product.heritage_origin' | t }}</dt>
+                          <dd class="product__heritage-value">{{ block.settings.origin }}</dd>
+                        </div>
+                      {%- endif -%}
+                      {%- if block.settings.craft_time != blank -%}
+                        <div class="product__heritage-item">
+                          <span class="product__heritage-icon" aria-hidden="true">{%- render 'icon', name: 'clock', size: 16 -%}</span>
+                          <dt class="product__heritage-key">{{ 'product.heritage_craft_time' | t }}</dt>
+                          <dd class="product__heritage-value">{{ block.settings.craft_time }}</dd>
+                        </div>
+                      {%- endif -%}
+                      {%- if block.settings.edition != blank -%}
+                        <div class="product__heritage-item">
+                          <span class="product__heritage-icon" aria-hidden="true">{%- render 'icon', name: 'diamond', size: 16 -%}</span>
+                          <dt class="product__heritage-key">{{ 'product.heritage_edition' | t }}</dt>
+                          <dd class="product__heritage-value">{{ block.settings.edition }}</dd>
+                        </div>
+                      {%- endif -%}
+                      {%- if heritage_serial != blank -%}
+                        <div class="product__heritage-item">
+                          <span class="product__heritage-icon" aria-hidden="true">{%- render 'icon', name: 'certified', size: 16 -%}</span>
+                          <dt class="product__heritage-key">{{ 'product.heritage_serial' | t }}</dt>
+                          <dd class="product__heritage-value product__heritage-serial">{{ heritage_serial }}</dd>
+                        </div>
+                      {%- endif -%}
+                    </dl>
+
+                    {%- if block.settings.materials_origin != blank -%}
+                      <p class="product__heritage-materials">{{ block.settings.materials_origin }}</p>
+                    {%- endif -%}
+
+                    {%- if block.settings.show_qr_code and block.settings.qr_page != blank -%}
+                      <a href="{{ block.settings.qr_page.url }}" class="product__heritage-qr-link">
+                        {%- render 'icon', name: 'qr', size: 16 -%}
+                        <span>{{ 'product.heritage_view_certificate' | t }}</span>
+                      </a>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+
               {%- when 'custom_liquid' -%}
                 {%- if block.settings.liquid != blank -%}
                   <div class="product__custom-liquid" {{ block.shopify_attributes }}>
@@ -2017,6 +2106,108 @@
           "type": "text",
           "id": "badge_4_label",
           "label": "t:sections.main_product.blocks.sustainability_badge_4_label"
+        }
+      ]
+    },
+    {
+      "type": "heritage",
+      "name": "t:sections.main_product.blocks.heritage",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:sections.main_product.blocks.heritage_heading",
+          "default": "Heritage"
+        },
+        {
+          "type": "header",
+          "content": "t:sections.main_product.blocks.heritage_artisan_name"
+        },
+        {
+          "type": "text",
+          "id": "artisan_name",
+          "label": "t:sections.main_product.blocks.heritage_artisan_name"
+        },
+        {
+          "type": "text",
+          "id": "artisan_role",
+          "label": "t:sections.main_product.blocks.heritage_artisan_role"
+        },
+        {
+          "type": "image_picker",
+          "id": "artisan_image",
+          "label": "t:sections.main_product.blocks.heritage_artisan_image"
+        },
+        {
+          "type": "header",
+          "content": "t:sections.main_product.blocks.heritage_origin"
+        },
+        {
+          "type": "text",
+          "id": "origin",
+          "label": "t:sections.main_product.blocks.heritage_origin"
+        },
+        {
+          "type": "text",
+          "id": "craft_time",
+          "label": "t:sections.main_product.blocks.heritage_craft_time"
+        },
+        {
+          "type": "text",
+          "id": "edition",
+          "label": "t:sections.main_product.blocks.heritage_edition"
+        },
+        {
+          "type": "textarea",
+          "id": "materials_origin",
+          "label": "t:sections.main_product.blocks.heritage_materials_origin"
+        },
+        {
+          "type": "header",
+          "content": "t:sections.main_product.blocks.heritage_serial_metafield"
+        },
+        {
+          "type": "text",
+          "id": "serial_metafield",
+          "label": "t:sections.main_product.blocks.heritage_serial_metafield",
+          "info": "t:sections.main_product.blocks.heritage_serial_metafield_info"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_qr_code",
+          "label": "t:sections.main_product.blocks.heritage_show_qr_code",
+          "default": false
+        },
+        {
+          "type": "page",
+          "id": "qr_page",
+          "label": "t:sections.main_product.blocks.heritage_qr_page"
+        },
+        {
+          "type": "header",
+          "content": "t:sections.main_product.blocks.heritage_layout"
+        },
+        {
+          "type": "select",
+          "id": "layout",
+          "label": "t:sections.main_product.blocks.heritage_layout",
+          "options": [
+            { "value": "stacked", "label": "t:sections.main_product.blocks.heritage_layout_stacked" },
+            { "value": "grid", "label": "t:sections.main_product.blocks.heritage_layout_grid" }
+          ],
+          "default": "stacked"
+        },
+        {
+          "type": "select",
+          "id": "border_style",
+          "label": "t:sections.main_product.blocks.heritage_border_style",
+          "options": [
+            { "value": "none", "label": "t:sections.main_product.blocks.heritage_border_none" },
+            { "value": "frame", "label": "t:sections.main_product.blocks.heritage_border_frame" },
+            { "value": "accent", "label": "t:sections.main_product.blocks.heritage_border_accent" }
+          ],
+          "default": "frame"
         }
       ]
     }
