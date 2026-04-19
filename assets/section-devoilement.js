@@ -269,6 +269,8 @@ if (!customElements.get('devoilement-section')) {
           const isDark = activeScene.classList.contains('devoilement__scene--dark');
           this.viewport.classList.toggle('devoilement__viewport--dark-indicators', isDark);
         }
+        /* Expose current scene index on viewport for CSS (e.g. scroll hint only on scene 0) */
+        this.viewport.setAttribute('data-current-scene', sceneIndex);
       }
 
       this.currentScene = sceneIndex;
