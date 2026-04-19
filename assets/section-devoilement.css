@@ -200,7 +200,8 @@
   left: 0;
   align-items: flex-start;
   text-align: left;
-  padding-bottom: 60px;
+  padding-inline: max(var(--page-margin), 48px);
+  padding-bottom: 80px;
 }
 
 .devoilement__scene-content--bottom-center {
@@ -210,7 +211,8 @@
   transform: translateX(-50%);
   align-items: center;
   text-align: center;
-  padding-bottom: 60px;
+  padding-inline: max(var(--page-margin), 48px);
+  padding-bottom: 80px;
 }
 
 .devoilement__scene-content--bottom-right {
@@ -219,7 +221,8 @@
   right: 0;
   align-items: flex-end;
   text-align: right;
-  padding-bottom: 60px;
+  padding-inline: max(var(--page-margin), 48px);
+  padding-bottom: 80px;
 }
 
 /* Content element animations (driven by JS via --content-opacity) */
