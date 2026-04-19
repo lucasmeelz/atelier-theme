@@ -57,6 +57,9 @@ if (!customElements.get('devoilement-section')) {
 
       if (this.scenes.length === 0) return;
 
+      /* Initialize data-current-scene at 0 for CSS (scroll hint only on scene 0) */
+      this.viewport.setAttribute('data-current-scene', 0);
+
       /* Cache dimensions after layout is stable */
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
@@ -269,6 +272,8 @@ if (!customElements.get('devoilement-section')) {
           const isDark = activeScene.classList.contains('devoilement__scene--dark');
           this.viewport.classList.toggle('devoilement__viewport--dark-indicators', isDark);
         }
+        /* Expose current scene index on viewport for CSS (e.g. scroll hint only on scene 0) */
+        this.viewport.setAttribute('data-current-scene', sceneIndex);
       }
 
       this.currentScene = sceneIndex;
