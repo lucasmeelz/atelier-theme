@@ -243,6 +243,14 @@
           </div>
         {%- endif -%}
 
+        {%- comment -%} Scroll hint — visible only on scene 1 {%- endcomment -%}
+        {%- if scene_count > 1 -%}
+          <div class="devoilement__scroll-hint" data-scroll-hint aria-hidden="true">
+            <span class="devoilement__scroll-hint-label">{{ 'accessibility.scroll' | t }}</span>
+            <span class="devoilement__scroll-hint-line"></span>
+          </div>
+        {%- endif -%}
+
       </div>
     </div>
   </div>
