@@ -206,7 +206,7 @@
         "heading_size": "h2",
         "text": "<p>Each ÉCRIN piece is made in small batches by artisans we've worked with for years. From vegetable-tanned Tuscan leather to European linen, every material earns its place.</p>",
         "button_label": "Our story",
-        "button_link": "",
+        "button_link": "shopify://pages/about",
         "button_style": "outline",
         "color_scheme": "scheme-2",
         "padding_top": 80,
