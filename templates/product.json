@@ -162,11 +162,11 @@
         "gift_wrap": {
           "type": "gift_wrapping",
           "settings": {
-            "label": "Add gift wrapping",
+            "label": "Add ÉCRIN gift packaging",
             "price": "",
             "show_message": true,
             "message_label": "Gift message",
-            "message_placeholder": "Write your message",
+            "message_placeholder": "Written by hand on a linen card",
             "icon": "ribbon"
           }
         },
