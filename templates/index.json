@@ -31,7 +31,7 @@
         "button_link": "shopify://collections/all",
         "button_style": "filled-white",
         "button_label_2": "The atelier",
-        "button_link_2": "",
+        "button_link_2": "shopify://pages/about",
         "button_style_2": "outline-white",
         "show_scroll_indicator": true,
         "enable_parallax": true,
