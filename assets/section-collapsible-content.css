@@ -92,18 +92,60 @@
 
 /* --- Content area with smooth animation --- */
 
-.collapsible-content__body {
-  overflow: hidden;
-  max-height: 0;
-  transition: max-height var(--duration-base, 0.3s) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
+/* Modern browsers (Chrome 129+, Safari 18.2+) use ::details-content pseudo
+   to wrap non-summary children. Animate it with block-size 0 ↔ auto via
+   interpolate-size. We also animate content-visibility as a discrete
+   property so the content is not visible during the closed state. */
+
+.collapsible-content__item::details-content {
+  block-size: 0;
+  overflow: clip;
+  opacity: 0;
+  transition:
+    block-size var(--duration-base, 0.35s) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1)),
+    opacity var(--duration-base, 0.35s) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1)),
+    content-visibility var(--duration-base, 0.35s) allow-discrete;
+  interpolate-size: allow-keywords;
 }
 
-.collapsible-content__item[open] > .collapsible-content__body {
-  max-height: var(--body-height, 500px);
+.collapsible-content__item[open]::details-content {
+  block-size: auto;
+  opacity: 1;
+}
+
+/* Fallback for browsers without ::details-content support (older Chrome,
+   Firefox <= 127, etc.) — animate the body wrapper's max-height using
+   --body-height set by JS. */
+
+@supports not selector(::details-content) {
+  .collapsible-content__body {
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition:
+      max-height var(--duration-base, 0.35s) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1)),
+      opacity var(--duration-base, 0.35s) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
+  }
+
+  .collapsible-content__item[open] > .collapsible-content__body {
+    max-height: var(--body-height, 2000px);
+    opacity: 1;
+  }
 }
 
 .collapsible-content__body-inner {
-  padding: 0 0 24px;
+  padding: 4px 0 28px;
+  transform: translateY(-6px);
+  opacity: 0;
+  transition:
+    transform var(--duration-base, 0.35s) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1)),
+    opacity var(--duration-base, 0.35s) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
+  transition-delay: 40ms;
+}
+
+.collapsible-content__item[open] .collapsible-content__body-inner {
+  transform: translateY(0);
+  opacity: 1;
 }
 
 .collapsible-content__body-inner > .rte {
@@ -130,7 +172,7 @@
   }
 
   .collapsible-content__body-inner {
-    padding: 0 0 20px;
+    padding: 4px 0 24px;
   }
 }
 
