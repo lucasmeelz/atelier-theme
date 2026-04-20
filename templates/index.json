@@ -373,6 +373,7 @@
           "settings": {
             "quote": "<p>The linen shirt has become my favorite piece. Three years in and it only gets better.</p>",
             "author": "Camille R.",
+            "role": "Paris",
             "rating": 5
           }
         },
@@ -381,6 +382,7 @@
           "settings": {
             "quote": "<p>Quality you can feel. Bought for my partner, ordered two more for myself.</p>",
             "author": "Marco L.",
+            "role": "Milan",
             "rating": 5
           }
         },
@@ -389,6 +391,7 @@
           "settings": {
             "quote": "<p>Finally, a brand that doesn't shout. Beautiful objects, thoughtfully made.</p>",
             "author": "Sophia K.",
+            "role": "Berlin",
             "rating": 5
           }
         }
