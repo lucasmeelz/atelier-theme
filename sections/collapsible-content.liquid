@@ -68,33 +68,108 @@
 </div>
 
 <script>
-  /* Smooth accordion animation — measure content height for max-height transition */
+  /* Smooth accordion animation via Web Animations API on the <details>
+     element. Animating the details' height directly (instead of max-height
+     on a child) sidesteps the new ::details-content pseudo which clips
+     children to block-size: 0 when closed in Chrome 129+ / Safari 18.2+. */
   (function () {
     const section = document.getElementById('Section-{{ section.id }}');
     if (!section) return;
 
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const items = section.querySelectorAll('.collapsible-content__item');
+    const DURATION_OPEN = 420;
+    const DURATION_CLOSE = 360;
+    const EASE = 'cubic-bezier(0.31, 0, 0.13, 1)';
 
     items.forEach(function (details) {
+      const summary = details.querySelector('summary');
       const body = details.querySelector('.collapsible-content__body');
-      const inner = details.querySelector('.collapsible-content__body-inner');
-      if (!body || !inner) return;
+      if (!summary || !body) return;
 
-      /* Set measured height when open */
-      function setHeight() {
-        body.style.setProperty('--body-height', inner.scrollHeight + 'px');
+      let anim = null;
+      let state = details.open ? 'open' : 'closed';
+
+      function markOpen() {
+        details.classList.add('is-open');
+        details.classList.remove('is-closing');
+        state = 'open';
+      }
+      function markClosed() {
+        details.classList.remove('is-open', 'is-closing');
+        state = 'closed';
       }
 
-      details.addEventListener('toggle', function () {
-        if (details.open) {
-          setHeight();
+      function doOpen() {
+        if (state === 'opening' || state === 'open') return;
+        if (anim) anim.cancel();
+        const startH = details.offsetHeight + 'px';
+        details.open = true;
+        details.style.overflow = 'hidden';
+        markOpen();
+        const endH = (summary.offsetHeight + body.scrollHeight) + 'px';
+        if (prefersReduced) {
+          details.style.overflow = '';
+          return;
+        }
+        state = 'opening';
+        anim = details.animate(
+          { height: [startH, endH] },
+          { duration: DURATION_OPEN, easing: EASE }
+        );
+        body.animate(
+          { opacity: [0, 1], transform: ['translateY(-8px)', 'translateY(0)'] },
+          { duration: DURATION_OPEN, easing: EASE, fill: 'both' }
+        );
+        anim.onfinish = () => {
+          details.style.overflow = '';
+          details.style.height = '';
+          state = 'open';
+        };
+        anim.oncancel = () => { state = details.open ? 'open' : 'closed'; };
+      }
+
+      function doClose() {
+        if (state === 'closing' || state === 'closed') return;
+        if (anim) anim.cancel();
+        const startH = details.offsetHeight + 'px';
+        const endH = summary.offsetHeight + 'px';
+        details.style.overflow = 'hidden';
+        details.classList.add('is-closing');
+        if (prefersReduced) {
+          details.open = false;
+          details.style.overflow = '';
+          markClosed();
+          return;
+        }
+        state = 'closing';
+        anim = details.animate(
+          { height: [startH, endH] },
+          { duration: DURATION_CLOSE, easing: EASE }
+        );
+        body.animate(
+          { opacity: [1, 0], transform: ['translateY(0)', 'translateY(-4px)'] },
+          { duration: DURATION_CLOSE, easing: EASE, fill: 'both' }
+        );
+        anim.onfinish = () => {
+          details.open = false;
+          details.style.overflow = '';
+          details.style.height = '';
+          markClosed();
+        };
+        anim.oncancel = () => { state = details.open ? 'open' : 'closed'; };
+      }
+
+      summary.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (details.open && state !== 'closing') {
+          doClose();
+        } else {
+          doOpen();
         }
       });
 
-      /* Initialize open items */
-      if (details.open) {
-        setHeight();
-      }
+      if (details.open) markOpen();
     });
   })();
 </script>

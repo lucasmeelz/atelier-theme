@@ -90,20 +90,12 @@
   transform: translateY(-50%) rotate(45deg);
 }
 
-/* --- Content area with smooth animation --- */
-
-.collapsible-content__body {
-  overflow: hidden;
-  max-height: 0;
-  transition: max-height var(--duration-base, 0.3s) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
-}
-
-.collapsible-content__item[open] > .collapsible-content__body {
-  max-height: var(--body-height, 500px);
-}
+/* --- Content area ---
+   Opening/closing is animated by JS (Web Animations API) on the
+   <details> element's height. Here we just set the resting layout. */
 
 .collapsible-content__body-inner {
-  padding: 0 0 24px;
+  padding: 4px 0 28px;
 }
 
 .collapsible-content__body-inner > .rte {
@@ -130,7 +122,7 @@
   }
 
   .collapsible-content__body-inner {
-    padding: 0 0 20px;
+    padding: 4px 0 24px;
   }
 }
 
