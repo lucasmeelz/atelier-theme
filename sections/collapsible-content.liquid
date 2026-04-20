@@ -68,104 +68,108 @@
 </div>
 
 <script>
-  /* JS-driven accordion animation. The <details> element is fully
-     controlled by the script: native toggling is intercepted so we can
-     animate the body's max-height reliably across browsers that now
-     wrap non-summary content in a ::details-content pseudo. */
+  /* Smooth accordion animation via Web Animations API on the <details>
+     element. Animating the details' height directly (instead of max-height
+     on a child) sidesteps the new ::details-content pseudo which clips
+     children to block-size: 0 when closed in Chrome 129+ / Safari 18.2+. */
   (function () {
     const section = document.getElementById('Section-{{ section.id }}');
     if (!section) return;
 
-    const items = section.querySelectorAll('.collapsible-content__item');
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const items = section.querySelectorAll('.collapsible-content__item');
+    const DURATION_OPEN = 420;
+    const DURATION_CLOSE = 360;
+    const EASE = 'cubic-bezier(0.31, 0, 0.13, 1)';
 
     items.forEach(function (details) {
       const summary = details.querySelector('summary');
       const body = details.querySelector('.collapsible-content__body');
-      const inner = details.querySelector('.collapsible-content__body-inner');
-      if (!summary || !body || !inner) return;
+      if (!summary || !body) return;
 
-      function measuredHeight() {
-        return inner.scrollHeight;
-      }
+      let anim = null;
+      let state = details.open ? 'open' : 'closed';
 
-      function openItem() {
-        if (details.classList.contains('is-open')) return;
-        details.open = true;
-        details.classList.remove('is-closing', 'is-open-complete');
+      function markOpen() {
         details.classList.add('is-open');
-        const h = measuredHeight();
-        body.style.setProperty('--body-height', h + 'px');
-        if (prefersReduced) {
-          details.classList.add('is-open-complete');
-          body.style.removeProperty('--body-height');
-          return;
-        }
-        /* Reset any inline max-height from a prior close, then animate to h */
-        body.style.maxHeight = '0px';
-        /* Force reflow so the browser registers the starting state */
-        void body.offsetHeight;
-        body.style.maxHeight = h + 'px';
-        const onEnd = function (e) {
-          if (e.propertyName !== 'max-height') return;
-          body.removeEventListener('transitionend', onEnd);
-          if (details.classList.contains('is-open')) {
-            body.style.maxHeight = '';
-            details.classList.add('is-open-complete');
-          }
-        };
-        body.addEventListener('transitionend', onEnd);
+        details.classList.remove('is-closing');
+        state = 'open';
+      }
+      function markClosed() {
+        details.classList.remove('is-open', 'is-closing');
+        state = 'closed';
       }
 
-      function closeItem() {
-        if (!details.open) return;
-        const h = body.offsetHeight || measuredHeight();
-        details.classList.remove('is-open-complete');
+      function doOpen() {
+        if (state === 'opening' || state === 'open') return;
+        if (anim) anim.cancel();
+        const startH = details.offsetHeight + 'px';
+        details.open = true;
+        details.style.overflow = 'hidden';
+        markOpen();
+        const endH = (summary.offsetHeight + body.scrollHeight) + 'px';
+        if (prefersReduced) {
+          details.style.overflow = '';
+          return;
+        }
+        state = 'opening';
+        anim = details.animate(
+          { height: [startH, endH] },
+          { duration: DURATION_OPEN, easing: EASE }
+        );
+        body.animate(
+          { opacity: [0, 1], transform: ['translateY(-8px)', 'translateY(0)'] },
+          { duration: DURATION_OPEN, easing: EASE, fill: 'both' }
+        );
+        anim.onfinish = () => {
+          details.style.overflow = '';
+          details.style.height = '';
+          state = 'open';
+        };
+        anim.oncancel = () => { state = details.open ? 'open' : 'closed'; };
+      }
+
+      function doClose() {
+        if (state === 'closing' || state === 'closed') return;
+        if (anim) anim.cancel();
+        const startH = details.offsetHeight + 'px';
+        const endH = summary.offsetHeight + 'px';
+        details.style.overflow = 'hidden';
         details.classList.add('is-closing');
-        body.style.maxHeight = h + 'px';
-        /* Force reflow, then collapse */
-        void body.offsetHeight;
         if (prefersReduced) {
           details.open = false;
-          details.classList.remove('is-open', 'is-closing');
-          body.style.maxHeight = '';
+          details.style.overflow = '';
+          markClosed();
           return;
         }
-        body.style.maxHeight = '0px';
-        const onEnd = function (e) {
-          if (e.propertyName !== 'max-height') return;
-          body.removeEventListener('transitionend', onEnd);
+        state = 'closing';
+        anim = details.animate(
+          { height: [startH, endH] },
+          { duration: DURATION_CLOSE, easing: EASE }
+        );
+        body.animate(
+          { opacity: [1, 0], transform: ['translateY(0)', 'translateY(-4px)'] },
+          { duration: DURATION_CLOSE, easing: EASE, fill: 'both' }
+        );
+        anim.onfinish = () => {
           details.open = false;
-          details.classList.remove('is-open', 'is-closing');
-          body.style.maxHeight = '';
+          details.style.overflow = '';
+          details.style.height = '';
+          markClosed();
         };
-        body.addEventListener('transitionend', onEnd);
+        anim.oncancel = () => { state = details.open ? 'open' : 'closed'; };
       }
 
-      summary.addEventListener('click', function (event) {
-        event.preventDefault();
-        if (details.open) {
-          closeItem();
+      summary.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (details.open && state !== 'closing') {
+          doClose();
         } else {
-          openItem();
+          doOpen();
         }
       });
 
-      summary.addEventListener('keydown', function (event) {
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault();
-          if (details.open) {
-            closeItem();
-          } else {
-            openItem();
-          }
-        }
-      });
-
-      /* Initialize items that render with [open] already set */
-      if (details.open) {
-        details.classList.add('is-open', 'is-open-complete');
-      }
+      if (details.open) markOpen();
     });
   })();
 </script>
