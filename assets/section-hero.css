@@ -202,6 +202,21 @@
   .hero__content--mobile-middle-center .hero__buttons {
     justify-content: center;
   }
+
+  /* Full-width CTAs on mobile so the two buttons align and feel
+     app-native. Cap the max-width so they don't stretch edge-to-edge
+     on very wide phones, and stack vertically below 640px. */
+  .hero__buttons {
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .hero__buttons .btn {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 /* ===================================
