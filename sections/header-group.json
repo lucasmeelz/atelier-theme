@@ -17,21 +17,29 @@
         "announcement_hN4qXr": {
           "type": "announcement",
           "settings": {
-            "text": "<p>Welcome to our store</p>",
+            "text": "<p>Complimentary shipping on orders over €200</p>",
             "link": ""
           }
         },
         "announcement_1": {
           "type": "announcement",
           "settings": {
-            "text": "<p>Free shipping on orders over $150</p>",
+            "text": "<p>New collection — Spring / Summer 2026</p>",
+            "link": ""
+          }
+        },
+        "announcement_2": {
+          "type": "announcement",
+          "settings": {
+            "text": "<p>Made in Europe · Numbered editions</p>",
             "link": ""
           }
         }
       },
       "block_order": [
         "announcement_hN4qXr",
-        "announcement_1"
+        "announcement_1",
+        "announcement_2"
       ],
       "settings": {
         "color_scheme": "scheme-2",
