@@ -202,6 +202,31 @@
   .hero__content--mobile-middle-center .hero__buttons {
     justify-content: center;
   }
+
+}
+
+/* Mobile only (< 750px) — stack CTAs and make them full-width so they
+   align to each other and match the app-native luxury feel of the rest
+   of the theme. Align to the section alignment (left-anchored for
+   bottom-left, center-anchored for center content). */
+@media screen and (max-width: 749px) {
+  .hero__buttons {
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .hero__content--align-center .hero__buttons,
+  .hero__content--mobile-bottom-center .hero__buttons,
+  .hero__content--mobile-middle-center .hero__buttons {
+    margin-inline: auto;
+  }
+
+  .hero__buttons .btn {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 /* ===================================
