@@ -68,32 +68,103 @@
 </div>
 
 <script>
-  /* Smooth accordion animation — measure content height for max-height transition */
+  /* JS-driven accordion animation. The <details> element is fully
+     controlled by the script: native toggling is intercepted so we can
+     animate the body's max-height reliably across browsers that now
+     wrap non-summary content in a ::details-content pseudo. */
   (function () {
     const section = document.getElementById('Section-{{ section.id }}');
     if (!section) return;
 
     const items = section.querySelectorAll('.collapsible-content__item');
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     items.forEach(function (details) {
+      const summary = details.querySelector('summary');
       const body = details.querySelector('.collapsible-content__body');
       const inner = details.querySelector('.collapsible-content__body-inner');
-      if (!body || !inner) return;
+      if (!summary || !body || !inner) return;
 
-      /* Set measured height when open */
-      function setHeight() {
-        body.style.setProperty('--body-height', inner.scrollHeight + 'px');
+      function measuredHeight() {
+        return inner.scrollHeight;
       }
 
-      details.addEventListener('toggle', function () {
+      function openItem() {
+        if (details.classList.contains('is-open')) return;
+        details.open = true;
+        details.classList.remove('is-closing', 'is-open-complete');
+        details.classList.add('is-open');
+        const h = measuredHeight();
+        body.style.setProperty('--body-height', h + 'px');
+        if (prefersReduced) {
+          details.classList.add('is-open-complete');
+          body.style.removeProperty('--body-height');
+          return;
+        }
+        /* Reset any inline max-height from a prior close, then animate to h */
+        body.style.maxHeight = '0px';
+        /* Force reflow so the browser registers the starting state */
+        void body.offsetHeight;
+        body.style.maxHeight = h + 'px';
+        const onEnd = function (e) {
+          if (e.propertyName !== 'max-height') return;
+          body.removeEventListener('transitionend', onEnd);
+          if (details.classList.contains('is-open')) {
+            body.style.maxHeight = '';
+            details.classList.add('is-open-complete');
+          }
+        };
+        body.addEventListener('transitionend', onEnd);
+      }
+
+      function closeItem() {
+        if (!details.open) return;
+        const h = body.offsetHeight || measuredHeight();
+        details.classList.remove('is-open-complete');
+        details.classList.add('is-closing');
+        body.style.maxHeight = h + 'px';
+        /* Force reflow, then collapse */
+        void body.offsetHeight;
+        if (prefersReduced) {
+          details.open = false;
+          details.classList.remove('is-open', 'is-closing');
+          body.style.maxHeight = '';
+          return;
+        }
+        body.style.maxHeight = '0px';
+        const onEnd = function (e) {
+          if (e.propertyName !== 'max-height') return;
+          body.removeEventListener('transitionend', onEnd);
+          details.open = false;
+          details.classList.remove('is-open', 'is-closing');
+          body.style.maxHeight = '';
+        };
+        body.addEventListener('transitionend', onEnd);
+      }
+
+      summary.addEventListener('click', function (event) {
+        event.preventDefault();
         if (details.open) {
-          setHeight();
+          closeItem();
+        } else {
+          openItem();
         }
       });
 
-      /* Initialize open items */
+      summary.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          if (details.open) {
+            closeItem();
+          } else {
+            openItem();
+          }
+        }
+      });
+
+      /* Initialize items that render with [open] already set */
       if (details.open) {
-        setHeight();
+        details.classList.add('is-open', 'is-open-complete');
       }
     });
   })();
