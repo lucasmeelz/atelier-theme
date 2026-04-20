@@ -212,6 +212,8 @@
   "blog": {
     "articles": "Articles",
     "read_more": "Read more",
+    "no_articles": "No posts yet",
+    "no_articles_text": "New stories are on the way. In the meantime, explore the collection.",
     "comments": "Comments",
     "article_comments": "Comments",
     "article_metadata_html": "{{ date }} by {{ author }}",
