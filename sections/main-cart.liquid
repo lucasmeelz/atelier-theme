@@ -276,8 +276,11 @@
 
     {%- else -%}
       <div class="main-cart__empty">
-        <p>{{ 'cart.empty' | t }}</p>
-        <a href="{{ routes.all_products_collection_url }}" class="btn btn--primary">
+        <span class="main-cart__empty-icon" aria-hidden="true">
+          {%- render 'icon', name: 'bag', size: 48 -%}
+        </span>
+        <p class="main-cart__empty-title">{{ 'cart.empty' | t }}</p>
+        <a href="{{ routes.all_products_collection_url }}" class="btn btn--primary main-cart__empty-btn">
           <span class="btn__label">{{ 'cart.continue_shopping' | t }}</span>
           <span class="btn__fill" aria-hidden="true"></span>
         </a>
