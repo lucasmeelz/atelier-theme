@@ -310,7 +310,7 @@
           "type": "button",
           "settings": {
             "text": "Read our manifesto",
-            "url": "",
+            "url": "shopify://pages/about",
             "open_in_new_tab": false,
             "style": "outline",
             "background": "",
