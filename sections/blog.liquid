@@ -61,6 +61,19 @@
 
     {%- comment -%} Articles Grid {%- endcomment -%}
     {%- paginate blog.articles by articles_per_page -%}
+      {%- if blog.articles.size == 0 -%}
+        <div class="blog__empty">
+          <span class="blog__empty-icon" aria-hidden="true">
+            {%- render 'icon', name: 'chat', size: 48 -%}
+          </span>
+          <h2 class="blog__empty-title">{{ 'blog.no_articles' | t }}</h2>
+          <p class="blog__empty-text">{{ 'blog.no_articles_text' | t }}</p>
+          <a href="{{ routes.all_products_collection_url }}" class="btn btn--secondary blog__empty-btn">
+            <span class="btn__label">{{ 'cart.continue_shopping' | t }}</span>
+            <span class="btn__fill" aria-hidden="true"></span>
+          </a>
+        </div>
+      {%- else -%}
       {%- capture blog_image_sizes -%}(min-width: 990px) calc(100vw / {{ columns_desktop }}), (min-width: 750px) 50vw, 100vw{%- endcapture -%}
       <div class="blog__grid" {% if settings.stagger_blog_posts %}data-stagger-cards{% endif %}>
         {%- for article in blog.articles -%}
@@ -153,6 +166,7 @@
             </a>
           {%- endif -%}
         </nav>
+      {%- endif -%}
       {%- endif -%}
     {%- endpaginate -%}
 
