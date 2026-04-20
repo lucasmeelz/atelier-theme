@@ -85,6 +85,17 @@
   object-fit: cover;
 }
 
+/* Gradient overlay ensuring overlay number legibility regardless of image tone */
+.atelier-process--overlay-number .atelier-process__image-wrap::after,
+.atelier-process__image-wrap:has(+ .atelier-process__number)::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 50%;
+  background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.35) 100%);
+  pointer-events: none;
+}
+
 /* Step number — overlay (default) */
 .atelier-process__number {
   position: absolute;
@@ -95,9 +106,10 @@
   font-size: clamp(3rem, 6vw, 5rem);
   line-height: 1;
   color: rgb(255, 255, 255);
-  opacity: 0.85;
+  opacity: 1;
   pointer-events: none;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4), 0 0 4px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5), 0 0 4px rgba(0, 0, 0, 0.3);
+  z-index: 1;
 }
 
 /* Number style — none */
