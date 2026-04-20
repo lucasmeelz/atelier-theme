@@ -90,50 +90,30 @@
   transform: translateY(-50%) rotate(45deg);
 }
 
-/* --- Content area with smooth animation --- */
+/* --- Content area with smooth animation ---
+   JS-driven for cross-browser reliability: the script toggles an
+   `is-open` / `is-animating` class alongside the native `open` attr,
+   and sets an inline `max-height` during the transition. */
 
-/* Modern browsers (Chrome 129+, Safari 18.2+) use ::details-content pseudo
-   to wrap non-summary children. Animate it with height 0 ↔ auto via
-   interpolate-size. We also animate content-visibility as a discrete
-   property so the content stays laid out during the transition. */
-
-.collapsible-content__item {
-  interpolate-size: allow-keywords;
-}
-
-.collapsible-content__item::details-content {
-  height: 0;
-  overflow: clip;
+.collapsible-content__body {
+  overflow: hidden;
+  max-height: 0;
   opacity: 0;
   transition:
-    height var(--duration-base, 0.35s) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1)),
-    opacity var(--duration-base, 0.35s) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1)),
-    content-visibility var(--duration-base, 0.35s) allow-discrete;
+    max-height var(--duration-base, 0.35s) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1)),
+    opacity var(--duration-slow, 0.5s) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
 }
 
-.collapsible-content__item[open]::details-content {
-  height: auto;
+.collapsible-content__item.is-open > .collapsible-content__body,
+.collapsible-content__item[open]:not(.is-closing) > .collapsible-content__body {
+  max-height: var(--body-height, 2000px);
   opacity: 1;
 }
 
-/* Fallback for browsers without ::details-content support (older Chrome,
-   Firefox <= 127, etc.) — animate the body wrapper's max-height using
-   --body-height set by JS. */
-
-@supports not selector(::details-content) {
-  .collapsible-content__body {
-    overflow: hidden;
-    max-height: 0;
-    opacity: 0;
-    transition:
-      max-height var(--duration-base, 0.35s) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1)),
-      opacity var(--duration-base, 0.35s) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
-  }
-
-  .collapsible-content__item[open] > .collapsible-content__body {
-    max-height: var(--body-height, 2000px);
-    opacity: 1;
-  }
+/* Once the opening transition ends the JS sets max-height back to `none`
+   so tall content can still reflow naturally (e.g. images lazy-loading). */
+.collapsible-content__item.is-open-complete > .collapsible-content__body {
+  max-height: none;
 }
 
 .collapsible-content__body-inner {
