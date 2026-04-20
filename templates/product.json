@@ -33,8 +33,8 @@
         "shipping_tab": {
           "type": "collapsible_tab",
           "settings": {
-            "heading": "Shipping & Returns",
-            "content": "<p>kkkkk</p>",
+            "heading": "Shipping and returns",
+            "content": "<p>Complimentary shipping on orders over €200 across Europe. Tracked and insured — delivery in 2–4 business days. Returns and exchanges accepted within 30 days. Each piece is quality-checked before leaving our atelier.</p>",
             "page": "",
             "icon": "shipping"
           }
@@ -42,8 +42,8 @@
         "ingredient_list_qhJD7L": {
           "type": "ingredient_list",
           "settings": {
-            "heading": "Materials & Composition",
-            "ingredients": "Italian leather: Premium full-grain calfskin|Gold hardware: 18k gold-plated brass|Lining: Microfiber suede",
+            "heading": "Materials and composition",
+            "ingredients": "Vegetable-tanned leather: Tuscan full-grain, aniline finish|Hardware: Solid brass, hand-polished in Brescia|Lining: Natural cotton canvas|Thread: Waxed linen, hand-stitched",
             "icon": "none",
             "default_open": false
           }
@@ -51,9 +51,9 @@
         "product_highlights_WGkFi9": {
           "type": "product_highlights",
           "settings": {
-            "heading": "Key features",
+            "heading": "Considered details",
             "source": "manual",
-            "highlights": "Premium materials, Handcrafted, Timeless design",
+            "highlights": "Made in Florence by master artisans, Vegetable-tanned leather that ages with character, Hand-stitched edges in waxed linen thread, Numbered edition — registered to you",
             "metafield_key": "",
             "icon": "checkmark"
           }
@@ -124,12 +124,28 @@
         "concierge": {
           "type": "concierge_cta",
           "settings": {
-            "heading": "Need assistance?",
-            "subheading": "Our stylists are here to help",
-            "button_label": "Book a consultation",
+            "heading": "A piece worth considering?",
+            "subheading": "Our atelier team is available for sizing, materials and gifting questions.",
+            "button_label": "Speak with the atelier",
             "button_link": "",
             "icon": "phone",
             "style": "bordered"
+          }
+        },
+        "heritage": {
+          "type": "heritage",
+          "settings": {
+            "heading": "Heritage",
+            "artisan_name": "Maestro Giovanni Rossi",
+            "artisan_role": "Master leather artisan, 32 years of craft",
+            "origin": "Florence, Italy",
+            "craft_time": "12 hours",
+            "edition": "Limited to 200 pieces worldwide",
+            "materials_origin": "Vegetable-tanned leather from Tuscany. Brass hardware hand-polished in Brescia. Waxed linen thread from Piedmont.",
+            "serial_metafield": "custom.serial_number",
+            "show_qr_code": false,
+            "layout": "stacked",
+            "border_style": "frame"
           }
         },
         "personalization": {
