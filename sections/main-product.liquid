@@ -940,7 +940,12 @@
                   endif
                   assign heritage_serial = blank
                   if block.settings.serial_metafield != blank
-                    assign heritage_serial = product.metafields[block.settings.serial_metafield]
+                    assign heritage_metafield_parts = block.settings.serial_metafield | split: '.'
+                    assign heritage_metafield_ns = heritage_metafield_parts[0]
+                    assign heritage_metafield_key = heritage_metafield_parts[1]
+                    if heritage_metafield_ns != blank and heritage_metafield_key != blank
+                      assign heritage_serial = product.metafields[heritage_metafield_ns][heritage_metafield_key]
+                    endif
                   endif
                 -%}
                 {%- if heritage_has_content -%}
