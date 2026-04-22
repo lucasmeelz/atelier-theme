@@ -101,21 +101,21 @@
         "collection_tab_f4jpVG": {
           "type": "collection_tab",
           "settings": {
-            "collection": "",
+            "collection": "ready-to-wear",
             "tab_label": "Ready-to-wear"
           }
         },
         "collection_tab_DdWdnw": {
           "type": "collection_tab",
           "settings": {
-            "collection": "",
+            "collection": "leather",
             "tab_label": "Leather"
           }
         },
         "collection_tab_M9bHcK": {
           "type": "collection_tab",
           "settings": {
-            "collection": "",
+            "collection": "objects",
             "tab_label": "Objects"
           }
         }
@@ -129,7 +129,7 @@
         "heading": "The essentials",
         "heading_size": "h2",
         "subheading": "Pieces we return to, season after season",
-        "collection": "",
+        "collection": "ready-to-wear",
         "products_to_show": 4,
         "desktop_layout": "grid",
         "mobile_layout": "swipe",
