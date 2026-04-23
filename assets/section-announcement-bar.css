@@ -105,6 +105,10 @@
   The Liquid template applies --count-N class and per-item animation-delay.
 */
 
+/* Each keyframe has smoothed fade-in/fade-out windows (~6–8% of cycle =
+   300–600 ms) so messages cross-fade gracefully instead of hard-swapping.
+   Each message still hides completely during the off-slot (opacity 0). */
+
 /* --- 2 messages: each gets 50% of the cycle --- */
 .announcement-bar__messages--count-2 .announcement-bar__message {
   animation-name: announcement-rotate-2;
@@ -112,8 +116,8 @@
 
 @keyframes announcement-rotate-2 {
   0%   { opacity: 0; }
-  3%   { opacity: 1; }
-  45%  { opacity: 1; }
+  6%   { opacity: 1; }
+  44%  { opacity: 1; }
   50%  { opacity: 0; }
   100% { opacity: 0; }
 }
@@ -125,8 +129,8 @@
 
 @keyframes announcement-rotate-3 {
   0%     { opacity: 0; }
-  2%     { opacity: 1; }
-  30%    { opacity: 1; }
+  5%     { opacity: 1; }
+  28%    { opacity: 1; }
   33.33% { opacity: 0; }
   100%   { opacity: 0; }
 }
@@ -138,8 +142,8 @@
 
 @keyframes announcement-rotate-4 {
   0%   { opacity: 0; }
-  2%   { opacity: 1; }
-  22%  { opacity: 1; }
+  4%   { opacity: 1; }
+  21%  { opacity: 1; }
   25%  { opacity: 0; }
   100% { opacity: 0; }
 }
@@ -151,7 +155,7 @@
 
 @keyframes announcement-rotate-5 {
   0%   { opacity: 0; }
-  2%   { opacity: 1; }
+  3%   { opacity: 1; }
   17%  { opacity: 1; }
   20%  { opacity: 0; }
   100% { opacity: 0; }

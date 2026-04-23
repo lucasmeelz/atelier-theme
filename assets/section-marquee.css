@@ -57,10 +57,12 @@
   }
 }
 
-/* Reduced motion: slow gentle scroll instead of frozen */
+/* Reduced motion: pause the scroll entirely per WCAG 2.3.3 guidance.
+   The marquee content stays visible because the track is laid out
+   statically; we just stop the keyframe. */
 @media (prefers-reduced-motion: reduce) {
   .marquee__track {
-    animation-duration: 120s;
+    animation: none;
   }
 }
 
