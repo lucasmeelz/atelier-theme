@@ -892,7 +892,7 @@
       "padding_bottom": "Bottom padding",
       "blocks": {
         "vendor": "Vendor",
-        "title": "Title",
+        "title": "Product title",
         "heading_size": "Heading size",
         "size_large": "Large",
         "size_medium": "Medium",
