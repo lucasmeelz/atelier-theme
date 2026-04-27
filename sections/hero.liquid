@@ -374,18 +374,14 @@
       "info": "t:sections.hero.text_position_mobile_info"
     },
     {
-      "type": "select",
-      "id": "content_alignment",
-      "label": "t:sections.hero.content_alignment",
-      "options": [
-        { "value": "left", "label": "t:sections.hero.align_left" },
-        { "value": "center", "label": "t:sections.hero.align_center" }
-      ],
-      "default": "left"
-    },
-    {
       "type": "header",
       "content": "t:sections.hero.content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:sections.hero.eyebrow",
+      "info": "t:sections.hero.eyebrow_info"
     },
     {
       "type": "text",
@@ -401,8 +397,20 @@
     },
     {
       "type": "select",
+      "id": "heading_tag",
+      "label": "t:sections.hero.heading_tag",
+      "info": "t:sections.hero.heading_tag_info",
+      "options": [
+        { "value": "h1", "label": "t:sections.hero.heading_tag_h1" },
+        { "value": "h2", "label": "t:sections.hero.heading_tag_h2" }
+      ],
+      "default": "h1"
+    },
+    {
+      "type": "select",
       "id": "heading_size",
       "label": "t:sections.hero.heading_size",
+      "info": "t:sections.hero.heading_size_info",
       "options": [
         { "value": "medium", "label": "t:sections.hero.heading_medium" },
         { "value": "large", "label": "t:sections.hero.heading_large" },
@@ -412,8 +420,32 @@
     },
     {
       "type": "richtext",
-      "id": "text",
-      "label": "t:sections.hero.text"
+      "id": "description",
+      "label": "t:sections.hero.description"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "t:sections.hero.content_alignment",
+      "options": [
+        { "value": "left", "label": "t:sections.hero.align_left" },
+        { "value": "center", "label": "t:sections.hero.align_center" },
+        { "value": "right", "label": "t:sections.hero.align_right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "checkbox",
+      "id": "text_color_override",
+      "label": "t:sections.hero.text_color_override",
+      "info": "t:sections.hero.text_color_override_info",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "t:sections.hero.text_color",
+      "default": "#FFFFFF"
     },
     {
       "type": "header",
