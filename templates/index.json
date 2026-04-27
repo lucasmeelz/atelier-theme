@@ -12,25 +12,26 @@
     "hero": {
       "type": "hero",
       "settings": {
-        "media_type": "image",
+        "media_type": "video",
         "image": "shopify://shop_images/feet-pose-pug-socks.jpg",
         "image_mobile": "shopify://shop_images/portrait_3to4.jpg",
+        "video_file": "shopify://files/videos/Savor French Bloom your way , pure or in a crafted cocktail, for lively gatherings or quiet mome.mp4",
         "video_url": "",
         "overlay_color": "#000000",
-        "overlay_opacity": 30,
+        "overlay_opacity": 15,
         "height": "large",
         "height_mobile": "auto",
         "text_position": "bottom-left",
         "text_position_mobile": "auto",
-        "content_alignment": "left",
         "eyebrow": "Spring/Summer 2026",
         "subheading": "Chapter one — The atelier",
         "heading": "Quiet confidence",
         "heading_tag": "h1",
         "heading_size": "large",
         "description": "<p>A collection of considered pieces, designed to last beyond seasons.</p>",
+        "content_alignment": "left",
         "text_color_override": false,
-        "text_color": "#FFFFFF",
+        "text_color": "#ffffff",
         "button_label": "Shop the collection",
         "button_link": "shopify://collections/all",
         "button_style": "filled-white",
@@ -375,28 +376,28 @@
         "t1": {
           "type": "testimonial",
           "settings": {
+            "quote": "<p>The linen shirt has become my favorite piece. Three years in and it only gets better.</p>",
             "author": "Camille R.",
             "role": "Paris",
-            "rating": 5,
-            "quote": "<p>The linen shirt has become my favorite piece. Three years in and it only gets better.</p>"
+            "rating": 5
           }
         },
         "t2": {
           "type": "testimonial",
           "settings": {
+            "quote": "<p>Quality you can feel. Bought for my partner, ordered two more for myself.</p>",
             "author": "Marco L.",
             "role": "Milan",
-            "rating": 5,
-            "quote": "<p>Quality you can feel. Bought for my partner, ordered two more for myself.</p>"
+            "rating": 5
           }
         },
         "t3": {
           "type": "testimonial",
           "settings": {
+            "quote": "<p>Finally, a brand that doesn't shout. Beautiful objects, thoughtfully made.</p>",
             "author": "Sophia K.",
             "role": "Berlin",
-            "rating": 5,
-            "quote": "<p>Finally, a brand that doesn't shout. Beautiful objects, thoughtfully made.</p>"
+            "rating": 5
           }
         }
       },
@@ -406,8 +407,12 @@
         "t3"
       ],
       "settings": {
-        "heading": "What our customers say",
         "subheading": "Testimonials",
+        "heading": "What our customers say",
+        "heading_size": "h2",
+        "layout": "grid",
+        "columns_desktop": 3,
+        "show_rating": true,
         "color_scheme": "scheme-2",
         "padding_top": 80,
         "padding_bottom": 80
@@ -712,7 +717,6 @@
         "heading_size": "h2",
         "subheading": "",
         "layout": "stacked",
-        "icon_style": "chevron",
         "open_first": false,
         "color_scheme": "scheme-2",
         "padding_top": 80,
