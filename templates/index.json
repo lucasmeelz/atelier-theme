@@ -12,12 +12,13 @@
     "hero": {
       "type": "hero",
       "settings": {
-        "media_type": "image",
+        "media_type": "video",
         "image": "shopify://shop_images/feet-pose-pug-socks.jpg",
         "image_mobile": "shopify://shop_images/portrait_3to4.jpg",
+        "video_file": "shopify://files/videos/Savor French Bloom your way , pure or in a crafted cocktail, for lively gatherings or quiet mome.mp4",
         "video_url": "",
         "overlay_color": "#000000",
-        "overlay_opacity": 30,
+        "overlay_opacity": 15,
         "height": "large",
         "height_mobile": "auto",
         "text_position": "bottom-left",
@@ -30,7 +31,7 @@
         "description": "<p>A collection of considered pieces, designed to last beyond seasons.</p>",
         "content_alignment": "left",
         "text_color_override": false,
-        "text_color": "#FFFFFF",
+        "text_color": "#ffffff",
         "button_label": "Shop the collection",
         "button_link": "shopify://collections/all",
         "button_style": "filled-white",
@@ -408,6 +409,10 @@
       "settings": {
         "subheading": "Testimonials",
         "heading": "What our customers say",
+        "heading_size": "h2",
+        "layout": "grid",
+        "columns_desktop": 3,
+        "show_rating": true,
         "color_scheme": "scheme-2",
         "padding_top": 80,
         "padding_bottom": 80
