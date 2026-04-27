@@ -244,33 +244,94 @@ picture:has(.hero__img),
   color: inherit;
 }
 
-/* Mobile position override */
+/* Mobile position override — when set, fully takes over from the desktop
+   position class. Each variant sets vertical (justify-content), horizontal
+   (align-items + text-align), and the buttons row alignment together so
+   nothing leaks from the desktop class. */
 @media screen and (max-width: 989px) {
-  .hero__content--mobile-bottom-left {
-    align-self: end;
-    justify-self: start;
+  /* Top row */
+  .hero__content--mobile-top-left {
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: left;
+  }
+  .hero__content--mobile-top-left .hero__buttons {
+    justify-content: flex-start;
   }
 
-  .hero__content--mobile-bottom-center {
-    align-self: end;
-    justify-self: center;
+  .hero__content--mobile-top-center {
+    justify-content: flex-start;
+    align-items: center;
     text-align: center;
   }
-
-  .hero__content--mobile-bottom-center .hero__buttons {
+  .hero__content--mobile-top-center .hero__buttons {
     justify-content: center;
   }
 
-  .hero__content--mobile-middle-center {
-    align-self: center;
-    justify-self: center;
-    text-align: center;
+  .hero__content--mobile-top-right {
+    justify-content: flex-start;
+    align-items: flex-end;
+    text-align: right;
+  }
+  .hero__content--mobile-top-right .hero__buttons {
+    justify-content: flex-end;
   }
 
+  /* Middle row */
+  .hero__content--mobile-middle-left {
+    justify-content: center;
+    align-items: flex-start;
+    text-align: left;
+  }
+  .hero__content--mobile-middle-left .hero__buttons {
+    justify-content: flex-start;
+  }
+
+  .hero__content--mobile-middle-center {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
   .hero__content--mobile-middle-center .hero__buttons {
     justify-content: center;
   }
 
+  .hero__content--mobile-middle-right {
+    justify-content: center;
+    align-items: flex-end;
+    text-align: right;
+  }
+  .hero__content--mobile-middle-right .hero__buttons {
+    justify-content: flex-end;
+  }
+
+  /* Bottom row */
+  .hero__content--mobile-bottom-left {
+    justify-content: flex-end;
+    align-items: flex-start;
+    text-align: left;
+  }
+  .hero__content--mobile-bottom-left .hero__buttons {
+    justify-content: flex-start;
+  }
+
+  .hero__content--mobile-bottom-center {
+    justify-content: flex-end;
+    align-items: center;
+    text-align: center;
+  }
+  .hero__content--mobile-bottom-center .hero__buttons {
+    justify-content: center;
+  }
+
+  .hero__content--mobile-bottom-right {
+    justify-content: flex-end;
+    align-items: flex-end;
+    text-align: right;
+  }
+  .hero__content--mobile-bottom-right .hero__buttons {
+    justify-content: flex-end;
+  }
 }
 
 /* Mobile only (< 750px) — stack CTAs and make them full-width so they
