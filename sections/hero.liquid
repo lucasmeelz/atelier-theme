@@ -84,35 +84,84 @@
     {%- comment -%} Media layer {%- endcomment -%}
     <div class="hero__media">
       {%- if media_type == 'video' -%}
+        {%- liquid
+          assign video_title = 'accessibility.video' | t
+          if heading != blank
+            assign video_title = heading
+          endif
+          assign video_title = video_title | escape
+        -%}
+        {%- comment -%} Desktop video {%- endcomment -%}
         {%- if video_file != blank -%}
-          {{ video_file | video_tag:
-            autoplay: true,
-            loop: true,
-            muted: true,
-            playsinline: true,
-            class: 'hero__video',
-            image_size: '2048x'
-          }}
+          <div class="hero__video-wrap hero__video-wrap--desktop" data-hero-video="desktop">
+            {{ video_file | video_tag:
+              autoplay: true,
+              loop: true,
+              muted: true,
+              controls: false,
+              playsinline: true,
+              class: 'hero__video',
+              image_size: '2048x'
+            }}
+          </div>
         {%- elsif video_url != blank -%}
-          {%- if video_url.type == 'youtube' -%}
-            <iframe
-              class="hero__iframe"
-              src="https://www.youtube.com/embed/{{ video_url.id }}?autoplay=1&mute=1&loop=1&playlist={{ video_url.id }}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
-              allow="autoplay; encrypted-media"
-              allowfullscreen
-              loading="lazy"
-              title="{% if heading != blank %}{{ heading | escape }}{% else %}{{ 'accessibility.video' | t | escape }}{% endif %}"
-            ></iframe>
-          {%- elsif video_url.type == 'vimeo' -%}
-            <iframe
-              class="hero__iframe"
-              src="https://player.vimeo.com/video/{{ video_url.id }}?autoplay=1&muted=1&loop=1&background=1&playsinline=1"
-              allow="autoplay; encrypted-media"
-              allowfullscreen
-              loading="lazy"
-              title="{% if heading != blank %}{{ heading | escape }}{% else %}{{ 'accessibility.video' | t | escape }}{% endif %}"
-            ></iframe>
-          {%- endif -%}
+          <div class="hero__video-wrap hero__video-wrap--desktop" data-hero-video="desktop">
+            {%- if video_url.type == 'youtube' -%}
+              <iframe
+                class="hero__iframe"
+                src="https://www.youtube.com/embed/{{ video_url.id }}?autoplay=1&mute=1&loop=1&playlist={{ video_url.id }}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
+                allow="autoplay; encrypted-media"
+                allowfullscreen
+                loading="lazy"
+                title="{{ video_title }}"
+              ></iframe>
+            {%- elsif video_url.type == 'vimeo' -%}
+              <iframe
+                class="hero__iframe"
+                src="https://player.vimeo.com/video/{{ video_url.id }}?autoplay=1&muted=1&loop=1&background=1&playsinline=1"
+                allow="autoplay; encrypted-media"
+                allowfullscreen
+                loading="lazy"
+                title="{{ video_title }}"
+              ></iframe>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+        {%- comment -%} Mobile video — falls back to desktop if not provided {%- endcomment -%}
+        {%- if video_file_mobile != blank -%}
+          <div class="hero__video-wrap hero__video-wrap--mobile" data-hero-video="mobile">
+            {{ video_file_mobile | video_tag:
+              autoplay: true,
+              loop: true,
+              muted: true,
+              controls: false,
+              playsinline: true,
+              class: 'hero__video',
+              image_size: '1100x'
+            }}
+          </div>
+        {%- elsif video_url_mobile != blank -%}
+          <div class="hero__video-wrap hero__video-wrap--mobile" data-hero-video="mobile">
+            {%- if video_url_mobile.type == 'youtube' -%}
+              <iframe
+                class="hero__iframe"
+                src="https://www.youtube.com/embed/{{ video_url_mobile.id }}?autoplay=1&mute=1&loop=1&playlist={{ video_url_mobile.id }}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1"
+                allow="autoplay; encrypted-media"
+                allowfullscreen
+                loading="lazy"
+                title="{{ video_title }}"
+              ></iframe>
+            {%- elsif video_url_mobile.type == 'vimeo' -%}
+              <iframe
+                class="hero__iframe"
+                src="https://player.vimeo.com/video/{{ video_url_mobile.id }}?autoplay=1&muted=1&loop=1&background=1&playsinline=1"
+                allow="autoplay; encrypted-media"
+                allowfullscreen
+                loading="lazy"
+                title="{{ video_title }}"
+              ></iframe>
+            {%- endif -%}
+          </div>
         {%- endif -%}
       {%- else -%}
         {%- if image != blank -%}
