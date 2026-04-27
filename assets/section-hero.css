@@ -192,6 +192,32 @@ picture:has(.hero__img),
   justify-content: flex-start;
 }
 
+.hero__content--align-right {
+  text-align: right;
+  align-items: flex-end;
+}
+
+.hero__content--align-right .hero__buttons {
+  justify-content: flex-end;
+}
+
+/* Optional per-section text color override (checkbox + color picker).
+   When the merchant enables it, the override wins over both color schemes
+   and the default white-on-image setup. The animations / button labels
+   inherit through the cascade. */
+.hero__content--color-override {
+  color: var(--hero-text-color, currentColor);
+}
+
+.hero__content--color-override h1,
+.hero__content--color-override h2,
+.hero__content--color-override .hero__heading,
+.hero__content--color-override .hero__subheading,
+.hero__content--color-override .hero__eyebrow,
+.hero__content--color-override .hero__text {
+  color: inherit;
+}
+
 /* Mobile position override */
 @media screen and (max-width: 989px) {
   .hero__content--mobile-bottom-left {
@@ -259,7 +285,9 @@ picture:has(.hero__img),
 .hero__content h1,
 .hero__content h2,
 .hero__content h3,
-.hero__content p {
+.hero__content p,
+.hero__content .hero__eyebrow,
+.hero__content .hero__subheading {
   color: inherit;
 }
 
@@ -268,15 +296,27 @@ picture:has(.hero__img),
   color: rgb(var(--color-text, 10, 10, 10));
 }
 
-/* Subheading (label) */
-.hero__subheading {
+/* Eyebrow (small all-caps label above subheading/heading) */
+.hero__eyebrow {
   font-family: var(--font-label-family, sans-serif);
   font-size: 0.6875rem;
-  font-weight: 400;
-  letter-spacing: 0.2em;
+  font-weight: 500;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  margin: 0 0 1.25rem;
-  opacity: 0.8;
+  margin: 0 0 0.75rem;
+  opacity: 0.85;
+}
+
+/* Subheading — elegant bridging line between eyebrow and heading.
+   Not uppercase, slightly larger, lets the heading remain the focal point. */
+.hero__subheading {
+  font-family: var(--font-body-family, sans-serif);
+  font-size: clamp(0.9375rem, 1.4vw, 1.0625rem);
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+  margin: 0 0 1rem;
+  opacity: 0.92;
 }
 
 /* Heading */
@@ -397,6 +437,7 @@ picture:has(.hero__img),
 /* ===================================
    Stagger Entrance Animation
    =================================== */
+.hero__eyebrow,
 .hero__subheading,
 .hero__heading,
 .hero__text,
@@ -408,28 +449,34 @@ picture:has(.hero__img),
     transform var(--duration-slow, 600ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
 }
 
-.hero.is-loaded .hero__subheading {
+.hero.is-loaded .hero__eyebrow {
   opacity: 0.85;
   transform: translateY(0);
-  transition-delay: 0.1s;
+  transition-delay: 0.05s;
+}
+
+.hero.is-loaded .hero__subheading {
+  opacity: 0.92;
+  transform: translateY(0);
+  transition-delay: 0.18s;
 }
 
 .hero.is-loaded .hero__heading {
   opacity: 1;
   transform: translateY(0);
-  transition-delay: 0.25s;
+  transition-delay: 0.32s;
 }
 
 .hero.is-loaded .hero__text {
   opacity: 0.85;
   transform: translateY(0);
-  transition-delay: 0.4s;
+  transition-delay: 0.46s;
 }
 
 .hero.is-loaded .hero__buttons {
   opacity: 1;
   transform: translateY(0);
-  transition-delay: 0.55s;
+  transition-delay: 0.6s;
 }
 
 /* ===================================
@@ -437,6 +484,7 @@ picture:has(.hero__img),
    =================================== */
 @media (prefers-reduced-motion: reduce) {
   /* Show content immediately — entrance animations are autonomous */
+  .hero__eyebrow,
   .hero__subheading,
   .hero__heading,
   .hero__text,
@@ -445,8 +493,12 @@ picture:has(.hero__img),
     transform: none;
   }
 
-  .hero__subheading {
+  .hero__eyebrow {
     opacity: 0.85;
+  }
+
+  .hero__subheading {
+    opacity: 0.92;
   }
 
   .hero__text {
