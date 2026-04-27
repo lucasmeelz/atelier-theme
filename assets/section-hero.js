@@ -35,11 +35,9 @@ if (!customElements.get('hero-section')) {
         this.initScrollIndicator();
       }
 
-      // Video visibility observer
-      const video = this.querySelector('.hero__video');
-      if (video) {
-        this.initVideoObserver(video);
-      }
+      // Video visibility + autoplay (handles Shopify <video-element> wrapper
+      // by reaching the inner <video> element, plus the mobile/desktop pair).
+      this.initVideos();
 
       // Listen for Shopify editor events
       if (Shopify.designMode) {
