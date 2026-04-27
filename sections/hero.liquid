@@ -106,8 +106,24 @@
         {%- endif -%}
       {%- else -%}
         {%- if image != blank -%}
+          {%- liquid
+            assign focal_x = 50
+            assign focal_y = 50
+            if image.presentation.focal_point
+              assign focal_x = image.presentation.focal_point.x | times: 100
+              assign focal_y = image.presentation.focal_point.y | times: 100
+            endif
+            assign focal_x_mobile = focal_x
+            assign focal_y_mobile = focal_y
+            if image_mobile != blank and image_mobile.presentation.focal_point
+              assign focal_x_mobile = image_mobile.presentation.focal_point.x | times: 100
+              assign focal_y_mobile = image_mobile.presentation.focal_point.y | times: 100
+            endif
+          -%}
+          {%- capture hero_img_style -%}--hero-focal-x: {{ focal_x }}%; --hero-focal-y: {{ focal_y }}%; --hero-focal-x-mobile: {{ focal_x_mobile }}%; --hero-focal-y-mobile: {{ focal_y_mobile }}%;{%- endcapture -%}
+          {%- assign hero_alt = image.alt | default: heading | escape -%}
           {%- if image_mobile != blank -%}
-            <picture>
+            <picture style="{{ hero_img_style }}">
               <source
                 media="(max-width: 749px)"
                 srcset="{{ image_mobile | image_url: width: 750 }} 375w,
@@ -121,18 +137,20 @@
                 widths: '750,1100,1500,1920,2560',
                 sizes: '100vw',
                 class: 'hero__img',
-                alt: image.alt | default: heading | escape
+                alt: hero_alt
               }}
             </picture>
           {%- else -%}
-            {{ image | image_url: width: 2560 | image_tag:
-              loading: 'eager',
-              fetchpriority: 'high',
-              widths: '375,750,1100,1500,1920,2560',
-              sizes: '100vw',
-              class: 'hero__img',
-              alt: image.alt | default: heading | escape
-            }}
+            <div class="hero__img-wrap" style="{{ hero_img_style }}">
+              {{ image | image_url: width: 2560 | image_tag:
+                loading: 'eager',
+                fetchpriority: 'high',
+                widths: '375,750,1100,1500,1920,2560',
+                sizes: '100vw',
+                class: 'hero__img',
+                alt: hero_alt
+              }}
+            </div>
           {%- endif -%}
         {%- else -%}
           <div class="hero__placeholder">

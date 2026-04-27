@@ -52,7 +52,8 @@
   }
 }
 
-picture:has(.hero__img) {
+picture:has(.hero__img),
+.hero__img-wrap {
   display: contents;
 }
 
