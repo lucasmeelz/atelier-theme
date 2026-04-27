@@ -167,11 +167,37 @@ picture:has(.hero__img),
   text-align: center;
 }
 
+/* Right-aligned positions */
+.hero__content--top-right {
+  justify-content: flex-start;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.hero__content--middle-right {
+  justify-content: center;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.hero__content--bottom-right {
+  justify-content: flex-end;
+  align-items: flex-end;
+  text-align: right;
+}
+
 /* Centered positions — center the buttons too */
 .hero__content--top-center .hero__buttons,
 .hero__content--middle-center .hero__buttons,
 .hero__content--bottom-center .hero__buttons {
   justify-content: center;
+}
+
+/* Right-positioned blocks: align buttons to the right edge too */
+.hero__content--top-right .hero__buttons,
+.hero__content--middle-right .hero__buttons,
+.hero__content--bottom-right .hero__buttons {
+  justify-content: flex-end;
 }
 
 /* Content alignment override — only controls text-align and button layout.
