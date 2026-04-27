@@ -285,7 +285,9 @@ picture:has(.hero__img),
 .hero__content h1,
 .hero__content h2,
 .hero__content h3,
-.hero__content p {
+.hero__content p,
+.hero__content .hero__eyebrow,
+.hero__content .hero__subheading {
   color: inherit;
 }
 
