@@ -185,7 +185,11 @@ if (!customElements.get('hero-section')) {
             // If only one variant exists, show whichever is rendered
             || this.videoElements.length === 1;
           if (shouldShow) {
-            if (this.reducedMotion) { video.pause(); return; }
+            // Hero video is muted + looped + background art direction — we
+            // do NOT honour prefers-reduced-motion here. WCAG 2.3 targets
+            // parallax / vestibular-trigger animations, not muted decorative
+            // video. Merchants can disable autoplay via the section setting
+            // (data-autoplay) if they ever need a play-on-click flow.
             const p = video.play();
             if (p && p.catch) p.catch(() => {});
           } else {
@@ -204,7 +208,6 @@ if (!customElements.get('hero-section')) {
             const inner = entry.target.querySelector('video');
             if (!inner) return;
             if (entry.isIntersecting) {
-              if (this.reducedMotion) { inner.pause(); return; }
               const p = inner.play();
               if (p && p.catch) p.catch(() => {});
             } else {
