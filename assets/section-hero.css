@@ -437,6 +437,7 @@ picture:has(.hero__img),
 /* ===================================
    Stagger Entrance Animation
    =================================== */
+.hero__eyebrow,
 .hero__subheading,
 .hero__heading,
 .hero__text,
@@ -448,28 +449,34 @@ picture:has(.hero__img),
     transform var(--duration-slow, 600ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
 }
 
-.hero.is-loaded .hero__subheading {
+.hero.is-loaded .hero__eyebrow {
   opacity: 0.85;
   transform: translateY(0);
-  transition-delay: 0.1s;
+  transition-delay: 0.05s;
+}
+
+.hero.is-loaded .hero__subheading {
+  opacity: 0.92;
+  transform: translateY(0);
+  transition-delay: 0.18s;
 }
 
 .hero.is-loaded .hero__heading {
   opacity: 1;
   transform: translateY(0);
-  transition-delay: 0.25s;
+  transition-delay: 0.32s;
 }
 
 .hero.is-loaded .hero__text {
   opacity: 0.85;
   transform: translateY(0);
-  transition-delay: 0.4s;
+  transition-delay: 0.46s;
 }
 
 .hero.is-loaded .hero__buttons {
   opacity: 1;
   transform: translateY(0);
-  transition-delay: 0.55s;
+  transition-delay: 0.6s;
 }
 
 /* ===================================
