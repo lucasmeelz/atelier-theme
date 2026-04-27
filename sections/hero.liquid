@@ -15,10 +15,18 @@
   assign overlay_opacity = section.settings.overlay_opacity | divided_by: 100.0
   assign height = section.settings.height
   assign text_position = section.settings.text_position
-  assign heading = section.settings.heading
-  assign heading_size = section.settings.heading_size
+  assign eyebrow = section.settings.eyebrow
   assign subheading = section.settings.subheading
-  assign text = section.settings.text
+  assign heading = section.settings.heading
+  assign heading_tag = section.settings.heading_tag | default: 'h1'
+  assign heading_size = section.settings.heading_size
+  # Migration: prefer the new `description` field, fall back to legacy `text`.
+  assign description = section.settings.description
+  if description == blank
+    assign description = section.settings.text
+  endif
+  assign text_color_override = section.settings.text_color_override
+  assign text_color = section.settings.text_color | default: '#FFFFFF'
   assign button_label = section.settings.button_label
   assign button_link = section.settings.button_link
   assign button_style = section.settings.button_style
@@ -211,18 +219,25 @@
     <div class="hero__overlay" aria-hidden="true"></div>
 
     {%- comment -%} Content {%- endcomment -%}
-    <div class="hero__content hero__content--{{ text_position }} hero__content--align-{{ content_alignment }}{% if text_position_mobile != 'auto' %} hero__content--mobile-{{ text_position_mobile }}{% endif %}">
+    <div
+      class="hero__content hero__content--{{ text_position }} hero__content--align-{{ content_alignment }}{% if text_position_mobile != 'auto' %} hero__content--mobile-{{ text_position_mobile }}{% endif %}{% if text_color_override %} hero__content--color-override{% endif %}"
+      {% if text_color_override %}style="--hero-text-color: {{ text_color }};"{% endif %}
+    >
       <div class="hero__content-inner">
+        {%- if eyebrow != blank -%}
+          <p class="hero__eyebrow label">{{ eyebrow }}</p>
+        {%- endif -%}
+
         {%- if subheading != blank -%}
-          <p class="hero__subheading label">{{ subheading }}</p>
+          <p class="hero__subheading">{{ subheading }}</p>
         {%- endif -%}
 
         {%- if heading != blank -%}
-          <h1 class="hero__heading hero__heading--{{ heading_size }}">{{ heading }}</h1>
+          <{{ heading_tag }} class="hero__heading hero__heading--{{ heading_size }}">{{ heading }}</{{ heading_tag }}>
         {%- endif -%}
 
-        {%- if text != blank -%}
-          <div class="hero__text rte">{{ text }}</div>
+        {%- if description != blank -%}
+          <div class="hero__text rte">{{ description }}</div>
         {%- endif -%}
 
         {%- if button_label != blank or button_label_2 != blank -%}
