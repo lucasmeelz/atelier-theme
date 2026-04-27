@@ -107,23 +107,43 @@
       {%- else -%}
         {%- if image != blank -%}
           {%- liquid
-            # Shopify image.presentation.focal_point.x and .y are already
-            # percent values in [0, 100]. Default to 50% (center) when no
-            # focal point is set on the image upload.
-            assign focal_x = 50
-            assign focal_y = 50
+            # Shopify image.presentation.focal_point.x/.y are percent
+            # values in [0, 100]. Only set the CSS vars when the merchant
+            # has explicitly chosen a focal point; otherwise let the CSS
+            # fall back to its tasteful defaults (35% desktop / 28% mobile)
+            # so portrait shots keep faces in frame.
+            assign hero_img_style = ''
             if image.presentation.focal_point
               assign focal_x = image.presentation.focal_point.x
               assign focal_y = image.presentation.focal_point.y
+              capture hero_img_style
+                echo '--hero-focal-x: '
+                echo focal_x
+                echo '%; --hero-focal-y: '
+                echo focal_y
+                echo '%;'
+                unless image_mobile != blank and image_mobile.presentation.focal_point
+                  echo ' --hero-focal-x-mobile: '
+                  echo focal_x
+                  echo '%; --hero-focal-y-mobile: '
+                  echo focal_y
+                  echo '%;'
+                endunless
+              endcapture
             endif
-            assign focal_x_mobile = focal_x
-            assign focal_y_mobile = focal_y
             if image_mobile != blank and image_mobile.presentation.focal_point
               assign focal_x_mobile = image_mobile.presentation.focal_point.x
               assign focal_y_mobile = image_mobile.presentation.focal_point.y
+              capture hero_img_style_mobile
+                echo ' --hero-focal-x-mobile: '
+                echo focal_x_mobile
+                echo '%; --hero-focal-y-mobile: '
+                echo focal_y_mobile
+                echo '%;'
+              endcapture
+              assign hero_img_style = hero_img_style | append: hero_img_style_mobile
             endif
           -%}
-          {%- capture hero_img_style -%}--hero-focal-x: {{ focal_x }}%; --hero-focal-y: {{ focal_y }}%; --hero-focal-x-mobile: {{ focal_x_mobile }}%; --hero-focal-y-mobile: {{ focal_y_mobile }}%;{%- endcapture -%}
           {%- assign hero_alt = image.alt | default: heading | escape -%}
           {%- if image_mobile != blank -%}
             <picture style="{{ hero_img_style }}">
