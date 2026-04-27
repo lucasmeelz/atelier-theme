@@ -107,17 +107,20 @@
       {%- else -%}
         {%- if image != blank -%}
           {%- liquid
+            # Shopify image.presentation.focal_point.x and .y are already
+            # percent values in [0, 100]. Default to 50% (center) when no
+            # focal point is set on the image upload.
             assign focal_x = 50
             assign focal_y = 50
             if image.presentation.focal_point
-              assign focal_x = image.presentation.focal_point.x | times: 100
-              assign focal_y = image.presentation.focal_point.y | times: 100
+              assign focal_x = image.presentation.focal_point.x
+              assign focal_y = image.presentation.focal_point.y
             endif
             assign focal_x_mobile = focal_x
             assign focal_y_mobile = focal_y
             if image_mobile != blank and image_mobile.presentation.focal_point
-              assign focal_x_mobile = image_mobile.presentation.focal_point.x | times: 100
-              assign focal_y_mobile = image_mobile.presentation.focal_point.y | times: 100
+              assign focal_x_mobile = image_mobile.presentation.focal_point.x
+              assign focal_y_mobile = image_mobile.presentation.focal_point.y
             endif
           -%}
           {%- capture hero_img_style -%}--hero-focal-x: {{ focal_x }}%; --hero-focal-y: {{ focal_y }}%; --hero-focal-x-mobile: {{ focal_x_mobile }}%; --hero-focal-y-mobile: {{ focal_y_mobile }}%;{%- endcapture -%}
