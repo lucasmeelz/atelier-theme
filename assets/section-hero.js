@@ -35,11 +35,9 @@ if (!customElements.get('hero-section')) {
         this.initScrollIndicator();
       }
 
-      // Video visibility observer
-      const video = this.querySelector('.hero__video');
-      if (video) {
-        this.initVideoObserver(video);
-      }
+      // Video visibility + autoplay (handles Shopify <video-element> wrapper
+      // by reaching the inner <video> element, plus the mobile/desktop pair).
+      this.initVideos();
 
       // Listen for Shopify editor events
       if (Shopify.designMode) {
@@ -60,6 +58,12 @@ if (!customElements.get('hero-section')) {
       }
       if (this.videoObserver) {
         this.videoObserver.disconnect();
+      }
+      if (this.videoResizeHandler) {
+        window.removeEventListener('resize', this.videoResizeHandler);
+      }
+      if (this.videoResizeRaf) {
+        cancelAnimationFrame(this.videoResizeRaf);
       }
     }
 
@@ -150,29 +154,74 @@ if (!customElements.get('hero-section')) {
     }
 
     /**
-     * Video observer — pause when out of viewport, play when visible
+     * Video setup — Shopify's video_tag wraps the <video> in a custom
+     * <video-element> web component, so querying .hero__video lands on the
+     * wrapper. We reach the inner <video> for direct play() control.
+     * Also handles the mobile/desktop pair: pauses the hidden one to free
+     * the decoder, plays the visible one, and re-evaluates on resize.
      */
-    initVideoObserver(video) {
-      // Don't autoplay if reduced motion
-      if (this.reducedMotion) {
-        video.pause();
-        return;
-      }
+    initVideos() {
+      const wraps = this.querySelectorAll('.hero__video-wrap');
+      if (!wraps.length) return;
+
+      this.videoElements = [];
+      wraps.forEach((wrap) => {
+        const inner = wrap.querySelector('video');
+        if (inner) {
+          // Defensive: some browsers reset attributes after JS upgrades
+          inner.muted = true;
+          inner.playsInline = true;
+          inner.loop = true;
+          this.videoElements.push({ wrap, video: inner });
+        }
+      });
+      if (!this.videoElements.length) return;
+
+      const playVisible = () => {
+        const isMobile = window.matchMedia('(max-width: 749px)').matches;
+        this.videoElements.forEach(({ wrap, video }) => {
+          const isMobileWrap = wrap.classList.contains('hero__video-wrap--mobile');
+          const shouldShow = (isMobile && isMobileWrap) || (!isMobile && !isMobileWrap)
+            // If only one variant exists, show whichever is rendered
+            || this.videoElements.length === 1;
+          if (shouldShow) {
+            if (this.reducedMotion) { video.pause(); return; }
+            const p = video.play();
+            if (p && p.catch) p.catch(() => {});
+          } else {
+            video.pause();
+          }
+        });
+      };
+
+      // Delay slightly so the <video-element> custom element has upgraded
+      // and the metadata is available before we call play().
+      requestAnimationFrame(() => requestAnimationFrame(playVisible));
 
       this.videoObserver = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
+            const inner = entry.target.querySelector('video');
+            if (!inner) return;
             if (entry.isIntersecting) {
-              video.play().catch(() => {});
+              if (this.reducedMotion) { inner.pause(); return; }
+              const p = inner.play();
+              if (p && p.catch) p.catch(() => {});
             } else {
-              video.pause();
+              inner.pause();
             }
           });
         },
         { threshold: 0.25 }
       );
+      wraps.forEach((wrap) => this.videoObserver.observe(wrap));
 
-      this.videoObserver.observe(video);
+      // Re-evaluate on resize (debounced via rAF)
+      this.videoResizeHandler = () => {
+        if (this.videoResizeRaf) cancelAnimationFrame(this.videoResizeRaf);
+        this.videoResizeRaf = requestAnimationFrame(playVisible);
+      };
+      window.addEventListener('resize', this.videoResizeHandler, { passive: true });
     }
   }
 

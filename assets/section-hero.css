@@ -57,7 +57,35 @@ picture:has(.hero__img),
   display: contents;
 }
 
-.hero__video {
+.hero__video-wrap {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Show desktop video by default; swap to mobile under 750px when one is
+   provided. When no mobile-specific video exists the desktop wrap stays
+   visible so playback never stalls. */
+.hero__video-wrap--mobile {
+  display: none;
+}
+
+@media screen and (max-width: 749px) {
+  .hero__video-wrap--mobile {
+    display: block;
+  }
+  /* Only hide the desktop wrap when a mobile one is actually rendered. */
+  .hero__video-wrap--mobile + .hero__video-wrap--desktop,
+  .hero__media:has(.hero__video-wrap--mobile) .hero__video-wrap--desktop {
+    display: none;
+  }
+}
+
+.hero__video,
+.hero__video-wrap video,
+.hero__video-wrap video-element,
+.hero__video-wrap video-element video {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -167,11 +195,37 @@ picture:has(.hero__img),
   text-align: center;
 }
 
+/* Right-aligned positions */
+.hero__content--top-right {
+  justify-content: flex-start;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.hero__content--middle-right {
+  justify-content: center;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.hero__content--bottom-right {
+  justify-content: flex-end;
+  align-items: flex-end;
+  text-align: right;
+}
+
 /* Centered positions — center the buttons too */
 .hero__content--top-center .hero__buttons,
 .hero__content--middle-center .hero__buttons,
 .hero__content--bottom-center .hero__buttons {
   justify-content: center;
+}
+
+/* Right-positioned blocks: align buttons to the right edge too */
+.hero__content--top-right .hero__buttons,
+.hero__content--middle-right .hero__buttons,
+.hero__content--bottom-right .hero__buttons {
+  justify-content: flex-end;
 }
 
 /* Content alignment override — only controls text-align and button layout.
@@ -218,33 +272,94 @@ picture:has(.hero__img),
   color: inherit;
 }
 
-/* Mobile position override */
+/* Mobile position override — when set, fully takes over from the desktop
+   position class. Each variant sets vertical (justify-content), horizontal
+   (align-items + text-align), and the buttons row alignment together so
+   nothing leaks from the desktop class. */
 @media screen and (max-width: 989px) {
-  .hero__content--mobile-bottom-left {
-    align-self: end;
-    justify-self: start;
+  /* Top row */
+  .hero__content--mobile-top-left {
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: left;
+  }
+  .hero__content--mobile-top-left .hero__buttons {
+    justify-content: flex-start;
   }
 
-  .hero__content--mobile-bottom-center {
-    align-self: end;
-    justify-self: center;
+  .hero__content--mobile-top-center {
+    justify-content: flex-start;
+    align-items: center;
     text-align: center;
   }
-
-  .hero__content--mobile-bottom-center .hero__buttons {
+  .hero__content--mobile-top-center .hero__buttons {
     justify-content: center;
   }
 
-  .hero__content--mobile-middle-center {
-    align-self: center;
-    justify-self: center;
-    text-align: center;
+  .hero__content--mobile-top-right {
+    justify-content: flex-start;
+    align-items: flex-end;
+    text-align: right;
+  }
+  .hero__content--mobile-top-right .hero__buttons {
+    justify-content: flex-end;
   }
 
+  /* Middle row */
+  .hero__content--mobile-middle-left {
+    justify-content: center;
+    align-items: flex-start;
+    text-align: left;
+  }
+  .hero__content--mobile-middle-left .hero__buttons {
+    justify-content: flex-start;
+  }
+
+  .hero__content--mobile-middle-center {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
   .hero__content--mobile-middle-center .hero__buttons {
     justify-content: center;
   }
 
+  .hero__content--mobile-middle-right {
+    justify-content: center;
+    align-items: flex-end;
+    text-align: right;
+  }
+  .hero__content--mobile-middle-right .hero__buttons {
+    justify-content: flex-end;
+  }
+
+  /* Bottom row */
+  .hero__content--mobile-bottom-left {
+    justify-content: flex-end;
+    align-items: flex-start;
+    text-align: left;
+  }
+  .hero__content--mobile-bottom-left .hero__buttons {
+    justify-content: flex-start;
+  }
+
+  .hero__content--mobile-bottom-center {
+    justify-content: flex-end;
+    align-items: center;
+    text-align: center;
+  }
+  .hero__content--mobile-bottom-center .hero__buttons {
+    justify-content: center;
+  }
+
+  .hero__content--mobile-bottom-right {
+    justify-content: flex-end;
+    align-items: flex-end;
+    text-align: right;
+  }
+  .hero__content--mobile-bottom-right .hero__buttons {
+    justify-content: flex-end;
+  }
 }
 
 /* Mobile only (< 750px) — stack CTAs and make them full-width so they
