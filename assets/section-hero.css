@@ -484,6 +484,7 @@ picture:has(.hero__img),
    =================================== */
 @media (prefers-reduced-motion: reduce) {
   /* Show content immediately — entrance animations are autonomous */
+  .hero__eyebrow,
   .hero__subheading,
   .hero__heading,
   .hero__text,
@@ -492,8 +493,12 @@ picture:has(.hero__img),
     transform: none;
   }
 
-  .hero__subheading {
+  .hero__eyebrow {
     opacity: 0.85;
+  }
+
+  .hero__subheading {
+    opacity: 0.92;
   }
 
   .hero__text {
