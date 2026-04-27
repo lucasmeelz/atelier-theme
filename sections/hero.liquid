@@ -107,38 +107,51 @@
       {%- else -%}
         {%- if image != blank -%}
           {%- liquid
-            # Shopify image.presentation.focal_point.x/.y are percent
-            # values in [0, 100]. Only set the CSS vars when the merchant
-            # has explicitly chosen a focal point; otherwise let the CSS
-            # fall back to its tasteful defaults (35% desktop / 28% mobile)
-            # so portrait shots keep faces in frame.
+            # Shopify image.presentation.focal_point.x/.y are percent values
+            # [0, 100]. The object always exists, so we treat the default
+            # (50, 50) as "no custom focal point" and let the CSS fall back
+            # to its tasteful defaults (35% desktop / 28% mobile) so portrait
+            # shots keep faces in frame. Only override when the merchant has
+            # explicitly moved the focal point on the image upload.
             assign hero_img_style = ''
+            assign has_focal = false
             if image.presentation.focal_point
-              assign focal_x = image.presentation.focal_point.x
-              assign focal_y = image.presentation.focal_point.y
+              assign fx = image.presentation.focal_point.x
+              assign fy = image.presentation.focal_point.y
+              if fx != 50 or fy != 50
+                assign has_focal = true
+              endif
+            endif
+            assign has_focal_mobile = false
+            if image_mobile != blank and image_mobile.presentation.focal_point
+              assign fxm = image_mobile.presentation.focal_point.x
+              assign fym = image_mobile.presentation.focal_point.y
+              if fxm != 50 or fym != 50
+                assign has_focal_mobile = true
+              endif
+            endif
+            if has_focal
               capture hero_img_style
                 echo '--hero-focal-x: '
-                echo focal_x
+                echo fx
                 echo '%; --hero-focal-y: '
-                echo focal_y
+                echo fy
                 echo '%;'
-                unless image_mobile != blank and image_mobile.presentation.focal_point
+                unless has_focal_mobile
                   echo ' --hero-focal-x-mobile: '
-                  echo focal_x
+                  echo fx
                   echo '%; --hero-focal-y-mobile: '
-                  echo focal_y
+                  echo fy
                   echo '%;'
                 endunless
               endcapture
             endif
-            if image_mobile != blank and image_mobile.presentation.focal_point
-              assign focal_x_mobile = image_mobile.presentation.focal_point.x
-              assign focal_y_mobile = image_mobile.presentation.focal_point.y
+            if has_focal_mobile
               capture hero_img_style_mobile
                 echo ' --hero-focal-x-mobile: '
-                echo focal_x_mobile
+                echo fxm
                 echo '%; --hero-focal-y-mobile: '
-                echo focal_y_mobile
+                echo fym
                 echo '%;'
               endcapture
               assign hero_img_style = hero_img_style | append: hero_img_style_mobile
