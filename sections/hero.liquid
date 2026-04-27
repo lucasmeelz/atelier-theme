@@ -106,8 +106,60 @@
         {%- endif -%}
       {%- else -%}
         {%- if image != blank -%}
+          {%- liquid
+            # Shopify image.presentation.focal_point.x/.y are percent values
+            # [0, 100]. The object always exists, so we treat the default
+            # (50, 50) as "no custom focal point" and let the CSS fall back
+            # to its tasteful defaults (35% desktop / 28% mobile) so portrait
+            # shots keep faces in frame. Only override when the merchant has
+            # explicitly moved the focal point on the image upload.
+            assign hero_img_style = ''
+            assign has_focal = false
+            if image.presentation.focal_point
+              assign fx = image.presentation.focal_point.x
+              assign fy = image.presentation.focal_point.y
+              if fx != 50 or fy != 50
+                assign has_focal = true
+              endif
+            endif
+            assign has_focal_mobile = false
+            if image_mobile != blank and image_mobile.presentation.focal_point
+              assign fxm = image_mobile.presentation.focal_point.x
+              assign fym = image_mobile.presentation.focal_point.y
+              if fxm != 50 or fym != 50
+                assign has_focal_mobile = true
+              endif
+            endif
+            if has_focal
+              capture hero_img_style
+                echo '--hero-focal-x: '
+                echo fx
+                echo '%; --hero-focal-y: '
+                echo fy
+                echo '%;'
+                unless has_focal_mobile
+                  echo ' --hero-focal-x-mobile: '
+                  echo fx
+                  echo '%; --hero-focal-y-mobile: '
+                  echo fy
+                  echo '%;'
+                endunless
+              endcapture
+            endif
+            if has_focal_mobile
+              capture hero_img_style_mobile
+                echo ' --hero-focal-x-mobile: '
+                echo fxm
+                echo '%; --hero-focal-y-mobile: '
+                echo fym
+                echo '%;'
+              endcapture
+              assign hero_img_style = hero_img_style | append: hero_img_style_mobile
+            endif
+          -%}
+          {%- assign hero_alt = image.alt | default: heading | escape -%}
           {%- if image_mobile != blank -%}
-            <picture>
+            <picture{% if hero_img_style != blank %} style="{{ hero_img_style }}"{% endif %}>
               <source
                 media="(max-width: 749px)"
                 srcset="{{ image_mobile | image_url: width: 750 }} 375w,
@@ -121,18 +173,31 @@
                 widths: '750,1100,1500,1920,2560',
                 sizes: '100vw',
                 class: 'hero__img',
-                alt: image.alt | default: heading | escape
+                alt: hero_alt
               }}
             </picture>
           {%- else -%}
-            {{ image | image_url: width: 2560 | image_tag:
-              loading: 'eager',
-              fetchpriority: 'high',
-              widths: '375,750,1100,1500,1920,2560',
-              sizes: '100vw',
-              class: 'hero__img',
-              alt: image.alt | default: heading | escape
-            }}
+            {%- if hero_img_style != blank -%}
+              <div class="hero__img-wrap" style="{{ hero_img_style }}">
+                {{ image | image_url: width: 2560 | image_tag:
+                  loading: 'eager',
+                  fetchpriority: 'high',
+                  widths: '375,750,1100,1500,1920,2560',
+                  sizes: '100vw',
+                  class: 'hero__img',
+                  alt: hero_alt
+                }}
+              </div>
+            {%- else -%}
+              {{ image | image_url: width: 2560 | image_tag:
+                loading: 'eager',
+                fetchpriority: 'high',
+                widths: '375,750,1100,1500,1920,2560',
+                sizes: '100vw',
+                class: 'hero__img',
+                alt: hero_alt
+              }}
+            {%- endif -%}
           {%- endif -%}
         {%- else -%}
           <div class="hero__placeholder">
