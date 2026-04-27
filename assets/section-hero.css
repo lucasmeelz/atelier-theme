@@ -38,7 +38,22 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  /* Honour the merchant's focal point (set on the image upload) so faces
+     and key subjects stay visible when the container crops. Falls back to
+     center-top on mobile to preserve faces on portrait shots. */
+  object-position: var(--hero-focal-x, 50%) var(--hero-focal-y, 35%);
   display: block;
+}
+
+@media screen and (max-width: 749px) {
+  .hero__img,
+  picture .hero__img {
+    object-position: var(--hero-focal-x-mobile, 50%) var(--hero-focal-y-mobile, 28%);
+  }
+}
+
+picture:has(.hero__img) {
+  display: contents;
 }
 
 .hero__video {
