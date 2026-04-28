@@ -84,7 +84,7 @@
           ],
           "settings": {
             "text_position": "bottom-left",
-            "text_position_mobile": "middle-center",
+            "text_position_mobile": "bottom-left",
             "content_alignment": "left",
             "max_width": 36,
             "text_color_override": false,
