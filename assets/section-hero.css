@@ -57,7 +57,35 @@ picture:has(.hero__img),
   display: contents;
 }
 
-.hero__video {
+.hero__video-wrap {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Show desktop video by default; swap to mobile under 750px when one is
+   provided. When no mobile-specific video exists the desktop wrap stays
+   visible so playback never stalls. */
+.hero__video-wrap--mobile {
+  display: none;
+}
+
+@media screen and (max-width: 749px) {
+  .hero__video-wrap--mobile {
+    display: block;
+  }
+  /* Only hide the desktop wrap when a mobile one is actually rendered. */
+  .hero__video-wrap--mobile + .hero__video-wrap--desktop,
+  .hero__media:has(.hero__video-wrap--mobile) .hero__video-wrap--desktop {
+    display: none;
+  }
+}
+
+.hero__video,
+.hero__video-wrap video,
+.hero__video-wrap video-element,
+.hero__video-wrap video-element video {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -123,7 +151,36 @@ picture:has(.hero__img),
 }
 
 .hero__content-inner {
-  max-width: 36rem;
+  max-width: var(--hero-content-max-width, 36rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Group consecutive buttons into a row */
+.hero__content-inner > .btn + .btn {
+  margin-left: 12px;
+}
+
+.hero__content-inner > .btn {
+  align-self: flex-start;
+  margin-top: 1.5rem;
+}
+
+.hero__content--align-center .hero__content-inner > .btn {
+  align-self: center;
+}
+
+.hero__content--align-right .hero__content-inner > .btn {
+  align-self: flex-end;
+}
+
+/* Contained variant */
+.hero--contained {
+  max-width: var(--page-width, 1440px);
+  margin-inline: auto;
+  border-radius: var(--card-border-radius, 0);
+  overflow: hidden;
 }
 
 /* Position variants — 6 positions */
