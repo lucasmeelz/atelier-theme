@@ -124,9 +124,11 @@ picture:has(.hero__img),
 }
 
 /* ===================================
-   Overlay
+   Overlay (rendered inside the hero-media block)
    =================================== */
 .hero__overlay {
+  position: absolute;
+  inset: 0;
   z-index: 1;
   background-color: var(--hero-overlay-color, rgb(0, 0, 0));
   opacity: var(--hero-overlay-opacity, 0.2);
