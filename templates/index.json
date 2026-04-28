@@ -83,7 +83,7 @@
             "btn2"
           ],
           "settings": {
-            "text_position": "middle-left",
+            "text_position": "middle-right",
             "text_position_mobile": "auto",
             "content_alignment": "left",
             "max_width": 36,
