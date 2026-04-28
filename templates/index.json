@@ -97,7 +97,7 @@
       ],
       "settings": {
         "height": "large",
-        "height_mobile": "medium",
+        "height_mobile": "auto",
         "container_width": "full",
         "show_scroll_indicator": true,
         "color_scheme": "scheme-2"
