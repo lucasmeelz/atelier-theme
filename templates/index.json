@@ -12,6 +12,74 @@
     "hero": {
       "type": "hero",
       "blocks": {
+        "group_hXrnFi": {
+          "type": "group",
+          "name": "t:general.column",
+          "settings": {
+            "layout_direction": "group--vertical",
+            "gap": 12,
+            "alignment": "flex-start",
+            "distribution": "flex-start",
+            "padding": 0
+          },
+          "blocks": {
+            "heading_dqGeP3": {
+              "type": "heading",
+              "settings": {
+                "text": "Column heading",
+                "tag": "h3",
+                "size": "small"
+              },
+              "blocks": {}
+            },
+            "description_RxBweY": {
+              "type": "description",
+              "settings": {
+                "text": "<p>Add a short description so merchants see how a column lays out.</p>",
+                "max_width": 50
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "heading_dqGeP3",
+            "description_RxBweY"
+          ]
+        },
+        "group_ACdbf8": {
+          "type": "group",
+          "name": "t:general.column",
+          "settings": {
+            "layout_direction": "group--vertical",
+            "gap": 12,
+            "alignment": "flex-start",
+            "distribution": "flex-start",
+            "padding": 0
+          },
+          "blocks": {
+            "heading_RzehUJ": {
+              "type": "heading",
+              "settings": {
+                "text": "Column heading",
+                "tag": "h3",
+                "size": "small"
+              },
+              "blocks": {}
+            },
+            "description_terWNC": {
+              "type": "description",
+              "settings": {
+                "text": "<p>Add a short description so merchants see how a column lays out.</p>",
+                "max_width": 50
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "heading_RzehUJ",
+            "description_terWNC"
+          ]
+        },
         "media": {
           "type": "hero-media",
           "settings": {
@@ -19,41 +87,18 @@
             "image": "shopify://shop_images/feet-pose-pug-socks.jpg",
             "image_mobile": "shopify://shop_images/portrait_3to4.jpg",
             "video_file": "shopify://files/videos/Savor French Bloom your way , pure or in a crafted cocktail, for lively gatherings or quiet mome.mp4",
+            "video_url": "",
+            "video_url_mobile": "",
             "overlay_opacity": 15,
             "overlay_color": "#000000",
             "enable_parallax": true,
             "alt_fallback": "Quiet confidence"
-          }
+          },
+          "blocks": {}
         },
         "content": {
           "type": "hero-content",
-          "blocks": {
-            "eyebrow": {
-              "type": "eyebrow",
-              "settings": { "text": "Spring/Summer 2026" }
-            },
-            "subheading": {
-              "type": "subheading",
-              "settings": { "text": "Chapter one — The atelier", "italic": false }
-            },
-            "heading": {
-              "type": "heading",
-              "settings": { "text": "Quiet confidence", "tag": "h1", "size": "large" }
-            },
-            "description": {
-              "type": "description",
-              "settings": { "text": "<p>A collection of considered pieces, designed to last beyond seasons.</p>", "max_width": 50 }
-            },
-            "btn1": {
-              "type": "button",
-              "settings": { "label": "Shop the collection", "link": "shopify://collections/all", "style": "filled-white" }
-            },
-            "btn2": {
-              "type": "button",
-              "settings": { "label": "The atelier", "link": "shopify://pages/about", "style": "outline-white" }
-            }
-          },
-          "block_order": ["eyebrow", "subheading", "heading", "description", "btn1", "btn2"],
+          "disabled": true,
           "settings": {
             "text_position": "bottom-left",
             "text_position_mobile": "auto",
@@ -61,10 +106,77 @@
             "max_width": 36,
             "text_color_override": false,
             "text_color": "#ffffff"
-          }
+          },
+          "blocks": {
+            "eyebrow": {
+              "type": "eyebrow",
+              "settings": {
+                "text": "Spring/Summer 2026",
+                "color_override": false,
+                "color": ""
+              },
+              "blocks": {}
+            },
+            "subheading": {
+              "type": "subheading",
+              "settings": {
+                "text": "Chapter one — The atelier",
+                "italic": false
+              },
+              "blocks": {}
+            },
+            "heading": {
+              "type": "heading",
+              "settings": {
+                "text": "Quiet confidence",
+                "tag": "h1",
+                "size": "large"
+              },
+              "blocks": {}
+            },
+            "description": {
+              "type": "description",
+              "settings": {
+                "text": "<p>A collection of considered pieces, designed to last beyond seasons.</p>",
+                "max_width": 50
+              },
+              "blocks": {}
+            },
+            "btn1": {
+              "type": "button",
+              "settings": {
+                "label": "Shop the collection",
+                "link": "shopify://collections/all",
+                "style": "filled-white"
+              },
+              "blocks": {}
+            },
+            "btn2": {
+              "type": "button",
+              "settings": {
+                "label": "The atelier",
+                "link": "shopify://pages/about",
+                "style": "outline-white"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "eyebrow",
+            "subheading",
+            "heading",
+            "description",
+            "btn1",
+            "btn2"
+          ]
         }
       },
-      "block_order": ["media", "content"],
+      "block_order": [
+        "group_hXrnFi",
+        "group_ACdbf8",
+        "media",
+        "content"
+      ],
       "settings": {
         "height": "large",
         "height_mobile": "auto",
