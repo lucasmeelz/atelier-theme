@@ -73,7 +73,8 @@
     "groups": ["header", "custom.overlay"]
   },
   "blocks": [
-    { "type": "@theme" }
+    { "type": "_hero-media" },
+    { "type": "_hero-content" }
   ],
   "settings": [
     {
@@ -139,26 +140,7 @@
   ],
   "presets": [
     {
-      "name": "t:sections.hero.preset_name",
-      "blocks": [
-        {
-          "type": "hero-media",
-          "settings": {
-            "media_type": "image",
-            "overlay_opacity": 20,
-            "enable_parallax": true
-          }
-        },
-        {
-          "type": "hero-content",
-          "blocks": [
-            { "type": "eyebrow", "settings": { "text": "Spring/Summer 2026" } },
-            { "type": "heading", "settings": { "text": "Quiet confidence", "tag": "h1", "size": "large" } },
-            { "type": "description", "settings": { "text": "<p>A collection of considered pieces, designed to last beyond seasons.</p>" } },
-            { "type": "button", "settings": { "label": "Shop the collection", "style": "filled-white" } }
-          ]
-        }
-      ]
+      "name": "t:sections.hero.preset_name"
     }
   ]
 }

@@ -265,7 +265,7 @@
       "style_filled_dark": "Filled dark"
     },
     "hero_media": {
-      "name": "Hero media",
+      "name": "Hero · Background media",
       "media_type": "Media type",
       "media_type_image": "Image",
       "media_type_video": "Video",
@@ -289,7 +289,7 @@
       "alt_fallback_info": "Used as the image alt text if the image upload has no alt text set."
     },
     "hero_content": {
-      "name": "Hero content",
+      "name": "Hero · Text content",
       "position_header": "Position",
       "text_position": "Content position",
       "text_position_mobile": "Mobile content position",
