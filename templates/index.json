@@ -18,6 +18,7 @@
             "media_type": "video",
             "image": "shopify://shop_images/feet-pose-pug-socks.jpg",
             "image_mobile": "",
+            "video_url": "https://vimeo.com/76979871",
             "overlay_opacity": 15,
             "overlay_color": "#000000",
             "enable_parallax": true,
