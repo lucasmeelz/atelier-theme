@@ -249,6 +249,9 @@
       "max_width": "Max width",
       "max_width_info": "Constrains line length for legibility (in characters)."
     },
+    "group": {
+      "placeholder": "Add blocks here"
+    },
     "button": {
       "name": "Button",
       "label": "Label",

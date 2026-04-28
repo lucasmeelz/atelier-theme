@@ -8,6 +8,11 @@
  * ------------------------------------------------------------
  */
 {
+  "blocks": {
+    "group": {
+      "placeholder": "Add blocks here"
+    }
+  },
   "accessibility": {
     "scrolling_text": "Scrolling text",
     "skip_to_content": "Skip to content",
