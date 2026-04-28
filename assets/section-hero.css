@@ -321,19 +321,21 @@ picture:has(.hero__img),
 
 /* Optional per-section text color override (checkbox + color picker).
    When the merchant enables it, the override wins over both color schemes
-   and the default white-on-image setup. The animations / button labels
-   inherit through the cascade. */
-.hero__content--color-override {
-  color: var(--hero-text-color, currentColor);
-}
-
-.hero__content--color-override h1,
-.hero__content--color-override h2,
-.hero__content--color-override .hero__heading,
-.hero__content--color-override .hero__subheading,
-.hero__content--color-override .hero__eyebrow,
-.hero__content--color-override .hero__text {
-  color: inherit;
+   and the default white-on-image setup.
+   We target the actual block class names emitted by the theme blocks
+   (.eyebrow, .block-subheading, .heading, .description, .btn) and
+   bump specificity with the parent .hero so we beat the color-scheme
+   declarations on .hero itself. */
+.hero .hero__content--color-override,
+.hero .hero__content--color-override h1,
+.hero .hero__content--color-override h2,
+.hero .hero__content--color-override h3,
+.hero .hero__content--color-override .heading,
+.hero .hero__content--color-override .block-subheading,
+.hero .hero__content--color-override .eyebrow,
+.hero .hero__content--color-override .description,
+.hero .hero__content--color-override .description p {
+  color: var(--hero-text-color, inherit);
 }
 
 /* Mobile position override — when set, fully takes over from the desktop
