@@ -467,9 +467,14 @@ picture:has(.hero__img),
    Typography
    =================================== */
 
-/* Color — default white text on hero (image/video background) */
+/* Color — derives from the active color scheme so the merchant's
+   `color_scheme` setting produces a visible change. For image/video
+   heroes where the scheme text color clashes with the media (dark text
+   on dark image), the merchant enables `text_color_override` and picks
+   white explicitly — that path wins via the .hero__content--color-override
+   rule above. */
 .hero {
-  color: rgb(var(--color-button-label, 255, 255, 255));
+  color: rgb(var(--color-text, 255, 255, 255));
   background-color: transparent;
 }
 
