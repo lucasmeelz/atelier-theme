@@ -52,7 +52,13 @@
   data-section-id="{{ section.id }}"
 >
   <div class="hero hero--{{ container_width }} color-{{ color_scheme }}">
-    {% content_for 'blocks' %}
+    {%- comment -%}
+      Static blocks: merchant configures them via the section settings in
+      the customizer but can't add, remove, duplicate or reorder them.
+      That guarantees one hero-media + one hero-content per Hero section.
+    {%- endcomment -%}
+    {% content_for 'block', type: 'hero-media', id: 'hero-media' %}
+    {% content_for 'block', type: 'hero-content', id: 'hero-content' %}
 
     {%- if show_scroll -%}
       <div class="hero__scroll-indicator motion-auto" aria-hidden="true">
