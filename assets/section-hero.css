@@ -27,11 +27,29 @@
 /* ===================================
    Media Layer
    =================================== */
+/* Absolute positioning so duplicate hero-media blocks (if a merchant
+   accidentally adds two) overlap in the same layer instead of doubling
+   the section height. Combined with the parent .hero grid (all children
+   share grid-area 1/1), this guarantees the section never inflates. */
 .hero__media {
-  position: relative;
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   z-index: 0;
+}
+
+/* The .shopify-block wrapper Shopify generates around each theme block
+   needs to span the hero too so the media inside it can fill it. */
+.hero > .shopify-block:has(.hero__media) {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero > .shopify-block:has(.hero__content) {
+  position: relative;
+  z-index: 2;
 }
 
 .hero__img {
