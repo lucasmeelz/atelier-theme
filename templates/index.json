@@ -30,30 +30,57 @@
           "blocks": {
             "eyebrow": {
               "type": "eyebrow",
-              "settings": { "text": "Spring/Summer 2026" }
+              "settings": {
+                "text": "Spring/Summer 2026"
+              }
             },
             "subheading": {
               "type": "subheading",
-              "settings": { "text": "Chapter one — The atelier", "italic": false }
+              "settings": {
+                "text": "Chapter one — The atelier",
+                "italic": false
+              }
             },
             "heading": {
               "type": "heading",
-              "settings": { "text": "Quiet confidence", "tag": "h1", "size": "large" }
+              "settings": {
+                "text": "Quiet confidence",
+                "tag": "h1",
+                "size": "large"
+              }
             },
             "description": {
               "type": "description",
-              "settings": { "text": "<p>A collection of considered pieces, designed to last beyond seasons.</p>", "max_width": 50 }
+              "settings": {
+                "text": "<p>A collection of considered pieces, designed to last beyond seasons.</p>",
+                "max_width": 50
+              }
             },
             "btn1": {
               "type": "button",
-              "settings": { "label": "Shop the collection", "link": "shopify://collections/all", "style": "filled-white" }
+              "settings": {
+                "label": "Shop the collection",
+                "link": "shopify://collections/all",
+                "style": "secondary"
+              }
             },
             "btn2": {
               "type": "button",
-              "settings": { "label": "The atelier", "link": "shopify://pages/about", "style": "outline-white" }
+              "settings": {
+                "label": "The atelier",
+                "link": "shopify://pages/about",
+                "style": "outline-white"
+              }
             }
           },
-          "block_order": ["eyebrow", "subheading", "heading", "description", "btn1", "btn2"],
+          "block_order": [
+            "eyebrow",
+            "subheading",
+            "heading",
+            "description",
+            "btn1",
+            "btn2"
+          ],
           "settings": {
             "text_position": "bottom-left",
             "text_position_mobile": "auto",
@@ -64,7 +91,10 @@
           }
         }
       },
-      "block_order": ["media", "content"],
+      "block_order": [
+        "media",
+        "content"
+      ],
       "settings": {
         "height": "large",
         "height_mobile": "auto",
