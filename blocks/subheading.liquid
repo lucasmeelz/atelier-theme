@@ -1,0 +1,63 @@
+{% doc %}
+  Renders an elegant bridging line between an eyebrow and a heading.
+  Regular case (not uppercase), softer weight, optional italic.
+
+  @example
+  {% content_for 'block', type: 'subheading', id: 'subheading' %}
+{% enddoc %}
+
+{%- if block.settings.text != blank -%}
+  <p
+    class="subheading{% if block.settings.italic %} subheading--italic{% endif %}"
+    {{ block.shopify_attributes }}
+  >
+    {{ block.settings.text }}
+  </p>
+{%- endif -%}
+
+{% stylesheet %}
+  /* Override the global .subheading utility (label-style uppercase) when
+     used inside a content block — this is the editorial bridging line, not
+     a label. We override font + transform explicitly. */
+  .subheading {
+    font-family: var(--font-body-family, sans-serif);
+    font-size: clamp(0.9375rem, 1.4vw, 1.0625rem);
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: 0.01em;
+    text-transform: none;
+    margin: 0 0 1rem;
+    opacity: 0.92;
+    color: inherit;
+  }
+
+  .subheading--italic {
+    font-style: italic;
+    font-family: var(--font-heading-family, serif);
+    font-size: clamp(1rem, 1.5vw, 1.125rem);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:blocks.subheading.name",
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "t:blocks.subheading.text",
+      "default": "Subheading"
+    },
+    {
+      "type": "checkbox",
+      "id": "italic",
+      "label": "t:blocks.subheading.italic",
+      "info": "t:blocks.subheading.italic_info",
+      "default": false
+    }
+  ],
+  "presets": [
+    { "name": "t:blocks.subheading.name" }
+  ]
+}
+{% endschema %}
