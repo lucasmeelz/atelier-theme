@@ -13,7 +13,7 @@
       "type": "hero",
       "blocks": {
         "media": {
-          "type": "hero-media",
+          "type": "_hero-media",
           "settings": {
             "media_type": "video",
             "image": "shopify://shop_images/feet-pose-pug-socks.jpg",
@@ -26,7 +26,7 @@
           }
         },
         "content": {
-          "type": "hero-content",
+          "type": "_hero-content",
           "blocks": {
             "eyebrow": {
               "type": "eyebrow",
@@ -51,28 +51,9 @@
             "btn2": {
               "type": "button",
               "settings": { "label": "The atelier", "link": "shopify://pages/about", "style": "outline-white" }
-            },
-            "tg_col": {
-              "type": "group",
-              "settings": { "layout_direction": "group--vertical", "alignment": "flex-start", "gap": 12, "padding": 0 },
-              "blocks": {
-                "tc1": { "type": "eyebrow", "settings": { "text": "TEST COLUMN A" } },
-                "tc2": { "type": "eyebrow", "settings": { "text": "TEST COLUMN B" } }
-              },
-              "block_order": ["tc1", "tc2"]
-            },
-            "tg_row": {
-              "type": "group",
-              "settings": { "layout_direction": "group--horizontal", "alignment": "center", "distribution": "flex-start", "gap": 16, "padding": 0 },
-              "blocks": {
-                "tr1": { "type": "eyebrow", "settings": { "text": "ROW ITEM 1" } },
-                "tr2": { "type": "eyebrow", "settings": { "text": "ROW ITEM 2" } },
-                "tr3": { "type": "eyebrow", "settings": { "text": "ROW ITEM 3" } }
-              },
-              "block_order": ["tr1", "tr2", "tr3"]
             }
           },
-          "block_order": ["eyebrow", "subheading", "heading", "description", "btn1", "btn2", "tg_col", "tg_row"],
+          "block_order": ["eyebrow", "subheading", "heading", "description", "btn1", "btn2"],
           "settings": {
             "text_position": "bottom-left",
             "text_position_mobile": "auto",
