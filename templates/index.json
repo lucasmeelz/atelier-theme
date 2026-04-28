@@ -12,6 +12,30 @@
     "hero": {
       "type": "hero",
       "blocks": {
+        "hero_media_Q87nGC": {
+          "type": "hero-media",
+          "name": "t:blocks.hero_media.name",
+          "settings": {
+            "media_type": "image",
+            "overlay_opacity": 20,
+            "overlay_color": "#000000",
+            "enable_parallax": true,
+            "alt_fallback": ""
+          },
+          "blocks": {}
+        },
+        "hero_media_CgKrcQ": {
+          "type": "hero-media",
+          "name": "t:blocks.hero_media.name",
+          "settings": {
+            "media_type": "image",
+            "overlay_opacity": 20,
+            "overlay_color": "#000000",
+            "enable_parallax": true,
+            "alt_fallback": ""
+          },
+          "blocks": {}
+        },
         "group_hXrnFi": {
           "type": "group",
           "name": "t:general.column",
@@ -172,6 +196,8 @@
         }
       },
       "block_order": [
+        "hero_media_Q87nGC",
+        "hero_media_CgKrcQ",
         "group_hXrnFi",
         "group_ACdbf8",
         "media",
