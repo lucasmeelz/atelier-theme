@@ -84,8 +84,8 @@
           ],
           "settings": {
             "text_position": "bottom-left",
-            "text_position_mobile": "bottom-right",
-            "content_alignment": "left",
+            "text_position_mobile": "auto",
+            "content_alignment": "right",
             "max_width": 36,
             "text_color_override": false,
             "text_color": "#ffffff"
