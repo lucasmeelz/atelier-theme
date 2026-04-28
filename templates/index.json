@@ -88,7 +88,7 @@
             "content_alignment": "left",
             "max_width": 36,
             "text_color_override": false,
-            "text_color": "#ffffff"
+            "text_color": "#ff0000"
           }
         }
       },
