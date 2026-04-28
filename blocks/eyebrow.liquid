@@ -1,0 +1,63 @@
+{% doc %}
+  Renders a small all-caps label, typically placed above a heading.
+  Reusable across hero, image-with-text, rich-text, etc.
+
+  @example
+  {% content_for 'block', type: 'eyebrow', id: 'eyebrow' %}
+{% enddoc %}
+
+{%- if block.settings.text != blank -%}
+  <p
+    class="eyebrow{% if block.settings.color_override %} eyebrow--color-override{% endif %}"
+    {% if block.settings.color_override %}style="color: {{ block.settings.color }};"{% endif %}
+    {{ block.shopify_attributes }}
+  >
+    {{ block.settings.text }}
+  </p>
+{%- endif -%}
+
+{% stylesheet %}
+  .eyebrow {
+    font-family: var(--font-label-family, sans-serif);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    margin: 0 0 0.75rem;
+    opacity: 0.85;
+    color: inherit;
+  }
+
+  .eyebrow--color-override {
+    opacity: 1;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:blocks.eyebrow.name",
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "t:blocks.eyebrow.text",
+      "default": "Eyebrow"
+    },
+    {
+      "type": "checkbox",
+      "id": "color_override",
+      "label": "t:blocks.eyebrow.color_override",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "color",
+      "label": "t:blocks.eyebrow.color",
+      "visible_if": "{{ block.settings.color_override == true }}"
+    }
+  ],
+  "presets": [
+    { "name": "t:blocks.eyebrow.name" }
+  ]
+}
+{% endschema %}

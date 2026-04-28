@@ -30,7 +30,11 @@ if (!customElements.get('hero-section')) {
 
       // Parallax — runs for both image AND video heroes, gated only by
       // reduced-motion since the depth shift is a vestibular concern.
-      if (this.dataset.parallax === 'true' && this.media && !this.reducedMotion) {
+      // The setting now lives on the hero-media block, so we read it from
+      // the .hero__media wrapper (data-hero-parallax="true|false").
+      const mediaWrap = this.querySelector('.hero__media');
+      const parallaxOn = mediaWrap && mediaWrap.dataset.heroParallax === 'true';
+      if (parallaxOn && this.media && !this.reducedMotion) {
         this.initParallax();
       }
 

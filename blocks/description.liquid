@@ -1,0 +1,64 @@
+{% doc %}
+  Renders a richtext body paragraph with constrained max-width for legibility.
+
+  @example
+  {% content_for 'block', type: 'description', id: 'description' %}
+{% enddoc %}
+
+{%- if block.settings.text != blank -%}
+  <div
+    class="description rte"
+    style="--description-max-width: {{ block.settings.max_width }}ch;"
+    {{ block.shopify_attributes }}
+  >
+    {{ block.settings.text }}
+  </div>
+{%- endif -%}
+
+{% stylesheet %}
+  .description {
+    font-family: var(--font-body-family, sans-serif);
+    font-size: clamp(0.9375rem, 1.1vw, 1rem);
+    line-height: 1.6;
+    margin: 0 0 1rem;
+    max-width: var(--description-max-width, 50ch);
+    color: inherit;
+    opacity: 0.85;
+  }
+
+  .description p {
+    margin: 0 0 0.75em;
+  }
+
+  .description p:last-child {
+    margin-bottom: 0;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:blocks.description.name",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "t:blocks.description.text",
+      "default": "<p>Pair text with an image to focus on your chosen product, collection, or blog post.</p>"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "t:blocks.description.max_width",
+      "info": "t:blocks.description.max_width_info",
+      "min": 30,
+      "max": 80,
+      "step": 5,
+      "unit": "ch",
+      "default": 50
+    }
+  ],
+  "presets": [
+    { "name": "t:blocks.description.name" }
+  ]
+}
+{% endschema %}
