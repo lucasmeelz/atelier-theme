@@ -155,26 +155,37 @@ picture:has(.hero__img),
 .hero__content-inner {
   max-width: var(--hero-content-max-width, 36rem);
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.5rem 0.75rem;
 }
 
-/* Group consecutive buttons into a row */
-.hero__content-inner > .btn + .btn {
-  margin-left: 12px;
+/* Most child blocks take a full row (eyebrow, subheading, heading, description). */
+.hero__content-inner > * {
+  flex: 0 0 100%;
 }
 
+/* Buttons line up inline on desktop. The first button gets a top spacer
+   so it doesn't sit too close to the description above it. */
 .hero__content-inner > .btn {
-  align-self: flex-start;
+  flex: 0 0 auto;
   margin-top: 1.5rem;
 }
 
-.hero__content--align-center .hero__content-inner > .btn {
-  align-self: center;
+.hero__content-inner > .btn ~ .btn {
+  margin-top: 1.5rem;
 }
 
-.hero__content--align-right .hero__content-inner > .btn {
-  align-self: flex-end;
+/* Mobile: buttons stack and go full-width for the app-native feel. */
+@media screen and (max-width: 749px) {
+  .hero__content-inner > .btn {
+    flex: 0 0 100%;
+    max-width: 320px;
+    justify-content: center;
+  }
+  .hero__content--align-center .hero__content-inner > .btn {
+    margin-inline: auto;
+  }
 }
 
 /* Contained variant */
