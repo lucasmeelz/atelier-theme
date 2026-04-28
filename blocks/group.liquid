@@ -2,20 +2,29 @@
   Renders a group of blocks with configurable layout direction, gap and
   alignment.
 
-  All settings apply to only one dimension to reduce configuration complexity.
-
-  This component is a wrapper concerned only with rendering its children in
-  the specified layout direction with appropriate padding and alignment.
+  Designed as a layout primitive — use Column for vertical stacks
+  (heading + body + button) and Row for inline groups (button row,
+  trust icons, social links).
 
   @example
   {% content_for 'block', type: 'group', id: 'group' %}
 {% enddoc %}
 
+{%- liquid
+  assign direction = block.settings.layout_direction | default: 'group--vertical'
+  assign gap = block.settings.gap | default: 12
+  assign padding = block.settings.padding | default: 0
+  assign alignment = block.settings.alignment | default: 'flex-start'
+  assign distribution = block.settings.distribution | default: 'flex-start'
+-%}
+
 <div
-  class="group {{ block.settings.layout_direction }}"
+  class="group {{ direction }}"
   style="
-    --padding: {{ block.settings.padding }}px;
-    --alignment: {{ block.settings.alignment }};
+    --group-gap: {{ gap }}px;
+    --group-padding: {{ padding }}px;
+    --group-alignment: {{ alignment }};
+    --group-distribution: {{ distribution }};
   "
   {{ block.shopify_attributes }}
 >
@@ -25,22 +34,33 @@
 {% stylesheet %}
   .group {
     display: flex;
-    flex-wrap: nowrap;
-    overflow: hidden;
+    flex-wrap: wrap;
     width: 100%;
+    gap: var(--group-gap, 12px);
   }
 
   .group--horizontal {
     flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 var(--padding);
+    align-items: var(--group-alignment, center);
+    justify-content: var(--group-distribution, flex-start);
+    padding: 0 var(--group-padding, 0);
   }
 
   .group--vertical {
     flex-direction: column;
-    align-items: var(--alignment);
-    padding: var(--padding) 0;
+    align-items: var(--group-alignment, flex-start);
+    padding: var(--group-padding, 0) 0;
+  }
+
+  /* Each child theme block sits inside a .shopify-block wrapper. In a
+     vertical group we want each child to take a full row; in a horizontal
+     group children size to their content. */
+  .group--vertical > .shopify-block {
+    width: 100%;
+  }
+
+  .group--horizontal > .shopify-block {
+    flex: 0 0 auto;
   }
 {% endstylesheet %}
 
@@ -60,15 +80,42 @@
       ]
     },
     {
-      "visible_if": "{{ block.settings.layout_direction == 'group--vertical' }}",
+      "type": "range",
+      "id": "gap",
+      "label": "t:labels.gap",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
       "type": "select",
       "id": "alignment",
       "label": "t:labels.alignment",
+      "info": "t:labels.alignment_info",
       "default": "flex-start",
       "options": [
-        { "value": "flex-start", "label": "t:options.alignment.left" },
+        { "value": "flex-start", "label": "t:options.alignment.start" },
         { "value": "center", "label": "t:options.alignment.center" },
-        { "value": "flex-end", "label": "t:options.alignment.right" }
+        { "value": "flex-end", "label": "t:options.alignment.end" },
+        { "value": "stretch", "label": "t:options.alignment.stretch" }
+      ]
+    },
+    {
+      "visible_if": "{{ block.settings.layout_direction == 'group--horizontal' }}",
+      "type": "select",
+      "id": "distribution",
+      "label": "t:labels.distribution",
+      "info": "t:labels.distribution_info",
+      "default": "flex-start",
+      "options": [
+        { "value": "flex-start",    "label": "t:options.distribution.start" },
+        { "value": "center",        "label": "t:options.distribution.center" },
+        { "value": "flex-end",      "label": "t:options.distribution.end" },
+        { "value": "space-between", "label": "t:options.distribution.between" },
+        { "value": "space-around",  "label": "t:options.distribution.around" },
+        { "value": "space-evenly",  "label": "t:options.distribution.evenly" }
       ]
     },
     {
@@ -89,6 +136,7 @@
       "settings": {
         "layout_direction": "group--vertical",
         "alignment": "flex-start",
+        "gap": 12,
         "padding": 0
       }
     },
@@ -97,6 +145,9 @@
       "category": "t:general.layout",
       "settings": {
         "layout_direction": "group--horizontal",
+        "alignment": "center",
+        "distribution": "flex-start",
+        "gap": 12,
         "padding": 0
       }
     }
