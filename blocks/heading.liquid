@@ -1,0 +1,89 @@
+{% doc %}
+  Renders a heading with selectable HTML tag (h1–h3) and visual size.
+  Reusable across hero, image-with-text, rich-text, etc.
+
+  @example
+  {% content_for 'block', type: 'heading', id: 'heading' %}
+{% enddoc %}
+
+{%- if block.settings.text != blank -%}
+  {%- assign tag = block.settings.tag | default: 'h2' -%}
+  <{{ tag }}
+    class="heading heading--{{ block.settings.size }}"
+    {{ block.shopify_attributes }}
+  >
+    {{ block.settings.text }}
+  </{{ tag }}>
+{%- endif -%}
+
+{% stylesheet %}
+  .heading {
+    font-family: var(--font-heading-family, serif);
+    font-weight: var(--font-heading-weight, 300);
+    font-style: var(--font-heading-style, normal);
+    line-height: 1.05;
+    letter-spacing: -0.005em;
+    margin: 0;
+    color: inherit;
+  }
+
+  .heading--small {
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+  }
+
+  .heading--medium {
+    font-size: clamp(1.75rem, 4vw, 3rem);
+  }
+
+  .heading--large {
+    font-size: clamp(2.25rem, 5.5vw, 4.5rem);
+  }
+
+  .heading--cinematic {
+    font-size: clamp(2.75rem, 9vw, 7.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:blocks.heading.name",
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "t:blocks.heading.text",
+      "default": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "tag",
+      "label": "t:blocks.heading.tag",
+      "info": "t:blocks.heading.tag_info",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "select",
+      "id": "size",
+      "label": "t:blocks.heading.size",
+      "info": "t:blocks.heading.size_info",
+      "options": [
+        { "value": "small", "label": "t:blocks.heading.size_small" },
+        { "value": "medium", "label": "t:blocks.heading.size_medium" },
+        { "value": "large", "label": "t:blocks.heading.size_large" },
+        { "value": "cinematic", "label": "t:blocks.heading.size_cinematic" }
+      ],
+      "default": "large"
+    }
+  ],
+  "presets": [
+    { "name": "t:blocks.heading.name" }
+  ]
+}
+{% endschema %}
