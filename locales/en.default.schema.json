@@ -218,6 +218,99 @@
   "accessibility": {
     "skip_to_content": "Skip to content"
   },
+  "blocks": {
+    "eyebrow": {
+      "name": "Eyebrow",
+      "text": "Text",
+      "color_override": "Override color",
+      "color": "Color"
+    },
+    "heading": {
+      "name": "Heading",
+      "text": "Text",
+      "tag": "Heading tag",
+      "tag_info": "Use H1 only once per page. Switch to H2 if another section already uses H1.",
+      "size": "Size",
+      "size_info": "Cinematic uses an extra-large display size — best at full-screen height.",
+      "size_small": "Small",
+      "size_medium": "Medium",
+      "size_large": "Large",
+      "size_cinematic": "Cinematic"
+    },
+    "subheading": {
+      "name": "Subheading",
+      "text": "Text",
+      "italic": "Italic serif",
+      "italic_info": "Switches to an italic serif style for editorial taglines."
+    },
+    "description": {
+      "name": "Description",
+      "text": "Text",
+      "max_width": "Max width",
+      "max_width_info": "Constrains line length for legibility (in characters)."
+    },
+    "button": {
+      "name": "Button",
+      "label": "Label",
+      "link": "Link",
+      "style": "Style",
+      "style_primary": "Primary",
+      "style_secondary": "Secondary",
+      "style_outline": "Outline",
+      "style_filled_white": "Filled white",
+      "style_outline_white": "Outline white",
+      "style_filled_dark": "Filled dark"
+    },
+    "hero_media": {
+      "name": "Hero media",
+      "media_type": "Media type",
+      "media_type_image": "Image",
+      "media_type_video": "Video",
+      "image": "Image",
+      "image_mobile": "Mobile image",
+      "image_mobile_info": "Optional. Uses a different image on mobile for art direction.",
+      "video_file": "Video file",
+      "video_file_mobile": "Mobile video file",
+      "video_file_mobile_info": "Optional. Falls back to the desktop video if empty.",
+      "video_url": "Video URL",
+      "video_url_info": "Supports YouTube and Vimeo URLs.",
+      "video_url_mobile": "Mobile video URL",
+      "overlay_header": "Overlay",
+      "overlay_color": "Overlay color",
+      "overlay_opacity": "Overlay opacity",
+      "motion_header": "Motion",
+      "enable_parallax": "Enable parallax effect",
+      "enable_parallax_info": "Subtle depth shift as the page scrolls. Respects reduce-motion.",
+      "advanced_header": "Accessibility",
+      "alt_fallback": "Alt text fallback",
+      "alt_fallback_info": "Used as the image alt text if the image upload has no alt text set."
+    },
+    "hero_content": {
+      "name": "Hero content",
+      "position_header": "Position",
+      "text_position": "Content position",
+      "text_position_mobile": "Mobile content position",
+      "position_auto": "Same as desktop",
+      "position_top_left": "Top left",
+      "position_top_center": "Top center",
+      "position_top_right": "Top right",
+      "position_middle_left": "Middle left",
+      "position_middle_center": "Middle center",
+      "position_middle_right": "Middle right",
+      "position_bottom_left": "Bottom left",
+      "position_bottom_center": "Bottom center",
+      "position_bottom_right": "Bottom right",
+      "content_alignment": "Text alignment",
+      "align_left": "Left",
+      "align_center": "Center",
+      "align_right": "Right",
+      "max_width": "Content max width",
+      "color_header": "Color",
+      "text_color_override": "Override text color",
+      "text_color_override_info": "Forces a specific text color regardless of the section color scheme.",
+      "text_color": "Text color"
+    }
+  },
   "sections": {
     "header": {
       "color_scheme": "Color scheme",
@@ -362,6 +455,9 @@
       "button_label_2": "Second button label",
       "button_link_2": "Second button link",
       "button_style_2": "Second button style",
+      "container_width": "Container width",
+      "container_full": "Full width",
+      "container_contained": "Contained",
       "options": "Options",
       "enable_transparent_header": "Allow transparent header",
       "enable_transparent_header_info": "Header becomes transparent over this section. Best with full-screen height.",
