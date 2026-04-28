@@ -71,6 +71,41 @@
                 "link": "shopify://pages/about",
                 "style": "outline-white"
               }
+            },
+            "qa_group2": {
+              "type": "group",
+              "blocks": {
+                "e1": {
+                  "type": "eyebrow",
+                  "settings": {
+                    "text": "GROUP A"
+                  }
+                },
+                "e2": {
+                  "type": "eyebrow",
+                  "settings": {
+                    "text": "GROUP B"
+                  }
+                },
+                "e3": {
+                  "type": "eyebrow",
+                  "settings": {
+                    "text": "GROUP C"
+                  }
+                }
+              },
+              "block_order": [
+                "e1",
+                "e2",
+                "e3"
+              ],
+              "settings": {
+                "layout_direction": "group--vertical",
+                "gap": 12,
+                "alignment": "flex-start",
+                "distribution": "flex-start",
+                "padding": 0
+              }
             }
           },
           "block_order": [
@@ -79,7 +114,8 @@
             "heading",
             "description",
             "btn1",
-            "btn2"
+            "btn2",
+            "qa_group2"
           ],
           "settings": {
             "text_position": "bottom-left",
@@ -87,7 +123,7 @@
             "content_alignment": "left",
             "max_width": 36,
             "text_color_override": false,
-            "text_color": "#ffffff"
+            "text_color": "#ff0000"
           }
         }
       },
