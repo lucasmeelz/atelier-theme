@@ -8,7 +8,7 @@
 
 {%- if block.settings.text != blank -%}
   <p
-    class="subheading{% if block.settings.italic %} subheading--italic{% endif %}"
+    class="block-subheading{% if block.settings.italic %} block-subheading--italic{% endif %}"
     {{ block.shopify_attributes }}
   >
     {{ block.settings.text }}
@@ -16,22 +16,22 @@
 {%- endif -%}
 
 {% stylesheet %}
-  /* Override the global .subheading utility (label-style uppercase) when
-     used inside a content block — this is the editorial bridging line, not
-     a label. We override font + transform explicitly. */
-  .subheading {
+  /* Editorial bridging line between an eyebrow and a heading. Distinct
+     class name from the global `.subheading` utility (which is label-style
+     uppercase) to avoid collisions across sections that already use that
+     utility for their kicker text. */
+  .block-subheading {
     font-family: var(--font-body-family, sans-serif);
     font-size: clamp(0.9375rem, 1.4vw, 1.0625rem);
     font-weight: 400;
     line-height: 1.4;
     letter-spacing: 0.01em;
-    text-transform: none;
     margin: 0 0 1rem;
     opacity: 0.92;
     color: inherit;
   }
 
-  .subheading--italic {
+  .block-subheading--italic {
     font-style: italic;
     font-family: var(--font-heading-family, serif);
     font-size: clamp(1rem, 1.5vw, 1.125rem);
