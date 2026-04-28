@@ -11,35 +11,65 @@
   "sections": {
     "hero": {
       "type": "hero",
+      "blocks": {
+        "media": {
+          "type": "hero-media",
+          "settings": {
+            "media_type": "video",
+            "image": "shopify://shop_images/feet-pose-pug-socks.jpg",
+            "image_mobile": "shopify://shop_images/portrait_3to4.jpg",
+            "video_file": "shopify://files/videos/Savor French Bloom your way , pure or in a crafted cocktail, for lively gatherings or quiet mome.mp4",
+            "overlay_opacity": 15,
+            "overlay_color": "#000000",
+            "enable_parallax": true,
+            "alt_fallback": "Quiet confidence"
+          }
+        },
+        "content": {
+          "type": "hero-content",
+          "blocks": {
+            "eyebrow": {
+              "type": "eyebrow",
+              "settings": { "text": "Spring/Summer 2026" }
+            },
+            "subheading": {
+              "type": "subheading",
+              "settings": { "text": "Chapter one — The atelier", "italic": false }
+            },
+            "heading": {
+              "type": "heading",
+              "settings": { "text": "Quiet confidence", "tag": "h1", "size": "large" }
+            },
+            "description": {
+              "type": "description",
+              "settings": { "text": "<p>A collection of considered pieces, designed to last beyond seasons.</p>", "max_width": 50 }
+            },
+            "btn1": {
+              "type": "button",
+              "settings": { "label": "Shop the collection", "link": "shopify://collections/all", "style": "filled-white" }
+            },
+            "btn2": {
+              "type": "button",
+              "settings": { "label": "The atelier", "link": "shopify://pages/about", "style": "outline-white" }
+            }
+          },
+          "block_order": ["eyebrow", "subheading", "heading", "description", "btn1", "btn2"],
+          "settings": {
+            "text_position": "bottom-left",
+            "text_position_mobile": "auto",
+            "content_alignment": "left",
+            "max_width": 36,
+            "text_color_override": false,
+            "text_color": "#ffffff"
+          }
+        }
+      },
+      "block_order": ["media", "content"],
       "settings": {
-        "media_type": "video",
-        "image": "shopify://shop_images/feet-pose-pug-socks.jpg",
-        "image_mobile": "shopify://shop_images/portrait_3to4.jpg",
-        "video_file": "shopify://files/videos/Savor French Bloom your way , pure or in a crafted cocktail, for lively gatherings or quiet mome.mp4",
-        "video_url": "",
-        "overlay_color": "#000000",
-        "overlay_opacity": 15,
         "height": "large",
         "height_mobile": "auto",
-        "text_position": "bottom-left",
-        "text_position_mobile": "auto",
-        "eyebrow": "Spring/Summer 2026",
-        "subheading": "Chapter one — The atelier",
-        "heading": "Quiet confidence",
-        "heading_tag": "h1",
-        "heading_size": "large",
-        "description": "<p>A collection of considered pieces, designed to last beyond seasons.</p>",
-        "content_alignment": "left",
-        "text_color_override": false,
-        "text_color": "#ffffff",
-        "button_label": "Shop the collection",
-        "button_link": "shopify://collections/all",
-        "button_style": "filled-white",
-        "button_label_2": "The atelier",
-        "button_link_2": "shopify://pages/about",
-        "button_style_2": "outline-white",
+        "container_width": "full",
         "show_scroll_indicator": true,
-        "enable_parallax": true,
         "color_scheme": "scheme-2"
       }
     },
