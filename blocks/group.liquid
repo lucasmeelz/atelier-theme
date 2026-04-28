@@ -30,16 +30,13 @@
 >
   {% content_for 'blocks' %}
   {%- comment -%}
-    In the theme editor we render a placeholder when no child blocks
-    have been added yet. The :empty pseudo target covers the live
-    storefront — :has() with no real children would still match — so we
-    rely on the design-mode flag plus an inline hint slot.
+    Render a placeholder slot. CSS hides it as soon as the group has at
+    least one .shopify-block child via :has(), so it only shows in the
+    theme editor or when a merchant intentionally clears the group.
   {%- endcomment -%}
-  {%- if request.design_mode -%}
-    <span class="group__placeholder" aria-hidden="true">
-      {{ 'blocks.group.placeholder' | t }}
-    </span>
-  {%- endif -%}
+  <span class="group__placeholder" aria-hidden="true">
+    {{ 'blocks.group.placeholder' | t }}
+  </span>
 </div>
 
 {% stylesheet %}
