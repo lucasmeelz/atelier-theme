@@ -64,7 +64,7 @@
               "settings": {
                 "label": "Shop the collection",
                 "link": "shopify://collections/all",
-                "style": "filled-dark"
+                "style": "filled-white"
               }
             },
             "btn2": {
@@ -74,6 +74,41 @@
                 "link": "shopify://pages/about",
                 "style": "outline-white"
               }
+            },
+            "qa_group": {
+              "type": "group",
+              "blocks": {
+                "e1": {
+                  "type": "eyebrow",
+                  "settings": {
+                    "text": "GROUP A"
+                  }
+                },
+                "e2": {
+                  "type": "eyebrow",
+                  "settings": {
+                    "text": "GROUP B"
+                  }
+                },
+                "e3": {
+                  "type": "eyebrow",
+                  "settings": {
+                    "text": "GROUP C"
+                  }
+                }
+              },
+              "block_order": [
+                "e1",
+                "e2",
+                "e3"
+              ],
+              "settings": {
+                "layout_direction": "group--horizontal",
+                "gap": 12,
+                "alignment": "flex-start",
+                "distribution": "flex-start",
+                "padding": 0
+              }
             }
           },
           "block_order": [
@@ -82,7 +117,8 @@
             "heading",
             "description",
             "btn1",
-            "btn2"
+            "btn2",
+            "qa_group"
           ],
           "settings": {
             "text_position": "bottom-left",
