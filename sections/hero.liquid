@@ -57,8 +57,8 @@
       the customizer but can't add, remove, duplicate or reorder them.
       That guarantees one hero-media + one hero-content per Hero section.
     {%- endcomment -%}
-    {% content_for 'block', type: 'hero-media', id: 'hero-media' %}
-    {% content_for 'block', type: 'hero-content', id: 'hero-content' %}
+    {% content_for 'block', type: 'hero-media', id: 'media' %}
+    {% content_for 'block', type: 'hero-content', id: 'content' %}
 
     {%- if show_scroll -%}
       <div class="hero__scroll-indicator motion-auto" aria-hidden="true">
@@ -78,11 +78,6 @@
   "disabled_on": {
     "groups": ["header", "custom.overlay"]
   },
-  "blocks": [
-    { "type": "hero-media" },
-    { "type": "hero-content" }
-  ],
-  "max_blocks": 2,
   "settings": [
     {
       "type": "header",
@@ -147,26 +142,7 @@
   ],
   "presets": [
     {
-      "name": "t:sections.hero.preset_name",
-      "blocks": [
-        {
-          "type": "hero-media",
-          "settings": {
-            "media_type": "image",
-            "overlay_opacity": 20,
-            "enable_parallax": true
-          }
-        },
-        {
-          "type": "hero-content",
-          "blocks": [
-            { "type": "eyebrow", "settings": { "text": "Spring/Summer 2026" } },
-            { "type": "heading", "settings": { "text": "Quiet confidence", "tag": "h1", "size": "large" } },
-            { "type": "description", "settings": { "text": "<p>A collection of considered pieces, designed to last beyond seasons.</p>" } },
-            { "type": "button", "settings": { "label": "Shop the collection", "style": "filled-white" } }
-          ]
-        }
-      ]
+      "name": "t:sections.hero.preset_name"
     }
   ]
 }
