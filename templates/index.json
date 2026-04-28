@@ -64,7 +64,7 @@
               "settings": {
                 "label": "Shop the collection",
                 "link": "shopify://collections/all",
-                "style": "filled-white"
+                "style": "secondary"
               }
             },
             "btn2": {
