@@ -1728,6 +1728,10 @@
   "labels": {
     "layout_direction": "Layout direction",
     "alignment": "Alignment",
+    "alignment_info": "How items align across the cross axis. In a vertical group this controls horizontal alignment; in a horizontal group it controls vertical alignment.",
+    "distribution": "Distribution",
+    "distribution_info": "How items distribute along the row.",
+    "gap": "Gap",
     "padding": "Padding",
     "text": "Text",
     "text_style": "Text style"
@@ -1740,7 +1744,18 @@
     "alignment": {
       "left": "Left",
       "center": "Center",
-      "right": "Right"
+      "right": "Right",
+      "start": "Start",
+      "end": "End",
+      "stretch": "Stretch"
+    },
+    "distribution": {
+      "start": "Start",
+      "center": "Center",
+      "end": "End",
+      "between": "Space between",
+      "around": "Space around",
+      "evenly": "Space evenly"
     },
     "text_style": {
       "title": "Title",
