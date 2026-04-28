@@ -15,14 +15,14 @@
         "media": {
           "type": "hero-media",
           "settings": {
-            "media_type": "image",
+            "media_type": "video",
             "image": "shopify://shop_images/feet-pose-pug-socks.jpg",
             "image_mobile": "",
             "video_file": "shopify://files/videos/Savor French Bloom your way , pure or in a crafted cocktail, for lively gatherings or quiet mome.mp4",
             "overlay_opacity": 30,
             "overlay_color": "#000000",
             "enable_parallax": true,
-            "alt_fallback": "Test alt 12345",
+            "alt_fallback": "Quiet confidence",
             "video_url": ""
           }
         },
@@ -83,7 +83,7 @@
             "btn2"
           ],
           "settings": {
-            "text_position": "bottom-left",
+            "text_position": "top-left",
             "text_position_mobile": "auto",
             "content_alignment": "left",
             "max_width": 36,
