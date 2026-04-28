@@ -17,6 +17,11 @@
 {%- endif -%}
 
 {% stylesheet %}
+  /* Eyebrow inherits color from the parent section. When the parent has
+     a color scheme applied (.color-scheme-X), the eyebrow follows that
+     scheme's text color by default — guaranteeing the merchant sees a
+     visible change when they switch schemes. A section-level override
+     (e.g. hero text_color_override) still wins via inheritance. */
   .eyebrow {
     font-family: var(--font-label-family, sans-serif);
     font-size: 0.6875rem;
@@ -24,8 +29,8 @@
     letter-spacing: 0.22em;
     text-transform: uppercase;
     margin: 0 0 0.75rem;
-    opacity: 0.85;
     color: inherit;
+    opacity: 0.85;
   }
 
   .eyebrow--color-override {
