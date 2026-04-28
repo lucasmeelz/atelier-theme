@@ -48,6 +48,29 @@
     flex-wrap: wrap;
     width: 100%;
     gap: var(--group-gap, 12px);
+    /* Keep the wrapper measurable even when empty so the customizer can
+       show its drop-target overlay and the merchant can drag blocks in. */
+    min-height: 1px;
+  }
+
+  /* Editor-only placeholder shown when the group has no child blocks yet.
+     The pseudo `:has()` check hides it as soon as a real block lands. */
+  .group__placeholder {
+    display: none;
+    flex: 1;
+    padding: 16px 20px;
+    border: 1px dashed rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+    font-family: var(--font-label-family, sans-serif);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.55);
+    text-align: center;
+  }
+
+  .group:not(:has(> .shopify-block)) .group__placeholder {
+    display: block;
   }
 
   .group--horizontal {
@@ -149,7 +172,11 @@
         "alignment": "flex-start",
         "gap": 12,
         "padding": 0
-      }
+      },
+      "blocks": [
+        { "type": "heading", "settings": { "text": "Column heading", "tag": "h3", "size": "small" } },
+        { "type": "description", "settings": { "text": "<p>Add a short description so merchants see how a column lays out.</p>" } }
+      ]
     },
     {
       "name": "t:general.row",
@@ -160,7 +187,11 @@
         "distribution": "flex-start",
         "gap": 12,
         "padding": 0
-      }
+      },
+      "blocks": [
+        { "type": "button", "settings": { "label": "Action 1", "style": "primary" } },
+        { "type": "button", "settings": { "label": "Action 2", "style": "outline" } }
+      ]
     }
   ]
 }
