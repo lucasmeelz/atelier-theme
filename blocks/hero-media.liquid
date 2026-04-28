@@ -1,0 +1,262 @@
+{% doc %}
+  Renders the hero media layer (image or video) with overlay + parallax
+  support. Limit to 1 instance per hero section.
+
+  @example
+  {% content_for 'block', type: 'hero-media', id: 'media' %}
+{% enddoc %}
+
+{%- liquid
+  assign media_type = block.settings.media_type
+  assign image = block.settings.image
+  assign image_mobile = block.settings.image_mobile
+  assign video_file = block.settings.video_file
+  assign video_file_mobile = block.settings.video_file_mobile
+  assign video_url = block.settings.video_url
+  assign video_url_mobile = block.settings.video_url_mobile
+  assign overlay_color = block.settings.overlay_color | default: '#000000'
+  assign overlay_opacity = block.settings.overlay_opacity | divided_by: 100.0
+  assign enable_parallax = block.settings.enable_parallax
+  assign heading_for_alt = block.settings.alt_fallback
+-%}
+
+<div
+  class="hero__media"
+  data-hero-parallax="{{ enable_parallax }}"
+  style="--hero-overlay-color: {{ overlay_color }}; --hero-overlay-opacity: {{ overlay_opacity }};"
+  {{ block.shopify_attributes }}
+>
+  {%- if media_type == 'video' -%}
+    {%- liquid
+      assign video_title = heading_for_alt | default: 'accessibility.video' | t | escape
+    -%}
+    {%- if video_file != blank -%}
+      <div class="hero__video-wrap hero__video-wrap--desktop">
+        {{ video_file | video_tag:
+          autoplay: true,
+          loop: true,
+          muted: true,
+          controls: false,
+          playsinline: true,
+          class: 'hero__video',
+          image_size: '2048x'
+        }}
+      </div>
+    {%- elsif video_url != blank -%}
+      <div class="hero__video-wrap hero__video-wrap--desktop">
+        {%- if video_url.type == 'youtube' -%}
+          <iframe class="hero__iframe" src="https://www.youtube.com/embed/{{ video_url.id }}?autoplay=1&mute=1&loop=1&playlist={{ video_url.id }}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1" allow="autoplay; encrypted-media" allowfullscreen loading="lazy" title="{{ video_title }}"></iframe>
+        {%- elsif video_url.type == 'vimeo' -%}
+          <iframe class="hero__iframe" src="https://player.vimeo.com/video/{{ video_url.id }}?autoplay=1&muted=1&loop=1&background=1&playsinline=1" allow="autoplay; encrypted-media" allowfullscreen loading="lazy" title="{{ video_title }}"></iframe>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    {%- if video_file_mobile != blank -%}
+      <div class="hero__video-wrap hero__video-wrap--mobile">
+        {{ video_file_mobile | video_tag:
+          autoplay: true,
+          loop: true,
+          muted: true,
+          controls: false,
+          playsinline: true,
+          class: 'hero__video',
+          image_size: '1100x'
+        }}
+      </div>
+    {%- elsif video_url_mobile != blank -%}
+      <div class="hero__video-wrap hero__video-wrap--mobile">
+        {%- if video_url_mobile.type == 'youtube' -%}
+          <iframe class="hero__iframe" src="https://www.youtube.com/embed/{{ video_url_mobile.id }}?autoplay=1&mute=1&loop=1&playlist={{ video_url_mobile.id }}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1" allow="autoplay; encrypted-media" allowfullscreen loading="lazy" title="{{ video_title }}"></iframe>
+        {%- elsif video_url_mobile.type == 'vimeo' -%}
+          <iframe class="hero__iframe" src="https://player.vimeo.com/video/{{ video_url_mobile.id }}?autoplay=1&muted=1&loop=1&background=1&playsinline=1" allow="autoplay; encrypted-media" allowfullscreen loading="lazy" title="{{ video_title }}"></iframe>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  {%- else -%}
+    {%- if image != blank -%}
+      {%- liquid
+        assign hero_alt = image.alt | default: heading_for_alt | escape
+        assign hero_img_style = ''
+        if image.presentation.focal_point
+          assign fx = image.presentation.focal_point.x
+          assign fy = image.presentation.focal_point.y
+          if fx != 50 or fy != 50
+            capture hero_img_style
+              echo '--hero-focal-x: '
+              echo fx
+              echo '%; --hero-focal-y: '
+              echo fy
+              echo '%;'
+              unless image_mobile != blank and image_mobile.presentation.focal_point
+                echo ' --hero-focal-x-mobile: '
+                echo fx
+                echo '%; --hero-focal-y-mobile: '
+                echo fy
+                echo '%;'
+              endunless
+            endcapture
+          endif
+        endif
+        if image_mobile != blank and image_mobile.presentation.focal_point
+          assign fxm = image_mobile.presentation.focal_point.x
+          assign fym = image_mobile.presentation.focal_point.y
+          if fxm != 50 or fym != 50
+            capture hero_img_style_mobile
+              echo ' --hero-focal-x-mobile: '
+              echo fxm
+              echo '%; --hero-focal-y-mobile: '
+              echo fym
+              echo '%;'
+            endcapture
+            assign hero_img_style = hero_img_style | append: hero_img_style_mobile
+          endif
+        endif
+      -%}
+      {%- if image_mobile != blank -%}
+        <picture{% if hero_img_style != blank %} style="{{ hero_img_style }}"{% endif %}>
+          <source media="(max-width: 749px)" srcset="{{ image_mobile | image_url: width: 750 }} 375w, {{ image_mobile | image_url: width: 1100 }} 550w, {{ image_mobile | image_url: width: 1500 }} 750w" sizes="100vw">
+          {{ image | image_url: width: 2560 | image_tag:
+            loading: 'eager',
+            fetchpriority: 'high',
+            widths: '750,1100,1500,1920,2560',
+            sizes: '100vw',
+            class: 'hero__img',
+            alt: hero_alt
+          }}
+        </picture>
+      {%- else -%}
+        {%- if hero_img_style != blank -%}
+          <div class="hero__img-wrap" style="{{ hero_img_style }}">
+            {{ image | image_url: width: 2560 | image_tag:
+              loading: 'eager',
+              fetchpriority: 'high',
+              widths: '375,750,1100,1500,1920,2560',
+              sizes: '100vw',
+              class: 'hero__img',
+              alt: hero_alt
+            }}
+          </div>
+        {%- else -%}
+          {{ image | image_url: width: 2560 | image_tag:
+            loading: 'eager',
+            fetchpriority: 'high',
+            widths: '375,750,1100,1500,1920,2560',
+            sizes: '100vw',
+            class: 'hero__img',
+            alt: hero_alt
+          }}
+        {%- endif -%}
+      {%- endif -%}
+    {%- else -%}
+      <div class="hero__placeholder">
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'hero__placeholder-svg' }}
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+
+  <div class="hero__overlay" aria-hidden="true"></div>
+</div>
+
+{% schema %}
+{
+  "name": "t:blocks.hero_media.name",
+  "settings": [
+    {
+      "type": "select",
+      "id": "media_type",
+      "label": "t:blocks.hero_media.media_type",
+      "options": [
+        { "value": "image", "label": "t:blocks.hero_media.media_type_image" },
+        { "value": "video", "label": "t:blocks.hero_media.media_type_video" }
+      ],
+      "default": "image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:blocks.hero_media.image",
+      "visible_if": "{{ block.settings.media_type == 'image' }}"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "t:blocks.hero_media.image_mobile",
+      "info": "t:blocks.hero_media.image_mobile_info",
+      "visible_if": "{{ block.settings.media_type == 'image' }}"
+    },
+    {
+      "type": "video",
+      "id": "video_file",
+      "label": "t:blocks.hero_media.video_file",
+      "visible_if": "{{ block.settings.media_type == 'video' }}"
+    },
+    {
+      "type": "video",
+      "id": "video_file_mobile",
+      "label": "t:blocks.hero_media.video_file_mobile",
+      "info": "t:blocks.hero_media.video_file_mobile_info",
+      "visible_if": "{{ block.settings.media_type == 'video' }}"
+    },
+    {
+      "type": "video_url",
+      "id": "video_url",
+      "label": "t:blocks.hero_media.video_url",
+      "accept": ["youtube", "vimeo"],
+      "info": "t:blocks.hero_media.video_url_info",
+      "visible_if": "{{ block.settings.media_type == 'video' }}"
+    },
+    {
+      "type": "video_url",
+      "id": "video_url_mobile",
+      "label": "t:blocks.hero_media.video_url_mobile",
+      "accept": ["youtube", "vimeo"],
+      "visible_if": "{{ block.settings.media_type == 'video' }}"
+    },
+    {
+      "type": "header",
+      "content": "t:blocks.hero_media.overlay_header"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "t:blocks.hero_media.overlay_opacity",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "t:blocks.hero_media.overlay_color",
+      "default": "#000000",
+      "visible_if": "{{ block.settings.overlay_opacity > 0 }}"
+    },
+    {
+      "type": "header",
+      "content": "t:blocks.hero_media.motion_header"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_parallax",
+      "label": "t:blocks.hero_media.enable_parallax",
+      "info": "t:blocks.hero_media.enable_parallax_info",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "t:blocks.hero_media.advanced_header"
+    },
+    {
+      "type": "text",
+      "id": "alt_fallback",
+      "label": "t:blocks.hero_media.alt_fallback",
+      "info": "t:blocks.hero_media.alt_fallback_info"
+    }
+  ],
+  "presets": [
+    { "name": "t:blocks.hero_media.name" }
+  ]
+}
+{% endschema %}
