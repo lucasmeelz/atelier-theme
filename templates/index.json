@@ -51,9 +51,27 @@
             "btn2": {
               "type": "button",
               "settings": { "label": "The atelier", "link": "shopify://pages/about", "style": "outline-white" }
+            },
+            "test_col": {
+              "type": "group",
+              "settings": { "layout_direction": "group--vertical", "alignment": "flex-start", "padding": 0 },
+              "blocks": {
+                "c1": { "type": "eyebrow", "settings": { "text": "Column item 1" } },
+                "c2": { "type": "eyebrow", "settings": { "text": "Column item 2" } }
+              },
+              "block_order": ["c1", "c2"]
+            },
+            "test_row": {
+              "type": "group",
+              "settings": { "layout_direction": "group--horizontal", "padding": 0 },
+              "blocks": {
+                "r1": { "type": "eyebrow", "settings": { "text": "Row item 1" } },
+                "r2": { "type": "eyebrow", "settings": { "text": "Row item 2" } }
+              },
+              "block_order": ["r1", "r2"]
             }
           },
-          "block_order": ["eyebrow", "subheading", "heading", "description", "btn1", "btn2"],
+          "block_order": ["eyebrow", "subheading", "heading", "description", "btn1", "btn2", "test_col", "test_row"],
           "settings": {
             "text_position": "bottom-left",
             "text_position_mobile": "auto",
