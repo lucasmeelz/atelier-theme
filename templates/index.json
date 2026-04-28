@@ -13,7 +13,7 @@
       "type": "hero",
       "blocks": {
         "media": {
-          "type": "_hero-media",
+          "type": "hero-media",
           "settings": {
             "media_type": "video",
             "image": "shopify://shop_images/feet-pose-pug-socks.jpg",
@@ -26,7 +26,7 @@
           }
         },
         "content": {
-          "type": "_hero-content",
+          "type": "hero-content",
           "blocks": {
             "eyebrow": {
               "type": "eyebrow",
