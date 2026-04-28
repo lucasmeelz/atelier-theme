@@ -540,7 +540,8 @@
       "type": "color",
       "id": "text_color",
       "label": "t:sections.hero.text_color",
-      "default": "#FFFFFF"
+      "default": "#FFFFFF",
+      "visible_if": "{{ section.settings.text_color_override == true }}"
     },
     {
       "type": "header",
@@ -555,7 +556,8 @@
     {
       "type": "url",
       "id": "button_link",
-      "label": "t:sections.hero.button_link"
+      "label": "t:sections.hero.button_link",
+      "visible_if": "{{ section.settings.button_label != blank }}"
     },
     {
       "type": "select",
@@ -566,17 +568,20 @@
         { "value": "filled-white", "label": "t:sections.hero.button_filled_white" },
         { "value": "filled-dark", "label": "t:sections.hero.button_filled_dark" }
       ],
-      "default": "outline-white"
+      "default": "outline-white",
+      "visible_if": "{{ section.settings.button_label != blank }}"
     },
     {
       "type": "text",
       "id": "button_label_2",
-      "label": "t:sections.hero.button_label_2"
+      "label": "t:sections.hero.button_label_2",
+      "visible_if": "{{ section.settings.button_label != blank }}"
     },
     {
       "type": "url",
       "id": "button_link_2",
-      "label": "t:sections.hero.button_link_2"
+      "label": "t:sections.hero.button_link_2",
+      "visible_if": "{{ section.settings.button_label_2 != blank }}"
     },
     {
       "type": "select",
@@ -587,7 +592,8 @@
         { "value": "filled-white", "label": "t:sections.hero.button_filled_white" },
         { "value": "filled-dark", "label": "t:sections.hero.button_filled_dark" }
       ],
-      "default": "filled-white"
+      "default": "filled-white",
+      "visible_if": "{{ section.settings.button_label_2 != blank }}"
     },
     {
       "type": "header",
