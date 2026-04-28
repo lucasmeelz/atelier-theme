@@ -347,44 +347,44 @@
     {
       "type": "image_picker",
       "id": "image",
-      "label": "t:sections.hero.image"
+      "label": "t:sections.hero.image",
+      "visible_if": "{{ section.settings.media_type == 'image' }}"
     },
     {
       "type": "image_picker",
       "id": "image_mobile",
       "label": "t:sections.hero.image_mobile",
-      "info": "t:sections.hero.image_mobile_info"
+      "info": "t:sections.hero.image_mobile_info",
+      "visible_if": "{{ section.settings.media_type == 'image' }}"
     },
     {
       "type": "video",
       "id": "video_file",
-      "label": "t:sections.hero.video_file"
+      "label": "t:sections.hero.video_file",
+      "visible_if": "{{ section.settings.media_type == 'video' }}"
     },
     {
       "type": "video",
       "id": "video_file_mobile",
       "label": "t:sections.hero.video_file_mobile",
-      "info": "t:sections.hero.video_file_mobile_info"
+      "info": "t:sections.hero.video_file_mobile_info",
+      "visible_if": "{{ section.settings.media_type == 'video' }}"
     },
     {
       "type": "video_url",
       "id": "video_url",
       "label": "t:sections.hero.video_url",
       "accept": ["youtube", "vimeo"],
-      "info": "t:sections.hero.video_url_info"
+      "info": "t:sections.hero.video_url_info",
+      "visible_if": "{{ section.settings.media_type == 'video' }}"
     },
     {
       "type": "video_url",
       "id": "video_url_mobile",
       "label": "t:sections.hero.video_url_mobile",
       "accept": ["youtube", "vimeo"],
-      "info": "t:sections.hero.video_url_mobile_info"
-    },
-    {
-      "type": "color",
-      "id": "overlay_color",
-      "label": "t:sections.hero.overlay_color",
-      "default": "#000000"
+      "info": "t:sections.hero.video_url_mobile_info",
+      "visible_if": "{{ section.settings.media_type == 'video' }}"
     },
     {
       "type": "range",
@@ -395,6 +395,13 @@
       "step": 5,
       "unit": "%",
       "default": 20
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "t:sections.hero.overlay_color",
+      "default": "#000000",
+      "visible_if": "{{ section.settings.overlay_opacity > 0 }}"
     },
     {
       "type": "header",
