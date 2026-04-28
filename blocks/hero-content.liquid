@@ -1,0 +1,132 @@
+{% doc %}
+  Renders the hero content layer — a positioned text block that holds
+  any combination of theme blocks (eyebrow, heading, subheading,
+  description, button, …). Limit to 1 instance per hero section.
+
+  @example
+  {% content_for 'block', type: 'hero-content', id: 'content' %}
+{% enddoc %}
+
+{%- liquid
+  assign text_position = block.settings.text_position | default: 'bottom-left'
+  assign text_position_mobile = block.settings.text_position_mobile | default: 'auto'
+  assign content_alignment = block.settings.content_alignment | default: 'left'
+  assign text_color_override = block.settings.text_color_override
+  assign text_color = block.settings.text_color | default: '#FFFFFF'
+  assign max_width = block.settings.max_width | default: 36
+-%}
+
+<div
+  class="hero__content hero__content--{{ text_position }} hero__content--align-{{ content_alignment }}{% if text_position_mobile != 'auto' %} hero__content--mobile-{{ text_position_mobile }}{% endif %}{% if text_color_override %} hero__content--color-override{% endif %}"
+  style="--hero-content-max-width: {{ max_width }}rem;{% if text_color_override %} --hero-text-color: {{ text_color }};{% endif %}"
+  {{ block.shopify_attributes }}
+>
+  <div class="hero__content-inner">
+    {% content_for 'blocks' %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:blocks.hero_content.name",
+  "blocks": [
+    { "type": "eyebrow" },
+    { "type": "subheading" },
+    { "type": "heading" },
+    { "type": "description" },
+    { "type": "button" },
+    { "type": "group" }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:blocks.hero_content.position_header"
+    },
+    {
+      "type": "select",
+      "id": "text_position",
+      "label": "t:blocks.hero_content.text_position",
+      "options": [
+        { "value": "top-left", "label": "t:blocks.hero_content.position_top_left" },
+        { "value": "top-center", "label": "t:blocks.hero_content.position_top_center" },
+        { "value": "top-right", "label": "t:blocks.hero_content.position_top_right" },
+        { "value": "middle-left", "label": "t:blocks.hero_content.position_middle_left" },
+        { "value": "middle-center", "label": "t:blocks.hero_content.position_middle_center" },
+        { "value": "middle-right", "label": "t:blocks.hero_content.position_middle_right" },
+        { "value": "bottom-left", "label": "t:blocks.hero_content.position_bottom_left" },
+        { "value": "bottom-center", "label": "t:blocks.hero_content.position_bottom_center" },
+        { "value": "bottom-right", "label": "t:blocks.hero_content.position_bottom_right" }
+      ],
+      "default": "bottom-left"
+    },
+    {
+      "type": "select",
+      "id": "text_position_mobile",
+      "label": "t:blocks.hero_content.text_position_mobile",
+      "options": [
+        { "value": "auto", "label": "t:blocks.hero_content.position_auto" },
+        { "value": "top-left", "label": "t:blocks.hero_content.position_top_left" },
+        { "value": "top-center", "label": "t:blocks.hero_content.position_top_center" },
+        { "value": "top-right", "label": "t:blocks.hero_content.position_top_right" },
+        { "value": "middle-left", "label": "t:blocks.hero_content.position_middle_left" },
+        { "value": "middle-center", "label": "t:blocks.hero_content.position_middle_center" },
+        { "value": "middle-right", "label": "t:blocks.hero_content.position_middle_right" },
+        { "value": "bottom-left", "label": "t:blocks.hero_content.position_bottom_left" },
+        { "value": "bottom-center", "label": "t:blocks.hero_content.position_bottom_center" },
+        { "value": "bottom-right", "label": "t:blocks.hero_content.position_bottom_right" }
+      ],
+      "default": "auto"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "t:blocks.hero_content.content_alignment",
+      "options": [
+        { "value": "left", "label": "t:blocks.hero_content.align_left" },
+        { "value": "center", "label": "t:blocks.hero_content.align_center" },
+        { "value": "right", "label": "t:blocks.hero_content.align_right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "t:blocks.hero_content.max_width",
+      "min": 20,
+      "max": 64,
+      "step": 4,
+      "unit": "rem",
+      "default": 36
+    },
+    {
+      "type": "header",
+      "content": "t:blocks.hero_content.color_header"
+    },
+    {
+      "type": "checkbox",
+      "id": "text_color_override",
+      "label": "t:blocks.hero_content.text_color_override",
+      "info": "t:blocks.hero_content.text_color_override_info",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "t:blocks.hero_content.text_color",
+      "default": "#FFFFFF",
+      "visible_if": "{{ block.settings.text_color_override == true }}"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:blocks.hero_content.name",
+      "blocks": [
+        { "type": "eyebrow", "settings": { "text": "Spring/Summer 2026" } },
+        { "type": "heading", "settings": { "text": "Quiet confidence", "tag": "h1", "size": "large" } },
+        { "type": "description", "settings": { "text": "<p>A collection of considered pieces, designed to last beyond seasons.</p>" } },
+        { "type": "button", "settings": { "label": "Shop the collection", "style": "filled-white" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
