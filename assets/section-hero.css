@@ -160,30 +160,30 @@ picture:has(.hero__img),
   gap: 0.5rem 0.75rem;
 }
 
-/* Most child blocks take a full row (eyebrow, subheading, heading, description). */
+/* Each theme block is wrapped by Shopify in a .shopify-block element.
+   Most blocks take a full row; button blocks line up inline. */
+.hero__content-inner > .shopify-block,
 .hero__content-inner > * {
   flex: 0 0 100%;
+  margin: 0;
 }
 
-/* Buttons line up inline on desktop. The first button gets a top spacer
-   so it doesn't sit too close to the description above it. */
-.hero__content-inner > .btn {
+.hero__content-inner > .shopify-block:has(> .btn) {
   flex: 0 0 auto;
-  margin-top: 1.5rem;
-}
-
-.hero__content-inner > .btn ~ .btn {
   margin-top: 1.5rem;
 }
 
 /* Mobile: buttons stack and go full-width for the app-native feel. */
 @media screen and (max-width: 749px) {
-  .hero__content-inner > .btn {
+  .hero__content-inner > .shopify-block:has(> .btn) {
     flex: 0 0 100%;
     max-width: 320px;
+  }
+  .hero__content-inner > .shopify-block:has(> .btn) > .btn {
+    width: 100%;
     justify-content: center;
   }
-  .hero__content--align-center .hero__content-inner > .btn {
+  .hero__content--align-center .hero__content-inner > .shopify-block:has(> .btn) {
     margin-inline: auto;
   }
 }
