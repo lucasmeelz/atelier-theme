@@ -17,6 +17,11 @@
 {%- endif -%}
 
 {% stylesheet %}
+  /* Eyebrow uses the active color scheme's accent by default — that's
+     how the merchant sees scheme changes affect the section visually.
+     `color: inherit` from a section that overrides text color (e.g.
+     hero with text_color_override) wins because it's set at the
+     container level with higher specificity. */
   .eyebrow {
     font-family: var(--font-label-family, sans-serif);
     font-size: 0.6875rem;
@@ -24,8 +29,8 @@
     letter-spacing: 0.22em;
     text-transform: uppercase;
     margin: 0 0 0.75rem;
-    opacity: 0.85;
-    color: inherit;
+    color: rgb(var(--color-accent, var(--color-text, 10, 10, 10)));
+    opacity: 0.95;
   }
 
   .eyebrow--color-override {
