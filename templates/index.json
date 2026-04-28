@@ -59,8 +59,8 @@
             "text_position_mobile": "auto",
             "content_alignment": "left",
             "max_width": 36,
-            "text_color_override": true,
-            "text_color": "#ff0000"
+            "text_color_override": false,
+            "text_color": "#ffffff"
           }
         }
       },
@@ -70,7 +70,7 @@
         "height_mobile": "auto",
         "container_width": "full",
         "show_scroll_indicator": true,
-        "color_scheme": "scheme-3"
+        "color_scheme": "scheme-1"
       }
     },
     "marquee": {
