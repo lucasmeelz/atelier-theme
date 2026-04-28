@@ -32,8 +32,8 @@
             "eyebrow": {
               "type": "eyebrow",
               "settings": {
-                "text": "TEST EYEBROW QA",
-                "color_override": true,
+                "text": "Spring/Summer 2026",
+                "color_override": false,
                 "color": "#00ff00"
               }
             },
