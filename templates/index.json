@@ -15,17 +15,45 @@
         "media": {
           "type": "_hero-media",
           "settings": {
-            "media_type": "image",
+            "media_type": "video",
             "image": "shopify://shop_images/feet-pose-pug-socks.jpg",
             "image_mobile": "shopify://shop_images/portrait_3to4.jpg",
+            "video_file": "shopify://files/videos/Savor French Bloom your way , pure or in a crafted cocktail, for lively gatherings or quiet mome.mp4",
             "overlay_opacity": 15,
             "overlay_color": "#000000",
             "enable_parallax": true,
-            "alt_fallback": "Quiet confidence A"
+            "alt_fallback": "Quiet confidence"
           }
         },
         "content": {
           "type": "_hero-content",
+          "blocks": {
+            "eyebrow": {
+              "type": "eyebrow",
+              "settings": { "text": "Spring/Summer 2026" }
+            },
+            "subheading": {
+              "type": "subheading",
+              "settings": { "text": "Chapter one — The atelier", "italic": false }
+            },
+            "heading": {
+              "type": "heading",
+              "settings": { "text": "Quiet confidence", "tag": "h1", "size": "large" }
+            },
+            "description": {
+              "type": "description",
+              "settings": { "text": "<p>A collection of considered pieces, designed to last beyond seasons.</p>", "max_width": 50 }
+            },
+            "btn1": {
+              "type": "button",
+              "settings": { "label": "Shop the collection", "link": "shopify://collections/all", "style": "filled-white" }
+            },
+            "btn2": {
+              "type": "button",
+              "settings": { "label": "The atelier", "link": "shopify://pages/about", "style": "outline-white" }
+            }
+          },
+          "block_order": ["eyebrow", "subheading", "heading", "description", "btn1", "btn2"],
           "settings": {
             "text_position": "bottom-left",
             "text_position_mobile": "auto",
@@ -33,14 +61,10 @@
             "max_width": 36,
             "text_color_override": false,
             "text_color": "#ffffff"
-          },
-          "blocks": {}
+          }
         }
       },
-      "block_order": [
-        "content",
-        "media"
-      ],
+      "block_order": ["media", "content"],
       "settings": {
         "height": "large",
         "height_mobile": "auto",
