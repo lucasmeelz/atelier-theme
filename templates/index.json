@@ -24,46 +24,8 @@
             "alt_fallback": "Quiet confidence A"
           }
         },
-        "media2": {
-          "type": "_hero-media",
-          "settings": {
-            "media_type": "image",
-            "image": "shopify://shop_images/portrait_3to4.jpg",
-            "overlay_opacity": 50,
-            "overlay_color": "#FF0000",
-            "enable_parallax": false,
-            "alt_fallback": "Quiet confidence B"
-          }
-        },
         "content": {
           "type": "_hero-content",
-          "blocks": {
-            "eyebrow": {
-              "type": "eyebrow",
-              "settings": { "text": "Spring/Summer 2026" }
-            },
-            "subheading": {
-              "type": "subheading",
-              "settings": { "text": "Chapter one — The atelier", "italic": false }
-            },
-            "heading": {
-              "type": "heading",
-              "settings": { "text": "Quiet confidence", "tag": "h1", "size": "large" }
-            },
-            "description": {
-              "type": "description",
-              "settings": { "text": "<p>A collection of considered pieces, designed to last beyond seasons.</p>", "max_width": 50 }
-            },
-            "btn1": {
-              "type": "button",
-              "settings": { "label": "Shop the collection", "link": "shopify://collections/all", "style": "filled-white" }
-            },
-            "btn2": {
-              "type": "button",
-              "settings": { "label": "The atelier", "link": "shopify://pages/about", "style": "outline-white" }
-            }
-          },
-          "block_order": ["eyebrow", "subheading", "heading", "description", "btn1", "btn2"],
           "settings": {
             "text_position": "bottom-left",
             "text_position_mobile": "auto",
@@ -71,10 +33,14 @@
             "max_width": 36,
             "text_color_override": false,
             "text_color": "#ffffff"
-          }
+          },
+          "blocks": {}
         }
       },
-      "block_order": ["media", "media2", "content"],
+      "block_order": [
+        "content",
+        "media"
+      ],
       "settings": {
         "height": "large",
         "height_mobile": "auto",
