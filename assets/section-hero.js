@@ -17,7 +17,10 @@ if (!customElements.get('hero-section')) {
 
     connectedCallback() {
       this.hero = this.querySelector('.hero');
-      this.media = this.querySelector('.hero__img');
+      // Parallax target: prefer the image, fall back to the video wrapper.
+      // Both are sized to fill .hero__media; the same translate works for either.
+      this.media = this.querySelector('.hero__img')
+        || this.querySelector('.hero__video-wrap');
       this.scrollIndicator = this.querySelector('.hero__scroll-indicator');
 
       if (!this.hero) return;
@@ -25,7 +28,8 @@ if (!customElements.get('hero-section')) {
       // Stagger entrance animation
       this.initEntrance();
 
-      // Parallax (image only, not video)
+      // Parallax — runs for both image AND video heroes, gated only by
+      // reduced-motion since the depth shift is a vestibular concern.
       if (this.dataset.parallax === 'true' && this.media && !this.reducedMotion) {
         this.initParallax();
       }

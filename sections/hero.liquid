@@ -347,44 +347,44 @@
     {
       "type": "image_picker",
       "id": "image",
-      "label": "t:sections.hero.image"
+      "label": "t:sections.hero.image",
+      "visible_if": "{{ section.settings.media_type == 'image' }}"
     },
     {
       "type": "image_picker",
       "id": "image_mobile",
       "label": "t:sections.hero.image_mobile",
-      "info": "t:sections.hero.image_mobile_info"
+      "info": "t:sections.hero.image_mobile_info",
+      "visible_if": "{{ section.settings.media_type == 'image' }}"
     },
     {
       "type": "video",
       "id": "video_file",
-      "label": "t:sections.hero.video_file"
+      "label": "t:sections.hero.video_file",
+      "visible_if": "{{ section.settings.media_type == 'video' }}"
     },
     {
       "type": "video",
       "id": "video_file_mobile",
       "label": "t:sections.hero.video_file_mobile",
-      "info": "t:sections.hero.video_file_mobile_info"
+      "info": "t:sections.hero.video_file_mobile_info",
+      "visible_if": "{{ section.settings.media_type == 'video' }}"
     },
     {
       "type": "video_url",
       "id": "video_url",
       "label": "t:sections.hero.video_url",
       "accept": ["youtube", "vimeo"],
-      "info": "t:sections.hero.video_url_info"
+      "info": "t:sections.hero.video_url_info",
+      "visible_if": "{{ section.settings.media_type == 'video' }}"
     },
     {
       "type": "video_url",
       "id": "video_url_mobile",
       "label": "t:sections.hero.video_url_mobile",
       "accept": ["youtube", "vimeo"],
-      "info": "t:sections.hero.video_url_mobile_info"
-    },
-    {
-      "type": "color",
-      "id": "overlay_color",
-      "label": "t:sections.hero.overlay_color",
-      "default": "#000000"
+      "info": "t:sections.hero.video_url_mobile_info",
+      "visible_if": "{{ section.settings.media_type == 'video' }}"
     },
     {
       "type": "range",
@@ -395,6 +395,13 @@
       "step": 5,
       "unit": "%",
       "default": 20
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "t:sections.hero.overlay_color",
+      "default": "#000000",
+      "visible_if": "{{ section.settings.overlay_opacity > 0 }}"
     },
     {
       "type": "header",
@@ -533,7 +540,8 @@
       "type": "color",
       "id": "text_color",
       "label": "t:sections.hero.text_color",
-      "default": "#FFFFFF"
+      "default": "#FFFFFF",
+      "visible_if": "{{ section.settings.text_color_override == true }}"
     },
     {
       "type": "header",
@@ -548,7 +556,8 @@
     {
       "type": "url",
       "id": "button_link",
-      "label": "t:sections.hero.button_link"
+      "label": "t:sections.hero.button_link",
+      "visible_if": "{{ section.settings.button_label != blank }}"
     },
     {
       "type": "select",
@@ -559,17 +568,20 @@
         { "value": "filled-white", "label": "t:sections.hero.button_filled_white" },
         { "value": "filled-dark", "label": "t:sections.hero.button_filled_dark" }
       ],
-      "default": "outline-white"
+      "default": "outline-white",
+      "visible_if": "{{ section.settings.button_label != blank }}"
     },
     {
       "type": "text",
       "id": "button_label_2",
-      "label": "t:sections.hero.button_label_2"
+      "label": "t:sections.hero.button_label_2",
+      "visible_if": "{{ section.settings.button_label != blank }}"
     },
     {
       "type": "url",
       "id": "button_link_2",
-      "label": "t:sections.hero.button_link_2"
+      "label": "t:sections.hero.button_link_2",
+      "visible_if": "{{ section.settings.button_label_2 != blank }}"
     },
     {
       "type": "select",
@@ -580,7 +592,8 @@
         { "value": "filled-white", "label": "t:sections.hero.button_filled_white" },
         { "value": "filled-dark", "label": "t:sections.hero.button_filled_dark" }
       ],
-      "default": "filled-white"
+      "default": "filled-white",
+      "visible_if": "{{ section.settings.button_label_2 != blank }}"
     },
     {
       "type": "header",
