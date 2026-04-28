@@ -594,11 +594,11 @@ picture:has(.hero__img),
 /* ===================================
    Stagger Entrance Animation
    =================================== */
-.hero__eyebrow,
-.hero__subheading,
-.hero__heading,
-.hero__text,
-.hero__buttons {
+/* Stagger lives on the .shopify-block wrapper Shopify generates around
+   each theme block. This keeps the animation working regardless of which
+   atomic block (eyebrow / heading / description / button / etc.) the
+   merchant drops into the hero-content slot. */
+.hero__content-inner > .shopify-block {
   opacity: 0;
   transform: translateY(24px);
   transition:
@@ -606,60 +606,33 @@ picture:has(.hero__img),
     transform var(--duration-slow, 600ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
 }
 
-.hero.is-loaded .hero__eyebrow {
-  opacity: 0.85;
-  transform: translateY(0);
-  transition-delay: 0.05s;
-}
-
-.hero.is-loaded .hero__subheading {
-  opacity: 0.92;
-  transform: translateY(0);
-  transition-delay: 0.18s;
-}
-
-.hero.is-loaded .hero__heading {
+.hero.is-loaded .hero__content-inner > .shopify-block {
   opacity: 1;
   transform: translateY(0);
-  transition-delay: 0.32s;
 }
 
-.hero.is-loaded .hero__text {
-  opacity: 0.85;
-  transform: translateY(0);
-  transition-delay: 0.46s;
-}
-
-.hero.is-loaded .hero__buttons {
-  opacity: 1;
-  transform: translateY(0);
-  transition-delay: 0.6s;
-}
+/* Per-position delays — first 8 children get a hand-tuned stagger.
+   Beyond that we fall back to a flat 0.6s so a long content block
+   doesn't drag in forever. */
+.hero.is-loaded .hero__content-inner > .shopify-block:nth-child(1) { transition-delay: 0.05s; }
+.hero.is-loaded .hero__content-inner > .shopify-block:nth-child(2) { transition-delay: 0.18s; }
+.hero.is-loaded .hero__content-inner > .shopify-block:nth-child(3) { transition-delay: 0.32s; }
+.hero.is-loaded .hero__content-inner > .shopify-block:nth-child(4) { transition-delay: 0.46s; }
+.hero.is-loaded .hero__content-inner > .shopify-block:nth-child(5) { transition-delay: 0.6s; }
+.hero.is-loaded .hero__content-inner > .shopify-block:nth-child(6) { transition-delay: 0.7s; }
+.hero.is-loaded .hero__content-inner > .shopify-block:nth-child(7) { transition-delay: 0.78s; }
+.hero.is-loaded .hero__content-inner > .shopify-block:nth-child(8) { transition-delay: 0.85s; }
+.hero.is-loaded .hero__content-inner > .shopify-block:nth-child(n+9) { transition-delay: 0.9s; }
 
 /* ===================================
    Reduced Motion
    =================================== */
 @media (prefers-reduced-motion: reduce) {
   /* Show content immediately — entrance animations are autonomous */
-  .hero__eyebrow,
-  .hero__subheading,
-  .hero__heading,
-  .hero__text,
-  .hero__buttons {
+  .hero__content-inner > .shopify-block {
     opacity: 1;
     transform: none;
-  }
-
-  .hero__eyebrow {
-    opacity: 0.85;
-  }
-
-  .hero__subheading {
-    opacity: 0.92;
-  }
-
-  .hero__text {
-    opacity: 0.85;
+    transition: none;
   }
 
   /* Only disable autonomous animations via .motion-auto */
@@ -667,7 +640,8 @@ picture:has(.hero__img),
     animation: none;
   }
 
-  .hero__img {
+  .hero__img,
+  .hero__video-wrap {
     transform: none !important;
   }
 }
@@ -680,8 +654,10 @@ picture:has(.hero__img),
     padding: 64px 48px;
   }
 
+  /* The merchant-controlled --hero-content-max-width takes precedence;
+     this is just a sensible fallback when the var isn't set. */
   .hero__content-inner {
-    max-width: 40rem;
+    max-width: var(--hero-content-max-width, 40rem);
   }
 }
 
