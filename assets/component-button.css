@@ -87,12 +87,13 @@
 }
 
 .btn--secondary .btn__fill {
-  background-color: rgb(var(--color-secondary-btn-text));
+  background-color: rgb(var(--color-secondary-btn-hover-bg, var(--color-secondary-btn-text)));
 }
 
 @media (hover: hover) {
   [data-button-hover="slide-up"] .btn--secondary:hover {
-    color: rgb(var(--color-secondary-btn-bg));
+    color: rgb(var(--color-secondary-btn-hover-text, var(--color-secondary-btn-bg)));
+    border-color: rgb(var(--color-secondary-btn-hover-bg, var(--color-secondary-btn-text)));
   }
 
   [data-button-hover="slide-up"] .btn--secondary:hover .btn__fill {
@@ -100,13 +101,14 @@
   }
 
   [data-button-hover="fade"] .btn--secondary:hover {
-    background-color: rgb(var(--color-secondary-btn-text));
-    color: rgb(var(--color-secondary-btn-bg));
+    background-color: rgb(var(--color-secondary-btn-hover-bg, var(--color-secondary-btn-text)));
+    border-color: rgb(var(--color-secondary-btn-hover-bg, var(--color-secondary-btn-text)));
+    color: rgb(var(--color-secondary-btn-hover-text, var(--color-secondary-btn-bg)));
   }
 }
 
 .btn--secondary:active {
-  color: rgb(var(--color-secondary-btn-bg));
+  color: rgb(var(--color-secondary-btn-hover-text, var(--color-secondary-btn-bg)));
 }
 
 .btn--secondary:active .btn__fill {
@@ -235,8 +237,13 @@
     transform: translateY(0);
   }
 
+  /* Fade mode: invert bg + text so the label stays readable. The previous
+     `opacity: 0.85` left a near-invisible state on touch where the dark
+     text faded into the white bg during the transition. */
   [data-button-hover="fade"] .btn--filled-white:hover {
-    opacity: 0.85;
+    background-color: rgb(10, 10, 10);
+    border-color: rgb(10, 10, 10);
+    color: rgb(255, 255, 255);
   }
 }
 
@@ -280,7 +287,9 @@
 
   [data-button-hover="fade"] .btn--filled-dark:hover,
   [data-button-hover="fade"] .btn--filled-black:hover {
-    opacity: 0.85;
+    background-color: rgb(255, 255, 255);
+    border-color: rgb(255, 255, 255);
+    color: rgb(10, 10, 10);
   }
 }
 

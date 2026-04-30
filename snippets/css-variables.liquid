@@ -145,6 +145,16 @@
       --color-button-hover-text: {{ scheme.settings.button_hover_label.red }}, {{ scheme.settings.button_hover_label.green }}, {{ scheme.settings.button_hover_label.blue }};
       --color-secondary-btn-bg: {{ scheme.settings.secondary_button_background.red }}, {{ scheme.settings.secondary_button_background.green }}, {{ scheme.settings.secondary_button_background.blue }};
       --color-secondary-btn-text: {{ scheme.settings.secondary_button_label.red }}, {{ scheme.settings.secondary_button_label.green }}, {{ scheme.settings.secondary_button_label.blue }};
+      {%- if scheme.settings.secondary_button_hover_background -%}
+      --color-secondary-btn-hover-bg: {{ scheme.settings.secondary_button_hover_background.red }}, {{ scheme.settings.secondary_button_hover_background.green }}, {{ scheme.settings.secondary_button_hover_background.blue }};
+      {%- else -%}
+      --color-secondary-btn-hover-bg: var(--color-secondary-btn-text);
+      {%- endif -%}
+      {%- if scheme.settings.secondary_button_hover_label -%}
+      --color-secondary-btn-hover-text: {{ scheme.settings.secondary_button_hover_label.red }}, {{ scheme.settings.secondary_button_hover_label.green }}, {{ scheme.settings.secondary_button_hover_label.blue }};
+      {%- else -%}
+      --color-secondary-btn-hover-text: var(--color-secondary-btn-bg);
+      {%- endif -%}
     }
   {%- endfor -%}
 
