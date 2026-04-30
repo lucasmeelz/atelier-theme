@@ -16,8 +16,6 @@
           "type": "hero-media",
           "settings": {
             "media_type": "image",
-            "image": "shopify://shop_images/feet-pose-pug-socks.jpg",
-            "image_mobile": "shopify://shop_images/portrait_3to4.jpg",
             "overlay_opacity": 30,
             "overlay_color": "#000000",
             "enable_parallax": true,
