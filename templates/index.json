@@ -11,63 +11,10 @@
   "sections": {
     "hero": {
       "type": "hero",
-      "blocks": {
-        "media": {
-          "type": "hero-media",
-          "settings": {
-            "media_type": "image",
-            "overlay_opacity": 30,
-            "overlay_color": "#000000",
-            "enable_parallax": true,
-            "alt_fallback": "Quiet confidence"
-          }
-        },
-        "content": {
-          "type": "hero-content",
-          "blocks": {
-            "eyebrow": {
-              "type": "eyebrow",
-              "settings": { "text": "Spring/Summer 2026" }
-            },
-            "subheading": {
-              "type": "subheading",
-              "settings": { "text": "Chapter one — The atelier", "italic": false }
-            },
-            "heading": {
-              "type": "heading",
-              "settings": { "text": "Quiet confidence", "tag": "h1", "size": "large" }
-            },
-            "description": {
-              "type": "description",
-              "settings": { "text": "<p>A collection of considered pieces, designed to last beyond seasons.</p>", "max_width": 50 }
-            },
-            "btn1": {
-              "type": "button",
-              "settings": { "label": "Shop the collection", "link": "shopify://collections/all", "style": "filled-white" }
-            },
-            "btn2": {
-              "type": "button",
-              "settings": { "label": "The atelier", "link": "shopify://pages/about", "style": "outline-white" }
-            }
-          },
-          "block_order": ["eyebrow", "subheading", "heading", "description", "btn1", "btn2"],
-          "settings": {
-            "text_position": "bottom-left",
-            "text_position_mobile": "auto",
-            "content_alignment": "left",
-            "max_width": 36,
-            "text_color_override": false,
-            "text_color": "#ffffff"
-          }
-        }
-      },
-      "block_order": ["media", "content"],
       "settings": {
         "height": "large",
         "height_mobile": "auto",
-        "container_width": "full",
-        "show_scroll_indicator": true,
-        "color_scheme": "scheme-3"
+        "show_scroll_indicator": true
       }
     },
     "marquee": {
@@ -76,7 +23,7 @@
         "item1": {
           "type": "item",
           "settings": {
-            "text": "Complimentary shipping on orders over €200",
+            "text": "Free shipping worldwide",
             "icon": "none",
             "link": ""
           }
@@ -84,7 +31,7 @@
         "item2": {
           "type": "item",
           "settings": {
-            "text": "Made in Europe",
+            "text": "New collection available",
             "icon": "none",
             "link": ""
           }
@@ -92,7 +39,7 @@
         "item3": {
           "type": "item",
           "settings": {
-            "text": "Vegetable-tanned leather",
+            "text": "Exclusive designs",
             "icon": "none",
             "link": ""
           }
@@ -100,7 +47,7 @@
         "item4": {
           "type": "item",
           "settings": {
-            "text": "Numbered editions",
+            "text": "Handcrafted with care",
             "icon": "none",
             "link": ""
           }
@@ -117,51 +64,20 @@
         "speed": "medium",
         "direction": "left",
         "text_size": "large",
-        "font_choice": "body",
-        "gap_size": "medium",
         "pause_on_hover": true,
         "show_borders": true,
-        "show_gradient_overlay": true,
-        "color_scheme": "scheme-2",
+        "color_scheme": "",
         "padding_top": 16,
         "padding_bottom": 16
       }
     },
     "featured-collection": {
       "type": "featured-collection",
-      "blocks": {
-        "collection_tab_f4jpVG": {
-          "type": "collection_tab",
-          "settings": {
-            "collection": "ready-to-wear",
-            "tab_label": "Ready-to-wear"
-          }
-        },
-        "collection_tab_DdWdnw": {
-          "type": "collection_tab",
-          "settings": {
-            "collection": "leather",
-            "tab_label": "Leather"
-          }
-        },
-        "collection_tab_M9bHcK": {
-          "type": "collection_tab",
-          "settings": {
-            "collection": "objects",
-            "tab_label": "Objects"
-          }
-        }
-      },
-      "block_order": [
-        "collection_tab_f4jpVG",
-        "collection_tab_DdWdnw",
-        "collection_tab_M9bHcK"
-      ],
       "settings": {
-        "heading": "The essentials",
+        "heading": "Featured collection",
         "heading_size": "h2",
-        "subheading": "Pieces we return to, season after season",
-        "collection": "ready-to-wear",
+        "subheading": "",
+        "collection": "",
         "products_to_show": 4,
         "desktop_layout": "grid",
         "mobile_layout": "swipe",
@@ -172,56 +88,11 @@
         "show_vendor": false,
         "show_rating": false,
         "show_quick_add": true,
-        "show_color_swatches": false,
         "button_label": "View all",
-        "button_link": "shopify://collections/all",
-        "button_style": "outline",
-        "color_scheme": "scheme-2",
-        "padding_top": 80,
-        "padding_bottom": 80
-      }
-    },
-    "split_screen_qa": {
-      "type": "split-screen",
-      "blocks": {
-        "panel_1": {
-          "type": "panel",
-          "settings": {
-            "overlay_opacity": 30,
-            "subheading": "",
-            "heading": "Women",
-            "text": "",
-            "button_label": "Shop women",
-            "button_link": "shopify://collections/all",
-            "button_style": "filled-dark",
-            "text_alignment": "center",
-            "text_color": "#ffffff",
-            "color_scheme": "scheme-1"
-          }
-        },
-        "panel_2": {
-          "type": "panel",
-          "settings": {
-            "overlay_opacity": 30,
-            "subheading": "",
-            "heading": "Men",
-            "text": "",
-            "button_label": "Shop men",
-            "button_link": "shopify://collections/all",
-            "button_style": "filled-dark",
-            "text_alignment": "center",
-            "text_color": "#ffffff",
-            "color_scheme": "scheme-1"
-          }
-        }
-      },
-      "block_order": [
-        "panel_1",
-        "panel_2"
-      ],
-      "settings": {
-        "reverse_panels": false,
-        "hover_effect": true
+        "button_link": "",
+        "color_scheme": "",
+        "padding_top": 60,
+        "padding_bottom": 60
       }
     },
     "image-with-text": {
@@ -233,86 +104,32 @@
         "vertical_alignment": "middle",
         "mobile_layout": "image_first",
         "full_width": false,
-        "label": "The atelier",
-        "heading": "Crafted in Florence since 2019",
+        "label": "Our Story",
+        "heading": "Crafted with care",
         "heading_size": "h2",
-        "text": "<p>Each ÉCRIN piece is made in small batches by artisans we've worked with for years. From vegetable-tanned Tuscan leather to European linen, every material earns its place.</p>",
-        "button_label": "Our story",
-        "button_link": "shopify://pages/about",
-        "button_style": "outline",
-        "color_scheme": "scheme-2",
-        "padding_top": 80,
-        "padding_bottom": 80
-      }
-    },
-    "atelier_qa": {
-      "type": "atelier-process",
-      "blocks": {
-        "s1": {
-          "type": "step",
-          "settings": {
-            "heading": "Source",
-            "text": "We select materials from European artisans — leather from Tuscany, linen from Belgium, wool from Scotland.",
-            "custom_number": ""
-          }
-        },
-        "s2": {
-          "type": "step",
-          "settings": {
-            "heading": "Design",
-            "text": "Silhouettes refined through dozens of prototypes, tested for comfort, longevity, and timelessness.",
-            "custom_number": ""
-          }
-        },
-        "s3": {
-          "type": "step",
-          "settings": {
-            "heading": "Craft",
-            "text": "Small-batch production in two ateliers — Florence for leather, Paris for ready-to-wear.",
-            "custom_number": ""
-          }
-        },
-        "s4": {
-          "type": "step",
-          "settings": {
-            "heading": "Finish",
-            "text": "Hand-checked, numbered, and packaged in recyclable paper. Built to outlast trends.",
-            "custom_number": ""
-          }
-        }
-      },
-      "block_order": [
-        "s1",
-        "s2",
-        "s3",
-        "s4"
-      ],
-      "settings": {
-        "heading": "Our process",
-        "subheading": "Craftsmanship",
-        "layout": "horizontal",
-        "image_ratio": "portrait",
-        "show_step_numbers": true,
-        "number_style": "overlay",
-        "card_style": "minimal",
-        "content_alignment": "left",
-        "color_scheme": "scheme-1"
+        "text": "<p>Each piece in our collection tells a story of meticulous craftsmanship and timeless design, created for those who appreciate the finer details.</p>",
+        "button_label": "Learn more",
+        "button_link": "",
+        "button_style": "primary",
+        "color_scheme": "",
+        "padding_top": 60,
+        "padding_bottom": 60
       }
     },
     "video": {
       "type": "video",
       "settings": {
-        "heading": "Inside the atelier",
+        "heading": "Our Craftsmanship",
         "heading_size": "h2",
         "external_video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
-        "description": "<p>A glimpse into our Florence workshop — where every piece begins.</p>",
+        "description": "",
         "autoplay": false,
         "show_controls": true,
         "video_ratio": "21-9",
         "full_width": true,
-        "color_scheme": "scheme-2",
-        "padding_top": 80,
-        "padding_bottom": 80
+        "color_scheme": "",
+        "padding_top": 60,
+        "padding_bottom": 60
       }
     },
     "rich-text": {
@@ -321,13 +138,13 @@
         "subheading": {
           "type": "subheading",
           "settings": {
-            "text": "Our philosophy"
+            "text": "Our Philosophy"
           }
         },
         "heading": {
           "type": "heading",
           "settings": {
-            "text": "Considered. Made to last.",
+            "text": "Designed for those who notice the details",
             "size": "h2",
             "html_tag": "h2"
           }
@@ -335,14 +152,14 @@
         "text": {
           "type": "text",
           "settings": {
-            "text": "<p>We believe luxury is quiet. It's in the weight of good linen, the patina of well-made leather, the satisfaction of an object that outlives trends. ÉCRIN is not about the new — it's about what endures.</p>"
+            "text": "<p>Every texture, every stitch, every silhouette is considered. We believe luxury lives in the quiet confidence of exceptional craft — not in logos or trends, but in the feeling of something made with genuine care.</p>"
           }
         },
         "button": {
           "type": "button",
           "settings": {
-            "text": "Read our manifesto",
-            "url": "shopify://pages/about",
+            "text": "Our story",
+            "url": "",
             "open_in_new_tab": false,
             "style": "outline",
             "background": "",
@@ -357,286 +174,11 @@
         "button"
       ],
       "settings": {
-        "color_scheme": "scheme-2",
+        "color_scheme": "",
         "content_width": "md",
         "text_alignment": "center",
-        "padding_top": 100,
-        "padding_bottom": 100
-      }
-    },
-    "lookbook_qa": {
-      "type": "lookbook",
-      "blocks": {
-        "h1": {
-          "type": "hotspot",
-          "settings": {
-            "product": "",
-            "position_x": 30,
-            "position_y": 40
-          }
-        },
-        "h2": {
-          "type": "hotspot",
-          "settings": {
-            "product": "",
-            "position_x": 65,
-            "position_y": 55
-          }
-        }
-      },
-      "block_order": [
-        "h1",
-        "h2"
-      ],
-      "settings": {
-        "image_ratio": "landscape",
-        "overlay_opacity": 0,
-        "full_width": true,
-        "heading": "Shop the look",
-        "subheading": "Curated editorial pairings",
-        "color_scheme": "scheme-1"
-      }
-    },
-    "testimonials_qa": {
-      "type": "testimonials",
-      "blocks": {
-        "t1": {
-          "type": "testimonial",
-          "settings": {
-            "quote": "<p>The linen shirt has become my favorite piece. Three years in and it only gets better.</p>",
-            "author": "Camille R.",
-            "role": "Paris",
-            "rating": 5
-          }
-        },
-        "t2": {
-          "type": "testimonial",
-          "settings": {
-            "quote": "<p>Quality you can feel. Bought for my partner, ordered two more for myself.</p>",
-            "author": "Marco L.",
-            "role": "Milan",
-            "rating": 5
-          }
-        },
-        "t3": {
-          "type": "testimonial",
-          "settings": {
-            "quote": "<p>Finally, a brand that doesn't shout. Beautiful objects, thoughtfully made.</p>",
-            "author": "Sophia K.",
-            "role": "Berlin",
-            "rating": 5
-          }
-        }
-      },
-      "block_order": [
-        "t1",
-        "t2",
-        "t3"
-      ],
-      "settings": {
-        "subheading": "Testimonials",
-        "heading": "What our customers say",
-        "heading_size": "h2",
-        "layout": "grid",
-        "columns_desktop": 3,
-        "show_rating": true,
-        "color_scheme": "scheme-2",
         "padding_top": 80,
         "padding_bottom": 80
-      }
-    },
-    "devoilement_qa": {
-      "type": "devoilement",
-      "blocks": {
-        "scene_1": {
-          "type": "scene",
-          "settings": {
-            "image": "shopify://shop_images/landscape_16to9.jpg",
-            "reveal_style": "circle",
-            "overlay_opacity": 30,
-            "subheading": "Chapter one",
-            "heading": "The beginning",
-            "heading_size": "cinematic",
-            "text": "<p>Every piece starts with a conversation between artisan and material — a shared respect for what can be made by hand.</p>",
-            "button_label": "",
-            "button_link": "",
-            "button_style": "filled-dark",
-            "content_position": "auto",
-            "text_color": "light",
-            "product": "",
-            "show_product_card": false
-          }
-        },
-        "scene_2": {
-          "type": "scene",
-          "settings": {
-            "image": "shopify://shop_images/kids-beanie.jpg",
-            "reveal_style": "circle",
-            "overlay_opacity": 25,
-            "subheading": "Chapter two",
-            "heading": "The craft",
-            "heading_size": "large",
-            "text": "<p>Hours of hand-stitching. Edges burnished by hand. Every detail considered, every imperfection intentional.</p>",
-            "button_label": "",
-            "button_link": "",
-            "button_style": "filled-dark",
-            "content_position": "bottom-left",
-            "text_color": "light",
-            "product": "",
-            "show_product_card": false
-          }
-        },
-        "scene_3": {
-          "type": "scene",
-          "settings": {
-            "image": "shopify://shop_images/red-t-shirt_75b7e00c-035b-48fe-9b0b-c4c040888cc4.jpg",
-            "reveal_style": "diagonal",
-            "overlay_opacity": 20,
-            "subheading": "Chapter three",
-            "heading": "The collection",
-            "heading_size": "large",
-            "text": "<p>Limited, numbered, made to outlast seasons. Designed for the long view.</p>",
-            "button_label": "Explore",
-            "button_link": "shopify://collections/all",
-            "button_style": "filled-white",
-            "content_position": "auto",
-            "text_color": "light",
-            "product": "",
-            "show_product_card": false
-          }
-        }
-      },
-      "block_order": [
-        "scene_1",
-        "scene_2",
-        "scene_3"
-      ],
-      "settings": {
-        "heading": "",
-        "subheading": "",
-        "scroll_per_scene": "medium",
-        "content_position": "center",
-        "content_width": "medium",
-        "show_progress": true,
-        "progress_position": "right",
-        "show_counter": true,
-        "enable_cursor_parallax": true,
-        "color_scheme": "scheme-1"
-      }
-    },
-    "ritual_qa": {
-      "type": "product-ritual",
-      "blocks": {
-        "r1": {
-          "type": "step",
-          "settings": {
-            "image": "shopify://shop_images/landscape_4to3.jpg",
-            "heading": "Dust",
-            "text": "Gently wipe with a soft dry cloth to remove surface dust.",
-            "duration": "30 sec",
-            "product": ""
-          }
-        },
-        "r2": {
-          "type": "step",
-          "settings": {
-            "image": "shopify://shop_images/pineapple-enamel-pin-denim.jpg",
-            "heading": "Nourish",
-            "text": "Apply a small amount of leather balm quarterly. Massage in circular motions.",
-            "duration": "5 min",
-            "product": ""
-          }
-        },
-        "r3": {
-          "type": "step",
-          "settings": {
-            "heading": "Rest",
-            "text": "Store in the dust bag, away from direct sunlight and humidity.",
-            "duration": "Always",
-            "product": ""
-          }
-        }
-      },
-      "block_order": [
-        "r1",
-        "r2",
-        "r3"
-      ],
-      "settings": {
-        "heading": "The leather care ritual",
-        "subheading": "How to care",
-        "media_position": "left",
-        "image_ratio": "portrait",
-        "number_size": "small",
-        "autoplay": false,
-        "autoplay_speed": 4000,
-        "color_scheme": "scheme-1"
-      }
-    },
-    "countdown_qa": {
-      "type": "countdown",
-      "settings": {
-        "heading": "The Florence capsule",
-        "message": "<p>Limited to 200 pieces worldwide. Each numbered by hand.</p>",
-        "end_date": "2026-12-31",
-        "end_time": "23:59",
-        "expired_message": "This capsule has sold out.",
-        "hide_when_expired": false,
-        "button_label": "Reserve yours",
-        "button_link": "shopify://collections/all",
-        "button_style": "primary",
-        "color_scheme": "scheme-1"
-      }
-    },
-    "logo_list_qa": {
-      "type": "logo-list",
-      "blocks": {
-        "l1": {
-          "type": "logo",
-          "settings": {
-            "link": ""
-          }
-        },
-        "l2": {
-          "type": "logo",
-          "settings": {
-            "link": ""
-          }
-        },
-        "l3": {
-          "type": "logo",
-          "settings": {
-            "link": ""
-          }
-        },
-        "l4": {
-          "type": "logo",
-          "settings": {
-            "link": ""
-          }
-        },
-        "l5": {
-          "type": "logo",
-          "settings": {
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "l1",
-        "l2",
-        "l3",
-        "l4",
-        "l5"
-      ],
-      "settings": {
-        "heading": "As seen in",
-        "subheading": "Press",
-        "columns": 5,
-        "logo_height": 40,
-        "grayscale": true,
-        "show_dividers": false,
-        "color_scheme": "scheme-1"
       }
     },
     "multicolumn": {
@@ -646,8 +188,8 @@
           "type": "column",
           "settings": {
             "icon": "shipping",
-            "heading": "Complimentary shipping",
-            "text": "<p>On all orders over €200 across Europe. Tracked, insured, delivered in 2-4 days.</p>",
+            "heading": "Free shipping",
+            "text": "<p>On all orders over $150. Fast, reliable delivery worldwide.</p>",
             "link_label": "",
             "link": ""
           }
@@ -656,8 +198,8 @@
           "type": "column",
           "settings": {
             "icon": "return",
-            "heading": "30-day returns",
-            "text": "<p>Shop with confidence. Free returns within 30 days — no questions asked.</p>",
+            "heading": "Easy returns",
+            "text": "<p>30-day return policy. No questions asked.</p>",
             "link_label": "",
             "link": ""
           }
@@ -665,9 +207,9 @@
         "col3": {
           "type": "column",
           "settings": {
-            "icon": "warranty",
-            "heading": "Made to last",
-            "text": "<p>Each piece includes a 2-year craftsmanship guarantee and repair service.</p>",
+            "icon": "lock",
+            "heading": "Secure payment",
+            "text": "<p>Your data is protected with industry-leading encryption.</p>",
             "link_label": "",
             "link": ""
           }
@@ -688,81 +230,24 @@
         "image_width": "medium",
         "image_ratio": "adapt",
         "show_borders": false,
-        "color_scheme": "scheme-2",
-        "padding_top": 60,
-        "padding_bottom": 60
-      }
-    },
-    "collapsible_qa": {
-      "type": "collapsible-content",
-      "blocks": {
-        "row1": {
-          "type": "row",
-          "settings": {
-            "heading": "Shipping and delivery",
-            "content": "<p>Complimentary shipping on all European orders over €200. International shipping available — delivery in 2 to 6 business days depending on your location. All orders are tracked and insured.</p>"
-          }
-        },
-        "row2": {
-          "type": "row",
-          "settings": {
-            "heading": "Returns and exchanges",
-            "content": "<p>We offer free returns within 30 days of delivery. Items must be unworn, in their original packaging, and with tags attached. Custom or personalized pieces are final sale.</p>"
-          }
-        },
-        "row3": {
-          "type": "row",
-          "settings": {
-            "heading": "Sizing guide",
-            "content": "<p>Our ready-to-wear runs true to size. For leather goods, please refer to the dimensions listed on each product page. If in doubt, reach out to our concierge team — we're here to help.</p>"
-          }
-        },
-        "row4": {
-          "type": "row",
-          "settings": {
-            "heading": "Care instructions",
-            "content": "<p>Each ÉCRIN piece comes with a care card. Leather develops character with use — wipe with a dry cloth and condition quarterly. Linen and cotton can be machine-washed on cold, hung to dry.</p>"
-          }
-        },
-        "row5": {
-          "type": "row",
-          "settings": {
-            "heading": "The ÉCRIN guarantee",
-            "content": "<p>Every piece comes with a 2-year craftsmanship guarantee. If something goes wrong due to a manufacturing defect, we'll repair it — or replace it — at no cost to you.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "row1",
-        "row2",
-        "row3",
-        "row4",
-        "row5"
-      ],
-      "settings": {
-        "heading": "Frequently asked",
-        "heading_size": "h2",
-        "subheading": "",
-        "layout": "stacked",
-        "open_first": false,
-        "color_scheme": "scheme-2",
-        "padding_top": 80,
-        "padding_bottom": 80
+        "color_scheme": "",
+        "padding_top": 40,
+        "padding_bottom": 40
       }
     },
     "newsletter": {
       "type": "newsletter",
       "settings": {
-        "heading": "Letters from the atelier",
+        "heading": "Stay in the know",
         "heading_size": "h2",
-        "subheading": "<p>Monthly dispatches on new collections, artisan stories, and slow design. No spam, ever.</p>",
+        "subheading": "<p>Sign up for exclusive access to new collections, special offers, and style inspiration delivered to your inbox.</p>",
         "button_label": "Subscribe",
-        "disclaimer": "<p>By subscribing, you agree to our <a href=\"#\">privacy policy</a>.</p>",
+        "disclaimer": "<p>By signing up, you agree to our <a href=\"#\">privacy policy</a>.</p>",
         "layout": "centered",
         "overlay_opacity": 40,
-        "color_scheme": "scheme-2",
-        "padding_top": 100,
-        "padding_bottom": 100
+        "color_scheme": "",
+        "padding_top": 80,
+        "padding_bottom": 80
       }
     },
     "marquee_9WHVaf": {
@@ -771,7 +256,7 @@
         "item_A9yim6": {
           "type": "item",
           "settings": {
-            "text": "ÉCRIN",
+            "text": "Free shipping worldwide",
             "icon": "none",
             "link": ""
           }
@@ -779,7 +264,7 @@
         "item_dz6jrG": {
           "type": "item",
           "settings": {
-            "text": "A collection of considered pieces",
+            "text": "New collection available",
             "icon": "none",
             "link": ""
           }
@@ -787,7 +272,7 @@
         "item_98irpV": {
           "type": "item",
           "settings": {
-            "text": "Made in Europe",
+            "text": "Exclusive designs",
             "icon": "none",
             "link": ""
           }
@@ -801,17 +286,14 @@
       "name": "t:sections.marquee.preset_name",
       "settings": {
         "separator": "·",
-        "speed": "slow",
+        "speed": "medium",
         "direction": "left",
         "text_size": "medium",
-        "font_choice": "heading",
-        "gap_size": "large",
         "pause_on_hover": true,
         "show_borders": true,
-        "show_gradient_overlay": true,
-        "color_scheme": "scheme-2",
-        "padding_top": 24,
-        "padding_bottom": 24
+        "color_scheme": "",
+        "padding_top": 16,
+        "padding_bottom": 16
       }
     }
   },
@@ -819,19 +301,10 @@
     "hero",
     "marquee",
     "featured-collection",
-    "split_screen_qa",
     "image-with-text",
-    "atelier_qa",
     "video",
     "rich-text",
-    "lookbook_qa",
-    "testimonials_qa",
-    "devoilement_qa",
-    "ritual_qa",
-    "countdown_qa",
-    "logo_list_qa",
     "multicolumn",
-    "collapsible_qa",
     "newsletter",
     "marquee_9WHVaf"
   ]
