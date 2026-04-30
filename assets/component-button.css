@@ -235,8 +235,13 @@
     transform: translateY(0);
   }
 
+  /* Fade mode: invert bg + text so the label stays readable. The previous
+     `opacity: 0.85` left a near-invisible state on touch where the dark
+     text faded into the white bg during the transition. */
   [data-button-hover="fade"] .btn--filled-white:hover {
-    opacity: 0.85;
+    background-color: rgb(10, 10, 10);
+    border-color: rgb(10, 10, 10);
+    color: rgb(255, 255, 255);
   }
 }
 
@@ -280,7 +285,9 @@
 
   [data-button-hover="fade"] .btn--filled-dark:hover,
   [data-button-hover="fade"] .btn--filled-black:hover {
-    opacity: 0.85;
+    background-color: rgb(255, 255, 255);
+    border-color: rgb(255, 255, 255);
+    color: rgb(10, 10, 10);
   }
 }
 
