@@ -58,7 +58,7 @@
               "settings": {
                 "label": "Shop the collection",
                 "link": "shopify://collections/all",
-                "style": "filled-black"
+                "style": "filled-dark"
               }
             },
             "btn2": {
