@@ -94,6 +94,19 @@
             "id": "secondary_button_label",
             "label": "t:settings_schema.colors.secondary_button_label",
             "default": "#0A0A0A"
+          },
+          { "type": "header", "content": "t:settings_schema.colors.secondary_button_hover" },
+          {
+            "type": "color",
+            "id": "secondary_button_hover_background",
+            "label": "t:settings_schema.colors.secondary_button_hover_background",
+            "default": "#0A0A0A"
+          },
+          {
+            "type": "color",
+            "id": "secondary_button_hover_label",
+            "label": "t:settings_schema.colors.secondary_button_hover_label",
+            "default": "#FFFFFF"
           }
         ],
         "role": {
