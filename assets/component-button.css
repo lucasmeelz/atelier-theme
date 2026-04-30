@@ -148,30 +148,38 @@
   transform: translateY(0);
 }
 
-/* ===== OUTLINE DARK (for light backgrounds / FC footer) ===== */
+/* ===== OUTLINE BLACK (for light backgrounds / image overlays) =====
+   Hardcoded black border + black text — for use over light images
+   regardless of color scheme. Kept .btn--outline-dark as a legacy
+   alias so existing merchant data doesn't break. */
 
-.btn--outline-dark {
+.btn--outline-dark,
+.btn--outline-black {
   background-color: transparent;
-  border-color: rgb(var(--color-text));
-  color: rgb(var(--color-text));
+  border-color: rgb(10, 10, 10);
+  color: rgb(10, 10, 10);
 }
 
-.btn--outline-dark .btn__fill {
-  background-color: rgb(var(--color-text));
+.btn--outline-dark .btn__fill,
+.btn--outline-black .btn__fill {
+  background-color: rgb(10, 10, 10);
 }
 
 @media (hover: hover) {
-  [data-button-hover="slide-up"] .btn--outline-dark:hover {
-    color: rgb(var(--color-background));
+  [data-button-hover="slide-up"] .btn--outline-dark:hover,
+  [data-button-hover="slide-up"] .btn--outline-black:hover {
+    color: rgb(255, 255, 255);
   }
 
-  [data-button-hover="slide-up"] .btn--outline-dark:hover .btn__fill {
+  [data-button-hover="slide-up"] .btn--outline-dark:hover .btn__fill,
+  [data-button-hover="slide-up"] .btn--outline-black:hover .btn__fill {
     transform: translateY(0);
   }
 
-  [data-button-hover="fade"] .btn--outline-dark:hover {
-    background-color: rgb(var(--color-text));
-    color: rgb(var(--color-background));
+  [data-button-hover="fade"] .btn--outline-dark:hover,
+  [data-button-hover="fade"] .btn--outline-black:hover {
+    background-color: rgb(10, 10, 10);
+    color: rgb(255, 255, 255);
   }
 }
 
@@ -192,7 +200,7 @@
 
 @media (hover: hover) {
   [data-button-hover="slide-up"] .btn--outline-white:hover {
-    color: rgb(var(--color-text));
+    color: rgb(10, 10, 10);
   }
 
   [data-button-hover="slide-up"] .btn--outline-white:hover .btn__fill {
@@ -201,7 +209,7 @@
 
   [data-button-hover="fade"] .btn--outline-white:hover {
     background-color: rgb(255, 255, 255);
-    color: rgb(var(--color-text));
+    color: rgb(10, 10, 10);
   }
 }
 
@@ -211,11 +219,11 @@
 .btn--filled-white {
   background-color: rgb(255, 255, 255);
   border-color: rgb(255, 255, 255);
-  color: rgb(var(--color-text));
+  color: rgb(10, 10, 10);
 }
 
 .btn--filled-white .btn__fill {
-  background-color: rgb(var(--color-text));
+  background-color: rgb(10, 10, 10);
 }
 
 @media (hover: hover) {
