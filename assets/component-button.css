@@ -240,37 +240,49 @@
   transform: translateY(0);
 }
 
-/* ===== FILLED DARK (for hero on light images) ===== */
+/* ===== FILLED BLACK (for use over light images / overlays) =====
+   Intentionally hardcoded black — same rationale as .btn--filled-white
+   above. This variant exists for image overlays where black is the
+   design intent regardless of color scheme. The legacy class name
+   `.btn--filled-dark` is kept for data compatibility; merchants pick
+   "Filled black" in the customizer. */
 
-.btn--filled-dark {
-  background-color: rgb(var(--color-text));
-  border-color: rgb(var(--color-text));
-  color: rgb(var(--color-background));
+.btn--filled-dark,
+.btn--filled-black {
+  background-color: rgb(10, 10, 10);
+  border-color: rgb(10, 10, 10);
+  color: rgb(255, 255, 255);
 }
 
-.btn--filled-dark .btn__fill {
-  background-color: rgb(var(--color-background));
+.btn--filled-dark .btn__fill,
+.btn--filled-black .btn__fill {
+  background-color: rgb(255, 255, 255);
 }
 
 @media (hover: hover) {
-  [data-button-hover="slide-up"] .btn--filled-dark:hover {
-    color: rgb(var(--color-text));
+  [data-button-hover="slide-up"] .btn--filled-dark:hover,
+  [data-button-hover="slide-up"] .btn--filled-black:hover {
+    color: rgb(10, 10, 10);
   }
 
-  [data-button-hover="slide-up"] .btn--filled-dark:hover .btn__fill {
+  [data-button-hover="slide-up"] .btn--filled-dark:hover .btn__fill,
+  [data-button-hover="slide-up"] .btn--filled-black:hover .btn__fill {
     transform: translateY(0);
   }
 
-  [data-button-hover="fade"] .btn--filled-dark:hover {
+  [data-button-hover="fade"] .btn--filled-dark:hover,
+  [data-button-hover="fade"] .btn--filled-black:hover {
     opacity: 0.85;
   }
 }
 
-.btn--filled-dark:active {
-  color: rgb(var(--color-text));
+.btn--filled-dark:active,
+.btn--filled-black:active {
+  color: rgb(10, 10, 10);
 }
 
-.btn--filled-dark:active .btn__fill {
+.btn--filled-dark:active .btn__fill,
+.btn--filled-black:active .btn__fill {
   transform: translateY(0);
 }
 
