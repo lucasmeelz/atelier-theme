@@ -561,46 +561,12 @@ picture:has(.hero__img),
   flex-wrap: wrap;
 }
 
-/* Button styles specific to hero */
-.hero .btn--outline-white {
-  color: currentColor;
-  border-color: currentColor;
-  background-color: transparent;
-}
-
-@media (hover: hover) {
-  .hero .btn--outline-white:hover {
-    background-color: currentColor;
-  }
-
-  .hero .btn--outline-white:hover .btn__label {
-    color: rgb(var(--color-background, 255, 255, 255));
-  }
-}
-
-.hero .btn--filled-white {
-  background-color: rgb(var(--color-background, 255, 255, 255));
-  color: rgb(var(--color-text, 10, 10, 10));
-  border-color: rgb(var(--color-background, 255, 255, 255));
-}
-
-@media (hover: hover) {
-  .hero .btn--filled-white:hover {
-    background-color: rgba(var(--color-background, 255, 255, 255), 0.85);
-  }
-}
-
-.hero .btn--filled-dark {
-  background-color: rgb(var(--color-text, 10, 10, 10));
-  color: rgb(var(--color-background, 255, 255, 255));
-  border-color: rgb(var(--color-text, 10, 10, 10));
-}
-
-@media (hover: hover) {
-  .hero .btn--filled-dark:hover {
-    opacity: 0.85;
-  }
-}
+/* No hero-specific button overrides. The fixed black/white variants are
+   defined globally in assets/component-button.css with hardcoded colors
+   (white-on-image variants always white, black-on-image variants always
+   black) so they look identical regardless of the section color scheme.
+   The configurable variants (primary, secondary, outline) inherit
+   scheme-aware colors from .color-scheme-X applied by the section. */
 
 /* ===================================
    Scroll Indicator

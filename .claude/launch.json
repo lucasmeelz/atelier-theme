@@ -4,7 +4,7 @@
     {
       "name": "shopify-dev",
       "runtimeExecutable": "shopify",
-      "runtimeArgs": ["theme", "dev", "--store=alma-theme.myshopify.com", "--theme=154468843693", "--port=9293"],
+      "runtimeArgs": ["theme", "dev", "--store=alma-theme.myshopify.com", "--theme=154468843693", "--port=9293", "--store-password=123456"],
       "port": 9293
     }
   ]
