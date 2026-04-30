@@ -257,12 +257,15 @@
       "label": "Label",
       "link": "Link",
       "style": "Style",
-      "style_primary": "Primary",
-      "style_secondary": "Secondary",
-      "style_outline": "Outline",
-      "style_filled_white": "Filled white",
+      "style_info": "Primary and Secondary use the colors set in Theme settings → Colors → Buttons. The fixed black/white variants are for use over images.",
+      "style_primary": "Primary (theme settings)",
+      "style_secondary": "Secondary (theme settings)",
+      "style_outline": "Outline (auto)",
+      "style_outline_black": "Outline black",
       "style_outline_white": "Outline white",
-      "style_filled_dark": "Filled dark"
+      "style_filled_black": "Filled black",
+      "style_filled_white": "Filled white",
+      "style_filled_dark": "Filled dark (legacy)"
     },
     "hero_media": {
       "name": "Hero · Background media",
