@@ -323,7 +323,6 @@ picture:has(.hero__img),
 
 .hero__content--align-right {
   text-align: right;
-  align-items: flex-end;
 }
 
 .hero__content--align-right .hero__buttons {
