@@ -291,17 +291,28 @@ picture:has(.hero__img),
   text-align: right;
 }
 
-/* Centered positions — center the buttons too */
-.hero__content--top-center .hero__buttons,
-.hero__content--middle-center .hero__buttons,
-.hero__content--bottom-center .hero__buttons {
+/* Inner row alignment — content-sized children (standalone buttons,
+   horizontal groups) follow the section's horizontal anchor so they
+   line up with the heading text. Without this, content-sized children
+   stay at flex-start of the inner row and visually disconnect from
+   the surrounding text when the position is center- or right-anchored.
+   Full-row children (heading, description, eyebrow…) ignore this since
+   their flex-basis is 100% of the inner width. */
+.hero__content--top-left .hero__content-inner,
+.hero__content--middle-left .hero__content-inner,
+.hero__content--bottom-left .hero__content-inner {
+  justify-content: flex-start;
+}
+
+.hero__content--top-center .hero__content-inner,
+.hero__content--middle-center .hero__content-inner,
+.hero__content--bottom-center .hero__content-inner {
   justify-content: center;
 }
 
-/* Right-positioned blocks: align buttons to the right edge too */
-.hero__content--top-right .hero__buttons,
-.hero__content--middle-right .hero__buttons,
-.hero__content--bottom-right .hero__buttons {
+.hero__content--top-right .hero__content-inner,
+.hero__content--middle-right .hero__content-inner,
+.hero__content--bottom-right .hero__content-inner {
   justify-content: flex-end;
 }
 
@@ -326,8 +337,8 @@ picture:has(.hero__img),
 
 /* Mobile position override — when set, fully takes over from the desktop
    position class. Each variant sets vertical (justify-content), horizontal
-   (align-items + text-align), and the buttons row alignment together so
-   nothing leaks from the desktop class. */
+   (align-items + text-align) on the parent, plus the matching inner row
+   alignment so content-sized children line up with the heading text. */
 @media screen and (max-width: 989px) {
   /* Top row */
   .hero__content--mobile-top-left {
@@ -335,26 +346,17 @@ picture:has(.hero__img),
     align-items: flex-start;
     text-align: left;
   }
-  .hero__content--mobile-top-left .hero__buttons {
-    justify-content: flex-start;
-  }
 
   .hero__content--mobile-top-center {
     justify-content: flex-start;
     align-items: center;
     text-align: center;
   }
-  .hero__content--mobile-top-center .hero__buttons {
-    justify-content: center;
-  }
 
   .hero__content--mobile-top-right {
     justify-content: flex-start;
     align-items: flex-end;
     text-align: right;
-  }
-  .hero__content--mobile-top-right .hero__buttons {
-    justify-content: flex-end;
   }
 
   /* Middle row */
@@ -363,26 +365,17 @@ picture:has(.hero__img),
     align-items: flex-start;
     text-align: left;
   }
-  .hero__content--mobile-middle-left .hero__buttons {
-    justify-content: flex-start;
-  }
 
   .hero__content--mobile-middle-center {
     justify-content: center;
     align-items: center;
     text-align: center;
   }
-  .hero__content--mobile-middle-center .hero__buttons {
-    justify-content: center;
-  }
 
   .hero__content--mobile-middle-right {
     justify-content: center;
     align-items: flex-end;
     text-align: right;
-  }
-  .hero__content--mobile-middle-right .hero__buttons {
-    justify-content: flex-end;
   }
 
   /* Bottom row */
@@ -391,17 +384,11 @@ picture:has(.hero__img),
     align-items: flex-start;
     text-align: left;
   }
-  .hero__content--mobile-bottom-left .hero__buttons {
-    justify-content: flex-start;
-  }
 
   .hero__content--mobile-bottom-center {
     justify-content: flex-end;
     align-items: center;
     text-align: center;
-  }
-  .hero__content--mobile-bottom-center .hero__buttons {
-    justify-content: center;
   }
 
   .hero__content--mobile-bottom-right {
@@ -409,35 +396,25 @@ picture:has(.hero__img),
     align-items: flex-end;
     text-align: right;
   }
-  .hero__content--mobile-bottom-right .hero__buttons {
-    justify-content: flex-end;
-  }
-}
 
-/* Mobile only (< 750px) — stack CTAs and make them full-width so they
-   align to each other and match the app-native luxury feel of the rest
-   of the theme. Align to the section alignment (left-anchored for
-   bottom-left, center-anchored for center content). */
-@media screen and (max-width: 749px) {
-  .hero__buttons {
-    flex-direction: column;
-    gap: 12px;
-    width: 100%;
-    max-width: 320px;
+  /* Inner row alignment for mobile-specific positions — same logic as
+     desktop: keeps standalone buttons aligned with the heading text. */
+  .hero__content--mobile-top-left .hero__content-inner,
+  .hero__content--mobile-middle-left .hero__content-inner,
+  .hero__content--mobile-bottom-left .hero__content-inner {
+    justify-content: flex-start;
   }
 
-  .hero__content--top-center .hero__buttons,
-  .hero__content--middle-center .hero__buttons,
-  .hero__content--bottom-center .hero__buttons,
-  .hero__content--mobile-top-center .hero__buttons,
-  .hero__content--mobile-middle-center .hero__buttons,
-  .hero__content--mobile-bottom-center .hero__buttons {
-    margin-inline: auto;
-  }
-
-  .hero__buttons .btn {
-    width: 100%;
+  .hero__content--mobile-top-center .hero__content-inner,
+  .hero__content--mobile-middle-center .hero__content-inner,
+  .hero__content--mobile-bottom-center .hero__content-inner {
     justify-content: center;
+  }
+
+  .hero__content--mobile-top-right .hero__content-inner,
+  .hero__content--mobile-middle-right .hero__content-inner,
+  .hero__content--mobile-bottom-right .hero__content-inner {
+    justify-content: flex-end;
   }
 }
 
@@ -456,13 +433,16 @@ picture:has(.hero__img),
   background-color: transparent;
 }
 
+/* Inheritance for native typographic tags so headings, paragraphs and
+   the eyebrow/subheading block classes pick up the hero text color
+   regardless of which color scheme paints the section. */
 .hero__content,
 .hero__content h1,
 .hero__content h2,
 .hero__content h3,
 .hero__content p,
-.hero__content .hero__eyebrow,
-.hero__content .hero__subheading {
+.hero__content .eyebrow,
+.hero__content .block-subheading {
   color: inherit;
 }
 
@@ -471,80 +451,12 @@ picture:has(.hero__img),
   color: rgb(var(--color-text, 10, 10, 10));
 }
 
-/* Eyebrow (small all-caps label above subheading/heading) */
-.hero__eyebrow {
-  font-family: var(--font-label-family, sans-serif);
-  font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  margin: 0 0 0.75rem;
-  opacity: 0.85;
-}
+/* Typography for the text blocks composed into the hero is owned by the
+   blocks themselves (.eyebrow, .block-subheading, .heading, .description).
+   No hero-specific overrides. Likewise, button styles are global in
+   assets/component-button.css; the hero uses the unmodified .btn variants
+   so visuals stay consistent across sections. */
 
-/* Subheading — elegant bridging line between eyebrow and heading.
-   Not uppercase, slightly larger, lets the heading remain the focal point. */
-.hero__subheading {
-  font-family: var(--font-body-family, sans-serif);
-  font-size: clamp(0.9375rem, 1.4vw, 1.0625rem);
-  font-weight: 400;
-  line-height: 1.4;
-  letter-spacing: 0.01em;
-  margin: 0 0 1rem;
-  opacity: 0.92;
-}
-
-/* Heading */
-.hero__heading {
-  font-family: var(--font-heading-family, serif);
-  font-weight: var(--font-heading-weight, 300);
-  font-style: var(--font-heading-style, normal);
-  line-height: 1.05;
-  margin: 0;
-}
-
-.hero__heading--medium {
-  font-size: clamp(1.75rem, 4vw, 3rem);
-}
-
-.hero__heading--large {
-  font-size: clamp(2.25rem, 5.5vw, 4.5rem);
-}
-
-.hero__heading--cinematic {
-  font-size: clamp(3rem, 8vw, 7rem);
-  letter-spacing: -0.02em;
-}
-
-/* Body text */
-.hero__text {
-  margin-top: 1.25rem;
-  font-size: 0.9375rem;
-  line-height: 1.7;
-  opacity: 0.8;
-  letter-spacing: 0.01em;
-}
-
-.hero__text p {
-  margin: 0;
-}
-
-/* ===================================
-   Buttons
-   =================================== */
-.hero__buttons {
-  margin-top: 2.5rem;
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-/* No hero-specific button overrides. The fixed black/white variants are
-   defined globally in assets/component-button.css with hardcoded colors
-   (white-on-image variants always white, black-on-image variants always
-   black) so they look identical regardless of the section color scheme.
-   The configurable variants (primary, secondary, outline) inherit
-   scheme-aware colors from .color-scheme-X applied by the section. */
 
 /* ===================================
    Scroll Indicator
