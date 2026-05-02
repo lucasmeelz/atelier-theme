@@ -13,9 +13,49 @@
   assign text_color_override = block.settings.text_color_override
   assign text_color = block.settings.text_color | default: '#FFFFFF'
   assign max_width = block.settings.max_width | default: 36
+
+  case text_position
+    when 'top-center', 'middle-center', 'bottom-center'
+      assign inner_justify = 'center'
+    when 'top-right', 'middle-right', 'bottom-right'
+      assign inner_justify = 'flex-end'
+    else
+      assign inner_justify = 'flex-start'
+  endcase
+
+  if text_position_mobile == 'auto'
+    assign inner_justify_mobile = inner_justify
+  else
+    case text_position_mobile
+      when 'top-center', 'middle-center', 'bottom-center'
+        assign inner_justify_mobile = 'center'
+      when 'top-right', 'middle-right', 'bottom-right'
+        assign inner_justify_mobile = 'flex-end'
+      else
+        assign inner_justify_mobile = 'flex-start'
+    endcase
+  endif
+
+  assign content_id = 'HeroContent-' | append: block.id
 -%}
 
+{%- comment -%}
+  Per-block inline <style> for the inner row alignment. This is served
+  with the page HTML so it bypasses any stale CSS file cached by the
+  theme customizer iframe. ID-targeted selector wins over the class
+  rules in section-hero.css regardless of order.
+{%- endcomment -%}
+<style>
+  #{{ content_id }} .hero__content-inner { justify-content: {{ inner_justify }}; }
+  {%- if text_position_mobile != 'auto' -%}
+    @media (max-width: 989px) {
+      #{{ content_id }} .hero__content-inner { justify-content: {{ inner_justify_mobile }}; }
+    }
+  {%- endif -%}
+</style>
+
 <div
+  id="{{ content_id }}"
   class="hero__content hero__content--{{ text_position }}{% if text_position_mobile != 'auto' %} hero__content--mobile-{{ text_position_mobile }}{% endif %}{% if text_color_override %} hero__content--color-override{% endif %}"
   style="--hero-content-max-width: {{ max_width }}rem;{% if text_color_override %} --hero-text-color: {{ text_color }};{% endif %}"
   {{ block.shopify_attributes }}
