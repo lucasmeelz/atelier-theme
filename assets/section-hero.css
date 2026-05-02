@@ -205,7 +205,9 @@ picture:has(.hero__img),
     width: 100%;
     justify-content: center;
   }
-  .hero__content--align-center .hero__content-inner > .shopify-block:has(> .btn) {
+  .hero__content--top-center .hero__content-inner > .shopify-block:has(> .btn),
+  .hero__content--middle-center .hero__content-inner > .shopify-block:has(> .btn),
+  .hero__content--bottom-center .hero__content-inner > .shopify-block:has(> .btn) {
     margin-inline: auto;
   }
 }
@@ -300,32 +302,6 @@ picture:has(.hero__img),
 .hero__content--top-right .hero__buttons,
 .hero__content--middle-right .hero__buttons,
 .hero__content--bottom-right .hero__buttons {
-  justify-content: flex-end;
-}
-
-/* Content alignment override — only controls text-align and button layout.
-   Does NOT override align-items (that belongs to text_position). */
-.hero__content--align-center {
-  text-align: center;
-}
-
-.hero__content--align-center .hero__buttons {
-  justify-content: center;
-}
-
-.hero__content--align-left {
-  text-align: left;
-}
-
-.hero__content--align-left .hero__buttons {
-  justify-content: flex-start;
-}
-
-.hero__content--align-right {
-  text-align: right;
-}
-
-.hero__content--align-right .hero__buttons {
   justify-content: flex-end;
 }
 
@@ -450,9 +426,12 @@ picture:has(.hero__img),
     max-width: 320px;
   }
 
-  .hero__content--align-center .hero__buttons,
-  .hero__content--mobile-bottom-center .hero__buttons,
-  .hero__content--mobile-middle-center .hero__buttons {
+  .hero__content--top-center .hero__buttons,
+  .hero__content--middle-center .hero__buttons,
+  .hero__content--bottom-center .hero__buttons,
+  .hero__content--mobile-top-center .hero__buttons,
+  .hero__content--mobile-middle-center .hero__buttons,
+  .hero__content--mobile-bottom-center .hero__buttons {
     margin-inline: auto;
   }
 

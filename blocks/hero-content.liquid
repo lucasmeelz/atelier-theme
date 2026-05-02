@@ -10,14 +10,13 @@
 {%- liquid
   assign text_position = block.settings.text_position | default: 'bottom-left'
   assign text_position_mobile = block.settings.text_position_mobile | default: 'auto'
-  assign content_alignment = block.settings.content_alignment | default: 'left'
   assign text_color_override = block.settings.text_color_override
   assign text_color = block.settings.text_color | default: '#FFFFFF'
   assign max_width = block.settings.max_width | default: 36
 -%}
 
 <div
-  class="hero__content hero__content--{{ text_position }} hero__content--align-{{ content_alignment }}{% if text_position_mobile != 'auto' %} hero__content--mobile-{{ text_position_mobile }}{% endif %}{% if text_color_override %} hero__content--color-override{% endif %}"
+  class="hero__content hero__content--{{ text_position }}{% if text_position_mobile != 'auto' %} hero__content--mobile-{{ text_position_mobile }}{% endif %}{% if text_color_override %} hero__content--color-override{% endif %}"
   style="--hero-content-max-width: {{ max_width }}rem;{% if text_color_override %} --hero-text-color: {{ text_color }};{% endif %}"
   {{ block.shopify_attributes }}
 >
@@ -76,17 +75,6 @@
         { "value": "bottom-right", "label": "t:blocks.hero_content.position_bottom_right" }
       ],
       "default": "auto"
-    },
-    {
-      "type": "select",
-      "id": "content_alignment",
-      "label": "t:blocks.hero_content.content_alignment",
-      "options": [
-        { "value": "left", "label": "t:blocks.hero_content.align_left" },
-        { "value": "center", "label": "t:blocks.hero_content.align_center" },
-        { "value": "right", "label": "t:blocks.hero_content.align_right" }
-      ],
-      "default": "left"
     },
     {
       "type": "range",
