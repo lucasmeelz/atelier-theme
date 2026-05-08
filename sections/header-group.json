@@ -41,6 +41,7 @@
         "announcement_1",
         "announcement_2"
       ],
+      "disabled": true,
       "settings": {
         "color_scheme": "scheme-2",
         "auto_rotate": true,
