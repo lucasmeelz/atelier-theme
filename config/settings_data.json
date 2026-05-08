@@ -66,6 +66,15 @@
     "free_shipping_threshold": "150",
     "show_free_shipping_bar": false,
     "content_for_index": [],
+    "blocks": {
+      "6056100069694191224": {
+        "type": "shopify://apps/ventes-privees/blocks/app-embed/019d4aea-024d-7ba5-ac1d-08fcb795f590",
+        "disabled": false,
+        "settings": {
+          "enabled": true
+        }
+      }
+    },
     "color_schemes": {
       "scheme-1": {
         "settings": {
@@ -80,7 +89,9 @@
           "button_hover_background": "#333333",
           "button_hover_label": "#ffffff",
           "secondary_button_background": "#ffffff",
-          "secondary_button_label": "#0a0a0a"
+          "secondary_button_label": "#0a0a0a",
+          "secondary_button_hover_background": "#0A0A0A",
+          "secondary_button_hover_label": "#FFFFFF"
         }
       },
       "scheme-2": {
@@ -96,7 +107,9 @@
           "button_hover_background": "#333333",
           "button_hover_label": "#ffffff",
           "secondary_button_background": "#ffffff",
-          "secondary_button_label": "#0a0a0a"
+          "secondary_button_label": "#0a0a0a",
+          "secondary_button_hover_background": "#0A0A0A",
+          "secondary_button_hover_label": "#FFFFFF"
         }
       },
       "scheme-3": {
@@ -112,7 +125,9 @@
           "button_hover_background": "#333333",
           "button_hover_label": "#ffffff",
           "secondary_button_background": "#ffffff",
-          "secondary_button_label": "#0a0a0a"
+          "secondary_button_label": "#0a0a0a",
+          "secondary_button_hover_background": "#0A0A0A",
+          "secondary_button_hover_label": "#FFFFFF"
         }
       }
     }
