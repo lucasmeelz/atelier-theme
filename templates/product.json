@@ -23,6 +23,12 @@
             "heading_size": "h3"
           }
         },
+        "ventes_privees_private_sale_badge_PX4Pkn": {
+          "type": "shopify://apps/ventes-privees/blocks/private-sale-badge/019d4aea-024d-7ba5-ac1d-08fcb795f590",
+          "settings": {
+            "badge_size": "small"
+          }
+        },
         "price": {
           "type": "price",
           "settings": {
@@ -30,22 +36,11 @@
             "show_tax_notice": true
           }
         },
-        "shipping_tab": {
-          "type": "collapsible_tab",
+        "description": {
+          "type": "description",
           "settings": {
-            "heading": "Shipping and returns",
-            "content": "<p>Complimentary shipping on orders over €200 across Europe. Tracked and insured — delivery in 2–4 business days. Returns and exchanges accepted within 30 days. Each piece is quality-checked before leaving our atelier.</p>",
-            "page": "",
-            "icon": "shipping"
-          }
-        },
-        "ingredient_list_qhJD7L": {
-          "type": "ingredient_list",
-          "settings": {
-            "heading": "Materials and composition",
-            "ingredients": "Vegetable-tanned leather: Tuscan full-grain, aniline finish|Hardware: Solid brass, hand-polished in Brescia|Lining: Natural cotton canvas|Thread: Waxed linen, hand-stitched",
-            "icon": "none",
-            "default_open": false
+            "collapsible": true,
+            "default_open": true
           }
         },
         "product_highlights_WGkFi9": {
@@ -72,6 +67,28 @@
             "label": "Size guide",
             "page": "",
             "icon": "ruler"
+          }
+        },
+        "personalization": {
+          "type": "product_personalization",
+          "settings": {
+            "label": "Add a monogram",
+            "placeholder": "Up to 3 characters",
+            "max_length": 3,
+            "required": false,
+            "info_text": "Embossed by hand in Florence. Adds 5 business days to delivery.",
+            "property_name": "Monogram"
+          }
+        },
+        "gift_wrap": {
+          "type": "gift_wrapping",
+          "settings": {
+            "label": "Add ÉCRIN gift packaging",
+            "price": "",
+            "show_message": true,
+            "message_label": "Gift message",
+            "message_placeholder": "Written by hand on a linen card",
+            "icon": "ribbon"
           }
         },
         "estimated_delivery_block": {
@@ -108,30 +125,6 @@
             "text_4": ""
           }
         },
-        "description": {
-          "type": "description",
-          "settings": {
-            "collapsible": true,
-            "default_open": true
-          }
-        },
-        "share": {
-          "type": "share",
-          "settings": {
-            "show_border": true
-          }
-        },
-        "concierge": {
-          "type": "concierge_cta",
-          "settings": {
-            "heading": "A piece worth considering?",
-            "subheading": "Our atelier team is available for sizing, materials and gifting questions.",
-            "button_label": "Speak with the atelier",
-            "button_link": "",
-            "icon": "phone",
-            "style": "bordered"
-          }
-        },
         "heritage": {
           "type": "heritage",
           "settings": {
@@ -144,30 +137,27 @@
             "materials_origin": "Vegetable-tanned leather from Tuscany. Brass hardware hand-polished in Brescia. Waxed linen thread from Piedmont.",
             "serial_metafield": "custom.serial_number",
             "show_qr_code": false,
+            "qr_page": "",
             "layout": "stacked",
             "border_style": "frame"
           }
         },
-        "personalization": {
-          "type": "product_personalization",
+        "ingredient_list_qhJD7L": {
+          "type": "ingredient_list",
           "settings": {
-            "label": "Add a monogram",
-            "placeholder": "Up to 3 characters",
-            "max_length": 3,
-            "required": false,
-            "info_text": "Embossed by hand in Florence. Adds 5 business days to delivery.",
-            "property_name": "Monogram"
+            "heading": "Materials and composition",
+            "ingredients": "Vegetable-tanned leather: Tuscan full-grain, aniline finish|Hardware: Solid brass, hand-polished in Brescia|Lining: Natural cotton canvas|Thread: Waxed linen, hand-stitched",
+            "icon": "none",
+            "default_open": false
           }
         },
-        "gift_wrap": {
-          "type": "gift_wrapping",
+        "shipping_tab": {
+          "type": "collapsible_tab",
           "settings": {
-            "label": "Add ÉCRIN gift packaging",
-            "price": "",
-            "show_message": true,
-            "message_label": "Gift message",
-            "message_placeholder": "Written by hand on a linen card",
-            "icon": "ribbon"
+            "heading": "Shipping and returns",
+            "content": "<p>Complimentary shipping on orders over €200 across Europe. Tracked and insured — delivery in 2–4 business days. Returns and exchanges accepted within 30 days. Each piece is quality-checked before leaving our atelier.</p>",
+            "page": "",
+            "icon": "shipping"
           }
         },
         "sustainability": {
@@ -184,11 +174,29 @@
             "badge_4_type": "",
             "badge_4_label": ""
           }
+        },
+        "concierge": {
+          "type": "concierge_cta",
+          "settings": {
+            "heading": "A piece worth considering?",
+            "subheading": "Our atelier team is available for sizing, materials and gifting questions.",
+            "button_label": "Speak with the atelier",
+            "button_link": "",
+            "icon": "phone",
+            "style": "bordered"
+          }
+        },
+        "share": {
+          "type": "share",
+          "settings": {
+            "show_border": true
+          }
         }
       },
       "block_order": [
         "vendor",
         "title",
+        "ventes_privees_private_sale_badge_PX4Pkn",
         "price",
         "description",
         "product_highlights_WGkFi9",
