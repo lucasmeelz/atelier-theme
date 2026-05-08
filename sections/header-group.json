@@ -82,7 +82,7 @@
         "hide_on_scroll": false,
         "logo_width": 120,
         "logo_width_mobile": 90,
-        "menu": "menu-2",
+        "menu": "menu-1",
         "menu_open_trigger": "hover",
         "transparent_header": true,
         "transparent_header_text_color": "#0a0a0a",
