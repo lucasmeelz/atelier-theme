@@ -26,7 +26,8 @@
         "ventes_privees_private_sale_badge_PX4Pkn": {
           "type": "shopify://apps/ventes-privees/blocks/private-sale-badge/019d4aea-024d-7ba5-ac1d-08fcb795f590",
           "settings": {
-            "badge_size": "small"
+            "badge_size": "small",
+            "badge_text": ""
           }
         },
         "price": {
@@ -40,7 +41,7 @@
           "type": "description",
           "settings": {
             "collapsible": true,
-            "default_open": true
+            "default_open": false
           }
         },
         "product_highlights_WGkFi9": {
@@ -71,6 +72,7 @@
         },
         "personalization": {
           "type": "product_personalization",
+          "disabled": true,
           "settings": {
             "label": "Add a monogram",
             "placeholder": "Up to 3 characters",
@@ -82,6 +84,7 @@
         },
         "gift_wrap": {
           "type": "gift_wrapping",
+          "disabled": true,
           "settings": {
             "label": "Add ÉCRIN gift packaging",
             "price": "",
