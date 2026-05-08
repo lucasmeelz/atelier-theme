@@ -16,6 +16,7 @@
           "type": "hero-media",
           "settings": {
             "media_type": "image",
+            "image": "shopify://shop_images/enlever-le-texte-faire-bcp-plus-r-el-style-photo-canon-5d.png",
             "video_url": "",
             "video_url_mobile": "",
             "overlay_opacity": 30,
