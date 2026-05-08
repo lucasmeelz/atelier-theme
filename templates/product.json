@@ -64,6 +64,7 @@
         },
         "size_guide_block": {
           "type": "size_guide",
+          "disabled": true,
           "settings": {
             "label": "Size guide",
             "page": "",
