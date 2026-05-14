@@ -73,6 +73,11 @@
         "settings": {
           "enabled": true
         }
+      },
+      "4097275398380433773": {
+        "type": "shopify://apps/gift-treshold/blocks/embed/019e22f2-059b-7ae7-8ccb-5dec5b24bc32",
+        "disabled": false,
+        "settings": {}
       }
     },
     "color_schemes": {
@@ -90,8 +95,8 @@
           "button_hover_label": "#ffffff",
           "secondary_button_background": "#ffffff",
           "secondary_button_label": "#0a0a0a",
-          "secondary_button_hover_background": "#0A0A0A",
-          "secondary_button_hover_label": "#FFFFFF"
+          "secondary_button_hover_background": "#0a0a0a",
+          "secondary_button_hover_label": "#ffffff"
         }
       },
       "scheme-2": {
@@ -108,8 +113,8 @@
           "button_hover_label": "#ffffff",
           "secondary_button_background": "#ffffff",
           "secondary_button_label": "#0a0a0a",
-          "secondary_button_hover_background": "#0A0A0A",
-          "secondary_button_hover_label": "#FFFFFF"
+          "secondary_button_hover_background": "#0a0a0a",
+          "secondary_button_hover_label": "#ffffff"
         }
       },
       "scheme-3": {
@@ -126,8 +131,8 @@
           "button_hover_label": "#ffffff",
           "secondary_button_background": "#ffffff",
           "secondary_button_label": "#0a0a0a",
-          "secondary_button_hover_background": "#0A0A0A",
-          "secondary_button_hover_label": "#FFFFFF"
+          "secondary_button_hover_background": "#0a0a0a",
+          "secondary_button_hover_label": "#ffffff"
         }
       }
     }
