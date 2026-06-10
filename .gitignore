@@ -6,3 +6,4 @@ config/settings_data.json
 qa-screenshots/
 qa-*.mjs
 test-results/
+.firecrawl/

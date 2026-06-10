@@ -87,12 +87,13 @@
 }
 
 .btn--secondary .btn__fill {
-  background-color: rgb(var(--color-secondary-btn-text));
+  background-color: rgb(var(--color-secondary-btn-hover-bg, var(--color-secondary-btn-text)));
 }
 
 @media (hover: hover) {
   [data-button-hover="slide-up"] .btn--secondary:hover {
-    color: rgb(var(--color-secondary-btn-bg));
+    color: rgb(var(--color-secondary-btn-hover-text, var(--color-secondary-btn-bg)));
+    border-color: rgb(var(--color-secondary-btn-hover-bg, var(--color-secondary-btn-text)));
   }
 
   [data-button-hover="slide-up"] .btn--secondary:hover .btn__fill {
@@ -100,13 +101,14 @@
   }
 
   [data-button-hover="fade"] .btn--secondary:hover {
-    background-color: rgb(var(--color-secondary-btn-text));
-    color: rgb(var(--color-secondary-btn-bg));
+    background-color: rgb(var(--color-secondary-btn-hover-bg, var(--color-secondary-btn-text)));
+    border-color: rgb(var(--color-secondary-btn-hover-bg, var(--color-secondary-btn-text)));
+    color: rgb(var(--color-secondary-btn-hover-text, var(--color-secondary-btn-bg)));
   }
 }
 
 .btn--secondary:active {
-  color: rgb(var(--color-secondary-btn-bg));
+  color: rgb(var(--color-secondary-btn-hover-text, var(--color-secondary-btn-bg)));
 }
 
 .btn--secondary:active .btn__fill {

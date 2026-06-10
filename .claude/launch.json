@@ -4,8 +4,8 @@
     {
       "name": "shopify-dev",
       "runtimeExecutable": "shopify",
-      "runtimeArgs": ["theme", "dev", "--store=odoo-app-test.myshopify.com", "--theme=192988971354"],
-      "port": 9292
+      "runtimeArgs": ["theme", "dev", "--store=alma-theme.myshopify.com", "--theme=154468843693", "--port=9293", "--store-password=123456"],
+      "port": 9293
     }
   ]
 }
