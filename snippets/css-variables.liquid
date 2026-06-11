@@ -93,6 +93,7 @@
 
     /* ===== MOTION ===== */
     --ease-ecrin: cubic-bezier(0.31, 0, 0.13, 1);
+    --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
     --duration-fast: 200ms;
     --duration-base: 350ms;
     --duration-slow: 600ms;
@@ -133,7 +134,6 @@
     {%- endif -%}
     .color-{{ scheme.id }} {
       --color-background: {{ scheme_bg.red }}, {{ scheme_bg.green }}, {{ scheme_bg.blue }};
-      --color-background-hex: {{ scheme_bg }};
       --gradient-background: {{ scheme_bg_gradient }};
       --color-text: {{ scheme.settings.text.red }}, {{ scheme.settings.text.green }}, {{ scheme.settings.text.blue }};
       --color-text-subdued: {{ scheme.settings.text_subdued.red }}, {{ scheme.settings.text_subdued.green }}, {{ scheme.settings.text_subdued.blue }};
