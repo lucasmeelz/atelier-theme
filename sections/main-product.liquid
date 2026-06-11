@@ -132,6 +132,14 @@
             {%- comment -%} Thumbnail layouts: main image + thumbnails {%- endcomment -%}
             <div class="product__media-main" data-main-media>
               {%- for media in product.media -%}
+                {%- liquid
+                  assign media_loading = 'lazy'
+                  assign media_priority = 'auto'
+                  if forloop.first
+                    assign media_loading = 'eager'
+                    assign media_priority = 'high'
+                  endif
+                -%}
                 <div
                   class="product__media-slide{% if forloop.first %} is-active{% endif %}"
                   data-media-id="{{ media.id }}"
@@ -143,8 +151,8 @@
                     {%- when 'image' -%}
                       <div class="product__media-image{% if enable_zoom %} product__media-image--zoomable{% endif %}">
                         {{ media | image_url: width: 1400 | image_tag:
-                          loading: 'lazy',
-                          fetchpriority: 'auto',
+                          loading: media_loading,
+                          fetchpriority: media_priority,
                           widths: '400,600,800,1000,1200,1400',
                           sizes: '(min-width: 990px) calc(var(--product-media-width, 55%) * (var(--page-width, 1440px) - 40px) / 100), calc(100vw - 40px)',
                           class: 'product__media-img',
