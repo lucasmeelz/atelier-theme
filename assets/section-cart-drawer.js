@@ -85,7 +85,6 @@ class CartDrawer extends HTMLElement {
 
       document.dispatchEvent(new CustomEvent('cart:updated'));
     } catch (err) {
-      console.error('Quick-add error:', err);
       /* Fallback: let the user see the error by navigating to /cart */
       window.location.href = window.Shopify.routes.root + 'cart';
     } finally {

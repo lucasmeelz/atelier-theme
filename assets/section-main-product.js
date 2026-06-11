@@ -36,7 +36,6 @@ if (!customElements.get('main-product')) {
       try {
         return JSON.parse(el.textContent);
       } catch (e) {
-        console.error('Failed to parse product JSON', e);
         return null;
       }
     }
@@ -474,7 +473,7 @@ if (!customElements.get('main-product')) {
         }
 
       } catch (err) {
-        console.error('Cart error:', err);
+        /* Button state resets below; cart page remains reachable via header */
       } finally {
         btn.classList.remove('btn--loading');
       }

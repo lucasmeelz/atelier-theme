@@ -161,9 +161,8 @@ if (!customElements.get('quick-view-modal')) {
         }.bind(this))
         .catch(function(err) {
           if (err.name === 'AbortError') return;
-          console.error('[QuickView] fetch error:', err);
           if (this._content) {
-            this._content.innerHTML = '<p class="quick-view-drawer__error">Could not load product. <a href="/products/' + handle + '">View product page</a></p>';
+            this._content.innerHTML = '<p class="quick-view-drawer__error">Could not load product. <a href="' + ((window.Shopify && window.Shopify.routes && window.Shopify.routes.root) || '/') + 'products/' + handle + '">View product page</a></p>';
           }
         }.bind(this));
     }
@@ -272,7 +271,6 @@ if (!customElements.get('quick-view-modal')) {
         }.bind(this))
         .catch(function(err) {
           if (err.name === 'AbortError') return;
-          console.error('[QuickView] variant fetch error:', err);
         });
     }
 
@@ -323,7 +321,6 @@ if (!customElements.get('quick-view-modal')) {
             }.bind(this), 800);
           }.bind(this))
           .catch(function(err) {
-            console.error('[QuickView] ATC error:', err);
             if (btn) {
               btn.disabled = false;
               btn.classList.remove('quick-view__atc-btn--loading');

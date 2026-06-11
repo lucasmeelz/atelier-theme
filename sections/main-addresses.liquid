@@ -80,7 +80,7 @@
 
           <div class="customer__address-form-actions">
             <button type="submit" class="btn btn--primary"><span class="btn__label">{{ 'customer.addresses.add' | t }}</span><span class="btn__fill" aria-hidden="true"></span></button>
-            <button type="button" class="btn btn--outline" onclick="document.getElementById('AddressNewForm').style.display='none';"><span class="btn__label">{{ 'customer.addresses.cancel' | t }}</span><span class="btn__fill" aria-hidden="true"></span></button>
+            <button type="button" class="btn btn--outline" data-toggle-target="AddressNewForm"><span class="btn__label">{{ 'customer.addresses.cancel' | t }}</span><span class="btn__fill" aria-hidden="true"></span></button>
           </div>
         {%- endform -%}
       </div>
@@ -91,7 +91,7 @@
       <button
         type="button"
         class="btn btn--outline"
-        onclick="document.getElementById('AddressNewForm').style.display = document.getElementById('AddressNewForm').style.display === 'none' ? 'block' : 'none';"
+        data-toggle-target="AddressNewForm"
       >
         <span class="btn__label">{{ 'customer.addresses.add_new' | t }}</span>
         <span class="btn__fill" aria-hidden="true"></span>
@@ -112,15 +112,13 @@
             <p>{{ address | format_address }}</p>
 
             <div class="customer__address-actions">
-              <button type="button" onclick="
-                var el = document.getElementById('EditAddress_{{ address.id }}');
-                el.style.display = el.style.display === 'none' ? 'block' : 'none';
-              ">{{ 'customer.addresses.edit' | t }}</button>
-              <button type="button" class="danger" onclick="
-                if (confirm('{{ 'customer.addresses.delete_confirm' | t }}')) {
-                  Shopify.postLink('{{ routes.account_addresses_url }}/{{ address.id }}', { parameters: { _method: 'delete' } });
-                }
-              ">{{ 'customer.addresses.delete' | t }}</button>
+              <button type="button" data-toggle-target="EditAddress_{{ address.id }}">{{ 'customer.addresses.edit' | t }}</button>
+              <button
+                type="button"
+                class="danger"
+                data-address-delete="{{ routes.account_addresses_url }}/{{ address.id }}"
+                data-confirm-message="{{ 'customer.addresses.delete_confirm' | t | escape }}"
+              >{{ 'customer.addresses.delete' | t }}</button>
             </div>
 
             {%- comment -%} Inline edit form {%- endcomment -%}
@@ -210,6 +208,21 @@
       });
     {%- endfor -%}
   }
+
+  document.querySelectorAll('[data-toggle-target]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var el = document.getElementById(btn.getAttribute('data-toggle-target'));
+      if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
+    });
+  });
+
+  document.querySelectorAll('[data-address-delete]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      if (confirm(btn.getAttribute('data-confirm-message'))) {
+        Shopify.postLink(btn.getAttribute('data-address-delete'), { parameters: { _method: 'delete' } });
+      }
+    });
+  });
 </script>
 
 {% schema %}

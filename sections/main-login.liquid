@@ -86,7 +86,7 @@
         {%- endform -%}
 
         <div class="customer__form-footer">
-          <a href="#" onclick="document.getElementById('recover').style.display='none';return false;">{{ 'customer.login.cancel' | t }}</a>
+          <a href="{{ routes.account_login_url }}" data-recover-cancel>{{ 'customer.login.cancel' | t }}</a>
         </div>
       </div>
     </div>
@@ -102,6 +102,13 @@
       e.preventDefault();
       document.getElementById('recover').style.display = 'block';
       window.location.hash = '#recover';
+    });
+  });
+  document.querySelectorAll('[data-recover-cancel]').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('recover').style.display = 'none';
+      history.replaceState(null, '', window.location.pathname);
     });
   });
 </script>
