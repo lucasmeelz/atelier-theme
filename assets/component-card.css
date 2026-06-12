@@ -679,8 +679,10 @@ card-carousel {
   }
 }
 
-/* Hide cards before stagger triggers — they appear via the animation */
-[data-stagger-cards]:not(.is-staggering) > * {
+/* Hide cards only once the JS observer has armed the grid (.stagger-armed).
+   Without JS — or for grids injected before the observer sees them — cards
+   stay visible: no risk of permanently hidden content. */
+[data-stagger-cards].stagger-armed:not(.is-staggering) > * {
   opacity: 0;
 }
 
@@ -689,13 +691,13 @@ card-carousel {
 }
 
 [data-stagger-cards].is-staggering > *:nth-child(1) { animation-delay: 0ms; }
-[data-stagger-cards].is-staggering > *:nth-child(2) { animation-delay: 80ms; }
-[data-stagger-cards].is-staggering > *:nth-child(3) { animation-delay: 160ms; }
-[data-stagger-cards].is-staggering > *:nth-child(4) { animation-delay: 240ms; }
-[data-stagger-cards].is-staggering > *:nth-child(5) { animation-delay: 320ms; }
-[data-stagger-cards].is-staggering > *:nth-child(6) { animation-delay: 400ms; }
-[data-stagger-cards].is-staggering > *:nth-child(7) { animation-delay: 480ms; }
-[data-stagger-cards].is-staggering > *:nth-child(8) { animation-delay: 560ms; }
+[data-stagger-cards].is-staggering > *:nth-child(2) { animation-delay: 60ms; }
+[data-stagger-cards].is-staggering > *:nth-child(3) { animation-delay: 120ms; }
+[data-stagger-cards].is-staggering > *:nth-child(4) { animation-delay: 180ms; }
+[data-stagger-cards].is-staggering > *:nth-child(5) { animation-delay: 240ms; }
+[data-stagger-cards].is-staggering > *:nth-child(6) { animation-delay: 300ms; }
+[data-stagger-cards].is-staggering > *:nth-child(7) { animation-delay: 340ms; }
+[data-stagger-cards].is-staggering > *:nth-child(8) { animation-delay: 380ms; }
 
 /* Stagger is scroll-triggered (user-initiated) so NOT disabled by reduced-motion.
    Only autonomous/looping animations should be disabled per WCAG. */

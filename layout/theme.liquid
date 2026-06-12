@@ -48,13 +48,16 @@
 
     <script src="{{ 'quick-view.js' | asset_url }}" defer></script>
 
-    {%- comment -%} Stagger animation — trigger when cards enter viewport.
+    {%- comment -%} Stagger animation — trigger when cards approach the viewport.
        Scroll-triggered = user-initiated, so NOT disabled by reduced-motion.
-       The CSS reduced-motion media query handles autonomous animations only. {%- endcomment -%}
+       The CSS reduced-motion media query handles autonomous animations only.
+       Cards are hidden only once a grid is "armed" by this script, so
+       content stays visible without JS and in grids injected after load
+       (AJAX collection filtering, customizer re-renders). {%- endcomment -%}
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        var grids = document.querySelectorAll('[data-stagger-cards]');
-        if (!grids.length || !('IntersectionObserver' in window)) return;
+      (function() {
+        if (!('IntersectionObserver' in window)) return;
+
         var observer = new IntersectionObserver(function(entries) {
           entries.forEach(function(entry) {
             if (entry.isIntersecting) {
@@ -62,9 +65,27 @@
               observer.unobserve(entry.target);
             }
           });
-        }, { threshold: 0.1 });
-        grids.forEach(function(grid) { observer.observe(grid); });
-      });
+        }, { threshold: 0, rootMargin: '0px 0px 10% 0px' });
+
+        function armGrids(root) {
+          (root || document).querySelectorAll('[data-stagger-cards]:not(.stagger-armed)').forEach(function(grid) {
+            grid.classList.add('stagger-armed');
+            observer.observe(grid);
+          });
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', function() { armGrids(); });
+        } else {
+          armGrids();
+        }
+
+        document.addEventListener('shopify:section:load', function(e) { armGrids(e.target); });
+
+        /* Grids injected later (AJAX filtering, recently viewed…) */
+        new MutationObserver(function() { armGrids(); })
+          .observe(document.body, { childList: true, subtree: true });
+      })();
     </script>
 
     {%- comment -%} Quick View modal (shared across pages) {%- endcomment -%}
@@ -121,7 +142,7 @@
                 observer.unobserve(entry.target);
               }
             });
-          }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+          }, { threshold: 0, rootMargin: '0px 0px 20% 0px' });
 
           document.querySelectorAll('.reveal').forEach(function(el) {
             observer.observe(el);
