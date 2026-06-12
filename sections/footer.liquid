@@ -5,9 +5,36 @@
 
 {{ 'section-footer.css' | asset_url | stylesheet_tag }}
 
+{%- liquid
+  assign show_menu_1 = false
+  if section.settings.footer_menu_1.links.size > 0
+    assign show_menu_1 = true
+  endif
+
+  comment
+    Hide the second menu column when it points to the same menu as the first —
+    both link_list settings default to "footer", which would duplicate the column.
+  endcomment
+  assign show_menu_2 = false
+  if section.settings.footer_menu_2.links.size > 0 and section.settings.footer_menu_2.handle != section.settings.footer_menu_1.handle
+    assign show_menu_2 = true
+  endif
+
+  assign footer_columns = 1
+  if show_menu_1
+    assign footer_columns = footer_columns | plus: 1
+  endif
+  if show_menu_2
+    assign footer_columns = footer_columns | plus: 1
+  endif
+  if section.settings.show_newsletter
+    assign footer_columns = footer_columns | plus: 1
+  endif
+-%}
+
 <footer class="footer section-spacing color-{{ section.settings.color_scheme }}">
   <div class="container">
-    <div class="footer__grid">
+    <div class="footer__grid footer__grid--cols-{{ footer_columns }}">
 
       {%- comment -%} Column 1 — Logo + tagline + social {%- endcomment -%}
       <div class="footer__brand">
@@ -74,7 +101,7 @@
       </div>
 
       {%- comment -%} Column 2 — Menu 1 {%- endcomment -%}
-      {%- if section.settings.footer_menu_1.links.size > 0 -%}
+      {%- if show_menu_1 -%}
         <details class="footer__column footer__accordion" open>
           <summary class="footer__column-heading">
             <span>{{ section.settings.footer_menu_1_heading | default: section.settings.footer_menu_1.title }}</span>
@@ -93,7 +120,7 @@
       {%- endif -%}
 
       {%- comment -%} Column 3 — Menu 2 {%- endcomment -%}
-      {%- if section.settings.footer_menu_2.links.size > 0 -%}
+      {%- if show_menu_2 -%}
         <details class="footer__column footer__accordion" open>
           <summary class="footer__column-heading">
             <span>{{ section.settings.footer_menu_2_heading | default: section.settings.footer_menu_2.title }}</span>
@@ -304,7 +331,8 @@
     {
       "type": "text",
       "id": "newsletter_text",
-      "label": "t:sections.footer.newsletter_text"
+      "label": "t:sections.footer.newsletter_text",
+      "default": "Private previews, new arrivals and stories from the atelier."
     },
 
     { "type": "header", "content": "t:sections.footer.bottom_bar_header" },

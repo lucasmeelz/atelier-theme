@@ -14,8 +14,14 @@
     "footer": {
       "type": "footer",
       "settings": {
-        "menu": "",
-        "show_payment_icons": true
+        "tagline": "<p>Founded in Florence. Leather goods and wardrobe essentials made in small batches by artisans we have worked with for years.</p>",
+        "footer_menu_1_heading": "The Maison",
+        "footer_menu_2_heading": "Client care",
+        "newsletter_heading": "Stay in the know",
+        "newsletter_text": "Private previews, new arrivals and stories from the atelier. One letter a month.",
+        "show_country_selector": true,
+        "show_payment_icons": true,
+        "show_follow_on_shop": true
       }
     }
   },
