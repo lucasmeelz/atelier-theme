@@ -784,7 +784,7 @@ collection-filters {
   border: 2px solid rgb(var(--color-text, 10, 10, 10));
   border-top-color: transparent;
   border-radius: 50%;
-  animation: collection-spinner 600ms linear infinite;
+  animation: collection-spinner var(--duration-slow) linear infinite;
 }
 
 @keyframes collection-spinner {

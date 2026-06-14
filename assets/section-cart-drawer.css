@@ -11,20 +11,23 @@
   pointer-events: auto;
 }
 
-/* Overlay */
+/* Overlay — closing transition (base): snappy accelerate */
 .cart-drawer__overlay {
   position: absolute;
   inset: 0;
   background: rgba(0,0,0,0);
   backdrop-filter: blur(0px);
-  transition: background var(--duration-slow) var(--ease-ecrin),
-              backdrop-filter var(--duration-slow) var(--ease-ecrin);
+  transition: background var(--duration-fast) var(--ease-in),
+              backdrop-filter var(--duration-fast) var(--ease-in);
 }
 
+/* Opening transition: slower, settles in */
 .cart-drawer[aria-hidden="false"] .cart-drawer__overlay {
   background: rgba(0,0,0,0.5);
   backdrop-filter: blur(var(--backdrop-blur));
   cursor: pointer;
+  transition: background var(--duration-base) var(--ease-out),
+              backdrop-filter var(--duration-base) var(--ease-out);
 }
 
 /* Panel */
@@ -40,11 +43,14 @@
   color: rgb(var(--color-text));
   box-shadow: -4px 0 16px rgba(0, 0, 0, 0.08);
   transform: translateX(100%);
-  transition: transform var(--duration-slow) var(--ease-ecrin);
+  /* Close (base): vif, accélère en sortant */
+  transition: transform var(--duration-fast) var(--ease-in);
 }
 
 .cart-drawer[aria-hidden="false"] .cart-drawer__panel {
   transform: translateX(0);
+  /* Open: plus lent, se pose en douceur */
+  transition: transform var(--duration-base) var(--ease-out);
 }
 
 /* Header */

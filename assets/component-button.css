@@ -425,7 +425,7 @@
   border: 2px solid currentColor;
   border-top-color: transparent;
   border-radius: 50%;
-  animation: btn-spin 600ms linear infinite;
+  animation: btn-spin var(--duration-slow) linear infinite;
   z-index: 1;
 }
 

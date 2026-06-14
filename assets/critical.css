@@ -303,8 +303,8 @@ main {
 /* Scroll reveal */
 .reveal {
   opacity: 0;
-  transition: opacity var(--duration-slow) var(--ease-ecrin),
-              transform var(--duration-slow) var(--ease-ecrin);
+  transition: opacity var(--duration-slow) var(--ease-out),
+              transform var(--duration-slow) var(--ease-out);
 }
 
 .reveal[data-animation="fade-up"] {
@@ -327,7 +327,7 @@ main {
 }
 
 .reveal.is-visible [data-stagger] {
-  animation: reveal-stagger var(--duration-slow) var(--ease-ecrin) both;
+  animation: reveal-stagger var(--duration-slow) var(--ease-out) both;
   animation-delay: min(calc(var(--stagger-index, 0) * 60ms), 360ms);
 }
 

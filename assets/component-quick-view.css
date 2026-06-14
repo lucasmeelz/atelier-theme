@@ -46,12 +46,15 @@ quick-view-modal {
   display: flex;
   flex-direction: column;
   transform: translateX(100%);
-  transition: transform var(--duration-slow, 600ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
+  /* Close (base): vif, accélère en sortant */
+  transition: transform var(--duration-fast, 200ms) var(--ease-in, cubic-bezier(0.7, 0, 0.84, 0));
   overflow: hidden;
 }
 
 .quick-view-drawer--open {
   transform: translateX(0);
+  /* Open: plus lent, se pose en douceur */
+  transition: transform var(--duration-base, 350ms) var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1));
 }
 
 /* Close button */
@@ -105,7 +108,7 @@ quick-view-modal {
   border: 2px solid rgb(var(--color-border, 226, 224, 219));
   border-top-color: rgb(var(--color-text, 10, 10, 10));
   border-radius: 50%;
-  animation: qv-drawer-spin 600ms linear infinite;
+  animation: qv-drawer-spin var(--duration-slow) linear infinite;
 }
 
 @keyframes qv-drawer-spin {
