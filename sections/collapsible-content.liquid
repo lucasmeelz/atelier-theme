@@ -11,6 +11,7 @@
   assign layout = section.settings.layout
   assign heading_tag = section.settings.heading_size | default: 'h2'
   assign open_first = section.settings.open_first
+  assign faq_schema = section.settings.enable_faq_schema
   assign padding_top = section.settings.padding_top
   assign padding_bottom = section.settings.padding_bottom
 -%}
@@ -42,21 +43,28 @@
       </div>
     {%- endif -%}
 
-    <div class="collapsible-content__inner collapsible-content__inner--{{ layout }}">
+    <div
+      class="collapsible-content__inner collapsible-content__inner--{{ layout }}"
+      {% if faq_schema %}itemscope itemtype="https://schema.org/FAQPage"{% endif %}
+    >
       {%- for block in section.blocks -%}
         <details
           class="collapsible-content__item"
           {% if open_first and forloop.first %}open{% endif %}
+          {% if faq_schema %}itemscope itemprop="mainEntity" itemtype="https://schema.org/Question"{% endif %}
           {{ block.shopify_attributes }}
         >
           <summary>
-            <span class="collapsible-content__item-heading">
+            <span class="collapsible-content__item-heading"{% if faq_schema %} itemprop="name"{% endif %}>
               {%- if block.settings.heading != blank -%}{{ block.settings.heading }}{%- else -%}{{ 'sections.collapsible_content.default_heading' | t }}{%- endif -%}
             </span>
           </summary>
-          <div class="collapsible-content__body">
+          <div
+            class="collapsible-content__body"
+            {% if faq_schema %}itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer"{% endif %}
+          >
             <div class="collapsible-content__body-inner">
-              <div class="rte">
+              <div class="rte"{% if faq_schema %} itemprop="text"{% endif %}>
                 {{ block.settings.content }}
               </div>
             </div>
@@ -220,6 +228,13 @@
       "id": "open_first",
       "label": "t:sections.collapsible_content.open_first",
       "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_faq_schema",
+      "label": "t:sections.collapsible_content.enable_faq_schema",
+      "info": "t:sections.collapsible_content.enable_faq_schema_info",
+      "default": true
     },
     {
       "type": "color_scheme",

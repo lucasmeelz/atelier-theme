@@ -22,6 +22,7 @@
   assign show_rating = section.settings.show_rating
   assign show_quick_add = section.settings.show_quick_add
   assign show_color_swatches = section.settings.show_color_swatches
+  assign recommendation_intent = section.settings.recommendation_intent | default: 'related'
   assign color_scheme = section.settings.color_scheme
   assign padding_top = section.settings.padding_top
   assign padding_bottom = section.settings.padding_bottom
@@ -38,7 +39,7 @@
   id="Section-{{ section.id }}"
   class="product-recommendations color-{{ color_scheme }} full-width"
   style="padding-top: var(--section-padding-top); padding-bottom: var(--section-padding-bottom);"
-  data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ products_to_show }}&intent=related"
+  data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ products_to_show }}&intent={{ recommendation_intent }}"
   data-section-id="{{ section.id }}"
 >
   {%- if recommendations.performed and recommendations.products_count > 0 -%}
@@ -106,6 +107,17 @@
       "id": "heading",
       "label": "t:sections.product_recommendations.heading",
       "default": "You may also like"
+    },
+    {
+      "type": "select",
+      "id": "recommendation_intent",
+      "label": "t:sections.product_recommendations.intent",
+      "info": "t:sections.product_recommendations.intent_info",
+      "options": [
+        { "value": "related", "label": "t:sections.product_recommendations.intent_related" },
+        { "value": "complementary", "label": "t:sections.product_recommendations.intent_complementary" }
+      ],
+      "default": "related"
     },
     {
       "type": "range",
