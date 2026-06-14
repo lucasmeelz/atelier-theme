@@ -154,6 +154,23 @@
   flex-wrap: wrap;
 }
 
+/* Slider layout keeps thumbnails on a single scrollable row —
+   products with many media would otherwise stack rows of thumbnails
+   above the buy box (worst on mobile) */
+.product__gallery--thumbnail_slider .product__thumbnails--below {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(var(--color-border), 0.9) transparent;
+  padding-bottom: 4px;
+}
+
+.product__gallery--thumbnail_slider .product__thumbnails--below .product__thumbnail {
+  scroll-snap-align: start;
+}
+
 .product__thumbnails--beside {
   flex-direction: column;
   position: absolute;

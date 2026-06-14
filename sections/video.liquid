@@ -109,6 +109,27 @@
                 {%- render 'icon', name: 'play', size: 48 -%}
               </button>
             </div>
+          {%- elsif is_youtube and autoplay == false -%}
+            {%- comment -%} No cover image set — façade with the YouTube thumbnail
+               instead of eagerly loading the full embed (player chrome, ~1MB of JS) {%- endcomment -%}
+            <div class="video-section__poster" data-poster>
+              {%- comment -%} The YouTube thumbnail only exists on YouTube's CDN;
+                 loading it instead of the full embed saves ~1MB of player JS
+                 until the visitor actually presses play {%- endcomment -%}
+              {% # theme-check-disable RemoteAsset %}
+              <img
+                src="https://i.ytimg.com/vi/{{ external_url.id }}/maxresdefault.jpg"
+                loading="lazy"
+                class="video-section__poster-img"
+                alt="{{ alt_text | escape }}"
+                width="1280"
+                height="720"
+              >
+              {% # theme-check-enable RemoteAsset %}
+              <button class="video-section__play-btn" type="button" aria-label="{{ 'accessibility.play_video' | t }}" data-video-url="{{ external_url }}">
+                {%- render 'icon', name: 'play', size: 48 -%}
+              </button>
+            </div>
           {%- else -%}
             <div class="video-section__iframe-wrap" data-iframe-wrap>
               {%- if is_youtube -%}

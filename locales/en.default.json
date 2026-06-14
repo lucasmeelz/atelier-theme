@@ -69,6 +69,7 @@
     "product": "Product",
     "total": "Total",
     "empty": "Your cart is empty",
+    "quantity_adjusted": "Stock limit reached — the quantity was adjusted",
     "continue_shopping": "Continue shopping",
     "checkout": "Checkout",
     "update": "Update",
@@ -149,6 +150,7 @@
     "quick_view_close": "Close quick view",
     "quick_view_view_full": "View full details",
     "quick_view_loading": "Loading product",
+    "quick_view_selling_plans": "Subscription options are available on the product page",
     "personalization": {
       "optional": "Optional",
       "characters_remaining": "{{ count }} / {{ max }}"
@@ -377,6 +379,7 @@
       "shipping": "Shipping",
       "tax": "Tax",
       "discount": "Discount",
+      "refunded": "Refunded",
       "shipping_address": "Shipping address",
       "billing_address": "Billing address",
       "cancelled_on": "Order cancelled on {{ date }}",

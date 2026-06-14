@@ -48,6 +48,20 @@
       <span class="quick-view__price-current">{{ current_variant.price | money }}</span>
     </div>
 
+    {%- comment -%} Unit price — EU requirement when set on the variant {%- endcomment -%}
+    {%- if current_variant.unit_price -%}
+      <p class="quick-view__unit-price">
+        {{ current_variant.unit_price | money }}
+        {%- if current_variant.unit_price_measurement -%}
+          &nbsp;/&nbsp;
+          {%- if current_variant.unit_price_measurement.reference_value != 1 -%}
+            {{- current_variant.unit_price_measurement.reference_value -}}
+          {%- endif -%}
+          {{ current_variant.unit_price_measurement.reference_unit }}
+        {%- endif -%}
+      </p>
+    {%- endif -%}
+
     {%- comment -%} Short description {%- endcomment -%}
     {%- if product.description != blank -%}
       <p class="quick-view__description">{{ product.description | strip_html | truncate: 180 }}</p>
@@ -119,27 +133,35 @@
       </div>
     {%- endunless -%}
 
-    {%- comment -%} Add to cart form {%- endcomment -%}
+    {%- comment -%} Add to cart form — selling-plan products go to the full page {%- endcomment -%}
     <div class="quick-view__atc">
-      <form method="post" action="{{ routes.cart_add_url }}" data-quick-view-form>
-        <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
-        <input type="hidden" name="quantity" value="1">
-        <button
-          type="submit"
-          name="add"
-          class="btn btn--primary quick-view__atc-btn"
-          {% unless current_variant.available %}disabled{% endunless %}
-        >
-          <span class="btn__label">
-            {%- if current_variant.available -%}
-              {{ 'product.add_to_cart' | t }}
-            {%- else -%}
-              {{ 'product.sold_out' | t }}
-            {%- endif -%}
-          </span>
+      {%- if current_variant.requires_selling_plan -%}
+        <a href="{{ product.url }}" class="btn btn--primary quick-view__atc-btn">
+          <span class="btn__label">{{ 'product.view_full_details' | t }}</span>
           <span class="btn__fill" aria-hidden="true"></span>
-        </button>
-      </form>
+        </a>
+        <p class="quick-view__selling-plan-note">{{ 'product.quick_view_selling_plans' | t }}</p>
+      {%- else -%}
+        <form method="post" action="{{ routes.cart_add_url }}" data-quick-view-form>
+          <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
+          <input type="hidden" name="quantity" value="1">
+          <button
+            type="submit"
+            name="add"
+            class="btn btn--primary quick-view__atc-btn"
+            {% unless current_variant.available %}disabled{% endunless %}
+          >
+            <span class="btn__label">
+              {%- if current_variant.available -%}
+                {{ 'product.add_to_cart' | t }}
+              {%- else -%}
+                {{ 'product.sold_out' | t }}
+              {%- endif -%}
+            </span>
+            <span class="btn__fill" aria-hidden="true"></span>
+          </button>
+        </form>
+      {%- endif -%}
     </div>
 
     <div class="quick-view__view-full">

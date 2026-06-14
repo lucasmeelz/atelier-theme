@@ -68,6 +68,15 @@
       {%- endfor -%}
     </div>
 
+    {%- comment -%} Inventory / error notice — lives outside the body so it survives refreshes {%- endcomment -%}
+    <p
+      class="cart-drawer__notice"
+      data-cart-notice
+      data-t-quantity-adjusted="{{ 'cart.quantity_adjusted' | t | escape }}"
+      hidden
+      aria-live="polite"
+    ></p>
+
     {%- comment -%} Cart items {%- endcomment -%}
     <div class="cart-drawer__body" data-cart-drawer-body>
       {%- if cart.item_count > 0 -%}

@@ -105,6 +105,17 @@
   margin: 0;
 }
 
+/* Inventory / error notice */
+.cart-drawer__notice {
+  margin: 0;
+  padding: 10px var(--page-margin, 20px);
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  color: rgb(var(--color-text));
+  background-color: rgba(var(--color-border), 0.35);
+  border-bottom: 1px solid rgba(var(--color-border), 0.6);
+}
+
 /* Body — scrollable */
 .cart-drawer__body {
   flex: 1;

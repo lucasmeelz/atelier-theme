@@ -364,6 +364,18 @@ quick-view-modal {
   font-size: 0.875em;
 }
 
+.quick-view__unit-price {
+  margin: 0;
+  font-size: 0.75rem;
+  color: rgb(var(--color-text-subdued));
+}
+
+.quick-view__selling-plan-note {
+  margin: 8px 0 0;
+  font-size: 0.75rem;
+  color: rgb(var(--color-text-subdued));
+}
+
 .quick-view__description {
   font-size: 0.875rem;
   line-height: 1.6;

@@ -650,11 +650,11 @@
       },
       { "type": "header", "content": "t:settings_schema.cart.free_shipping" },
       {
-        "type": "text",
+        "type": "number",
         "id": "free_shipping_threshold",
         "label": "t:settings_schema.cart.free_shipping_minimum",
         "info": "t:settings_schema.cart.free_shipping_info",
-        "default": "150"
+        "default": 150
       }
     ]
   },

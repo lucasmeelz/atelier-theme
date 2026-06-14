@@ -14,7 +14,8 @@
     soldOut: dialog.dataset.tSoldOut || 'Sold out',
     adding: dialog.dataset.tAdding || 'Adding…',
     close: dialog.dataset.tClose || 'Close',
-    viewFull: dialog.dataset.tViewFull || 'View full details'
+    viewFull: dialog.dataset.tViewFull || 'View full details',
+    sellingPlans: dialog.dataset.tSellingPlans || ''
   };
   var moneyFormat = dialog.dataset.moneyFormat || '${{amount}}';
 
@@ -94,6 +95,9 @@
     html += '<span>' + formatMoney(variant.price) + '</span>';
     html += '</div>';
 
+    /* Unit price (EU requirement when set on the variant) */
+    html += '<p class="quick-view__unit-price"' + (variant.unit_price ? '' : ' hidden') + '>' + formatUnitPrice(variant) + '</p>';
+
     /* Description (truncated) */
     if (product.description) {
       var plainDesc = product.description.replace(/<[^>]*>/g, '');
@@ -126,13 +130,22 @@
       html += '</div>';
     }
 
-    /* ATC */
+    /* ATC — products requiring a selling plan can't be added via quick view */
     html += '<div class="quick-view__atc">';
-    html += '<button class="btn btn--primary quick-view__atc-btn" type="button" data-quick-add-to-cart';
-    if (!variant.available) html += ' disabled';
-    html += '>';
-    html += variant.available ? escapeHtml(t.addToCart) : escapeHtml(t.soldOut);
-    html += '</button>';
+    if (variant.requires_selling_plan) {
+      html += '<a class="btn btn--primary quick-view__atc-btn" href="' + product.url + '">';
+      html += escapeHtml(t.viewFull);
+      html += '</a>';
+      if (t.sellingPlans) {
+        html += '<p class="quick-view__selling-plan-note">' + escapeHtml(t.sellingPlans) + '</p>';
+      }
+    } else {
+      html += '<button class="btn btn--primary quick-view__atc-btn" type="button" data-quick-add-to-cart';
+      if (!variant.available) html += ' disabled';
+      html += '>';
+      html += variant.available ? escapeHtml(t.addToCart) : escapeHtml(t.soldOut);
+      html += '</button>';
+    }
     html += '</div>';
 
     /* View full details */
@@ -232,6 +245,13 @@
       priceEl.innerHTML = priceHtml;
     }
 
+    /* Update unit price */
+    var unitEl = inner.querySelector('.quick-view__unit-price');
+    if (unitEl) {
+      unitEl.hidden = !variant.unit_price;
+      if (variant.unit_price) unitEl.innerHTML = formatUnitPrice(variant);
+    }
+
     /* Update ATC button */
     var atcBtn = inner.querySelector('[data-quick-add-to-cart]');
     if (atcBtn) {
@@ -272,6 +292,14 @@
       .replace('{{amount_no_decimals_with_comma_separator}}', amountNoDecimals.replace(/(\d)(?=(\d{3})+$)/g, '$1.'))
       .replace('{{amount_no_decimals}}', amountNoDecimals)
       .replace('{{amount}}', amount);
+  }
+
+  /* Utility: format unit price as "price / reference" (e.g. "7,00 € / 100 g") */
+  function formatUnitPrice(variant) {
+    if (!variant.unit_price || !variant.unit_price_measurement) return '';
+    var m = variant.unit_price_measurement;
+    var reference = (m.reference_value && m.reference_value !== 1 ? m.reference_value : '') + (m.reference_unit || '');
+    return formatMoney(variant.unit_price) + (reference ? ' / ' + reference : '');
   }
 
   /* Utility: escape HTML */

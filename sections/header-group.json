@@ -17,21 +17,21 @@
         "announcement_hN4qXr": {
           "type": "announcement",
           "settings": {
-            "text": "<p>Complimentary shipping on orders over €200</p>",
+            "text": "Complimentary shipping on orders over €200",
             "link": ""
           }
         },
         "announcement_1": {
           "type": "announcement",
           "settings": {
-            "text": "<p>New collection — Spring / Summer 2026</p>",
+            "text": "New collection — Spring / Summer 2026",
             "link": ""
           }
         },
         "announcement_2": {
           "type": "announcement",
           "settings": {
-            "text": "<p>Made in Europe · Numbered editions</p>",
+            "text": "Made in Europe · Numbered editions",
             "link": ""
           }
         }

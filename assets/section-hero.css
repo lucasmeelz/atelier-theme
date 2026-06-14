@@ -210,6 +210,12 @@ picture:has(.hero__img),
   .hero__content--bottom-center .hero__content-inner > .shopify-block:has(> .btn) {
     margin-inline: auto;
   }
+
+  /* Clearance so stacked CTAs never collide with the scroll indicator
+     (absolute, bottom: 2rem) on small viewports */
+  .hero__content {
+    padding-bottom: 88px;
+  }
 }
 
 /* Contained variant — explicitly narrower than the page width so the

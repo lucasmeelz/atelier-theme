@@ -30,6 +30,10 @@
   itemscope
   itemtype="http://schema.org/BlogPosting"
 >
+  {%- if article.image -%}
+    <meta itemprop="image" content="{{ article.image | image_url: width: 1200 }}">
+  {%- endif -%}
+  <meta itemprop="dateModified" content="{{ article.updated_at | date: '%Y-%m-%dT%H:%M:%S%z' }}">
   <div class="container">
 
     {%- comment -%} Featured Image {%- endcomment -%}

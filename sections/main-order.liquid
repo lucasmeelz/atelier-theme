@@ -124,8 +124,15 @@
 
       <div class="customer__order-totals-row">
         <span>{{ 'customer.order.total' | t }}</span>
-        <span>{{ order.total_net_amount | money }}</span>
+        <span>{{ order.total_price | money }}</span>
       </div>
+
+      {%- if order.total_refunded_amount > 0 -%}
+        <div class="customer__order-totals-row">
+          <span>{{ 'customer.order.refunded' | t }}</span>
+          <span>-{{ order.total_refunded_amount | money }}</span>
+        </div>
+      {%- endif -%}
     </div>
 
     <div class="customer__order-addresses">

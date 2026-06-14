@@ -206,9 +206,30 @@ class CartDrawer extends HTMLElement {
         body: JSON.stringify({ id: key, quantity: quantity })
       });
 
-      if (!response.ok) throw new Error('Update failed');
+      if (!response.ok) {
+        /* Shopify answers 422 with a human-readable description (e.g. stock limit) */
+        let description = '';
+        try {
+          const err = await response.json();
+          description = err.description || err.message || '';
+        } catch (e) { /* non-JSON error */ }
+        if (response.status === 422 && description) {
+          this.showNotice(description);
+          this.refreshDrawer();
+          return;
+        }
+        throw new Error('Update failed');
+      }
 
       const cart = await response.json();
+
+      /* Stock limit: Shopify silently clamps the quantity — tell the user */
+      const line = cart.items.find((item) => item.key === key);
+      if (quantity > 0 && line && line.quantity < quantity) {
+        this.showNotice(this.noticeEl?.dataset.tQuantityAdjusted || '');
+      } else {
+        this.hideNotice();
+      }
 
       /* Update cart count in header */
       document.querySelectorAll('[data-cart-count]').forEach((el) => {
@@ -223,6 +244,24 @@ class CartDrawer extends HTMLElement {
       /* Fallback: reload page */
       window.location.reload();
     }
+  }
+
+  get noticeEl() {
+    return this.querySelector('[data-cart-notice]');
+  }
+
+  showNotice(message) {
+    const el = this.noticeEl;
+    if (!el || !message) return;
+    el.textContent = message;
+    el.hidden = false;
+    clearTimeout(this._noticeTimeout);
+    this._noticeTimeout = setTimeout(() => { el.hidden = true; }, 6000);
+  }
+
+  hideNotice() {
+    const el = this.noticeEl;
+    if (el) el.hidden = true;
   }
 
   async refreshDrawer() {

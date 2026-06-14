@@ -26,6 +26,16 @@ if (!customElements.get('video-player')) {
 
       if (this.poster) {
         this.poster.addEventListener('click', this._handlePlay);
+
+        // YouTube maxresdefault.jpg is missing on some uploads — fall back to
+        // hqdefault.jpg (always exists) so the facade never shows a broken image
+        const posterImg = this.poster.querySelector('.video-section__poster-img');
+        if (posterImg && /\/maxresdefault\.jpg/.test(posterImg.src)) {
+          posterImg.addEventListener('error', function onError() {
+            posterImg.removeEventListener('error', onError);
+            posterImg.src = posterImg.src.replace('/maxresdefault.jpg', '/hqdefault.jpg');
+          });
+        }
       }
 
       // Autoplay: no poster needed, video plays on its own

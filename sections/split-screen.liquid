@@ -50,7 +50,7 @@
 
       <div
         class="split-screen__content split-screen__content--{{ panel_text_alignment }}"
-        {% if panel_text_color != blank %}style="color: {{ panel_text_color }};"{% endif %}
+        {% if panel_text_color != blank %}style="--split-text-color: {{ panel_text_color }};"{% endif %}
       >
         {%- if panel_subheading != blank -%}
           <p class="split-screen__subheading subheading">{{ panel_subheading }}</p>

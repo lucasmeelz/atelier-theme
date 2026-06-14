@@ -55,7 +55,7 @@
         type="button"
         class="announcement-bar__close"
         aria-label="{{ 'sections.announcement_bar.close' | t }}"
-        onclick="this.closest('.announcement-bar-section').hidden=true;try{sessionStorage.setItem('ecrin:announcement-dismissed','1')}catch(e){}"
+        data-announcement-dismiss
       >
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -64,12 +64,21 @@
       </button>
       <script>
         (function(){
+          var el = document.getElementById('Section-{{ section.id }}');
+          if (!el) return;
           try {
             if (sessionStorage.getItem('ecrin:announcement-dismissed') === '1') {
-              var el = document.getElementById('Section-{{ section.id }}');
-              if (el) el.hidden = true;
+              el.hidden = true;
+              return;
             }
           } catch(e) {}
+          var closeBtn = el.querySelector('[data-announcement-dismiss]');
+          if (closeBtn) {
+            closeBtn.addEventListener('click', function() {
+              el.hidden = true;
+              try { sessionStorage.setItem('ecrin:announcement-dismissed', '1'); } catch(e) {}
+            });
+          }
         })();
       </script>
     {%- endif -%}
@@ -118,10 +127,10 @@
       "name": "t:sections.announcement_bar.blocks.announcement",
       "settings": [
         {
-          "type": "richtext",
+          "type": "inline_richtext",
           "id": "text",
           "label": "t:sections.announcement_bar.blocks.text",
-          "default": "<p>Welcome to our store</p>"
+          "default": "Welcome to our store"
         },
         {
           "type": "url",
@@ -138,7 +147,7 @@
         {
           "type": "announcement",
           "settings": {
-            "text": "<p>Free shipping on orders over $150</p>"
+            "text": "Free shipping on orders over $150"
           }
         }
       ]
