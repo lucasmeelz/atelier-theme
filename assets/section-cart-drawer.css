@@ -122,6 +122,97 @@
   border-bottom: 1px solid rgba(var(--color-border), 0.6);
 }
 
+/* Upsell — "complete your order" strip in the footer */
+.cart-drawer__upsell {
+  margin-bottom: 18px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(var(--color-border), 0.6);
+}
+
+.cart-drawer__upsell-heading {
+  margin: 0 0 12px;
+}
+
+.cart-drawer__upsell-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cart-drawer__upsell-item {
+  display: grid;
+  grid-template-columns: 48px 1fr auto;
+  align-items: center;
+  gap: 12px;
+}
+
+.cart-drawer__upsell-image {
+  display: block;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background-color: rgba(var(--color-border), 0.25);
+  border-radius: var(--card-border-radius);
+}
+
+.cart-drawer__upsell-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cart-drawer__upsell-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.cart-drawer__upsell-title {
+  font-size: 0.8125rem;
+  line-height: 1.3;
+  color: rgb(var(--color-text));
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cart-drawer__upsell-price {
+  font-size: 0.75rem;
+  color: rgb(var(--color-text-subdued));
+}
+
+.cart-drawer__upsell-form {
+  margin: 0;
+}
+
+.cart-drawer__upsell-add {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgb(var(--color-border));
+  border-radius: 50%;
+  background-color: transparent;
+  color: rgb(var(--color-text));
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-hover),
+              color var(--duration-fast) var(--ease-hover);
+}
+
+@media (hover: hover) {
+  .cart-drawer__upsell-add:hover {
+    background-color: rgb(var(--color-button-bg));
+    color: rgb(var(--color-button-text));
+  }
+}
+
+.cart-drawer__upsell-add.is-loading {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
 /* Body — scrollable */
 .cart-drawer__body {
   flex: 1;

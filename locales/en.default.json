@@ -70,6 +70,7 @@
     "total": "Total",
     "empty": "Your cart is empty",
     "quantity_adjusted": "Stock limit reached — the quantity was adjusted",
+    "add_upsell": "Add {{ title }} to cart",
     "continue_shopping": "Continue shopping",
     "checkout": "Checkout",
     "update": "Update",

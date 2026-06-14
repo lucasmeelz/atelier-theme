@@ -201,6 +201,61 @@
         {%- for block in section.blocks -%}
           {%- case block.type -%}
 
+            {%- when 'cart_upsell' -%}
+              {%- if block.settings.collection != blank -%}
+                {%- liquid
+                  assign upsell_collection = collections[block.settings.collection]
+                  assign upsell_max = block.settings.max_products | default: 3
+                  assign upsell_shown = 0
+                -%}
+                {%- if upsell_collection.products_count > 0 -%}
+                  <div class="cart-drawer__upsell" {{ block.shopify_attributes }} data-cart-upsell>
+                    {%- if block.settings.heading != blank -%}
+                      <p class="cart-drawer__upsell-heading label">{{ block.settings.heading }}</p>
+                    {%- endif -%}
+                    <div class="cart-drawer__upsell-list">
+                      {%- for upsell_product in upsell_collection.products limit: 24 -%}
+                        {%- if upsell_shown >= upsell_max -%}{%- break -%}{%- endif -%}
+                        {%- unless upsell_product.available -%}{%- continue -%}{%- endunless -%}
+                        {%- assign upsell_in_cart = false -%}
+                        {%- for line in cart.items -%}
+                          {%- if line.product_id == upsell_product.id -%}
+                            {%- assign upsell_in_cart = true -%}
+                            {%- break -%}
+                          {%- endif -%}
+                        {%- endfor -%}
+                        {%- if upsell_in_cart -%}{%- continue -%}{%- endif -%}
+                        {%- assign upsell_shown = upsell_shown | plus: 1 -%}
+                        {%- assign upsell_variant = upsell_product.selected_or_first_available_variant -%}
+                        <div class="cart-drawer__upsell-item">
+                          <a href="{{ upsell_product.url }}" class="cart-drawer__upsell-image" tabindex="-1" aria-hidden="true">
+                            {%- if upsell_product.featured_image -%}
+                              {{ upsell_product.featured_image | image_url: width: 160 | image_tag:
+                                loading: 'lazy',
+                                widths: '80,160',
+                                class: 'cart-drawer__upsell-img',
+                                alt: upsell_product.featured_image.alt | default: upsell_product.title
+                              }}
+                            {%- endif -%}
+                          </a>
+                          <div class="cart-drawer__upsell-info">
+                            <a href="{{ upsell_product.url }}" class="cart-drawer__upsell-title">{{ upsell_product.title }}</a>
+                            <span class="cart-drawer__upsell-price">{{ upsell_variant.price | money }}</span>
+                          </div>
+                          <form action="{{ routes.cart_add_url }}" method="post" data-quick-add class="cart-drawer__upsell-form">
+                            <input type="hidden" name="id" value="{{ upsell_variant.id }}">
+                            <input type="hidden" name="quantity" value="1">
+                            <button type="submit" class="cart-drawer__upsell-add btn--icon" aria-label="{{ 'cart.add_upsell' | t: title: upsell_product.title }}">
+                              {%- render 'icon', name: 'plus', size: 16 -%}
+                            </button>
+                          </form>
+                        </div>
+                      {%- endfor -%}
+                    </div>
+                  </div>
+                {%- endif -%}
+              {%- endif -%}
+
             {%- when 'cart_note' -%}
               <details class="cart-drawer__note-toggle" {{ block.shopify_attributes }}>
                 <summary class="cart-drawer__note-summary label">{{ 'cart.note' | t }}</summary>
@@ -346,6 +401,37 @@
           "id": "text",
           "label": "t:sections.cart_drawer.blocks.announcement_text",
           "default": "Complimentary gift wrapping on all orders"
+        }
+      ]
+    },
+    {
+      "type": "cart_upsell",
+      "name": "t:sections.cart_drawer.blocks.cart_upsell",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "t:sections.cart_drawer.blocks.cart_upsell_info"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:sections.cart_drawer.blocks.cart_upsell_heading",
+          "default": "Complete your order"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "t:sections.cart_drawer.blocks.cart_upsell_collection"
+        },
+        {
+          "type": "range",
+          "id": "max_products",
+          "label": "t:sections.cart_drawer.blocks.cart_upsell_max",
+          "min": 2,
+          "max": 4,
+          "step": 1,
+          "default": 3
         }
       ]
     },

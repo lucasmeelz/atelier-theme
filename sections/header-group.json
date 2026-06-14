@@ -106,6 +106,14 @@
             "threshold": ""
           }
         },
+        "upsell": {
+          "type": "cart_upsell",
+          "settings": {
+            "heading": "Complete your order",
+            "collection": "all",
+            "max_products": 3
+          }
+        },
         "note": {
           "type": "cart_note",
           "settings": {}
@@ -124,6 +132,7 @@
       },
       "block_order": [
         "shipping_bar",
+        "upsell",
         "note",
         "trust"
       ],

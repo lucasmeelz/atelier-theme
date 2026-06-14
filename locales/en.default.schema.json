@@ -1468,7 +1468,12 @@
         "badge_2_icon": "Badge 2 icon",
         "badge_2_text": "Badge 2 text",
         "badge_3_icon": "Badge 3 icon",
-        "badge_3_text": "Badge 3 text"
+        "badge_3_text": "Badge 3 text",
+        "cart_upsell": "Upsell products",
+        "cart_upsell_info": "Shows a few products from a collection as add-ons, hiding ones already in the cart. Tapping + adds them instantly.",
+        "cart_upsell_heading": "Heading",
+        "cart_upsell_collection": "Collection",
+        "cart_upsell_max": "Maximum products"
       }
     },
     "main_account": {
