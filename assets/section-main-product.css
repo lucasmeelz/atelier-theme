@@ -42,6 +42,10 @@
    =================================== */
 .product__media-column {
   position: relative;
+  /* Allow the grid track to shrink below its content's min-size so the
+     thumbnail slider's overflow-x scrolls instead of stretching the page
+     (grid/flex items default to min-width: auto). */
+  min-width: 0;
 }
 
 /* ===================================
@@ -159,6 +163,8 @@
    above the buy box (worst on mobile) */
 .product__gallery--thumbnail_slider .product__thumbnails--below {
   flex-wrap: nowrap;
+  min-width: 0;
+  max-width: 100%;
   overflow-x: auto;
   scroll-snap-type: x proximity;
   -webkit-overflow-scrolling: touch;
