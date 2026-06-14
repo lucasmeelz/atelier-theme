@@ -37,7 +37,7 @@
     "card_border_radius": 4,
     "icon_stroke_width": 1,
     "backdrop_blur": 6,
-    "page_transition": "fade",
+    "page_transition": "curtain",
     "enable_smooth_scroll": true,
     "scroll_reveal": "fade-in",
     "button_hover_effect": "fade",

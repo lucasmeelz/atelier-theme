@@ -17,8 +17,31 @@
     {{ 'component-button.css' | asset_url | stylesheet_tag }}
     {{ 'component-quick-view.css' | asset_url | stylesheet_tag }}
 
+    {%- comment -%} Page transition: 'fade' is the critical.css default. {%- endcomment -%}
     {%- if settings.page_transition == 'none' -%}
       <style>@view-transition { navigation: none; }</style>
+    {%- elsif settings.page_transition == 'curtain' -%}
+      <style>
+        /* Curtain — outgoing page recedes, incoming rises like a drawn curtain.
+           The shared product image (if any) morphs independently above this. */
+        ::view-transition-old(root) {
+          animation: 460ms cubic-bezier(0.7, 0, 0.84, 0) both ecrin-curtain-old;
+        }
+        ::view-transition-new(root) {
+          animation: 700ms cubic-bezier(0.16, 1, 0.3, 1) both ecrin-curtain-new;
+        }
+        @keyframes ecrin-curtain-old {
+          to { opacity: 0; transform: scale(0.96); }
+        }
+        @keyframes ecrin-curtain-new {
+          from { clip-path: inset(100% 0 0 0); }
+          to { clip-path: inset(0 0 0 0); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          ::view-transition-old(root),
+          ::view-transition-new(root) { animation-duration: 1ms; }
+        }
+      </style>
     {%- endif -%}
 
     {%- render 'meta-tags' -%}
@@ -85,6 +108,31 @@
           .observe(document.body, { childList: true, subtree: true });
       })();
     </script>
+
+    {%- comment -%} Shared-element transition: the clicked product card image
+       morphs into the PDP hero image. Names must be unique per page, so we
+       assign the name only to the clicked card's image just before navigation
+       (the PDP hero carries the matching name via CSS). {%- endcomment -%}
+    {%- if settings.page_transition != 'none' -%}
+      <script>
+        (function () {
+          if (!('startViewTransition' in document)) return;
+          document.addEventListener('click', function (e) {
+            var link = e.target.closest('a.card-product__media-link');
+            if (!link) return;
+            var card = link.closest('.card-product');
+            var img = card && card.querySelector('.card-product__image--primary');
+            if (!img) return;
+            document.querySelectorAll('[data-vt-product-media]').forEach(function (el) {
+              el.style.viewTransitionName = '';
+              el.removeAttribute('data-vt-product-media');
+            });
+            img.style.viewTransitionName = 'ecrin-product-media';
+            img.setAttribute('data-vt-product-media', '');
+          }, true);
+        })();
+      </script>
+    {%- endif -%}
 
     {%- comment -%} Quick View drawer is lazy-created by component-quick-view.js
        (loaded per section: collection, featured-collection, recently-viewed,

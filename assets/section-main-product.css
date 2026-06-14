@@ -48,6 +48,13 @@
   min-width: 0;
 }
 
+/* Shared-element page transition target — the first/active gallery image
+   carries the name the clicked collection card image morphs into. */
+.product__media-item.is-active .product__media-img,
+.product__media-slide.is-active .product__media-img {
+  view-transition-name: ecrin-product-media;
+}
+
 /* ===================================
    Gallery — Stacked (Dior style)
    =================================== */

@@ -378,9 +378,10 @@
         "label": "t:settings_schema.animations.page_transition",
         "options": [
           { "value": "none", "label": "t:settings_schema.animations.none" },
-          { "value": "fade", "label": "t:settings_schema.animations.fade" }
+          { "value": "fade", "label": "t:settings_schema.animations.fade" },
+          { "value": "curtain", "label": "t:settings_schema.animations.curtain" }
         ],
-        "default": "fade"
+        "default": "curtain"
       },
       {
         "type": "checkbox",
