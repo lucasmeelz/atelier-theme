@@ -46,8 +46,6 @@
 
     {%- sections 'footer-group' -%}
 
-    <script src="{{ 'quick-view.js' | asset_url }}" defer></script>
-
     {%- comment -%} Stagger animation — trigger when cards approach the viewport.
        Scroll-triggered = user-initiated, so NOT disabled by reduced-motion.
        The CSS reduced-motion media query handles autonomous animations only.
@@ -88,25 +86,9 @@
       })();
     </script>
 
-    {%- comment -%} Quick View modal (shared across pages) {%- endcomment -%}
-    <dialog
-      class="quick-view-dialog"
-      id="quick-view-modal"
-      scroll-lock
-      data-t-add-to-cart="{{ 'product.add_to_cart' | t | escape }}"
-      data-t-sold-out="{{ 'product.sold_out' | t | escape }}"
-      data-t-adding="{{ 'product.add_to_cart' | t | escape }}…"
-      data-t-close="{{ 'accessibility.close' | t | escape }}"
-      data-t-view-full="{{ 'product.view_full_details' | t | escape }}"
-      data-t-selling-plans="{{ 'product.quick_view_selling_plans' | t | escape }}"
-      data-money-format="{{ shop.money_format | escape }}"
-    >
-      <div class="quick-view__inner">
-        <div class="quick-view__loading">
-          <div class="quick-view__spinner"></div>
-        </div>
-      </div>
-    </dialog>
+    {%- comment -%} Quick View drawer is lazy-created by component-quick-view.js
+       (loaded per section: collection, featured-collection, recently-viewed,
+       product-recommendations) when a [data-quick-view-trigger] is clicked. {%- endcomment -%}
 
     {%- comment -%} Smooth scroll (Lenis) {%- endcomment -%}
     {%- if settings.enable_smooth_scroll -%}

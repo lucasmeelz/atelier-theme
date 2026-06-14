@@ -1,7 +1,8 @@
 /* =======================================================
-   Quick View — Right-side drawer (primary implementation)
-   The legacy .quick-view-dialog rules are kept for backward
-   compatibility but the drawer pattern is used by default.
+   Quick View — Right-side drawer
+   Markup is lazy-created by component-quick-view.js and the
+   product card (.quick-view__product) is injected from the
+   quick-view-data section.
    ======================================================= */
 
 /* -------------------------------------------------------
@@ -205,89 +206,6 @@ quick-view-modal {
   opacity: 1;
   transform: translateY(0);
   outline: 2px solid rgb(var(--color-accent, 184, 148, 106));
-  outline-offset: 2px;
-}
-
-/* -------------------------------------------------------
-   Legacy dialog rules (kept for backward compatibility)
-   ------------------------------------------------------- */
-.quick-view-dialog {
-  position: fixed;
-  inset: 0;
-  z-index: 300;
-  width: 100%;
-  height: 100%;
-  max-width: 100%;
-  max-height: 100%;
-  border: none;
-  padding: 0;
-  margin: 0;
-  background: transparent;
-  opacity: 0;
-  transition: opacity var(--duration-base, 350ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
-}
-
-.quick-view-dialog[open] {
-  opacity: 1;
-}
-
-.quick-view-dialog::backdrop {
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(var(--backdrop-blur));
-}
-
-.quick-view__inner {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -48%) scale(0.96);
-  width: min(95vw, 960px);
-  max-height: 90vh;
-  background-color: rgb(var(--color-background));
-  color: rgb(var(--color-text));
-  display: grid;
-  overflow: hidden;
-  transition: transform var(--duration-base, 350ms) var(--ease-ecrin, cubic-bezier(0.31, 0, 0.13, 1));
-}
-
-.quick-view-dialog[open] .quick-view__inner {
-  transform: translate(-50%, -50%) scale(1);
-}
-
-@media screen and (min-width: 750px) {
-  .quick-view__inner {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-/* Close button */
-.quick-view__close {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  z-index: 5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border: none;
-  background: rgb(var(--color-background));
-  color: rgb(var(--color-text));
-  cursor: pointer;
-  border-radius: 50%;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: opacity var(--duration-fast) var(--ease-ecrin);
-}
-
-@media (hover: hover) {
-  .quick-view__close:hover {
-    opacity: 0.7;
-  }
-}
-
-.quick-view__close:focus-visible {
-  outline: 2px solid rgb(var(--color-accent));
   outline-offset: 2px;
 }
 
@@ -496,28 +414,3 @@ quick-view-modal {
   outline-offset: 2px;
 }
 
-/* Loading */
-.quick-view__loading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 80px;
-  grid-column: 1 / -1;
-}
-
-.quick-view__spinner {
-  width: 24px;
-  height: 24px;
-  border: 2px solid rgb(var(--color-border));
-  border-top-color: rgb(var(--color-text));
-  border-radius: 50%;
-  animation: quick-view-spin 600ms linear infinite;
-}
-
-@keyframes quick-view-spin {
-  to { transform: rotate(360deg); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .quick-view__spinner { animation: none; }
-}
