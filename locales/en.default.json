@@ -217,7 +217,8 @@
     "expired": "This promotion has ended."
   },
   "lookbook": {
-    "view_product": "View product"
+    "view_product": "View product",
+    "add_to_cart": "Add to cart"
   },
   "blog": {
     "articles": "Articles",

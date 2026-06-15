@@ -103,9 +103,22 @@
                     {{ product.price | money }}
                   </p>
                 </div>
-                <a href="{{ product.url }}" class="lookbook__tooltip-cta">
-                  {{ 'lookbook.view_product' | t }}
-                </a>
+                {%- comment -%} Single-variant → one-tap add (reuses the cart
+                   drawer's AJAX intercept); multi-variant → go choose on the PDP {%- endcomment -%}
+                {%- if product.available and product.variants.size == 1 -%}
+                  <form action="{{ routes.cart_add_url }}" method="post" data-quick-add class="lookbook__tooltip-form">
+                    <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                    <input type="hidden" name="quantity" value="1">
+                    <button type="submit" class="lookbook__tooltip-add btn btn--primary">
+                      <span class="btn__label">{{ 'lookbook.add_to_cart' | t }}</span>
+                      <span class="btn__fill" aria-hidden="true"></span>
+                    </button>
+                  </form>
+                {%- else -%}
+                  <a href="{{ product.url }}" class="lookbook__tooltip-cta">
+                    {{ 'lookbook.view_product' | t }}
+                  </a>
+                {%- endif -%}
               </div>
             {%- endif -%}
           </div>
