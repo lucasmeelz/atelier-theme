@@ -142,9 +142,32 @@
         </a>
         <p class="quick-view__selling-plan-note">{{ 'product.quick_view_selling_plans' | t }}</p>
       {%- else -%}
-        <form method="post" action="{{ routes.cart_add_url }}" data-quick-view-form>
+        <form
+          method="post"
+          action="{{ routes.cart_add_url }}"
+          data-quick-view-form
+          data-t-added="{{ 'product.added' | t | escape }}"
+          data-t-error="{{ 'product.add_error' | t | escape }}"
+        >
           <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
-          <input type="hidden" name="quantity" value="1">
+          <div class="quick-view__quantity">
+            <button type="button" class="quick-view__qty-btn" data-quick-view-qty-minus aria-label="{{ 'accessibility.decrease_quantity' | t: title: product.title }}">
+              {%- render 'icon', name: 'minus', size: 14 -%}
+            </button>
+            <input
+              type="number"
+              name="quantity"
+              value="1"
+              min="1"
+              inputmode="numeric"
+              class="quick-view__qty-input"
+              data-quick-view-quantity
+              aria-label="{{ 'product.quantity' | t }}"
+            >
+            <button type="button" class="quick-view__qty-btn" data-quick-view-qty-plus aria-label="{{ 'accessibility.increase_quantity' | t: title: product.title }}">
+              {%- render 'icon', name: 'plus', size: 14 -%}
+            </button>
+          </div>
           <button
             type="submit"
             name="add"

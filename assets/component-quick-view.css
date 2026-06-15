@@ -378,6 +378,57 @@ quick-view-modal {
   min-height: 48px;
 }
 
+/* Quantity stepper + add button sit on one row */
+.quick-view__atc [data-quick-view-form] {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.quick-view__quantity {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  border: 1px solid rgb(var(--color-border));
+  border-radius: var(--input-border-radius, 0);
+}
+
+.quick-view__qty-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  min-height: 48px;
+  border: none;
+  background: transparent;
+  color: rgb(var(--color-text));
+  cursor: pointer;
+  transition: opacity var(--duration-fast) var(--ease-hover);
+}
+
+@media (hover: hover) {
+  .quick-view__qty-btn:hover { opacity: 0.6; }
+}
+
+.quick-view__qty-input {
+  width: 36px;
+  min-height: 48px;
+  padding: 0;
+  text-align: center;
+  border: none;
+  background: transparent;
+  color: rgb(var(--color-text));
+  font-size: 0.875rem;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.quick-view__qty-input::-webkit-outer-spin-button,
+.quick-view__qty-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 .quick-view__atc-btn:focus-visible {
   outline: 2px solid rgb(var(--color-accent, 184, 148, 106));
   outline-offset: 2px;

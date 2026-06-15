@@ -278,11 +278,32 @@ if (!customElements.get('quick-view-modal')) {
       var form = this._content.querySelector('[data-quick-view-form]');
       if (!form) return;
 
+      var qtyInput = form.querySelector('[data-quick-view-quantity]');
+      var minus = form.querySelector('[data-quick-view-qty-minus]');
+      var plus = form.querySelector('[data-quick-view-qty-plus]');
+      if (qtyInput && minus) {
+        minus.addEventListener('click', function() {
+          var v = parseInt(qtyInput.value, 10) || 1;
+          if (v > 1) qtyInput.value = v - 1;
+        });
+      }
+      if (qtyInput && plus) {
+        plus.addEventListener('click', function() {
+          qtyInput.value = (parseInt(qtyInput.value, 10) || 1) + 1;
+        });
+      }
+
+      var addedText = form.dataset.tAdded || '✓ Added';
+      var errorText = form.dataset.tError || 'Error — try again';
+
       form.addEventListener('submit', function(e) {
         e.preventDefault();
         var btn = form.querySelector('.quick-view__atc-btn');
         var variantId = form.querySelector('[data-variant-id]');
         if (!variantId || !variantId.value) return;
+
+        var quantity = qtyInput ? (parseInt(qtyInput.value, 10) || 1) : 1;
+        if (quantity < 1) quantity = 1;
 
         /* Loading state */
         if (btn) {
@@ -290,14 +311,12 @@ if (!customElements.get('quick-view-modal')) {
           btn.classList.add('quick-view__atc-btn--loading');
         }
 
-        var formData = new FormData(form);
-
         fetch(window.Shopify.routes.root + 'cart/add.js', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
           body: JSON.stringify({
             id: parseInt(variantId.value, 10),
-            quantity: 1
+            quantity: quantity
           })
         })
           .then(function(res) {
@@ -312,7 +331,7 @@ if (!customElements.get('quick-view-modal')) {
             /* Show confirmation then close */
             if (btn) {
               var labelEl = btn.querySelector('.btn__label');
-              if (labelEl) labelEl.textContent = '\u2713 Added';
+              if (labelEl) labelEl.textContent = addedText;
               btn.classList.remove('quick-view__atc-btn--loading');
             }
 
@@ -325,7 +344,7 @@ if (!customElements.get('quick-view-modal')) {
               btn.disabled = false;
               btn.classList.remove('quick-view__atc-btn--loading');
               var labelEl = btn.querySelector('.btn__label');
-              if (labelEl) labelEl.textContent = 'Error — try again';
+              if (labelEl) labelEl.textContent = errorText;
             }
           });
       }.bind(this));

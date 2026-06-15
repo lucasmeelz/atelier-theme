@@ -97,6 +97,8 @@
   },
   "product": {
     "add_to_cart": "Add to cart",
+    "added": "✓ Added",
+    "add_error": "Could not add — try again",
     "buy_now": "Buy it now",
     "sold_out": "Sold out",
     "unavailable": "Unavailable",
