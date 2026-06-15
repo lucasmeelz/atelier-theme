@@ -14,12 +14,21 @@
         },
         "trust": {
           "type": "trust_badges"
+        },
+        "upsell": {
+          "type": "cart_upsell",
+          "settings": {
+            "heading": "Complete your order",
+            "collection": "all",
+            "max_products": 3
+          }
         }
       },
       "block_order": [
         "shipping_bar",
         "note",
-        "trust"
+        "trust",
+        "upsell"
       ]
     }
   },

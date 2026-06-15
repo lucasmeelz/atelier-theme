@@ -274,6 +274,65 @@
         </div>
       </form>
 
+      {%- comment -%} Upsell — outside the cart form (no nested forms); plain
+         POST reloads /cart with the item added {%- endcomment -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'cart_upsell' and block.settings.collection != blank -%}
+          {%- liquid
+            assign upsell_collection = collections[block.settings.collection]
+            assign upsell_max = block.settings.max_products | default: 3
+            assign upsell_shown = 0
+          -%}
+          {%- if upsell_collection.products_count > 0 -%}
+            <div class="main-cart__upsell" {{ block.shopify_attributes }}>
+              {%- if block.settings.heading != blank -%}
+                <p class="main-cart__upsell-heading label">{{ block.settings.heading }}</p>
+              {%- endif -%}
+              <div class="main-cart__upsell-list">
+                {%- for upsell_product in upsell_collection.products limit: 24 -%}
+                  {%- if upsell_shown >= upsell_max -%}{%- break -%}{%- endif -%}
+                  {%- unless upsell_product.available -%}{%- continue -%}{%- endunless -%}
+                  {%- assign upsell_in_cart = false -%}
+                  {%- for line in cart.items -%}
+                    {%- if line.product_id == upsell_product.id -%}
+                      {%- assign upsell_in_cart = true -%}
+                      {%- break -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+                  {%- if upsell_in_cart -%}{%- continue -%}{%- endif -%}
+                  {%- assign upsell_shown = upsell_shown | plus: 1 -%}
+                  {%- assign upsell_variant = upsell_product.selected_or_first_available_variant -%}
+                  <div class="main-cart__upsell-item">
+                    <a href="{{ upsell_product.url }}" class="main-cart__upsell-image" tabindex="-1" aria-hidden="true">
+                      {%- if upsell_product.featured_image -%}
+                        {{ upsell_product.featured_image | image_url: width: 200 | image_tag:
+                          loading: 'lazy',
+                          widths: '100,200',
+                          class: 'main-cart__upsell-img',
+                          alt: upsell_product.featured_image.alt | default: upsell_product.title
+                        }}
+                      {%- endif -%}
+                    </a>
+                    <div class="main-cart__upsell-info">
+                      <a href="{{ upsell_product.url }}" class="main-cart__upsell-title">{{ upsell_product.title }}</a>
+                      <span class="main-cart__upsell-price">{{ upsell_variant.price | money }}</span>
+                    </div>
+                    <form action="{{ routes.cart_add_url }}" method="post" class="main-cart__upsell-form">
+                      <input type="hidden" name="id" value="{{ upsell_variant.id }}">
+                      <input type="hidden" name="quantity" value="1">
+                      <button type="submit" class="main-cart__upsell-add btn btn--outline" aria-label="{{ 'cart.add_upsell' | t: title: upsell_product.title }}">
+                        <span class="btn__label">{{ 'product.add_to_cart' | t }}</span>
+                        <span class="btn__fill" aria-hidden="true"></span>
+                      </button>
+                    </form>
+                  </div>
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
+
     {%- else -%}
       <div class="main-cart__empty">
         <span class="main-cart__empty-icon" aria-hidden="true">
@@ -341,6 +400,37 @@
           "id": "threshold",
           "label": "t:sections.cart_drawer.blocks.shipping_threshold",
           "info": "t:sections.cart_drawer.blocks.shipping_threshold_info"
+        }
+      ]
+    },
+    {
+      "type": "cart_upsell",
+      "name": "t:sections.cart_drawer.blocks.cart_upsell",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "t:sections.cart_drawer.blocks.cart_upsell_info"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:sections.cart_drawer.blocks.cart_upsell_heading",
+          "default": "Complete your order"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "t:sections.cart_drawer.blocks.cart_upsell_collection"
+        },
+        {
+          "type": "range",
+          "id": "max_products",
+          "label": "t:sections.cart_drawer.blocks.cart_upsell_max",
+          "min": 2,
+          "max": 4,
+          "step": 1,
+          "default": 3
         }
       ]
     },
