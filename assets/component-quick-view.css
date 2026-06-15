@@ -374,20 +374,25 @@ quick-view-modal {
 }
 
 .quick-view__atc-btn {
-  flex: 1;
+  flex: none;
+  width: 100%;
   min-height: 48px;
+  white-space: nowrap;
 }
 
-/* Quantity stepper + add button sit on one row */
+/* Quantity stepper stacks above a full-width add button (the drawer is narrow,
+   so a side-by-side row would crush the button label onto multiple lines) */
 .quick-view__atc [data-quick-view-form] {
   display: flex;
-  gap: 8px;
+  flex-direction: column;
+  gap: 10px;
   width: 100%;
 }
 
 .quick-view__quantity {
   display: flex;
   align-items: center;
+  align-self: flex-start;
   flex-shrink: 0;
   border: 1px solid rgb(var(--color-border));
   border-radius: var(--input-border-radius, 0);
