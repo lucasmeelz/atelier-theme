@@ -209,11 +209,15 @@
   }
 }
 
-/* Mobile actions — visible on mobile only */
-.main-cart__item-actions-mobile {
-  display: flex;
-  align-items: center;
-  gap: 16px;
+/* Mobile actions — visible on mobile only.
+   Scoped to the mobile breakpoint so it can't override the desktop
+   `display: none` rule (equal specificity, later in source = would win). */
+@media screen and (max-width: 989px) {
+  .main-cart__item-actions-mobile {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
 }
 
 /* Remove link — ensure 44px touch target */
