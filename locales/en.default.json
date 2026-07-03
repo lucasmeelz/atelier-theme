@@ -261,6 +261,7 @@
     "results_count": "{{ count }} results for \"{{ terms }}\"",
     "results_for_html": "{{ count }} results for <em>{{ terms }}</em>",
     "suggestions": "Suggestions",
+    "view_all": "View all results",
     "products": "Products",
     "articles": "Articles",
     "pages": "Pages",
