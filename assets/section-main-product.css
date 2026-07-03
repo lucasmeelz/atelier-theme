@@ -334,15 +334,15 @@
   margin-top: 0;
 }
 
-h1.product__title {
+.product__title--h1 {
   font-size: clamp(1.625rem, 3vw, 2.5rem);
 }
 
-h2.product__title {
+.product__title--h2 {
   font-size: clamp(1.25rem, 2.5vw, 1.75rem);
 }
 
-h3.product__title {
+.product__title--h3 {
   font-size: clamp(1.125rem, 2vw, 1.5rem);
 }
 
