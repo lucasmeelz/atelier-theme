@@ -500,7 +500,9 @@ picture:has(.hero__img),
    each theme block. This keeps the animation working regardless of which
    atomic block (eyebrow / heading / description / button / etc.) the
    merchant drops into the hero-content slot. */
-.hero__content-inner > .shopify-block {
+/* Hidden-until-loaded only when JS runs — without JS the hero content
+   (often the page h1) must render immediately */
+html.js .hero__content-inner > .shopify-block {
   opacity: 0;
   transform: translateY(24px);
   transition:

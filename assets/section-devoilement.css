@@ -643,3 +643,34 @@
 .shopify-design-mode .devoilement__scene.is-editor-selected [data-content-el] {
   --content-opacity: 1;
 }
+
+/* -----------------------------------------------
+   No-JS fallback — the scroll story needs JS, so
+   without it the scenes stack as a plain section
+   ----------------------------------------------- */
+html.no-js .devoilement {
+  height: auto !important;
+}
+
+html.no-js .devoilement__sticky {
+  position: static;
+  height: auto;
+}
+
+html.no-js .devoilement__viewport {
+  height: auto;
+  overflow: visible;
+}
+
+html.no-js .devoilement__scene {
+  position: relative;
+  inset: auto;
+  opacity: 1;
+  visibility: visible;
+  min-height: 60vh;
+}
+
+html.no-js .devoilement [data-content-el] {
+  opacity: 1;
+  transform: none;
+}
