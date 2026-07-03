@@ -134,9 +134,10 @@
                 <p class="slideshow__subheading label">{{ block.settings.subheading }}</p>
               {%- endif -%}
               {%- if block.settings.heading != blank -%}
-                <{{ heading_size }} class="slideshow__heading slideshow__heading--{{ heading_size }}">
+                {%- comment -%} Always h2: slides must not compete with the page h1 — the setting only drives the visual size {%- endcomment -%}
+                <h2 class="slideshow__heading slideshow__heading--{{ heading_size }}">
                   {{ block.settings.heading }}
-                </{{ heading_size }}>
+                </h2>
               {%- endif -%}
               {%- if block.settings.text != blank -%}
                 <p class="slideshow__text">{{ block.settings.text }}</p>
@@ -189,12 +190,13 @@
     {%- comment -%} Dots / Counter / Progress {%- endcomment -%}
     <div class="slideshow__controls">
       {%- if show_dots -%}
-        <div class="slideshow__dots" role="tablist">
+        {%- comment -%} Plain buttons + aria-current: tabs semantics require tabpanels we don't have {%- endcomment -%}
+        <div class="slideshow__dots" role="group" aria-label="{{ 'accessibility.navigation' | t }}">
           {%- for block in section.blocks -%}
             <button
+              type="button"
               class="slideshow__dot{% if forloop.first %} slideshow__dot--active{% endif %}"
-              role="tab"
-              aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+              aria-current="{% if forloop.first %}true{% else %}false{% endif %}"
               aria-label="{{ 'accessibility.slide_number' | t: number: forloop.index, total: section.blocks.size }}"
               data-dot="{{ forloop.index0 }}"
             ></button>
@@ -380,7 +382,7 @@
         /* Update dot indicators */
         this.dots.forEach(function(dot, i) {
           dot.classList.toggle('slideshow__dot--active', i === index);
-          dot.setAttribute('aria-selected', i === index ? 'true' : 'false');
+          dot.setAttribute('aria-current', i === index ? 'true' : 'false');
         });
 
         /* Update counter display */
