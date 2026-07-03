@@ -1432,7 +1432,9 @@ collapsible-details + :not(collapsible-details):not(.product__ingredients) {
 }
 
 .product-variant-picker__button.is-unavailable {
-  opacity: 0.4;
+  /* 0.65 keeps the crossed-out value at >= 4.5:1 on the default schemes
+     (0.4 measured 2.71:1 — axe serious); the value stays selectable */
+  opacity: 0.65;
   text-decoration: line-through;
   cursor: not-allowed;
 }
@@ -1496,8 +1498,27 @@ collapsible-details + :not(collapsible-details):not(.product__ingredients) {
 }
 
 .product-variant-picker__swatch.is-unavailable {
-  opacity: 0.3;
+  opacity: 0.45;
   cursor: not-allowed;
+}
+
+/* Diagonal strike: unavailable state must not rely on dimming alone */
+.product-variant-picker__swatch.is-unavailable .product-variant-picker__swatch-inner {
+  position: relative;
+  overflow: hidden;
+}
+
+.product-variant-picker__swatch.is-unavailable .product-variant-picker__swatch-inner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top right,
+    transparent calc(50% - 1px),
+    rgb(var(--color-text)) calc(50% - 1px),
+    rgb(var(--color-text)) calc(50% + 1px),
+    transparent calc(50% + 1px)
+  );
 }
 
 /* Dropdown variant */

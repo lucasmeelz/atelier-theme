@@ -441,6 +441,7 @@ button.collection__filter-toggle.btn {
   font-family: inherit;
   font-size: inherit;
   width: 100%;
+  min-height: 24px; /* WCAG 2.5.8 target size */
   padding: 0;
   outline: none;
   color: rgb(var(--color-text, 10, 10, 10));
