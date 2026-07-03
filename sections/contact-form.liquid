@@ -154,7 +154,7 @@
             <input
               type="text"
               id="ContactForm-name"
-              name="contact[{{ 'contact.name' | t }}]"
+              name="contact[name]"
               class="contact-form__input"
               value="{{ form.name }}"
               autocomplete="name"
@@ -185,7 +185,7 @@
             <input
               type="tel"
               id="ContactForm-phone"
-              name="contact[{{ 'contact.phone' | t }}]"
+              name="contact[phone]"
               class="contact-form__input"
               value="{{ form.phone }}"
               autocomplete="tel"
@@ -199,7 +199,7 @@
           </label>
           <textarea
             id="ContactForm-message"
-            name="contact[{{ 'contact.message' | t }}]"
+            name="contact[body]"
             class="contact-form__textarea"
             rows="6"
           >{{ form.body }}</textarea>
