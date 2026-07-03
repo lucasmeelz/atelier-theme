@@ -284,7 +284,7 @@ if (!customElements.get('main-product')) {
       if (saveBadge) {
         if (variant.compare_at_price && variant.compare_at_price > variant.price) {
           const savePercent = Math.round((variant.compare_at_price - variant.price) / variant.compare_at_price * 100);
-          const template = saveBadge.dataset.saveTemplate || 'Save PLACEHOLDER%';
+          const template = saveBadge.dataset.saveTemplate || '';
           saveBadge.textContent = template.replace('PLACEHOLDER', savePercent);
           saveBadge.hidden = false;
         } else {
@@ -305,7 +305,7 @@ if (!customElements.get('main-product')) {
       if (stickySaveBadge) {
         if (variant.compare_at_price && variant.compare_at_price > variant.price) {
           const savePercent = Math.round((variant.compare_at_price - variant.price) / variant.compare_at_price * 100);
-          const template = (saveBadge && saveBadge.dataset.saveTemplate) || 'Save PLACEHOLDER%';
+          const template = (saveBadge && saveBadge.dataset.saveTemplate) || '';
           stickySaveBadge.textContent = template.replace('PLACEHOLDER', savePercent);
           stickySaveBadge.hidden = false;
         } else {
@@ -335,10 +335,10 @@ if (!customElements.get('main-product')) {
 
       if (variant.available) {
         btn.disabled = false;
-        text.textContent = btn.dataset.addText || 'Add to cart';
+        text.textContent = btn.dataset.addText || '';
       } else {
         btn.disabled = true;
-        text.textContent = btn.dataset.soldOutText || 'Sold out';
+        text.textContent = btn.dataset.soldOutText || '';
       }
 
       // Update sticky ATC button state
@@ -348,8 +348,8 @@ if (!customElements.get('main-product')) {
         stickyBtn.disabled = !variant.available;
         if (stickyText) {
           stickyText.textContent = variant.available
-            ? (stickyBtn.dataset.addText || 'Add to cart')
-            : (stickyBtn.dataset.soldOutText || 'Sold out');
+            ? (stickyBtn.dataset.addText || '')
+            : (stickyBtn.dataset.soldOutText || '');
         }
       }
     }
