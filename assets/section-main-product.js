@@ -176,6 +176,7 @@ if (!customElements.get('main-product')) {
 
       // Set initial variant
       this._setCurrentVariant();
+      this._updateUnavailableStates();
     }
 
     _onOptionChange() {
@@ -189,14 +190,71 @@ if (!customElements.get('main-product')) {
         this._updatePrice(variant);
         this._updateBuyButton(variant);
         this._updateBadges(variant);
-        this._updateOptionLabels(options);
-        this._updateActiveStates();
 
         // Switch gallery to variant image
         if (variant.featured_media) {
           this._scrollToMedia(String(variant.featured_media.id));
         }
+      } else {
+        // Selected combination does not exist as a variant
+        this.currentVariant = null;
+        this._setBuyButtonUnavailable();
       }
+
+      this._updateOptionLabels(options);
+      this._updateActiveStates();
+      this._updateUnavailableStates();
+    }
+
+    _setBuyButtonUnavailable() {
+      const btn = this.querySelector('[data-add-to-cart]');
+      const text = this.querySelector('[data-add-to-cart-text]');
+      if (btn) {
+        btn.disabled = true;
+        if (text) text.textContent = btn.dataset.unavailableText || '';
+      }
+
+      const stickyBtn = this.querySelector('[data-sticky-atc-button]');
+      const stickyText = this.querySelector('[data-sticky-atc-text]');
+      if (stickyBtn) {
+        stickyBtn.disabled = true;
+        if (stickyText) stickyText.textContent = stickyBtn.dataset.unavailableText || '';
+      }
+    }
+
+    /* Cross a value out when combining it with the other selected options
+       yields no purchasable variant (missing combination or sold out). */
+    _updateUnavailableStates() {
+      if (!this.productData || !this.productData.variants) return;
+
+      const selected = this._getSelectedOptions();
+      const variants = this.productData.variants;
+      const atcBtn = this.querySelector('[data-add-to-cart]');
+      const unavailableText = (atcBtn && atcBtn.dataset.unavailableText) || '';
+      const fieldsets = this.querySelectorAll('.product-variant-picker__option');
+
+      fieldsets.forEach((fieldset, optionIndex) => {
+        fieldset.querySelectorAll('[data-option-input]').forEach(input => {
+          const candidate = selected.slice();
+          candidate[optionIndex] = input.value;
+
+          const match = variants.find(v => v.options.every((opt, i) => opt === candidate[i]));
+          const isUnavailable = !match || !match.available;
+
+          const label = input.closest('.product-variant-picker__button, .product-variant-picker__swatch');
+          if (label) label.classList.toggle('is-unavailable', isUnavailable);
+
+          if (!input.dataset.baseLabel) {
+            input.dataset.baseLabel = input.getAttribute('aria-label') || input.value;
+          }
+          input.setAttribute(
+            'aria-label',
+            isUnavailable && unavailableText
+              ? input.dataset.baseLabel + ' — ' + unavailableText
+              : input.dataset.baseLabel
+          );
+        });
+      });
     }
 
     _getSelectedOptions() {
