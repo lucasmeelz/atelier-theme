@@ -151,6 +151,7 @@
     "quick_view": "Choose options",
     "quick_view_open": "Quick view: {{ title }}",
     "quick_view_close": "Close quick view",
+    "quick_view_error": "Could not load product.",
     "quick_view_view_full": "View full details",
     "quick_view_loading": "Loading product",
     "quick_view_selling_plans": "Subscription options are available on the product page",
