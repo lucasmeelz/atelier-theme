@@ -350,9 +350,11 @@
     },
     "activate": {
       "title": "Activate account",
+      "subtitle": "Create your password to activate your account.",
       "password": "Password",
       "password_confirm": "Confirm password",
-      "submit": "Activate account"
+      "submit": "Activate account",
+      "decline": "Decline invitation"
     },
     "reset_password": {
       "title": "Reset password",
