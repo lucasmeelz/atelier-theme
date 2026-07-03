@@ -247,9 +247,10 @@
 
               {%- comment -%} === TITLE === {%- endcomment -%}
               {%- when 'title' -%}
-                <{{ block.settings.heading_size }} class="product__title" {{ block.shopify_attributes }}>
+                {%- comment -%} Always an h1 for the document outline — the setting only drives the visual size {%- endcomment -%}
+                <h1 class="product__title product__title--{{ block.settings.heading_size | default: 'h1' }}" {{ block.shopify_attributes }}>
                   {{ product.title }}
-                </{{ block.settings.heading_size }}>
+                </h1>
 
               {%- comment -%} === PRICE === {%- endcomment -%}
               {%- when 'price' -%}
