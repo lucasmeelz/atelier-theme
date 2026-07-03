@@ -59,9 +59,16 @@
       <{{ heading_size }} class="video-section__heading">{{ heading }}</{{ heading_size }}>
     {%- endif -%}
 
+    {%- liquid
+      assign video_a11y_title = section.settings.heading
+      if video_a11y_title == blank
+        assign video_a11y_title = 'accessibility.video' | t
+      endif
+    -%}
     <video-player
       class="video-section__player video-section__player--{{ video_ratio }}"
       data-autoplay="{{ autoplay }}"
+      data-video-title="{{ video_a11y_title | escape }}"
     >
       {%- if has_video -%}
         {%- comment -%} Shopify-hosted video {%- endcomment -%}
