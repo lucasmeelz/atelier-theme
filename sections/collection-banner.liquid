@@ -49,6 +49,7 @@
             class: 'collection-banner__media-img',
             alt: collection.title
           }}
+          <div class="collection-banner__overlay" aria-hidden="true"></div>
         </div>
       {%- endif -%}
 
@@ -115,7 +116,8 @@
       "step": 5,
       "unit": "%",
       "default": 30,
-      "info": "t:sections.collection_banner.overlay_opacity_info"
+      "info": "t:sections.collection_banner.overlay_opacity_info",
+      "visible_if": "{{ section.settings.layout != 'plain' }}"
     },
     {
       "type": "color_scheme",
