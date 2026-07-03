@@ -84,13 +84,13 @@ if (!customElements.get('video-player')) {
       if (iframeSrc) {
         const wrap = document.createElement('div');
         wrap.className = 'video-section__iframe-wrap';
-        wrap.innerHTML = `<iframe
-          src="${iframeSrc}"
-          allow="autoplay; encrypted-media"
-          allowfullscreen
-          title="Video"
-          class="video-section__iframe"
-        ></iframe>`;
+        const iframe = document.createElement('iframe');
+        iframe.src = iframeSrc;
+        iframe.setAttribute('allow', 'autoplay; encrypted-media');
+        iframe.setAttribute('allowfullscreen', '');
+        iframe.title = this.dataset.videoTitle || '';
+        iframe.className = 'video-section__iframe';
+        wrap.appendChild(iframe);
         mediaEl.appendChild(wrap);
       }
     }

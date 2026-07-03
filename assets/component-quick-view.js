@@ -143,13 +143,31 @@ if (!customElements.get('quick-view-modal')) {
       this._content.innerHTML = '<div class="quick-view-drawer__loading" aria-live="polite"><span class="quick-view-drawer__spinner" aria-hidden="true"></span></div>';
     }
 
+    _routesRoot() {
+      return (window.Shopify && window.Shopify.routes && window.Shopify.routes.root) || '/';
+    }
+
+    _escapeHtml(value) {
+      var div = document.createElement('div');
+      div.textContent = value == null ? '' : String(value);
+      return div.innerHTML;
+    }
+
+    _errorMarkup(handle) {
+      return '<p class="quick-view-drawer__error">'
+        + this._escapeHtml(this.dataset.tError)
+        + ' <a href="' + this._routesRoot() + 'products/' + encodeURIComponent(handle) + '">'
+        + this._escapeHtml(this.dataset.tViewProduct)
+        + '</a></p>';
+    }
+
     _fetchProduct(handle) {
       if (this._abortController) {
         this._abortController.abort();
       }
       this._abortController = new AbortController();
 
-      var url = '/products/' + handle + '?section_id=quick-view-data';
+      var url = this._routesRoot() + 'products/' + handle + '?section_id=quick-view-data';
 
       fetch(url, { signal: this._abortController.signal })
         .then(function(res) {
@@ -162,7 +180,7 @@ if (!customElements.get('quick-view-modal')) {
         .catch(function(err) {
           if (err.name === 'AbortError') return;
           if (this._content) {
-            this._content.innerHTML = '<p class="quick-view-drawer__error">Could not load product. <a href="' + ((window.Shopify && window.Shopify.routes && window.Shopify.routes.root) || '/') + 'products/' + handle + '">View product page</a></p>';
+            this._content.innerHTML = this._errorMarkup(handle);
           }
         }.bind(this));
     }
@@ -176,7 +194,7 @@ if (!customElements.get('quick-view-modal')) {
       var productEl = doc.querySelector('.quick-view__product');
 
       if (!productEl) {
-        this._content.innerHTML = '<p class="quick-view-drawer__error"><a href="/products/' + handle + '">View product page</a></p>';
+        this._content.innerHTML = this._errorMarkup(handle);
         return;
       }
 
@@ -236,7 +254,7 @@ if (!customElements.get('quick-view-modal')) {
         return 'option' + (i + 1) + '=' + encodeURIComponent(opt);
       }).join('&');
 
-      var url = '/products/' + handle + '?section_id=quick-view-data&' + params;
+      var url = this._routesRoot() + 'products/' + handle + '?section_id=quick-view-data&' + params;
 
       if (this._abortController) this._abortController.abort();
       this._abortController = new AbortController();
@@ -293,8 +311,8 @@ if (!customElements.get('quick-view-modal')) {
         });
       }
 
-      var addedText = form.dataset.tAdded || '✓ Added';
-      var errorText = form.dataset.tError || 'Error — try again';
+      var addedText = form.dataset.tAdded || '';
+      var errorText = form.dataset.tError || '';
 
       form.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -374,14 +392,24 @@ if (!customElements.get('quick-view-modal')) {
       modal.setAttribute('aria-hidden', 'true');
       modal.innerHTML = [
         '<div class="quick-view-backdrop"></div>',
-        '<div class="quick-view-drawer" role="dialog" aria-modal="true" aria-label="' + (trigger.dataset.quickViewTitle || 'Quick view') + '">',
-          '<button type="button" class="quick-view-drawer__close" aria-label="Close quick view">',
+        '<div class="quick-view-drawer" role="dialog" aria-modal="true">',
+          '<button type="button" class="quick-view-drawer__close">',
             '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>',
           '</button>',
           '<div class="quick-view-drawer__content" tabindex="-1"></div>',
         '</div>'
       ].join('');
       document.body.appendChild(modal);
+    }
+
+    /* Localized strings travel on the trigger (rendered via Liquid `| t`) */
+    ['tClose', 'tError', 'tViewProduct'].forEach(function(key) {
+      if (trigger.dataset[key]) modal.dataset[key] = trigger.dataset[key];
+    });
+
+    var closeBtn = modal.querySelector('.quick-view-drawer__close');
+    if (closeBtn && modal.dataset.tClose) {
+      closeBtn.setAttribute('aria-label', modal.dataset.tClose);
     }
 
     /* Update drawer aria-label with product title */

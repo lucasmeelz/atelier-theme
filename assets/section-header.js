@@ -531,6 +531,12 @@ class PredictiveSearch extends HTMLElement {
     .catch(function() { self.hideResults(); });
   }
 
+  escapeHtml(value) {
+    var div = document.createElement('div');
+    div.textContent = value == null ? '' : String(value);
+    return div.innerHTML;
+  }
+
   renderResults(data, query) {
     var resources = data.resources.results;
     var products = resources.products || [];
@@ -542,37 +548,38 @@ class PredictiveSearch extends HTMLElement {
       return;
     }
 
+    var esc = this.escapeHtml;
     var html = '';
 
     if (products.length) {
       html += '<div class="predictive-search__group">'
-        + '<h3 class="predictive-search__group-title label">Products</h3>'
+        + '<h3 class="predictive-search__group-title label">' + esc(this.dataset.tProducts) + '</h3>'
         + '<ul class="predictive-search__list">';
       products.forEach(function(p) {
         var img = p.featured_image && p.featured_image.url
-          ? '<img src="' + p.featured_image.url + '&width=100" alt="" width="50" height="50" loading="lazy" class="predictive-search__item-image">'
+          ? '<img src="' + esc(p.featured_image.url) + '&width=100" alt="" width="50" height="50" loading="lazy" class="predictive-search__item-image">'
           : '';
-        html += '<li class="predictive-search__item"><a href="' + p.url
+        html += '<li class="predictive-search__item"><a href="' + esc(p.url)
           + '" class="predictive-search__item-link">' + img
-          + '<span class="predictive-search__item-title">' + p.title + '</span></a></li>';
+          + '<span class="predictive-search__item-title">' + esc(p.title) + '</span></a></li>';
       });
       html += '</ul></div>';
     }
 
     if (articles.length) {
       html += '<div class="predictive-search__group">'
-        + '<h3 class="predictive-search__group-title label">Articles</h3>'
+        + '<h3 class="predictive-search__group-title label">' + esc(this.dataset.tArticles) + '</h3>'
         + '<ul class="predictive-search__list">';
       articles.forEach(function(a) {
-        html += '<li class="predictive-search__item"><a href="' + a.url
+        html += '<li class="predictive-search__item"><a href="' + esc(a.url)
           + '" class="predictive-search__item-link"><span class="predictive-search__item-title">'
-          + a.title + '</span></a></li>';
+          + esc(a.title) + '</span></a></li>';
       });
       html += '</ul></div>';
     }
 
     html += '<a href="' + window.Shopify.routes.root + 'search?q='
-      + encodeURIComponent(query) + '" class="predictive-search__view-all">View all results</a>';
+      + encodeURIComponent(query) + '" class="predictive-search__view-all">' + esc(this.dataset.tViewAll) + '</a>';
 
     if (this.content) this.content.innerHTML = html;
     this.showResults();
@@ -599,7 +606,8 @@ class PredictiveSearch extends HTMLElement {
     if (this.noResults) {
       this.noResults.hidden = false;
       var p = this.noResults.querySelector('p');
-      if (p) p.textContent = 'No results found for "' + query + '"';
+      var template = this.dataset.tNoResults || '';
+      if (p && template) p.textContent = template.replace('%s', query);
     }
   }
 

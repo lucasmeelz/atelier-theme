@@ -52,8 +52,16 @@
 
     <collection-filters data-section-id="{{ section.id }}">
 
-    {%- comment -%} Toolbar: filters + sort {%- endcomment -%}
-    {%- if show_filters or show_sort -%}
+    {%- comment -%} Toolbar: filters + sort — hidden on a truly empty collection {%- endcomment -%}
+    {%- liquid
+      assign show_toolbar = false
+      if show_filters or show_sort
+        if collection.all_products_count > 0
+          assign show_toolbar = true
+        endif
+      endif
+    -%}
+    {%- if show_toolbar -%}
       <div class="collection__toolbar">
         <div class="collection__toolbar-left">
           {%- if show_filters -%}
@@ -134,10 +142,8 @@
       </div>
     {%- endif -%}
 
-    {%- comment -%} Layout wrapper for sidebar mode {%- endcomment -%}
-    {%- if filter_layout == 'sidebar' -%}
-      <div class="collection__layout collection__layout--sidebar">
-    {%- endif -%}
+    {%- comment -%} Layout wrapper — grid columns only apply in sidebar mode {%- endcomment -%}
+    <div class="collection__layout{% if filter_layout == 'sidebar' %} collection__layout--sidebar{% endif %}">
 
     {%- comment -%} Filters {%- endcomment -%}
     {%- if show_filters and collection.filters.size > 0 -%}
@@ -267,8 +273,6 @@
         </a>
       </div>
     {%- endif -%}
-
-    </collection-filters>
 
     {%- comment -%} Collection description block (renders before the product grid) {%- endcomment -%}
     {%- for block in section.blocks -%}
@@ -460,6 +464,9 @@
                 class="card-product__quick-view-trigger"
                 data-quick-view-trigger="{{ product.handle }}"
                 data-quick-view-title="{{ product.title | escape }}"
+                data-t-close="{{ 'product.quick_view_close' | t | escape }}"
+                data-t-error="{{ 'product.quick_view_error' | t | escape }}"
+                data-t-view-product="{{ 'product.quick_view_view_full' | t | escape }}"
                 aria-label="{{ 'product.quick_view_open' | t: title: product.title | escape }}"
               >
                 {%- render 'icon', name: 'eye', size: 18 -%}
@@ -469,7 +476,22 @@
         {%- endfor -%}
       {%- else -%}
         <div class="collection__empty">
-          <p>{{ 'collection.empty' | t }}</p>
+          {%- liquid
+            assign active_filters_total = 0
+            for f in collection.filters
+              assign active_filters_total = active_filters_total | plus: f.active_values.size
+              if f.type == 'price_range'
+                if f.min_value.value != blank or f.max_value.value != blank
+                  assign active_filters_total = active_filters_total | plus: 1
+                endif
+              endif
+            endfor
+          -%}
+          {%- if active_filters_total > 0 -%}
+            <p>{{ 'collection.empty' | t }}</p>
+          {%- else -%}
+            <p>{{ 'collection.no_products' | t }}</p>
+          {%- endif -%}
           <a href="{{ routes.all_products_collection_url }}" class="btn btn--primary">
             <span class="btn__label">{{ 'collection.continue_shopping' | t }}</span>
             <span class="btn__fill" aria-hidden="true"></span>
@@ -536,9 +558,9 @@
       {%- endif -%}
     {%- endif -%}
 
-    {%- if filter_layout == 'sidebar' -%}
-      </div>{%- comment -%} .collection__layout--sidebar {%- endcomment -%}
-    {%- endif -%}
+    </div>{%- comment -%} .collection__layout {%- endcomment -%}
+
+    </collection-filters>
 
   </div>
 </div>
