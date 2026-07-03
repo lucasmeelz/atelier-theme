@@ -464,9 +464,9 @@
                 class="card-product__quick-view-trigger"
                 data-quick-view-trigger="{{ product.handle }}"
                 data-quick-view-title="{{ product.title | escape }}"
-                data-t-close="{{ 'product.quick_view_close' | t | escape }}"
-                data-t-error="{{ 'product.quick_view_error' | t | escape }}"
-                data-t-view-product="{{ 'product.quick_view_view_full' | t | escape }}"
+                data-t-close="{{ 'product.quick_view_close' | t }}"
+                data-t-error="{{ 'product.quick_view_error' | t }}"
+                data-t-view-product="{{ 'product.quick_view_view_full' | t }}"
                 aria-label="{{ 'product.quick_view_open' | t: title: product.title | escape }}"
               >
                 {%- render 'icon', name: 'eye', size: 18 -%}
