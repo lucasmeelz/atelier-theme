@@ -165,9 +165,12 @@ a {
   outline-offset: 3px;
 }
 
-/* Skip link for accessibility */
+/* Skip link for accessibility — fixed to the viewport so it is always
+   revealed on focus, regardless of scroll position or ancestor styles */
 .skip-to-content {
-  position: absolute;
+  position: fixed;
+  top: 8px;
+  left: 8px;
   z-index: 9999;
   padding: 0.75rem 1.5rem;
   background-color: rgb(var(--color-button-bg));
@@ -176,12 +179,19 @@ a {
   text-transform: var(--label-text-transform);
   letter-spacing: var(--label-letter-spacing);
   text-decoration: none;
-  transform: translateY(calc(-100% - 2px));
+  transform: translateY(calc(-100% - 16px));
   transition: transform var(--duration-fast) var(--ease-ecrin);
 }
 
-.skip-to-content:focus {
+.skip-to-content:focus,
+.skip-to-content:focus-visible {
   transform: translateY(0);
+}
+
+/* Shopify "More payment options" link (unbranded) — accent colors may not
+   reach 4.5:1 on small text, so pin it to the scheme text color */
+.shopify-payment-button__more-options {
+  color: rgb(var(--color-text));
 }
 
 /* ===== COLOR SCHEME ===== */
