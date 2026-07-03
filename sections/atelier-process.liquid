@@ -54,12 +54,21 @@
     </div>
   {%- endif -%}
 
+  {%- liquid
+    assign track_label = heading
+    if track_label == blank
+      assign track_label = subheading
+    endif
+    if track_label == blank
+      assign track_label = 'sections.atelier_process.region_label' | t
+    endif
+  -%}
   <div
     class="atelier-process__track"
     id="atelier-track-{{ section.id }}"
     tabindex="0"
     role="region"
-    aria-label="{{ heading | default: section.settings.eyebrow | escape }}"
+    aria-label="{{ track_label | escape }}"
   >
     {%- for block in section.blocks -%}
       <div class="atelier-process__step" {{ block.shopify_attributes }}>
