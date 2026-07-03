@@ -12,12 +12,14 @@
 
     {%- comment -%} Header {%- endcomment -%}
     <div class="cart-drawer__header">
-      <h2 class="cart-drawer__title">
+      {%- comment -%} Not a heading: the drawer sits before the page h1 in DOM order
+         and is labelled via aria-label on the dialog {%- endcomment -%}
+      <p class="cart-drawer__title">
         {{ 'cart.title' | t }}
         <span class="cart-drawer__count" data-cart-drawer-count>
           ({{ cart.item_count }})
         </span>
-      </h2>
+      </p>
       <button class="btn--icon cart-drawer__close" data-cart-drawer-close aria-label="{{ 'accessibility.close' | t }}">
         {%- render 'icon', name: 'close', size: 18 -%}
       </button>
@@ -142,6 +144,7 @@
                   <div class="cart-drawer__item-actions">
                     <div class="cart-drawer__quantity">
                       <button
+                        type="button"
                         class="cart-drawer__quantity-btn btn--icon"
                         data-quantity-minus
                         aria-label="{{ 'accessibility.decrease_quantity' | t: title: item.product.title }}"
@@ -158,6 +161,7 @@
                         data-quantity-input
                       >
                       <button
+                        type="button"
                         class="cart-drawer__quantity-btn btn--icon"
                         data-quantity-plus
                         aria-label="{{ 'accessibility.increase_quantity' | t: title: item.product.title }}"
@@ -167,6 +171,7 @@
                     </div>
 
                     <button
+                      type="button"
                       class="cart-drawer__remove btn--icon"
                       data-remove-item
                       aria-label="{{ 'accessibility.remove_item' | t: title: item.product.title }}"
