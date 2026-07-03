@@ -1492,6 +1492,10 @@
       "name": "Reset password",
       "color_scheme": "Color scheme"
     },
+    "main_activate_account": {
+      "name": "Activate account",
+      "color_scheme": "Color scheme"
+    },
     "main_order": {
       "name": "Customer order",
       "color_scheme": "Color scheme"

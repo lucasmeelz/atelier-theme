@@ -25,6 +25,8 @@
     "play_video": "Play video",
     "video": "Video",
     "pause_video": "Pause video",
+    "pause_slideshow": "Pause slideshow",
+    "play_slideshow": "Play slideshow",
     "next_slide": "Next slide",
     "previous_slide": "Previous slide",
     "slide_number": "Slide {{ number }} of {{ total }}",
@@ -151,6 +153,7 @@
     "quick_view": "Choose options",
     "quick_view_open": "Quick view: {{ title }}",
     "quick_view_close": "Close quick view",
+    "quick_view_error": "Could not load product.",
     "quick_view_view_full": "View full details",
     "quick_view_loading": "Loading product",
     "quick_view_selling_plans": "Subscription options are available on the product page",
@@ -170,7 +173,10 @@
   },
   "collection": {
     "active_filters": "active filters",
-    "product_count": "{{ count }} products",
+    "product_count": {
+      "one": "{{ count }} product",
+      "other": "{{ count }} products"
+    },
     "no_products": "No products found.",
     "empty": "No products found. Try removing some filters.",
     "continue_shopping": "Continue shopping",
@@ -257,9 +263,13 @@
     "submit": "Search",
     "no_results": "No results found for \"{{ terms }}\"",
     "no_results_html": "No results found for <em>{{ terms }}</em>",
-    "results_count": "{{ count }} results for \"{{ terms }}\"",
+    "results_count": {
+      "one": "{{ count }} result for \"{{ terms }}\"",
+      "other": "{{ count }} results for \"{{ terms }}\""
+    },
     "results_for_html": "{{ count }} results for <em>{{ terms }}</em>",
     "suggestions": "Suggestions",
+    "view_all": "View all results",
     "products": "Products",
     "articles": "Articles",
     "pages": "Pages",
@@ -348,9 +358,11 @@
     },
     "activate": {
       "title": "Activate account",
+      "subtitle": "Create your password to activate your account.",
       "password": "Password",
       "password_confirm": "Confirm password",
-      "submit": "Activate account"
+      "submit": "Activate account",
+      "decline": "Decline invitation"
     },
     "reset_password": {
       "title": "Reset password",
@@ -424,6 +436,12 @@
     "featured_product": {
       "placeholder_title": "Example product title",
       "placeholder_text": "This area is used to describe your product details."
+    },
+    "logo_list": {
+      "logo_label": "Logo {{ index }}"
+    },
+    "atelier_process": {
+      "region_label": "Process steps"
     },
     "announcement_bar": {
       "label": "Announcement",

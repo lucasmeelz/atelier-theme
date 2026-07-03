@@ -415,3 +415,37 @@
     aspect-ratio: 3 / 4;
   }
 }
+
+/* Autoplay pause/play toggle — WCAG 2.2.2 */
+.slideshow__autoplay-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid rgba(var(--color-border), 0.6);
+  border-radius: 50%;
+  background-color: rgba(var(--color-background), 0.7);
+  color: rgb(var(--color-text));
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-hover);
+}
+
+@media (hover: hover) {
+  .slideshow__autoplay-toggle:hover {
+    background-color: rgb(var(--color-background));
+  }
+}
+
+.slideshow__autoplay-toggle .slideshow__autoplay-icon-play {
+  display: none;
+}
+
+.slideshow__autoplay-toggle--paused .slideshow__autoplay-icon-pause {
+  display: none;
+}
+
+.slideshow__autoplay-toggle--paused .slideshow__autoplay-icon-play {
+  display: block;
+}

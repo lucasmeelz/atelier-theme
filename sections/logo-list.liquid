@@ -38,7 +38,13 @@
       {%- for block in section.blocks -%}
         <div class="logo-list__item" data-stagger {{ block.shopify_attributes }}>
           {%- if block.settings.link != blank -%}
-            <a href="{{ block.settings.link }}" aria-label="{{ block.settings.image.alt }}">
+            {%- liquid
+              assign logo_label = block.settings.image.alt
+              if logo_label == blank
+                assign logo_label = 'sections.logo_list.logo_label' | t: index: forloop.index
+              endif
+            -%}
+            <a href="{{ block.settings.link }}" aria-label="{{ logo_label | escape }}">
           {%- endif -%}
 
           {%- if block.settings.image != blank -%}

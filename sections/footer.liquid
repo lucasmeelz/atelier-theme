@@ -165,6 +165,11 @@
                 {%- render 'icon', name: 'arrow-right', size: 18 -%}
               </button>
             </div>
+            {%- if form.errors -%}
+              <p class="footer__newsletter-error" role="alert">
+                {{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}
+              </p>
+            {%- endif -%}
             {%- if form.posted_successfully? -%}
               <p class="footer__newsletter-success" role="status">{{ 'newsletter.success' | t }}</p>
             {%- endif -%}
@@ -243,7 +248,9 @@
         {%- if section.settings.show_payment_icons -%}
           <div class="footer__payment" role="list" aria-label="{{ 'footer.payment_methods' | t }}">
             {%- for type in shop.enabled_payment_types -%}
-              {{ type | payment_type_svg_tag: class: 'footer__payment-icon' }}
+              <span role="listitem" class="footer__payment-item">
+                {{- type | payment_type_svg_tag: class: 'footer__payment-icon' -}}
+              </span>
             {%- endfor -%}
           </div>
         {%- endif -%}
