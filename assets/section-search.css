@@ -248,3 +248,112 @@
   text-transform: var(--label-text-transform);
   letter-spacing: var(--label-letter-spacing);
 }
+
+/* -----------------------------------------------
+   Search facets — styled to mirror the collection
+   filter panel (previously unstyled browser defaults)
+   ----------------------------------------------- */
+.search__filters {
+  max-width: 900px;
+  margin: 0 auto 32px;
+}
+
+.search__filter-toggle {
+  list-style: none;
+  cursor: pointer;
+}
+
+.search__filter-toggle::-webkit-details-marker {
+  display: none;
+}
+
+.search__filter-toggle .btn__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.search__filter-form {
+  display: grid;
+  gap: 28px;
+  padding: 24px 0;
+  border-bottom: 1px solid rgba(var(--color-border), 0.5);
+}
+
+@media screen and (min-width: 750px) {
+  .search__filter-form {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .search__filter-actions {
+    grid-column: 1 / -1;
+  }
+}
+
+.search__filter-heading {
+  margin: 0 0 12px;
+}
+
+.search__filter-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.search__filter-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 24px;
+  padding: 6px 0;
+  cursor: pointer;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  transition: opacity var(--duration-fast) var(--ease-ecrin);
+}
+
+@media (hover: hover) {
+  .search__filter-checkbox:hover {
+    opacity: 0.7;
+  }
+}
+
+.search__filter-checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  flex-shrink: 0;
+  accent-color: rgb(var(--color-text));
+}
+
+.search__filter-price {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.search__filter-price-input {
+  width: 90px;
+  min-height: 44px;
+  padding: 8px 10px;
+  border: 1px solid rgb(var(--color-border));
+  border-radius: var(--input-border-radius);
+  background-color: rgb(var(--color-background));
+  color: rgb(var(--color-text));
+  font-family: var(--font-body-family);
+  font-size: 0.8125rem;
+}
+
+.search__filter-price-input:focus-visible {
+  outline: 2px solid rgb(var(--color-accent));
+  outline-offset: 2px;
+}
+
+.search__filter-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 4px;
+}
