@@ -119,3 +119,8 @@
     padding: 100px 0;
   }
 }
+
+/* Split layout media hosts the same merchant-controlled overlay as the background layout */
+.collection-banner__media {
+  position: relative;
+}
