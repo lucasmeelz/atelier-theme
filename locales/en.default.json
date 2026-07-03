@@ -429,6 +429,12 @@
       "placeholder_title": "Example product title",
       "placeholder_text": "This area is used to describe your product details."
     },
+    "logo_list": {
+      "logo_label": "Logo {{ index }}"
+    },
+    "atelier_process": {
+      "region_label": "Process steps"
+    },
     "announcement_bar": {
       "label": "Announcement",
       "close": "Close announcement"
