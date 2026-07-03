@@ -166,6 +166,7 @@ class CartDrawer extends HTMLElement {
       const plus = e.target.closest('[data-quantity-plus]');
 
       if (!minus && !plus) return;
+      e.preventDefault();
 
       const item = (minus || plus).closest('[data-cart-item]');
       if (!item) return;
@@ -190,6 +191,7 @@ class CartDrawer extends HTMLElement {
     this.addEventListener('click', (e) => {
       const removeBtn = e.target.closest('[data-remove-item]');
       if (!removeBtn) return;
+      e.preventDefault();
 
       const item = removeBtn.closest('[data-cart-item]');
       if (!item) return;
