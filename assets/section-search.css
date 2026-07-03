@@ -48,6 +48,7 @@
 
 .search__input {
   flex: 1;
+  min-width: 0; /* lets the input shrink so the submit button never pushes past 375px */
   padding: 14px 12px;
   border: none;
   background: transparent;
