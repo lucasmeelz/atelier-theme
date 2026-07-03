@@ -171,7 +171,10 @@
   },
   "collection": {
     "active_filters": "active filters",
-    "product_count": "{{ count }} products",
+    "product_count": {
+      "one": "{{ count }} product",
+      "other": "{{ count }} products"
+    },
     "no_products": "No products found.",
     "empty": "No products found. Try removing some filters.",
     "continue_shopping": "Continue shopping",
@@ -258,7 +261,10 @@
     "submit": "Search",
     "no_results": "No results found for \"{{ terms }}\"",
     "no_results_html": "No results found for <em>{{ terms }}</em>",
-    "results_count": "{{ count }} results for \"{{ terms }}\"",
+    "results_count": {
+      "one": "{{ count }} result for \"{{ terms }}\"",
+      "other": "{{ count }} results for \"{{ terms }}\""
+    },
     "results_for_html": "{{ count }} results for <em>{{ terms }}</em>",
     "suggestions": "Suggestions",
     "view_all": "View all results",
