@@ -216,6 +216,19 @@
         <div class="slideshow__progress motion-auto" aria-hidden="true">
           <div class="slideshow__progress-fill" data-progress></div>
         </div>
+        {%- comment -%} WCAG 2.2.2 — visible control to stop the auto-rotation {%- endcomment -%}
+        <button
+          type="button"
+          class="slideshow__autoplay-toggle"
+          data-autoplay-toggle
+          aria-pressed="false"
+          aria-label="{{ 'accessibility.pause_slideshow' | t }}"
+          data-t-pause="{{ 'accessibility.pause_slideshow' | t | escape }}"
+          data-t-play="{{ 'accessibility.play_slideshow' | t | escape }}"
+        >
+          <svg class="slideshow__autoplay-icon-pause" width="10" height="12" viewBox="0 0 10 12" fill="currentColor" aria-hidden="true"><rect x="1" width="3" height="12"/><rect x="6" width="3" height="12"/></svg>
+          <svg class="slideshow__autoplay-icon-play" width="10" height="12" viewBox="0 0 10 12" fill="currentColor" aria-hidden="true"><path d="M0 0l10 6-10 6z"/></svg>
+        </button>
       {%- endif -%}
     </div>
   {%- endif -%}
@@ -243,8 +256,11 @@
         this.counter = this.querySelector('.slideshow__counter-current');
         this.progressFill = this.querySelector('[data-progress]');
         this.transition = this.dataset.transition || 'fade';
-        this.autoplayEnabled = this.dataset.autoplay === 'true';
+        /* Autonomous animation — respect prefers-reduced-motion (per CLAUDE.md) */
+        var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        this.autoplayEnabled = this.dataset.autoplay === 'true' && !prefersReducedMotion;
         this.autoplaySpeed = parseInt(this.dataset.autoplaySpeed, 10) || 5000;
+        this._initAutoplayToggle(prefersReducedMotion);
 
         if (this.slides.length < 2) return;
 
@@ -397,6 +413,33 @@
           this._stopAutoplay();
           this._startAutoplay();
         }
+      }
+
+      _initAutoplayToggle(prefersReducedMotion) {
+        var toggle = this.querySelector('[data-autoplay-toggle]');
+        if (!toggle) return;
+
+        var self = this;
+        var syncToggle = function() {
+          var paused = !self.autoplayEnabled;
+          toggle.setAttribute('aria-pressed', paused ? 'true' : 'false');
+          toggle.classList.toggle('slideshow__autoplay-toggle--paused', paused);
+          var label = paused ? toggle.dataset.tPlay : toggle.dataset.tPause;
+          if (label) toggle.setAttribute('aria-label', label);
+        };
+
+        /* Reduced motion starts paused; the user can still opt in */
+        if (prefersReducedMotion) syncToggle();
+
+        toggle.addEventListener('click', function() {
+          self.autoplayEnabled = !self.autoplayEnabled;
+          if (self.autoplayEnabled) {
+            self._startAutoplay();
+          } else {
+            self._stopAutoplay();
+          }
+          syncToggle();
+        });
       }
 
       _startAutoplay() {

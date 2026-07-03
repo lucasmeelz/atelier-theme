@@ -25,6 +25,8 @@
     "play_video": "Play video",
     "video": "Video",
     "pause_video": "Pause video",
+    "pause_slideshow": "Pause slideshow",
+    "play_slideshow": "Play slideshow",
     "next_slide": "Next slide",
     "previous_slide": "Previous slide",
     "slide_number": "Slide {{ number }} of {{ total }}",
