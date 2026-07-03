@@ -143,13 +143,31 @@ if (!customElements.get('quick-view-modal')) {
       this._content.innerHTML = '<div class="quick-view-drawer__loading" aria-live="polite"><span class="quick-view-drawer__spinner" aria-hidden="true"></span></div>';
     }
 
+    _routesRoot() {
+      return (window.Shopify && window.Shopify.routes && window.Shopify.routes.root) || '/';
+    }
+
+    _escapeHtml(value) {
+      var div = document.createElement('div');
+      div.textContent = value == null ? '' : String(value);
+      return div.innerHTML;
+    }
+
+    _errorMarkup(handle) {
+      return '<p class="quick-view-drawer__error">'
+        + this._escapeHtml(this.dataset.tError)
+        + ' <a href="' + this._routesRoot() + 'products/' + encodeURIComponent(handle) + '">'
+        + this._escapeHtml(this.dataset.tViewProduct)
+        + '</a></p>';
+    }
+
     _fetchProduct(handle) {
       if (this._abortController) {
         this._abortController.abort();
       }
       this._abortController = new AbortController();
 
-      var url = '/products/' + handle + '?section_id=quick-view-data';
+      var url = this._routesRoot() + 'products/' + handle + '?section_id=quick-view-data';
 
       fetch(url, { signal: this._abortController.signal })
         .then(function(res) {
@@ -162,7 +180,7 @@ if (!customElements.get('quick-view-modal')) {
         .catch(function(err) {
           if (err.name === 'AbortError') return;
           if (this._content) {
-            this._content.innerHTML = '<p class="quick-view-drawer__error">Could not load product. <a href="' + ((window.Shopify && window.Shopify.routes && window.Shopify.routes.root) || '/') + 'products/' + handle + '">View product page</a></p>';
+            this._content.innerHTML = this._errorMarkup(handle);
           }
         }.bind(this));
     }
@@ -176,7 +194,7 @@ if (!customElements.get('quick-view-modal')) {
       var productEl = doc.querySelector('.quick-view__product');
 
       if (!productEl) {
-        this._content.innerHTML = '<p class="quick-view-drawer__error"><a href="/products/' + handle + '">View product page</a></p>';
+        this._content.innerHTML = this._errorMarkup(handle);
         return;
       }
 
@@ -236,7 +254,7 @@ if (!customElements.get('quick-view-modal')) {
         return 'option' + (i + 1) + '=' + encodeURIComponent(opt);
       }).join('&');
 
-      var url = '/products/' + handle + '?section_id=quick-view-data&' + params;
+      var url = this._routesRoot() + 'products/' + handle + '?section_id=quick-view-data&' + params;
 
       if (this._abortController) this._abortController.abort();
       this._abortController = new AbortController();
@@ -293,8 +311,8 @@ if (!customElements.get('quick-view-modal')) {
         });
       }
 
-      var addedText = form.dataset.tAdded || '✓ Added';
-      var errorText = form.dataset.tError || 'Error — try again';
+      var addedText = form.dataset.tAdded || '';
+      var errorText = form.dataset.tError || '';
 
       form.addEventListener('submit', function(e) {
         e.preventDefault();
