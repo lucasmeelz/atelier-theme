@@ -1107,3 +1107,46 @@ collection-filters {
 /* Note: filter expand/collapse is user-triggered (click) —
    per CLAUDE.md, user-triggered transitions must NEVER be disabled
    in prefers-reduced-motion. Only autonomous animations are targeted. */
+
+/* -----------------------------------------------
+   Mobile toolbar — must never overflow the 375px
+   viewport (long sort options shrink instead)
+   ----------------------------------------------- */
+@media screen and (max-width: 749px) {
+  .collection__toolbar {
+    flex-wrap: wrap;
+    row-gap: 12px;
+  }
+
+  .collection__toolbar-left,
+  .collection__toolbar-right {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .collection__sort {
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  .collection__sort-select {
+    min-width: 0;
+    max-width: 100%;
+    text-overflow: ellipsis;
+  }
+}
+
+/* -----------------------------------------------
+   Touch targets — WCAG 2.5.8: every interactive
+   control in the filter UI is at least 24px tall
+   ----------------------------------------------- */
+.collection__filter-clear,
+.collection__active-filter-clear {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+}
+
+.collection__sort-select {
+  min-height: 24px;
+}
