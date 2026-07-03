@@ -430,6 +430,7 @@
                       data-add-to-cart
                       data-add-text="{{ 'product.add_to_cart' | t }}"
                       data-sold-out-text="{{ 'product.sold_out' | t }}"
+                      data-unavailable-text="{{ 'product.unavailable' | t }}"
                     >
                       <span class="btn__label" data-add-to-cart-text>
                         {%- if current_variant.available -%}
@@ -1164,6 +1165,7 @@
             data-sticky-atc-button
             data-add-text="{{ 'product.add_to_cart' | t }}"
             data-sold-out-text="{{ 'product.sold_out' | t }}"
+            data-unavailable-text="{{ 'product.unavailable' | t }}"
             {% unless current_variant.available %}disabled{% endunless %}
           >
             <span class="btn__label">
