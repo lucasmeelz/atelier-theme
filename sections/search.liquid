@@ -73,7 +73,7 @@
             <input type="hidden" name="q" value="{{ search.terms | escape }}">
             {%- for filter in search.filters -%}
               <div class="search__filter-group">
-                <h3 class="search__filter-heading label">{{ filter.label }}</h3>
+                <h2 class="search__filter-heading label">{{ filter.label }}</h2>
                 {%- case filter.type -%}
                   {%- when 'list' -%}
                     <ul class="search__filter-list">

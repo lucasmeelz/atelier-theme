@@ -7,10 +7,10 @@
 <predictive-search
   class="predictive-search"
   data-section-id="{{ section_id }}"
-  data-t-products="{{ 'search.products' | t | escape }}"
-  data-t-articles="{{ 'search.articles' | t | escape }}"
-  data-t-view-all="{{ 'search.view_all' | t | escape }}"
-  data-t-no-results="{{ 'search.no_results' | t: terms: '%s' | escape }}"
+  data-t-products="{{ 'search.products' | t }}"
+  data-t-articles="{{ 'search.articles' | t }}"
+  data-t-view-all="{{ 'search.view_all' | t }}"
+  data-t-no-results="{{ 'search.no_results' | t: terms: '%s' }}"
 >
   <form action="{{ routes.search_url }}" method="get" role="search" class="predictive-search__form">
     <label for="predictive-search-input-{{ section_id }}" class="visually-hidden">{{ 'search.placeholder' | t }}</label>
