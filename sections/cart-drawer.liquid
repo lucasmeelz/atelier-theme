@@ -142,6 +142,7 @@
                   <div class="cart-drawer__item-actions">
                     <div class="cart-drawer__quantity">
                       <button
+                        type="button"
                         class="cart-drawer__quantity-btn btn--icon"
                         data-quantity-minus
                         aria-label="{{ 'accessibility.decrease_quantity' | t: title: item.product.title }}"
@@ -158,6 +159,7 @@
                         data-quantity-input
                       >
                       <button
+                        type="button"
                         class="cart-drawer__quantity-btn btn--icon"
                         data-quantity-plus
                         aria-label="{{ 'accessibility.increase_quantity' | t: title: item.product.title }}"
@@ -167,6 +169,7 @@
                     </div>
 
                     <button
+                      type="button"
                       class="cart-drawer__remove btn--icon"
                       data-remove-item
                       aria-label="{{ 'accessibility.remove_item' | t: title: item.product.title }}"
