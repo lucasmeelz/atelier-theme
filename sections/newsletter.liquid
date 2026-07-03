@@ -79,27 +79,27 @@
             <input type="hidden" name="contact[tags]" value="newsletter">
             <div class="newsletter__field-group">
               <label for="newsletter-email-{{ section.id }}" class="visually-hidden">
-                {{ 'footer.newsletter_placeholder' | t }}
+                {{ 'newsletter.placeholder' | t }}
               </label>
               <input
                 type="email"
                 name="contact[email]"
                 id="newsletter-email-{{ section.id }}"
                 class="newsletter__input"
-                placeholder="{{ 'footer.newsletter_placeholder' | t }}"
+                placeholder="{{ 'newsletter.placeholder' | t }}"
                 required
                 autocomplete="email"
-                aria-label="{{ 'footer.newsletter_placeholder' | t }}"
+                aria-label="{{ 'newsletter.placeholder' | t }}"
               >
               <button type="submit" class="btn btn--primary newsletter__submit">
-                <span class="btn__label">{% if button_label != blank %}{{ button_label }}{% else %}{{ 'footer.newsletter_submit' | t }}{% endif %}</span>
+                <span class="btn__label">{% if button_label != blank %}{{ button_label }}{% else %}{{ 'newsletter.submit' | t }}{% endif %}</span>
                 <span class="btn__fill" aria-hidden="true"></span>
               </button>
             </div>
 
             {%- if form.posted_successfully? -%}
               <p class="newsletter__success" role="status">
-                {{ 'footer.newsletter_success' | t }}
+                {{ 'newsletter.success' | t }}
               </p>
             {%- endif -%}
 
