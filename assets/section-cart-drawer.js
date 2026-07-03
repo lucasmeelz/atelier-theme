@@ -295,6 +295,16 @@ class CartDrawer extends HTMLElement {
           footer.innerHTML = newFooter.innerHTML;
         } else if (footer && !newFooter) {
           footer.remove();
+        } else if (!footer && newFooter) {
+          /* Empty cart -> first item: the footer (subtotal + checkout)
+             does not exist yet and must be created, not just patched */
+          const panel = this.querySelector('.cart-drawer__panel');
+          const body = this.querySelector('[data-cart-drawer-body]');
+          if (body && body.parentElement === panel) {
+            body.insertAdjacentElement('afterend', newFooter);
+          } else if (panel) {
+            panel.appendChild(newFooter);
+          }
         }
 
         /* Update shipping bar */
@@ -308,6 +318,18 @@ class CartDrawer extends HTMLElement {
         const count = this.querySelector('[data-cart-drawer-count]');
         const newCount = newDrawer.querySelector('[data-cart-drawer-count]');
         if (count && newCount) count.textContent = newCount.textContent;
+
+        /* Keep the header badge in sync — quick view and other callers
+           refresh the drawer without going through updateItem() */
+        if (newCount) {
+          const itemCount = parseInt(newCount.textContent.replace(/\D/g, ''), 10);
+          if (!Number.isNaN(itemCount)) {
+            document.querySelectorAll('[data-cart-count]').forEach((el) => {
+              el.textContent = itemCount;
+              el.classList.toggle('header__cart-count--hidden', itemCount === 0);
+            });
+          }
+        }
       }
     } catch (error) {
       window.location.reload();
