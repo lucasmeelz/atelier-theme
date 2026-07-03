@@ -274,8 +274,6 @@
       </div>
     {%- endif -%}
 
-    </collection-filters>
-
     {%- comment -%} Collection description block (renders before the product grid) {%- endcomment -%}
     {%- for block in section.blocks -%}
       {%- if block.type == 'collection_description' -%}
@@ -561,6 +559,8 @@
     {%- endif -%}
 
     </div>{%- comment -%} .collection__layout {%- endcomment -%}
+
+    </collection-filters>
 
   </div>
 </div>
