@@ -24,7 +24,7 @@
           }
         },
         "ventes_privees_private_sale_badge_PX4Pkn": {
-          "type": "shopify://apps/ventes-privees/blocks/private-sale-badge/019d4aea-024d-7ba5-ac1d-08fcb795f590",
+          "type": "shopify://apps/private-prices/blocks/private-sale-badge/019d4aea-024d-7ba5-ac1d-08fcb795f590",
           "settings": {
             "badge_size": "small",
             "badge_text": ""
@@ -87,7 +87,7 @@
           "type": "gift_wrapping",
           "disabled": true,
           "settings": {
-            "label": "Add ÉCRIN gift packaging",
+            "label": "Add gift packaging",
             "price": "",
             "show_message": true,
             "message_label": "Gift message",
@@ -291,7 +291,7 @@
       "name": "t:sections.multicolumn.preset_name",
       "settings": {
         "subheading": "OUR PROMISE",
-        "heading": "The ÉCRIN guarantee",
+        "heading": "The maison guarantee",
         "heading_size": "h2",
         "columns_desktop": 3,
         "columns_mobile": "1",
