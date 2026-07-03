@@ -277,7 +277,7 @@
         "label": "The atelier",
         "heading": "Crafted in Florence since 2019",
         "heading_size": "h2",
-        "text": "<p>Each ÉCRIN piece is made in small batches by artisans we've worked with for years. From vegetable-tanned Tuscan leather to European linen, every material earns its place.</p>",
+        "text": "<p>Each piece is made in small batches by artisans we've worked with for years. From vegetable-tanned Tuscan leather to European linen, every material earns its place.</p>",
         "button_label": "Our story",
         "button_link": "shopify://pages/about",
         "button_style": "outline",
@@ -376,7 +376,7 @@
         "text": {
           "type": "text",
           "settings": {
-            "text": "<p>We believe luxury is quiet. It's in the weight of good linen, the patina of well-made leather, the satisfaction of an object that outlives trends. ÉCRIN is not about the new — it's about what endures.</p>"
+            "text": "<p>We believe luxury is quiet. It's in the weight of good linen, the patina of well-made leather, the satisfaction of an object that outlives trends. True luxury is not about the new — it's about what endures.</p>"
           }
         },
         "button": {
@@ -762,13 +762,13 @@
           "type": "row",
           "settings": {
             "heading": "Care instructions",
-            "content": "<p>Each ÉCRIN piece comes with a care card. Leather develops character with use — wipe with a dry cloth and condition quarterly. Linen and cotton can be machine-washed on cold, hung to dry.</p>"
+            "content": "<p>Each piece comes with a care card. Leather develops character with use — wipe with a dry cloth and condition quarterly. Linen and cotton can be machine-washed on cold, hung to dry.</p>"
           }
         },
         "row5": {
           "type": "row",
           "settings": {
-            "heading": "The ÉCRIN guarantee",
+            "heading": "The maison guarantee",
             "content": "<p>Every piece comes with a 2-year craftsmanship guarantee. If something goes wrong due to a manufacturing defect, we'll repair it — or replace it — at no cost to you.</p>"
           }
         }
@@ -812,7 +812,7 @@
         "item_A9yim6": {
           "type": "item",
           "settings": {
-            "text": "ÉCRIN",
+            "text": "Maison",
             "icon": "none",
             "link": ""
           }
