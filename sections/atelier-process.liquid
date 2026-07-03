@@ -54,7 +54,13 @@
     </div>
   {%- endif -%}
 
-  <div class="atelier-process__track" id="atelier-track-{{ section.id }}">
+  <div
+    class="atelier-process__track"
+    id="atelier-track-{{ section.id }}"
+    tabindex="0"
+    role="region"
+    aria-label="{{ heading | default: section.settings.eyebrow | escape }}"
+  >
     {%- for block in section.blocks -%}
       <div class="atelier-process__step" {{ block.shopify_attributes }}>
         <div class="atelier-process__image-wrap">
