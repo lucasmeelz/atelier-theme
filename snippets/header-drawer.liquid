@@ -90,7 +90,6 @@
                 <select id="drawer-country-selector" name="country_code">
                   {%- for country in localization.available_countries -%}
                     <option value="{{ country.iso_code }}"{% if country.iso_code == localization.country.iso_code %} selected{% endif %}>
-                      {%- if section.settings.show_country_flag -%}{{ country.currency.symbol }} {% endif -%}
                       {{ country.name }} ({{ country.currency.iso_code }})
                     </option>
                   {%- endfor -%}
@@ -138,12 +137,8 @@
           <ul class="header-drawer__nav" role="menu">
             {%- comment -%} View all / Explore link {%- endcomment -%}
             <li class="header-drawer__item" role="none">
-              <a href="{{ link.url }}" class="header-drawer__link header-drawer__link--view-all{% if is_luxury %} header-drawer__link--explore{% endif %}" role="menuitem">
-                {%- if is_luxury -%}
-                  {{ 'header.explore_category' | t: title: link.title }}
-                {%- else -%}
-                  {{ 'header.all_categories' | t: title: link.title }}
-                {%- endif -%}
+              <a href="{{ link.url }}" class="header-drawer__link header-drawer__link--view-all" role="menuitem">
+                {{ 'header.all_categories' | t: title: link.title }}
               </a>
             </li>
 
