@@ -30,9 +30,10 @@ class CartDrawer extends HTMLElement {
     };
     document.addEventListener('keydown', this._boundKeydown);
 
-    /* Cart refresh from Quick View or other sources */
+    /* Single event contract (EcrinCart): any successful mutation anywhere
+       broadcasts cart:updated — the drawer re-renders itself */
     this._boundCartRefresh = () => this.refreshDrawer();
-    document.addEventListener('cart:refresh', this._boundCartRefresh);
+    document.addEventListener('cart:updated', this._boundCartRefresh);
 
     /* Delegated quick-add form intercept — product cards, editorial shop-the-look,
        any form that posts to cart/add and opts in via .card-product__quick-add or
@@ -62,28 +63,9 @@ class CartDrawer extends HTMLElement {
     if (btn) btn.classList.add('is-loading');
 
     try {
-      const formData = new FormData(form);
-      const res = await fetch(window.Shopify.routes.root + 'cart/add.js', {
-        method: 'POST',
-        headers: { Accept: 'application/javascript' },
-        body: formData
-      });
-      if (!res.ok) throw new Error('cart/add failed: ' + res.status);
-
-      await this.refreshDrawer();
+      /* EcrinCart broadcasts cart:updated → this drawer re-renders + badges sync */
+      await window.EcrinCart.add(new FormData(form));
       this.open();
-
-      /* Update header cart badge */
-      const cartRes = await fetch(window.Shopify.routes.root + 'cart.js');
-      if (cartRes.ok) {
-        const cart = await cartRes.json();
-        document.querySelectorAll('[data-cart-count]').forEach((el) => {
-          el.textContent = cart.item_count;
-          el.hidden = cart.item_count === 0;
-        });
-      }
-
-      document.dispatchEvent(new CustomEvent('cart:updated'));
     } catch (err) {
       /* Fallback: let the user see the error by navigating to /cart */
       window.location.href = window.Shopify.routes.root + 'cart';
@@ -95,7 +77,7 @@ class CartDrawer extends HTMLElement {
   disconnectedCallback() {
     if (this._boundCartIconClick) document.removeEventListener('click', this._boundCartIconClick);
     if (this._boundKeydown) document.removeEventListener('keydown', this._boundKeydown);
-    if (this._boundCartRefresh) document.removeEventListener('cart:refresh', this._boundCartRefresh);
+    if (this._boundCartRefresh) document.removeEventListener('cart:updated', this._boundCartRefresh);
     if (this._boundQuickAddSubmit) document.removeEventListener('submit', this._boundQuickAddSubmit);
   }
 
