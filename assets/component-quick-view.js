@@ -329,23 +329,12 @@ if (!customElements.get('quick-view-modal')) {
           btn.classList.add('quick-view__atc-btn--loading');
         }
 
-        fetch(window.Shopify.routes.root + 'cart/add.js', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify({
-            id: parseInt(variantId.value, 10),
-            quantity: quantity
-          })
+        /* EcrinCart broadcasts cart:updated — drawer + badges sync automatically */
+        window.EcrinCart.add({
+          id: parseInt(variantId.value, 10),
+          quantity: quantity
         })
-          .then(function(res) {
-            if (!res.ok) return res.json().then(function(d) { throw new Error(d.description || 'Cart add failed'); });
-            return res.json();
-          })
           .then(function() {
-            /* Trigger cart update events (works with existing cart drawer) */
-            document.dispatchEvent(new CustomEvent('cart:add', { bubbles: true }));
-            document.dispatchEvent(new CustomEvent('cart:refresh', { bubbles: true }));
-
             /* Show confirmation then close */
             if (btn) {
               var labelEl = btn.querySelector('.btn__label');

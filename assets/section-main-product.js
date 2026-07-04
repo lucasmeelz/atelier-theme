@@ -501,30 +501,12 @@ if (!customElements.get('main-product')) {
           formData.set('quantity', quantityInput.value);
         }
 
-        const res = await fetch(window.Shopify.routes.root + 'cart/add.js', {
-          method: 'POST',
-          body: formData
-        });
+        /* EcrinCart broadcasts cart:updated — drawer content + badges sync */
+        await window.EcrinCart.add(formData);
 
-        if (!res.ok) throw new Error('Add to cart failed');
-
-        const item = await res.json();
-
-        // Open cart drawer with refreshed contents
         const cartDrawer = document.querySelector('cart-drawer');
         if (cartDrawer && typeof cartDrawer.open === 'function') {
-          if (typeof cartDrawer.refreshDrawer === 'function') {
-            await cartDrawer.refreshDrawer();
-          }
           cartDrawer.open();
-
-          // Update cart count badge
-          const cartRes = await fetch(window.Shopify.routes.root + 'cart.js');
-          const cart = await cartRes.json();
-          document.querySelectorAll('[data-cart-count]').forEach(el => {
-            el.textContent = cart.item_count;
-            el.hidden = cart.item_count === 0;
-          });
         } else {
           // Fallback: redirect to cart page
           window.location.href = window.Shopify.routes.root + 'cart';

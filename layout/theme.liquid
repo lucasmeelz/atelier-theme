@@ -15,6 +15,7 @@
     {%- endif -%}
 
     {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
+    <script src="{{ 'ecrin-cart.js' | asset_url }}" defer></script>
     {{ 'component-button.css' | asset_url | stylesheet_tag }}
     {{ 'component-quick-view.css' | asset_url | stylesheet_tag }}
 
