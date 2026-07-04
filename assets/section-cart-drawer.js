@@ -184,28 +184,8 @@ class CartDrawer extends HTMLElement {
 
   async updateItem(key, quantity) {
     try {
-      const response = await fetch(window.Shopify.routes.root + 'cart/change.js', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: key, quantity: quantity })
-      });
-
-      if (!response.ok) {
-        /* Shopify answers 422 with a human-readable description (e.g. stock limit) */
-        let description = '';
-        try {
-          const err = await response.json();
-          description = err.description || err.message || '';
-        } catch (e) { /* non-JSON error */ }
-        if (response.status === 422 && description) {
-          this.showNotice(description);
-          this.refreshDrawer();
-          return;
-        }
-        throw new Error('Update failed');
-      }
-
-      const cart = await response.json();
+      /* EcrinCart broadcasts cart:updated (badges + drawer re-render) */
+      const cart = await window.EcrinCart.change(key, quantity);
 
       /* Stock limit: Shopify silently clamps the quantity — tell the user */
       const line = cart.items.find((item) => item.key === key);
@@ -214,17 +194,13 @@ class CartDrawer extends HTMLElement {
       } else {
         this.hideNotice();
       }
-
-      /* Update cart count in header */
-      document.querySelectorAll('[data-cart-count]').forEach((el) => {
-        el.textContent = cart.item_count;
-        el.classList.toggle('header__cart-count--hidden', cart.item_count === 0);
-      });
-
-      /* Refresh drawer content via section rendering API */
-      this.refreshDrawer();
-
     } catch (error) {
+      /* Shopify answers 422 with a human-readable description (e.g. stock limit) */
+      if (error && error.status === 422 && error.description) {
+        this.showNotice(error.description);
+        this.refreshDrawer();
+        return;
+      }
       /* Fallback: reload page */
       window.location.reload();
     }
