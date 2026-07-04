@@ -329,23 +329,12 @@ if (!customElements.get('quick-view-modal')) {
           btn.classList.add('quick-view__atc-btn--loading');
         }
 
-        fetch(window.Shopify.routes.root + 'cart/add.js', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify({
-            id: parseInt(variantId.value, 10),
-            quantity: quantity
-          })
+        /* EcrinCart broadcasts cart:updated — drawer + badges sync automatically */
+        window.EcrinCart.add({
+          id: parseInt(variantId.value, 10),
+          quantity: quantity
         })
-          .then(function(res) {
-            if (!res.ok) return res.json().then(function(d) { throw new Error(d.description || 'Cart add failed'); });
-            return res.json();
-          })
           .then(function() {
-            /* Trigger cart update events (works with existing cart drawer) */
-            document.dispatchEvent(new CustomEvent('cart:add', { bubbles: true }));
-            document.dispatchEvent(new CustomEvent('cart:refresh', { bubbles: true }));
-
             /* Show confirmation then close */
             if (btn) {
               var labelEl = btn.querySelector('.btn__label');
@@ -392,14 +381,24 @@ if (!customElements.get('quick-view-modal')) {
       modal.setAttribute('aria-hidden', 'true');
       modal.innerHTML = [
         '<div class="quick-view-backdrop"></div>',
-        '<div class="quick-view-drawer" role="dialog" aria-modal="true" aria-label="' + (trigger.dataset.quickViewTitle || 'Quick view') + '">',
-          '<button type="button" class="quick-view-drawer__close" aria-label="Close quick view">',
+        '<div class="quick-view-drawer" role="dialog" aria-modal="true">',
+          '<button type="button" class="quick-view-drawer__close">',
             '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>',
           '</button>',
           '<div class="quick-view-drawer__content" tabindex="-1"></div>',
         '</div>'
       ].join('');
       document.body.appendChild(modal);
+    }
+
+    /* Localized strings travel on the trigger (rendered via Liquid `| t`) */
+    ['tClose', 'tError', 'tViewProduct'].forEach(function(key) {
+      if (trigger.dataset[key]) modal.dataset[key] = trigger.dataset[key];
+    });
+
+    var closeBtn = modal.querySelector('.quick-view-drawer__close');
+    if (closeBtn && modal.dataset.tClose) {
+      closeBtn.setAttribute('aria-label', modal.dataset.tClose);
     }
 
     /* Update drawer aria-label with product title */
