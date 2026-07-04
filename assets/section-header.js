@@ -348,6 +348,7 @@ class HeaderDrawer extends HTMLElement {
       var toggle = e.target.closest('[data-drawer-toggle]');
       if (toggle) {
         e.preventDefault();
+        self._triggerEl = toggle;
         self.open();
       }
     };
@@ -372,13 +373,47 @@ class HeaderDrawer extends HTMLElement {
       });
     });
 
-    /* Escape */
+    /* Escape + focus trap (same behaviour as cart drawer / quick view) */
     this._handleKeydown = function(e) {
-      if (e.key === 'Escape' && self.getAttribute('aria-hidden') === 'false') {
+      if (self.getAttribute('aria-hidden') !== 'false') return;
+      if (e.key === 'Escape') {
         self.close();
+        return;
+      }
+      if (e.key === 'Tab') {
+        self._trapFocus(e);
       }
     };
     document.addEventListener('keydown', this._handleKeydown);
+  }
+
+  _focusableElements() {
+    var selector = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+    return Array.prototype.filter.call(this.querySelectorAll(selector), function(el) {
+      /* Skip content of closed slide-panels and anything shifted off-screen */
+      if (el.closest('[aria-hidden="true"]')) return false;
+      if (el.closest('.is-shifted')) return false;
+      return el.offsetParent !== null;
+    });
+  }
+
+  _trapFocus(e) {
+    var focusable = this._focusableElements();
+    if (!focusable.length) return;
+
+    var first = focusable[0];
+    var last = focusable[focusable.length - 1];
+    var inside = this.contains(document.activeElement);
+
+    if (e.shiftKey) {
+      if (!inside || document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      }
+    } else if (!inside || document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
   }
 
   disconnectedCallback() {
@@ -411,6 +446,11 @@ class HeaderDrawer extends HTMLElement {
     document.querySelectorAll('[data-drawer-toggle]').forEach(function(t) {
       t.setAttribute('aria-expanded', 'false');
     });
+
+    /* Return focus to the button that opened the drawer */
+    if (this._triggerEl && document.contains(this._triggerEl)) {
+      this._triggerEl.focus();
+    }
 
     var self = this;
     setTimeout(function() { self.resetLevels(); }, 600);
