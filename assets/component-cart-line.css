@@ -1,0 +1,180 @@
+/* Cart line item — shared component for the cart drawer and the cart page.
+   Base look ported from the drawer (premium reference); the --page context
+   adds the desktop total column. */
+
+.cart-line {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 16px;
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(var(--color-border), 0.5);
+  transition: opacity var(--duration-fast) var(--ease-ecrin);
+}
+
+/* Per-line pending state while EcrinCart.change is in flight */
+.cart-line.is-updating {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.cart-line__image {
+  display: block;
+  border-radius: var(--card-border-radius);
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.cart-line__img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
+
+.cart-line__title {
+  display: block;
+  font-family: var(--font-heading-family);
+  font-size: 14px;
+  font-weight: 400;
+  text-decoration: none;
+  color: rgb(var(--color-text));
+  margin-bottom: 4px;
+  letter-spacing: 0.01em;
+  min-height: 24px;
+}
+
+@media (hover: hover) {
+  .cart-line__title:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+    opacity: 1;
+  }
+}
+
+.cart-line__variant,
+.cart-line__selling-plan {
+  font-size: 12px;
+  color: rgb(var(--color-text-subdued));
+  margin-bottom: 4px;
+}
+
+.cart-line__price {
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.cart-line__price-original {
+  color: rgb(var(--color-text-subdued));
+  text-decoration: line-through;
+  margin-right: 4px;
+}
+
+.cart-line__price-final {
+  font-weight: 500;
+}
+
+.cart-line__unit-price {
+  font-size: 11px;
+  color: rgb(var(--color-text-subdued));
+  margin-bottom: 4px;
+}
+
+.cart-line__discount {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: rgb(var(--color-accent));
+  margin-bottom: 4px;
+}
+
+.cart-line__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.cart-line__actions .cart-line__remove {
+  margin-inline-start: auto;
+}
+
+.cart-line__quantity {
+  display: flex;
+  align-items: center;
+  border: 1px solid rgb(var(--color-border));
+  border-radius: var(--input-border-radius);
+}
+
+.cart-line__quantity-btn {
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  transition: opacity var(--duration-fast) var(--ease-ecrin);
+}
+
+@media (hover: hover) {
+  .cart-line__quantity-btn:hover {
+    opacity: 0.6;
+  }
+}
+
+.cart-line__quantity-input {
+  width: 40px;
+  min-height: 24px;
+  border: none;
+  background: none;
+  text-align: center;
+  font-family: var(--font-body-family);
+  font-size: 13px;
+  color: rgb(var(--color-text));
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.cart-line__quantity-input::-webkit-outer-spin-button,
+.cart-line__quantity-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.cart-line__remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  color: rgb(var(--color-text-subdued));
+  transition: color var(--duration-fast) var(--ease-ecrin);
+}
+
+@media (hover: hover) {
+  .cart-line__remove:hover {
+    color: rgb(var(--color-error));
+  }
+}
+
+.cart-line__total {
+  font-size: 14px;
+  font-weight: 500;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* ===== Page context — desktop gains the total column ===== */
+.cart-line--page {
+  padding-inline: 0;
+}
+
+@media screen and (min-width: 750px) {
+  .cart-line--page {
+    grid-template-columns: 110px 1fr auto;
+    align-items: start;
+  }
+}
