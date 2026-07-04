@@ -4,6 +4,8 @@
 {%- endcomment -%}
 
 {{ 'section-main-cart.css' | asset_url | stylesheet_tag }}
+{{ 'component-cart-line.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'section-main-cart.js' | asset_url }}" defer></script>
 
 {%- liquid
   assign show_payment_icons = section.settings.show_payment_icons
@@ -12,7 +14,16 @@
 
 <div id="Section-{{ section.id }}" class="main-cart color-{{ color_scheme }}">
   <div class="container">
+    <main-cart-section data-section-id="{{ section.id }}">
     <h1 class="main-cart__title">{{ 'cart.title' | t }}</h1>
+
+    <p
+      class="main-cart__notice"
+      data-cart-notice
+      data-t-quantity-adjusted="{{ 'cart.quantity_adjusted' | t }}"
+      role="alert"
+      hidden
+    ></p>
 
     {%- if cart.item_count > 0 -%}
       <form action="{{ routes.cart_url }}" method="post" id="cart-form">
