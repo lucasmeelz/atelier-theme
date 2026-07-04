@@ -1,0 +1,121 @@
+{%- comment -%}
+  Cart line item — the single line-item markup for BOTH the cart drawer
+  and the cart page (B-04). Quantity/remove controls carry the shared
+  data attributes consumed by cart-drawer.js and main-cart.js through
+  EcrinCart.
+
+  Params:
+    item            {LineItem}  (required)
+    context         {String}    'drawer' | 'page' — layout modifier (default: drawer)
+    tag             {String}    root tag (default: 'li' for drawer, use 'div' on page)
+    show_line_total {Boolean}   render the line total cell (page desktop column)
+{%- endcomment -%}
+
+{%- liquid
+  assign ctx = context | default: 'drawer'
+  assign root_tag = tag | default: 'li'
+-%}
+
+<{{ root_tag }} class="cart-line cart-line--{{ ctx }}" data-cart-item data-key="{{ item.key }}">
+  {%- comment -%} Image {%- endcomment -%}
+  <a href="{{ item.url }}" class="cart-line__image" tabindex="-1" aria-hidden="true">
+    {%- if item.image -%}
+      {{ item.image | image_url: width: 200 | image_tag:
+        loading: 'lazy',
+        widths: '100,150,200',
+        class: 'cart-line__img',
+        alt: item.image.alt | default: item.product.title
+      }}
+    {%- endif -%}
+  </a>
+
+  {%- comment -%} Details {%- endcomment -%}
+  <div class="cart-line__details">
+    <a href="{{ item.url }}" class="cart-line__title">{{ item.product.title }}</a>
+
+    {%- unless item.product.has_only_default_variant -%}
+      <p class="cart-line__variant">
+        {%- for option in item.options_with_values -%}
+          {{ option.value }}{%- unless forloop.last -%} / {%- endunless -%}
+        {%- endfor -%}
+      </p>
+    {%- endunless -%}
+
+    {%- if item.selling_plan_allocation -%}
+      <p class="cart-line__selling-plan">{{ item.selling_plan_allocation.selling_plan.name }}</p>
+    {%- endif -%}
+
+    {%- comment -%} Price {%- endcomment -%}
+    <div class="cart-line__price">
+      {%- if item.original_line_price != item.final_line_price -%}
+        <s class="cart-line__price-original">{{ item.original_line_price | money }}</s>
+      {%- endif -%}
+      <span class="cart-line__price-final">{{ item.final_line_price | money }}</span>
+    </div>
+
+    {%- if item.unit_price -%}
+      <div class="cart-line__unit-price">
+        {{ item.unit_price | money }} {{ 'product.unit_price_separator' | t }}
+        {%- if item.unit_price_measurement.reference_value != 1 -%}
+          {{ item.unit_price_measurement.reference_value }}
+        {%- endif -%}
+        {{ item.unit_price_measurement.reference_unit }}
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Line-level discounts — rendered on BOTH surfaces {%- endcomment -%}
+    {%- for discount in item.line_level_discount_allocations -%}
+      <p class="cart-line__discount">
+        {%- render 'icon', name: 'check', size: 14 -%}
+        {{ discount.discount_application.title }} (-{{ discount.amount | money }})
+      </p>
+    {%- endfor -%}
+
+    {%- comment -%} Quantity + remove {%- endcomment -%}
+    <div class="cart-line__actions">
+      <div class="cart-line__quantity">
+        <button
+          type="button"
+          class="cart-line__quantity-btn btn--icon"
+          data-quantity-minus
+          aria-label="{{ 'accessibility.decrease_quantity' | t: title: item.product.title }}"
+        >
+          {%- render 'icon', name: 'minus', size: 14 -%}
+        </button>
+        <input
+          type="number"
+          class="cart-line__quantity-input"
+          name="updates[{{ item.key }}]"
+          value="{{ item.quantity }}"
+          min="0"
+          aria-label="{{ 'cart.quantity' | t }}"
+          data-quantity-input
+        >
+        <button
+          type="button"
+          class="cart-line__quantity-btn btn--icon"
+          data-quantity-plus
+          aria-label="{{ 'accessibility.increase_quantity' | t: title: item.product.title }}"
+        >
+          {%- render 'icon', name: 'plus', size: 14 -%}
+        </button>
+      </div>
+
+      {%- comment -%} Anchor keeps no-JS removal working; JS intercepts it {%- endcomment -%}
+      <a
+        href="{{ item.url_to_remove }}"
+        class="cart-line__remove btn--icon"
+        data-remove-item
+        aria-label="{{ 'accessibility.remove_item' | t: title: item.product.title }}"
+      >
+        {%- render 'icon', name: 'trash', size: 16 -%}
+      </a>
+    </div>
+  </div>
+
+  {%- if show_line_total -%}
+    <div class="cart-line__total">
+      {{ item.final_line_price | money }}
+    </div>
+  {%- endif -%}
+</{{ root_tag }}>
