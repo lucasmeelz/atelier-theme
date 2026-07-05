@@ -473,3 +473,40 @@ quick-view-modal {
   outline-offset: 2px;
 }
 
+
+/* Loading skeleton (C-02) */
+.quick-view-drawer__skeleton {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.quick-view-drawer__skeleton-media {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  background-color: rgba(var(--color-text), 0.07);
+  border-radius: var(--card-border-radius);
+}
+
+.quick-view-drawer__skeleton-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.quick-view-drawer__skeleton-line {
+  display: block;
+  height: 14px;
+  background-color: rgba(var(--color-text), 0.07);
+  border-radius: 2px;
+}
+
+@keyframes quick-view-shimmer {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+
+.quick-view-drawer__skeleton .motion-auto {
+  animation: quick-view-shimmer 1.4s var(--ease-ecrin) infinite;
+}

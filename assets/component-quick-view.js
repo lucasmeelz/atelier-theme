@@ -140,7 +140,17 @@ if (!customElements.get('quick-view-modal')) {
 
     _showLoading() {
       if (!this._content) return;
-      this._content.innerHTML = '<div class="quick-view-drawer__loading" aria-live="polite"><span class="quick-view-drawer__spinner" aria-hidden="true"></span></div>';
+      /* Skeleton at the real content proportions instead of a bare spinner (C-02) */
+      this._content.innerHTML = [
+        '<div class="quick-view-drawer__skeleton" aria-live="polite" aria-busy="true">',
+          '<div class="quick-view-drawer__skeleton-media motion-auto"></div>',
+          '<div class="quick-view-drawer__skeleton-lines">',
+            '<span class="quick-view-drawer__skeleton-line motion-auto" style="width:70%"></span>',
+            '<span class="quick-view-drawer__skeleton-line motion-auto" style="width:40%"></span>',
+            '<span class="quick-view-drawer__skeleton-line motion-auto" style="width:90%;height:44px;margin-top:12px"></span>',
+          '</div>',
+        '</div>'
+      ].join('');
     }
 
     _routesRoot() {
