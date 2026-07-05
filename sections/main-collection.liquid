@@ -445,7 +445,16 @@
             {%- endfor -%}
           {%- endif -%}
 
-          {%- comment -%} Render the product card {%- endcomment -%}
+          {%- comment -%} Render the product card — first card of page 1 is the
+             probable LCP: eager + fetchpriority high (B-13) {%- endcomment -%}
+          {%- liquid
+            assign card_lazy = true
+            assign card_priority = nil
+            if paginate.current_page == 1 and forloop.first
+              assign card_lazy = false
+              assign card_priority = 'high'
+            endif
+          -%}
           <div class="collection__grid-item">
             {%- render 'card-product',
               product: product,
@@ -455,7 +464,8 @@
               show_color_swatches: show_color_swatches,
               show_rating: settings.product_card_show_rating,
               columns: columns_desktop,
-              lazy: true,
+              lazy: card_lazy,
+              fetchpriority: card_priority,
               heading_level: 'h2'
             -%}
             {%- if enable_quick_view -%}
