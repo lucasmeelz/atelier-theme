@@ -64,7 +64,8 @@
     "newsletter_placeholder": "Your email address",
     "newsletter_submit": "Subscribe",
     "newsletter_success": "Thank you for subscribing.",
-    "payment_methods": "Payment methods"
+    "payment_methods": "Payment methods",
+    "follow_on": "Follow us on {{ platform }}"
   },
   "cart": {
     "title": "Cart",
