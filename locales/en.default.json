@@ -106,7 +106,6 @@
     "unavailable": "Unavailable",
     "sale": "Sale",
     "sale_percentage": "-{{ percentage }}%",
-    "save_percentage": "Save {{ percentage }}%",
     "from_price": "From {{ price }}",
     "vendor": "Vendor",
     "type": "Type",

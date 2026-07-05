@@ -674,3 +674,15 @@ html.no-js .devoilement [data-content-el] {
   opacity: 1;
   transform: none;
 }
+
+/* Price snippet inside the featured product card — inline, compare-at visible (B-08) */
+.devoilement__product-card-price .price {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: inherit;
+}
+
+.devoilement__product-card-price .price__was {
+  color: rgb(var(--color-text-subdued));
+}
