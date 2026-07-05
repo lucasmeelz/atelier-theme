@@ -4,10 +4,16 @@
     <script>document.documentElement.classList.replace('no-js', 'js');</script>
     {%- render 'css-variables' -%}
 
-    {%- comment -%} Font preloading — only when font settings are available {%- endcomment -%}
+    {%- comment -%} Font preloading — the two woff2 the first paint needs (B-14) {%- endcomment -%}
     {%- if settings.type_heading_font != blank or settings.type_body_font != blank -%}
       <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
     {%- endif -%}
+    {%- unless settings.type_heading_font.system? -%}
+      {{ settings.type_heading_font | font_url | preload_tag: as: 'font' }}
+    {%- endunless -%}
+    {%- unless settings.type_body_font.system? -%}
+      {{ settings.type_body_font | font_url | preload_tag: as: 'font' }}
+    {%- endunless -%}
 
     {%- comment -%} Favicon {%- endcomment -%}
     {%- if settings.favicon -%}
@@ -17,7 +23,8 @@
     {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
     <script src="{{ 'ecrin-cart.js' | asset_url }}" defer></script>
     {{ 'component-button.css' | asset_url | stylesheet_tag }}
-    {{ 'component-quick-view.css' | asset_url | stylesheet_tag }}
+    {%- comment -%} component-quick-view.css intentionally NOT global:
+       every quick-view-consuming section loads it itself (B-14) {%- endcomment -%}
 
     {%- comment -%} Page transition: 'fade' is the critical.css default. {%- endcomment -%}
     {%- if settings.page_transition == 'none' -%}
