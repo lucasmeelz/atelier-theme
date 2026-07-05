@@ -83,7 +83,7 @@
             </button>
 
             {%- if product != blank -%}
-              <div class="lookbook__tooltip lookbook__tooltip--{{ tooltip_position }}" role="tooltip">
+              <div class="lookbook__tooltip lookbook__tooltip--{{ tooltip_position }}">
                 {%- if product.featured_image -%}
                   {{
                     product.featured_image
@@ -99,9 +99,9 @@
                   <p class="lookbook__tooltip-title">
                     <a href="{{ product.url }}">{{ product.title }}</a>
                   </p>
-                  <p class="lookbook__tooltip-price">
-                    {{ product.price | money }}
-                  </p>
+                  <div class="lookbook__tooltip-price">
+                    {%- render 'price', product: product, show_unit_price: false, hide_tax_notice: true -%}
+                  </div>
                 </div>
                 {%- comment -%} Single-variant → one-tap add (reuses the cart
                    drawer's AJAX intercept); multi-variant → go choose on the PDP {%- endcomment -%}
