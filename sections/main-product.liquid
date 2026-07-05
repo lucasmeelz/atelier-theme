@@ -50,7 +50,15 @@
         <div
           class="product__gallery product__gallery--{{ gallery_layout }}"
           data-gallery
+          data-product-media
           {% if enable_zoom %}data-zoom="true"{% endif %}
+          {%- if enable_lightbox %}
+            data-lightbox-i18n
+            data-label="{{ 'product.lightbox_label' | t | escape }}"
+            data-close="{{ 'accessibility.close' | t | escape }}"
+            data-prev="{{ 'accessibility.previous_slide' | t | escape }}"
+            data-next="{{ 'accessibility.next_slide' | t | escape }}"
+          {% endif -%}
         >
           {%- comment -%} Gallery: stacked / thumbnail_slider / thumbnail_grid {%- endcomment -%}
           {%- if gallery_layout == 'stacked' -%}
