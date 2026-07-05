@@ -24,7 +24,6 @@
       assign panel_subheading = block.settings.subheading
       assign panel_text = block.settings.text
       assign panel_button_label = block.settings.button_label
-      assign panel_button_link = block.settings.button_link
       assign panel_text_alignment = block.settings.text_alignment
       assign panel_text_color = block.settings.text_color
       assign panel_color_scheme = block.settings.color_scheme
@@ -66,10 +65,11 @@
 
         {%- if panel_button_label != blank -%}
           <div class="split-screen__btn">
-            <a href="{{ panel_button_link }}" class="btn btn--{{ block.settings.button_style | default: 'filled-dark' }}">
-              <span class="btn__label">{{ panel_button_label }}</span>
-              <span class="btn__fill" aria-hidden="true"></span>
-            </a>
+            {%- render 'button',
+              label: panel_button_label,
+              href: block.settings.button_link,
+              style: block.settings.button_style | default: 'filled-dark'
+            -%}
           </div>
         {%- endif -%}
       </div>

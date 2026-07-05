@@ -75,10 +75,11 @@
             {%- endif -%}
             {%- if block.settings.button_label != blank -%}
               <div class="editorial__text-cta">
-                <a href="{{ block.settings.button_link }}" class="btn btn--{{ block.settings.button_style | default: 'outline' }}">
-                  <span class="btn__label">{{ block.settings.button_label }}</span>
-                  <span class="btn__fill" aria-hidden="true"></span>
-                </a>
+                {%- render 'button',
+                  label: block.settings.button_label,
+                  href: block.settings.button_link,
+                  style: block.settings.button_style | default: 'outline'
+                -%}
               </div>
             {%- endif -%}
           </div>
