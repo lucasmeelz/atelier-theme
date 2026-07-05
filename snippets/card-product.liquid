@@ -71,7 +71,7 @@
   endif
 -%}
 
-<div class="card-product card-product--{{ card_style }}{% if alignment %} card-product--{{ alignment }}{% endif %}{% if card_color_scheme %} color-{{ card_color_scheme }}{% endif %}" data-product-id="{{ product.id }}"{% if hover_effect != blank and hover_effect != 'none' %} data-card-hover="{{ hover_effect }}"{% endif %}>
+<div class="card-product card-product--{{ card_style }}{% if alignment %} card-product--{{ alignment }}{% endif %}{% if card_color_scheme %} color-{{ card_color_scheme }}{% endif %}" data-product-id="{{ product.id }}" data-debug-fp="[{{ fetchpriority }}]"{% if hover_effect != blank and hover_effect != 'none' %} data-card-hover="{{ hover_effect }}"{% endif %}>
 
   {%- comment -%} Image container {%- endcomment -%}
   <div class="card-product__media">
@@ -128,6 +128,7 @@
           {%- if primary_image -%}
             {{ primary_image | image_url: width: 800 | image_tag:
               loading: loading,
+              fetchpriority: fetchpriority,
               widths: '300,400,500,600,800',
               sizes: card_sizes,
               class: 'card-product__image card-product__image--primary',
