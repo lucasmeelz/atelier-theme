@@ -341,9 +341,7 @@ if (!customElements.get('main-product')) {
       const saveBadge = this.querySelector('[data-save-badge]');
       if (saveBadge) {
         if (variant.compare_at_price && variant.compare_at_price > variant.price) {
-          const savePercent = Math.round((variant.compare_at_price - variant.price) / variant.compare_at_price * 100);
-          const template = saveBadge.dataset.saveTemplate || '';
-          saveBadge.textContent = template.replace('PLACEHOLDER', savePercent);
+          saveBadge.textContent = this._saleBadgeLabel(variant, saveBadge);
           saveBadge.hidden = false;
         } else {
           saveBadge.hidden = true;

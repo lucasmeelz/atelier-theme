@@ -264,6 +264,7 @@
                       data-save-badge
                       data-badge-style="{{ badge_style }}"
                       data-save-template="{{ 'product.sale_percentage' | t: percentage: 'PLACEHOLDER' }}"
+                      data-text-label="{{ 'product.sale' | t }}"
                       {% unless current_variant.compare_at_price and current_variant.compare_at_price > current_variant.price %}hidden{% endunless %}
                     >
                       {%- if current_variant.compare_at_price > current_variant.price -%}
@@ -1198,6 +1199,8 @@
             class="price__save-badge product__sticky-save-badge"
             data-sticky-save-badge
             data-badge-style="{{ sticky_badge_style }}"
+            data-save-template="{{ 'product.sale_percentage' | t: percentage: 'PLACEHOLDER' }}"
+            data-text-label="{{ 'product.sale' | t }}"
             {% unless current_variant.compare_at_price > current_variant.price %}hidden{% endunless %}
           >
             {%- if current_variant.compare_at_price > current_variant.price -%}
