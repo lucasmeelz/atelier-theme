@@ -750,16 +750,18 @@
 .header-drawer__overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0);
-  backdrop-filter: blur(0px);
-  transition: background var(--duration-slow) var(--ease-ecrin),
-              backdrop-filter var(--duration-slow) var(--ease-ecrin);
+  /* Constant paint, opacity-only — same rationale as the cart drawer (B-09).
+     Open 350ms silk / close 200ms accelerate: the shared drawer language (B-12) */
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(var(--backdrop-blur));
+  opacity: 0;
+  transition: opacity var(--duration-fast) var(--ease-in);
 }
 
 .header-drawer[aria-hidden="false"] .header-drawer__overlay {
-  background: rgba(0,0,0,0.5);
-  backdrop-filter: blur(var(--backdrop-blur));
+  opacity: 1;
   cursor: pointer;
+  transition: opacity var(--duration-base) var(--ease-out);
 }
 
 /* Panel */
@@ -773,7 +775,8 @@
   color: rgb(var(--color-text, 10, 10, 10));
   box-shadow: 4px 0 16px rgba(0, 0, 0, 0.04);
   transform: translateX(-100%);
-  transition: transform var(--duration-slow) var(--ease-ecrin);
+  /* Closing: quick exit (200ms accelerate) */
+  transition: transform var(--duration-fast) var(--ease-in);
   overflow: hidden;
 }
 
@@ -785,6 +788,8 @@
 
 .header-drawer[aria-hidden="false"] .header-drawer__panel {
   transform: translateX(0);
+  /* Opening: settles in (350ms silk) */
+  transition: transform var(--duration-base) var(--ease-out);
 }
 
 /* Drawer header */

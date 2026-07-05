@@ -83,11 +83,9 @@ class CartDrawer extends HTMLElement {
 
   open() {
     this._triggerElement = document.activeElement;
-    this.scrollPosition = window.scrollY;
+    /* overflow:hidden only — position:fixed forced a full-page reflow that
+       ate the first ~380ms of the open animation (B-09) */
     document.body.style.overflow = 'hidden';
-    document.body.style.position = 'fixed';
-    document.body.style.top = `-${this.scrollPosition}px`;
-    document.body.style.width = '100%';
 
     this.setAttribute('aria-hidden', 'false');
 
@@ -104,10 +102,6 @@ class CartDrawer extends HTMLElement {
     this.setAttribute('aria-hidden', 'true');
 
     document.body.style.overflow = '';
-    document.body.style.position = '';
-    document.body.style.top = '';
-    document.body.style.width = '';
-    window.scrollTo(0, this.scrollPosition);
 
     /* Remove focus trap */
     if (this._boundTrapFocus) {

@@ -15,19 +15,19 @@
 .cart-drawer__overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0);
-  backdrop-filter: blur(0px);
-  transition: background var(--duration-fast) var(--ease-in),
-              backdrop-filter var(--duration-fast) var(--ease-in);
+  /* Constant paint, opacity-only animation: animating backdrop-filter
+     forced main-thread work and a ~380ms hitch on open (B-09) */
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(var(--backdrop-blur));
+  opacity: 0;
+  transition: opacity var(--duration-fast) var(--ease-in);
 }
 
 /* Opening transition: slower, settles in */
 .cart-drawer[aria-hidden="false"] .cart-drawer__overlay {
-  background: rgba(0,0,0,0.5);
-  backdrop-filter: blur(var(--backdrop-blur));
+  opacity: 1;
   cursor: pointer;
-  transition: background var(--duration-base) var(--ease-out),
-              backdrop-filter var(--duration-base) var(--ease-out);
+  transition: opacity var(--duration-base) var(--ease-out);
 }
 
 /* Panel */

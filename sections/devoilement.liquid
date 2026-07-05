@@ -26,13 +26,15 @@
     endif
   endfor
 
+  # Halved runway (B-11): 300vh/scene made the home ~18000px tall with
+  # long white stretches — the scenes still get a full read
   case scroll_per_scene
     when 'short'
-      assign vh_per_scene = 200
+      assign vh_per_scene = 120
     when 'medium'
-      assign vh_per_scene = 300
+      assign vh_per_scene = 150
     when 'tall'
-      assign vh_per_scene = 400
+      assign vh_per_scene = 200
   endcase
 
   assign total_height_vh = scene_count | times: vh_per_scene
