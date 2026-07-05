@@ -39,10 +39,7 @@
             >
           </div>
 
-          <button type="submit" class="btn btn--primary">
-            <span class="btn__label">{{ 'customer.login.submit' | t }}</span>
-            <span class="btn__fill" aria-hidden="true"></span>
-          </button>
+          {%- render 'button', label: 'customer.login.submit' | t, type: 'submit', style: 'primary' -%}
         </div>
       {%- endform -%}
 
@@ -78,10 +75,7 @@
               >
             </div>
 
-            <button type="submit" class="btn btn--primary">
-              <span class="btn__label">{{ 'customer.reset_password.submit' | t }}</span>
-              <span class="btn__fill" aria-hidden="true"></span>
-            </button>
+            {%- render 'button', label: 'customer.reset_password.submit' | t, type: 'submit', style: 'primary' -%}
           </div>
         {%- endform -%}
 
