@@ -1,0 +1,58 @@
+{%- comment -%}
+  Button — the single CTA markup for the whole theme (C-08).
+  Replaces 50+ hand-rolled `.btn > .btn__label + .btn__fill` copies.
+
+  Params:
+    label      {String}  button text (required)
+    href       {String}  render an <a>; omit for a <button>
+    type       {String}  button type when no href (default: 'button' — use 'submit' in forms)
+    style      {String}  primary | secondary | outline | outline-black | outline-white
+                         | filled-black | filled-white (default: primary)
+    full       {Boolean} full-width modifier
+    size       {String}  optional size modifier (e.g. 'small')
+    classes    {String}  extra classes
+    disabled   {Boolean} disabled state (button only)
+    name       {String}  form control name (button only, e.g. 'checkout')
+    aria_label {String}  accessible name override
+    attributes {String}  extra raw attributes (data-*, etc.)
+    id         {String}  element id
+{%- endcomment -%}
+
+{%- liquid
+  assign btn_style = style | default: 'primary'
+  assign btn_classes = 'btn btn--' | append: btn_style
+  if full
+    assign btn_classes = btn_classes | append: ' btn--full'
+  endif
+  if size != blank
+    assign btn_classes = btn_classes | append: ' btn--' | append: size
+  endif
+  if classes != blank
+    assign btn_classes = btn_classes | append: ' ' | append: classes
+  endif
+-%}
+
+{%- capture button_inner -%}
+  <span class="btn__label">{{ label }}</span>
+  <span class="btn__fill" aria-hidden="true"></span>
+{%- endcapture -%}
+
+{%- if href -%}
+  <a
+    href="{{ href }}"
+    class="{{ btn_classes }}"
+    {% if id %}id="{{ id }}"{% endif %}
+    {% if aria_label %}aria-label="{{ aria_label }}"{% endif %}
+    {{ attributes }}
+  >{{ button_inner }}</a>
+{%- else -%}
+  <button
+    type="{{ type | default: 'button' }}"
+    class="{{ btn_classes }}"
+    {% if id %}id="{{ id }}"{% endif %}
+    {% if name %}name="{{ name }}"{% endif %}
+    {% if disabled %}disabled{% endif %}
+    {% if aria_label %}aria-label="{{ aria_label }}"{% endif %}
+    {{ attributes }}
+  >{{ button_inner }}</button>
+{%- endif -%}
