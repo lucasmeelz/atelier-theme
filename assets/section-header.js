@@ -601,18 +601,33 @@ class PredictiveSearch extends HTMLElement {
     return div.innerHTML;
   }
 
+  renderTextGroup(title, items) {
+    var esc = this.escapeHtml;
+    var html = '<div class="predictive-search__group">'
+      + '<h3 class="predictive-search__group-title label">' + esc(title) + '</h3>'
+      + '<ul class="predictive-search__list">';
+    items.forEach(function(entry) {
+      html += '<li class="predictive-search__item"><a href="' + esc(entry.url)
+        + '" class="predictive-search__item-link"><span class="predictive-search__item-title">'
+        + esc(entry.title) + '</span></a></li>';
+    });
+    return html + '</ul></div>';
+  }
+
   renderResults(data, query) {
     var resources = data.resources.results;
     var products = resources.products || [];
+    var collections = resources.collections || [];
     var articles = resources.articles || [];
     var pages = resources.pages || [];
 
-    if (!products.length && !articles.length && !pages.length) {
+    if (!products.length && !collections.length && !articles.length && !pages.length) {
       this.showNoResults(query);
       return;
     }
 
     var esc = this.escapeHtml;
+    var self = this;
     var html = '';
 
     if (products.length) {
@@ -623,24 +638,22 @@ class PredictiveSearch extends HTMLElement {
         var img = p.featured_image && p.featured_image.url
           ? '<img src="' + esc(p.featured_image.url) + '&width=100" alt="" width="50" height="50" loading="lazy" class="predictive-search__item-image">'
           : '';
+        var price = p.price
+          ? '<span class="predictive-search__item-price">' + esc(self.formatMoney(p.price)) + '</span>'
+          : '';
         html += '<li class="predictive-search__item"><a href="' + esc(p.url)
           + '" class="predictive-search__item-link">' + img
-          + '<span class="predictive-search__item-title">' + esc(p.title) + '</span></a></li>';
+          + '<span class="predictive-search__item-info">'
+          + '<span class="predictive-search__item-title">' + esc(p.title) + '</span>'
+          + price
+          + '</span></a></li>';
       });
       html += '</ul></div>';
     }
 
-    if (articles.length) {
-      html += '<div class="predictive-search__group">'
-        + '<h3 class="predictive-search__group-title label">' + esc(this.dataset.tArticles) + '</h3>'
-        + '<ul class="predictive-search__list">';
-      articles.forEach(function(a) {
-        html += '<li class="predictive-search__item"><a href="' + esc(a.url)
-          + '" class="predictive-search__item-link"><span class="predictive-search__item-title">'
-          + esc(a.title) + '</span></a></li>';
-      });
-      html += '</ul></div>';
-    }
+    if (collections.length) html += this.renderTextGroup(this.dataset.tCollections, collections);
+    if (articles.length) html += this.renderTextGroup(this.dataset.tArticles, articles);
+    if (pages.length) html += this.renderTextGroup(this.dataset.tPages, pages);
 
     html += '<a href="' + window.Shopify.routes.root + 'search?q='
       + encodeURIComponent(query) + '" class="predictive-search__view-all">' + esc(this.dataset.tViewAll) + '</a>';
