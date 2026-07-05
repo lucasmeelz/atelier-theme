@@ -556,19 +556,43 @@ class PredictiveSearch extends HTMLElement {
 
   disconnectedCallback() {
     clearTimeout(this.debounceTimer);
+    if (this._abortController) this._abortController.abort();
   }
 
   fetchResults(query) {
     var self = this;
+
+    /* Fast typing: cancel the in-flight request so an older, slower
+       response can never overwrite a newer one */
+    if (this._abortController) this._abortController.abort();
+    this._abortController = new AbortController();
+
     this.showLoading();
 
     fetch(
       window.Shopify.routes.root + 'search/suggest.json?q=' + encodeURIComponent(query)
-      + '&resources[type]=product,article,page&resources[limit]=6'
+      + '&resources[type]=product,collection,article,page&resources[limit]=6',
+      { signal: this._abortController.signal }
     )
     .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
     .then(function(data) { self.renderResults(data, query); })
-    .catch(function() { self.hideResults(); });
+    .catch(function(err) {
+      if (err && err.name === 'AbortError') return;
+      self.hideResults();
+    });
+  }
+
+  formatMoney(amount) {
+    var value = parseFloat(amount);
+    if (Number.isNaN(value)) return '';
+    try {
+      return new Intl.NumberFormat(document.documentElement.lang || 'en', {
+        style: 'currency',
+        currency: (window.Shopify && window.Shopify.currency && window.Shopify.currency.active) || 'USD'
+      }).format(value);
+    } catch (e) {
+      return amount;
+    }
   }
 
   escapeHtml(value) {
