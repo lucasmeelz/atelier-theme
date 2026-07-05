@@ -8,9 +8,12 @@
   class="predictive-search"
   data-section-id="{{ section_id }}"
   data-t-products="{{ 'search.products' | t }}"
+  data-t-collections="{{ 'search.collections' | t }}"
   data-t-articles="{{ 'search.articles' | t }}"
+  data-t-pages="{{ 'search.pages' | t }}"
   data-t-view-all="{{ 'search.view_all' | t }}"
   data-t-no-results="{{ 'search.no_results' | t: terms: '%s' }}"
+  data-t-loading="{{ 'accessibility.loading' | t }}"
 >
   <form action="{{ routes.search_url }}" method="get" role="search" class="predictive-search__form">
     <label for="predictive-search-input-{{ section_id }}" class="visually-hidden">{{ 'search.placeholder' | t }}</label>

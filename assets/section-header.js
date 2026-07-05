@@ -556,19 +556,43 @@ class PredictiveSearch extends HTMLElement {
 
   disconnectedCallback() {
     clearTimeout(this.debounceTimer);
+    if (this._abortController) this._abortController.abort();
   }
 
   fetchResults(query) {
     var self = this;
+
+    /* Fast typing: cancel the in-flight request so an older, slower
+       response can never overwrite a newer one */
+    if (this._abortController) this._abortController.abort();
+    this._abortController = new AbortController();
+
     this.showLoading();
 
     fetch(
       window.Shopify.routes.root + 'search/suggest.json?q=' + encodeURIComponent(query)
-      + '&resources[type]=product,article,page&resources[limit]=6'
+      + '&resources[type]=product,collection,article,page&resources[limit]=6',
+      { signal: this._abortController.signal }
     )
     .then(function(r) { if (!r.ok) throw new Error(); return r.json(); })
     .then(function(data) { self.renderResults(data, query); })
-    .catch(function() { self.hideResults(); });
+    .catch(function(err) {
+      if (err && err.name === 'AbortError') return;
+      self.hideResults();
+    });
+  }
+
+  formatMoney(amount) {
+    var value = parseFloat(amount);
+    if (Number.isNaN(value)) return '';
+    try {
+      return new Intl.NumberFormat(document.documentElement.lang || 'en', {
+        style: 'currency',
+        currency: (window.Shopify && window.Shopify.currency && window.Shopify.currency.active) || 'USD'
+      }).format(value);
+    } catch (e) {
+      return amount;
+    }
   }
 
   escapeHtml(value) {
@@ -577,18 +601,33 @@ class PredictiveSearch extends HTMLElement {
     return div.innerHTML;
   }
 
+  renderTextGroup(title, items) {
+    var esc = this.escapeHtml;
+    var html = '<div class="predictive-search__group">'
+      + '<h3 class="predictive-search__group-title label">' + esc(title) + '</h3>'
+      + '<ul class="predictive-search__list">';
+    items.forEach(function(entry) {
+      html += '<li class="predictive-search__item"><a href="' + esc(entry.url)
+        + '" class="predictive-search__item-link"><span class="predictive-search__item-title">'
+        + esc(entry.title) + '</span></a></li>';
+    });
+    return html + '</ul></div>';
+  }
+
   renderResults(data, query) {
     var resources = data.resources.results;
     var products = resources.products || [];
+    var collections = resources.collections || [];
     var articles = resources.articles || [];
     var pages = resources.pages || [];
 
-    if (!products.length && !articles.length && !pages.length) {
+    if (!products.length && !collections.length && !articles.length && !pages.length) {
       this.showNoResults(query);
       return;
     }
 
     var esc = this.escapeHtml;
+    var self = this;
     var html = '';
 
     if (products.length) {
@@ -599,24 +638,22 @@ class PredictiveSearch extends HTMLElement {
         var img = p.featured_image && p.featured_image.url
           ? '<img src="' + esc(p.featured_image.url) + '&width=100" alt="" width="50" height="50" loading="lazy" class="predictive-search__item-image">'
           : '';
+        var price = p.price
+          ? '<span class="predictive-search__item-price">' + esc(self.formatMoney(p.price)) + '</span>'
+          : '';
         html += '<li class="predictive-search__item"><a href="' + esc(p.url)
           + '" class="predictive-search__item-link">' + img
-          + '<span class="predictive-search__item-title">' + esc(p.title) + '</span></a></li>';
+          + '<span class="predictive-search__item-info">'
+          + '<span class="predictive-search__item-title">' + esc(p.title) + '</span>'
+          + price
+          + '</span></a></li>';
       });
       html += '</ul></div>';
     }
 
-    if (articles.length) {
-      html += '<div class="predictive-search__group">'
-        + '<h3 class="predictive-search__group-title label">' + esc(this.dataset.tArticles) + '</h3>'
-        + '<ul class="predictive-search__list">';
-      articles.forEach(function(a) {
-        html += '<li class="predictive-search__item"><a href="' + esc(a.url)
-          + '" class="predictive-search__item-link"><span class="predictive-search__item-title">'
-          + esc(a.title) + '</span></a></li>';
-      });
-      html += '</ul></div>';
-    }
+    if (collections.length) html += this.renderTextGroup(this.dataset.tCollections, collections);
+    if (articles.length) html += this.renderTextGroup(this.dataset.tArticles, articles);
+    if (pages.length) html += this.renderTextGroup(this.dataset.tPages, pages);
 
     html += '<a href="' + window.Shopify.routes.root + 'search?q='
       + encodeURIComponent(query) + '" class="predictive-search__view-all">' + esc(this.dataset.tViewAll) + '</a>';
@@ -634,9 +671,22 @@ class PredictiveSearch extends HTMLElement {
 
   showLoading() {
     if (this.results) this.results.hidden = false;
-    if (this.loading) this.loading.hidden = false;
-    if (this.content) this.content.hidden = true;
+    if (this.loading) this.loading.hidden = true;
     if (this.noResults) this.noResults.hidden = true;
+    if (this.content) {
+      /* Skeleton placeholders instead of a bare spinner — shimmer is an
+         autonomous animation so it carries .motion-auto (reduced-motion
+         leaves a static placeholder) */
+      var item = '<li class="predictive-search__skeleton-item" aria-hidden="true">'
+        + '<span class="predictive-search__skeleton-thumb motion-auto"></span>'
+        + '<span class="predictive-search__skeleton-lines">'
+        + '<span class="motion-auto"></span><span class="motion-auto"></span>'
+        + '</span></li>';
+      this.content.innerHTML = '<ul class="predictive-search__skeleton">'
+        + item + item + item
+        + '</ul><span class="visually-hidden" role="status">' + this.escapeHtml(this.dataset.tLoading) + '</span>';
+      this.content.hidden = false;
+    }
   }
 
   showNoResults(query) {
