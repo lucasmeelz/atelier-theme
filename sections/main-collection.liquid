@@ -670,13 +670,62 @@
             this._submitFilters(form);
           }).bind(this));
 
-          /* Live filtering on checkbox change */
+          /* Live filtering on checkbox / price input change */
           form.addEventListener('change', (function(e) {
-            if (e.target.type === 'checkbox') {
+            if (e.target.type === 'checkbox' || e.target.hasAttribute('data-price-input-min') || e.target.hasAttribute('data-price-input-max')) {
               this._submitFilters(form);
             }
           }).bind(this));
+
+          this._initPriceSliders(form);
         }
+      }
+
+      _initPriceSliders(form) {
+        var self = this;
+        form.querySelectorAll('[data-price-filter]').forEach(function(wrap) {
+          var sMin = wrap.querySelector('[data-price-slider-min]');
+          var sMax = wrap.querySelector('[data-price-slider-max]');
+          var iMin = wrap.querySelector('[data-price-input-min]');
+          var iMax = wrap.querySelector('[data-price-input-max]');
+          var fill = wrap.querySelector('[data-price-fill]');
+          if (!sMin || !sMax || !fill) return;
+          var ceiling = parseFloat(wrap.dataset.priceCeiling) || parseFloat(sMax.max) || 100;
+
+          function paint() {
+            var lo = Math.min(parseFloat(sMin.value), parseFloat(sMax.value));
+            var hi = Math.max(parseFloat(sMin.value), parseFloat(sMax.value));
+            fill.style.left = (lo / ceiling * 100) + '%';
+            fill.style.right = (100 - hi / ceiling * 100) + '%';
+          }
+
+          /* Live drag: move handles + mirror into the number inputs (no fetch yet) */
+          sMin.addEventListener('input', function() {
+            if (parseFloat(sMin.value) > parseFloat(sMax.value)) sMin.value = sMax.value;
+            if (iMin) iMin.value = sMin.value > 0 ? sMin.value : '';
+            paint();
+          });
+          sMax.addEventListener('input', function() {
+            if (parseFloat(sMax.value) < parseFloat(sMin.value)) sMax.value = sMin.value;
+            if (iMax) iMax.value = parseFloat(sMax.value) < ceiling ? sMax.value : '';
+            paint();
+          });
+
+          /* Release: submit */
+          var onRelease = function() { self._submitFilters(form); };
+          sMin.addEventListener('change', onRelease);
+          sMax.addEventListener('change', onRelease);
+
+          /* Number inputs drive the sliders back */
+          if (iMin) iMin.addEventListener('input', function() {
+            sMin.value = iMin.value || 0; paint();
+          });
+          if (iMax) iMax.addEventListener('input', function() {
+            sMax.value = iMax.value || ceiling; paint();
+          });
+
+          paint();
+        });
 
         /* Filter drawer toggle */
         var toggle = this.querySelector('.collection__filter-toggle');
