@@ -1086,3 +1086,67 @@
 body.drawer-open {
   overflow: hidden;
 }
+
+/* -----------------------------------------------
+   Predictive search v2 — price line + skeleton (B-06)
+   ----------------------------------------------- */
+.predictive-search__item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.predictive-search__item-price {
+  font-size: 12px;
+  color: rgb(var(--color-text-subdued));
+}
+
+.predictive-search__skeleton {
+  list-style: none;
+  margin: 0;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.predictive-search__skeleton-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.predictive-search__skeleton-thumb {
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+  background-color: rgba(var(--color-text), 0.07);
+}
+
+.predictive-search__skeleton-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.predictive-search__skeleton-lines > span {
+  display: block;
+  height: 10px;
+  background-color: rgba(var(--color-text), 0.07);
+}
+
+.predictive-search__skeleton-lines > span:last-child {
+  width: 40%;
+}
+
+@keyframes predictive-search-shimmer {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+
+.predictive-search__skeleton .motion-auto {
+  animation: predictive-search-shimmer 1.4s var(--ease-ecrin) infinite;
+}
