@@ -402,6 +402,23 @@ card-carousel {
   opacity: 0.15;
 }
 
+/* Maison placeholder — replaces the generic Shopify line-art (B-16) */
+.card-product__placeholder-icon {
+  color: rgb(var(--color-text));
+  opacity: 0.22;
+}
+
+/* Transparent PNGs (contain fit) sit on a quiet tinted stage instead of
+   floating raw on the scheme background (B-16) */
+.card-product__media-wrapper--contain {
+  background-color: rgba(var(--color-text), 0.03);
+}
+
+.card-product__media-wrapper--contain .card-product__image {
+  padding: 10%;
+  box-sizing: border-box;
+}
+
 /* Badges */
 .card-product__badge {
   position: absolute;
