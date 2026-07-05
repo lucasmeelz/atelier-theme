@@ -16,8 +16,6 @@
   assign heading_size = section.settings.heading_size
   assign text = section.settings.text
   assign button_label = section.settings.button_label
-  assign button_link = section.settings.button_link
-  assign button_style = section.settings.button_style
   assign mobile_layout = section.settings.mobile_layout | default: 'image_first'
   assign full_width = section.settings.full_width
   assign color_scheme = section.settings.color_scheme
@@ -99,8 +97,8 @@
             <div class="image-with-text__button">
               {%- render 'button',
                 label: button_label,
-                href: button_link | default: '#',
-                style: button_style
+                href: section.settings.button_link | default: '#',
+                style: section.settings.button_style
               -%}
             </div>
           {%- endif -%}
