@@ -62,37 +62,37 @@
         {%- if section.settings.show_social -%}
           <div class="footer__social">
             {%- if settings.social_instagram_url != blank -%}
-              <a href="{{ settings.social_instagram_url }}" class="footer__social-link btn--icon" aria-label="Instagram" rel="noopener noreferrer" target="_blank">
+              <a href="{{ settings.social_instagram_url }}" class="footer__social-link btn--icon" aria-label="{{ 'footer.follow_on' | t: platform: 'Instagram' }}" rel="noopener noreferrer" target="_blank">
                 {%- render 'icon', name: 'instagram', size: 20 -%}
               </a>
             {%- endif -%}
             {%- if settings.social_facebook_url != blank -%}
-              <a href="{{ settings.social_facebook_url }}" class="footer__social-link btn--icon" aria-label="Facebook" rel="noopener noreferrer" target="_blank">
+              <a href="{{ settings.social_facebook_url }}" class="footer__social-link btn--icon" aria-label="{{ 'footer.follow_on' | t: platform: 'Facebook' }}" rel="noopener noreferrer" target="_blank">
                 {%- render 'icon', name: 'facebook', size: 20 -%}
               </a>
             {%- endif -%}
             {%- if settings.social_tiktok_url != blank -%}
-              <a href="{{ settings.social_tiktok_url }}" class="footer__social-link btn--icon" aria-label="TikTok" rel="noopener noreferrer" target="_blank">
+              <a href="{{ settings.social_tiktok_url }}" class="footer__social-link btn--icon" aria-label="{{ 'footer.follow_on' | t: platform: 'TikTok' }}" rel="noopener noreferrer" target="_blank">
                 {%- render 'icon', name: 'tiktok', size: 20 -%}
               </a>
             {%- endif -%}
             {%- if settings.social_pinterest_url != blank -%}
-              <a href="{{ settings.social_pinterest_url }}" class="footer__social-link btn--icon" aria-label="Pinterest" rel="noopener noreferrer" target="_blank">
+              <a href="{{ settings.social_pinterest_url }}" class="footer__social-link btn--icon" aria-label="{{ 'footer.follow_on' | t: platform: 'Pinterest' }}" rel="noopener noreferrer" target="_blank">
                 {%- render 'icon', name: 'pinterest', size: 20 -%}
               </a>
             {%- endif -%}
             {%- if settings.social_youtube_url != blank -%}
-              <a href="{{ settings.social_youtube_url }}" class="footer__social-link btn--icon" aria-label="YouTube" rel="noopener noreferrer" target="_blank">
+              <a href="{{ settings.social_youtube_url }}" class="footer__social-link btn--icon" aria-label="{{ 'footer.follow_on' | t: platform: 'YouTube' }}" rel="noopener noreferrer" target="_blank">
                 {%- render 'icon', name: 'youtube', size: 20 -%}
               </a>
             {%- endif -%}
             {%- if settings.social_twitter_url != blank -%}
-              <a href="{{ settings.social_twitter_url }}" class="footer__social-link btn--icon" aria-label="X" rel="noopener noreferrer" target="_blank">
+              <a href="{{ settings.social_twitter_url }}" class="footer__social-link btn--icon" aria-label="{{ 'footer.follow_on' | t: platform: 'X' }}" rel="noopener noreferrer" target="_blank">
                 {%- render 'icon', name: 'twitter', size: 20 -%}
               </a>
             {%- endif -%}
             {%- if settings.social_linkedin_url != blank -%}
-              <a href="{{ settings.social_linkedin_url }}" class="footer__social-link btn--icon" aria-label="LinkedIn" rel="noopener noreferrer" target="_blank">
+              <a href="{{ settings.social_linkedin_url }}" class="footer__social-link btn--icon" aria-label="{{ 'footer.follow_on' | t: platform: 'LinkedIn' }}" rel="noopener noreferrer" target="_blank">
                 {%- render 'icon', name: 'linkedin', size: 20 -%}
               </a>
             {%- endif -%}

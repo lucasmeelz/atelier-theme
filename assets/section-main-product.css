@@ -1455,9 +1455,10 @@ collapsible-details + :not(collapsible-details):not(.product__ingredients) {
 
 .product-variant-picker__swatch {
   position: relative;
-  width: 36px;
-  height: 36px;
-  padding: 3px;
+  /* 44px comfort target (B-18) */
+  width: 44px;
+  height: 44px;
+  padding: 4px;
   border: 2px solid transparent;
   background: transparent;
   cursor: pointer;

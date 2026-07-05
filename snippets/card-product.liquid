@@ -145,8 +145,11 @@
               }}
             {%- endif -%}
           {%- else -%}
+            {%- comment -%} Maison placeholder — no generic Shopify line-art (B-16) {%- endcomment -%}
             <div class="card-product__placeholder">
-              {{ 'product-1' | placeholder_svg_tag: 'card-product__placeholder-svg' }}
+              <span class="card-product__placeholder-icon" aria-hidden="true">
+                {%- render 'icon', name: 'bag', size: 28 -%}
+              </span>
             </div>
           {%- endif -%}
 
