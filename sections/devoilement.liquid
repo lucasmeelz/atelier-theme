@@ -200,7 +200,9 @@
                     {%- endif -%}
                     <div class="devoilement__product-card-info">
                       <span class="devoilement__product-card-title">{{ featured.title }}</span>
-                      <span class="devoilement__product-card-price">{{ featured.price | money }}</span>
+                      <span class="devoilement__product-card-price">
+                        {%- render 'price', product: featured, show_unit_price: false, hide_tax_notice: true -%}
+                      </span>
                     </div>
                     <span class="devoilement__product-card-arrow" aria-hidden="true">
                       {%- render 'icon', name: 'arrow-right', size: 14 -%}
