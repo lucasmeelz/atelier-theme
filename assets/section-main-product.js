@@ -513,6 +513,9 @@ if (!customElements.get('main-product')) {
         /* EcrinCart broadcasts cart:updated — drawer content + badges sync */
         await window.EcrinCart.add(formData);
 
+        /* Instant success state on the button itself (C-03) */
+        this._flashSuccess(btn);
+
         const cartDrawer = document.querySelector('cart-drawer');
         if (cartDrawer && typeof cartDrawer.open === 'function') {
           cartDrawer.open();
@@ -522,10 +525,23 @@ if (!customElements.get('main-product')) {
         }
 
       } catch (err) {
-        /* Button state resets below; cart page remains reachable via header */
+        document.dispatchEvent(new CustomEvent('ecrin:toast', {
+          detail: { message: (err && err.description) || btn.dataset.errorText || '', variant: 'error' }
+        }));
       } finally {
         btn.classList.remove('btn--loading');
       }
+    }
+
+    _flashSuccess(btn) {
+      const label = btn.querySelector('[data-add-to-cart-text]') || btn.querySelector('.btn__label');
+      const original = label ? label.textContent : '';
+      btn.classList.add('btn--added');
+      if (label && btn.dataset.addedText) label.textContent = btn.dataset.addedText;
+      setTimeout(() => {
+        btn.classList.remove('btn--added');
+        if (label && original) label.textContent = original;
+      }, 1600);
     }
 
     /* ===================================
