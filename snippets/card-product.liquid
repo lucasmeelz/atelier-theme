@@ -71,7 +71,7 @@
   endif
 -%}
 
-<div class="card-product card-product--{{ card_style }}{% if alignment %} card-product--{{ alignment }}{% endif %}{% if card_color_scheme %} color-{{ card_color_scheme }}{% endif %}" data-product-id="{{ product.id }}" data-debug-fp="[{{ fetchpriority }}]"{% if hover_effect != blank and hover_effect != 'none' %} data-card-hover="{{ hover_effect }}"{% endif %}>
+<div class="card-product card-product--{{ card_style }}{% if alignment %} card-product--{{ alignment }}{% endif %}{% if card_color_scheme %} color-{{ card_color_scheme }}{% endif %}" data-product-id="{{ product.id }}"{% if hover_effect != blank and hover_effect != 'none' %} data-card-hover="{{ hover_effect }}"{% endif %}>
 
   {%- comment -%} Image container {%- endcomment -%}
   <div class="card-product__media">
