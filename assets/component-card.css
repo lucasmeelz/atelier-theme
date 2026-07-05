@@ -698,6 +698,11 @@ card-carousel {
 [data-stagger-cards].is-staggering > *:nth-child(6) { animation-delay: 300ms; }
 [data-stagger-cards].is-staggering > *:nth-child(7) { animation-delay: 340ms; }
 [data-stagger-cards].is-staggering > *:nth-child(8) { animation-delay: 380ms; }
+[data-stagger-cards].is-staggering > *:nth-child(9) { animation-delay: 410ms; }
+[data-stagger-cards].is-staggering > *:nth-child(10) { animation-delay: 435ms; }
+[data-stagger-cards].is-staggering > *:nth-child(11) { animation-delay: 455ms; }
+/* Beyond 11 the rhythm plateaus instead of popping back to 0 (B-10) */
+[data-stagger-cards].is-staggering > *:nth-child(n+12) { animation-delay: 470ms; }
 
 /* Stagger is scroll-triggered (user-initiated) so NOT disabled by reduced-motion.
    Only autonomous/looping animations should be disabled per WCAG. */
