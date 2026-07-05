@@ -97,10 +97,11 @@
 
           {%- if button_label != blank -%}
             <div class="image-with-text__button">
-              <a href="{{ button_link | default: '#' }}" class="btn btn--{{ button_style }}">
-                <span class="btn__label">{{ button_label }}</span>
-                <span class="btn__fill" aria-hidden="true"></span>
-              </a>
+              {%- render 'button',
+                label: button_label,
+                href: button_link | default: '#',
+                style: button_style
+              -%}
             </div>
           {%- endif -%}
         </div>
