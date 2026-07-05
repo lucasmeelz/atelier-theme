@@ -939,6 +939,8 @@
       "thumb_below": "Below media",
       "thumb_beside": "Beside media",
       "enable_zoom": "Enable image zoom on hover",
+      "enable_lightbox": "Enable full screen image viewer",
+      "enable_lightbox_info": "Opens a full screen gallery with pinch and double tap to zoom on touch devices.",
       "enable_video_loop": "Loop videos",
       "info_header": "Product information",
       "sticky_info": "Sticky product info on desktop",

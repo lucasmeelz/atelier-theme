@@ -127,6 +127,8 @@
       "unavailable": "Pickup currently unavailable"
     },
     "view_full_details": "View full details",
+    "expand_image": "Expand image",
+    "lightbox_label": "Product image viewer",
     "variant_sold_out_or_unavailable": "Variant sold out or unavailable",
     "placeholder_title": "Example product title",
     "heritage_origin": "Made in",
