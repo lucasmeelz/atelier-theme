@@ -32,7 +32,6 @@
   assign subheading = section.settings.subheading
   assign button_label = section.settings.button_label
   assign button_link = section.settings.button_link
-  assign button_style = section.settings.button_style
   assign color_scheme = section.settings.color_scheme
   assign padding_top = section.settings.padding_top
   assign padding_bottom = section.settings.padding_bottom
@@ -247,10 +246,11 @@
     {%- comment -%} Mobile view all button {%- endcomment -%}
     {%- if button_label != blank -%}
       <div class="featured-collection__footer">
-        <a href="{{ button_link | default: collection.url | default: routes.all_products_collection_url }}" class="btn btn--{{ button_style }}">
-          <span class="btn__label">{{ button_label }}</span>
-          <span class="btn__fill" aria-hidden="true"></span>
-        </a>
+        {%- render 'button',
+          label: button_label,
+          href: button_link | default: collection.url | default: routes.all_products_collection_url,
+          style: section.settings.button_style
+        -%}
       </div>
     {%- endif -%}
   </div>
