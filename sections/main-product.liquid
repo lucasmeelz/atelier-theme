@@ -257,16 +257,27 @@
                 <div class="product__price" data-product-price {{ block.shopify_attributes }}>
                   {%- render 'price', product: product, show_badges: true, hide_tax_notice: true -%}
                   {%- if block.settings.show_save_badge -%}
+                    {%- comment -%} Same label, formula and color as the product card badge (B-08) {%- endcomment -%}
+                    {%- assign badge_style = settings.product_card_sale_badge_style | default: 'percentage' -%}
                     <span
                       class="price__save-badge"
                       data-save-badge
-                      data-save-template="{{ 'product.save_percentage' | t: percentage: 'PLACEHOLDER' }}"
+                      data-badge-style="{{ badge_style }}"
+                      data-save-template="{{ 'product.sale_percentage' | t: percentage: 'PLACEHOLDER' }}"
+                      data-text-label="{{ 'product.sale' | t }}"
                       {% unless current_variant.compare_at_price and current_variant.compare_at_price > current_variant.price %}hidden{% endunless %}
                     >
                       {%- if current_variant.compare_at_price > current_variant.price -%}
                         {%- assign save_amount = current_variant.compare_at_price | minus: current_variant.price -%}
-                        {%- assign save_percent = save_amount | times: 100 | divided_by: current_variant.compare_at_price -%}
-                        {{ 'product.save_percentage' | t: percentage: save_percent }}
+                        {%- case badge_style -%}
+                          {%- when 'amount' -%}
+                            -{{ save_amount | money }}
+                          {%- when 'text' -%}
+                            {{ 'product.sale' | t }}
+                          {%- else -%}
+                            {%- assign save_percent = save_amount | times: 100 | divided_by: current_variant.compare_at_price -%}
+                            {{ 'product.sale_percentage' | t: percentage: save_percent }}
+                        {%- endcase -%}
                       {%- endif -%}
                     </span>
                   {%- endif -%}
@@ -1182,16 +1193,27 @@
             </span>
             <span class="btn__fill" aria-hidden="true"></span>
           </button>
-          {%- comment -%} Save badge in sticky bar (mobile) {%- endcomment -%}
+          {%- comment -%} Save badge in sticky bar (mobile) — same label/formula as the card badge (B-08) {%- endcomment -%}
+          {%- assign sticky_badge_style = settings.product_card_sale_badge_style | default: 'percentage' -%}
           <span
             class="price__save-badge product__sticky-save-badge"
             data-sticky-save-badge
+            data-badge-style="{{ sticky_badge_style }}"
+            data-save-template="{{ 'product.sale_percentage' | t: percentage: 'PLACEHOLDER' }}"
+            data-text-label="{{ 'product.sale' | t }}"
             {% unless current_variant.compare_at_price > current_variant.price %}hidden{% endunless %}
           >
             {%- if current_variant.compare_at_price > current_variant.price -%}
               {%- assign save_amount = current_variant.compare_at_price | minus: current_variant.price -%}
-              {%- assign save_percent = save_amount | times: 100 | divided_by: current_variant.compare_at_price -%}
-              {{ 'product.save_percentage' | t: percentage: save_percent }}
+              {%- case sticky_badge_style -%}
+                {%- when 'amount' -%}
+                  -{{ save_amount | money }}
+                {%- when 'text' -%}
+                  {{ 'product.sale' | t }}
+                {%- else -%}
+                  {%- assign save_percent = save_amount | times: 100 | divided_by: current_variant.compare_at_price -%}
+                  {{ 'product.sale_percentage' | t: percentage: save_percent }}
+              {%- endcase -%}
             {%- endif -%}
           </span>
         </div>

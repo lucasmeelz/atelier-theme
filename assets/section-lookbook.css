@@ -300,3 +300,18 @@
     color: rgb(var(--color-text-subdued));
   }
 }
+
+/* Price snippet inside tooltips — compact inline layout, compare-at visible (B-08) */
+.lookbook__tooltip-price .price,
+.lookbook__product-mobile-price .price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px;
+  font-size: inherit;
+}
+
+.lookbook__tooltip-price .price__was,
+.lookbook__product-mobile-price .price__was {
+  color: rgb(var(--color-text-subdued));
+}

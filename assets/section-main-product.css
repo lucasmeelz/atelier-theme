@@ -1169,7 +1169,8 @@ collapsible-details + :not(collapsible-details):not(.product__ingredients) {
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  background-color: rgb(var(--color-accent, 183, 107, 73));
+  /* Same merchant token as the product card sale badge (B-08) */
+  background-color: var(--color-sale-badge);
   color: rgb(var(--color-background, 255, 255, 255));
   border-radius: 2px;
   white-space: nowrap;

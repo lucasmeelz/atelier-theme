@@ -99,9 +99,9 @@
                   <p class="lookbook__tooltip-title">
                     <a href="{{ product.url }}">{{ product.title }}</a>
                   </p>
-                  <p class="lookbook__tooltip-price">
-                    {{ product.price | money }}
-                  </p>
+                  <div class="lookbook__tooltip-price">
+                    {%- render 'price', product: product, show_unit_price: false, hide_tax_notice: true -%}
+                  </div>
                 </div>
                 {%- comment -%} Single-variant → one-tap add (reuses the cart
                    drawer's AJAX intercept); multi-variant → go choose on the PDP {%- endcomment -%}
@@ -154,7 +154,9 @@
               {%- endif -%}
               <div>
                 <p class="lookbook__product-mobile-title">{{ product.title }}</p>
-                <p class="lookbook__product-mobile-price">{{ product.price | money }}</p>
+                <div class="lookbook__product-mobile-price">
+                  {%- render 'price', product: product, show_unit_price: false, hide_tax_notice: true -%}
+                </div>
               </div>
             </a>
           {%- endif -%}

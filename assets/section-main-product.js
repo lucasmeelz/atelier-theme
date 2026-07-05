@@ -341,9 +341,7 @@ if (!customElements.get('main-product')) {
       const saveBadge = this.querySelector('[data-save-badge]');
       if (saveBadge) {
         if (variant.compare_at_price && variant.compare_at_price > variant.price) {
-          const savePercent = Math.round((variant.compare_at_price - variant.price) / variant.compare_at_price * 100);
-          const template = saveBadge.dataset.saveTemplate || '';
-          saveBadge.textContent = template.replace('PLACEHOLDER', savePercent);
+          saveBadge.textContent = this._saleBadgeLabel(variant, saveBadge);
           saveBadge.hidden = false;
         } else {
           saveBadge.hidden = true;
@@ -362,14 +360,25 @@ if (!customElements.get('main-product')) {
       const stickySaveBadge = this.querySelector('[data-sticky-save-badge]');
       if (stickySaveBadge) {
         if (variant.compare_at_price && variant.compare_at_price > variant.price) {
-          const savePercent = Math.round((variant.compare_at_price - variant.price) / variant.compare_at_price * 100);
-          const template = (saveBadge && saveBadge.dataset.saveTemplate) || '';
-          stickySaveBadge.textContent = template.replace('PLACEHOLDER', savePercent);
+          stickySaveBadge.textContent = this._saleBadgeLabel(variant, stickySaveBadge);
           stickySaveBadge.hidden = false;
         } else {
           stickySaveBadge.hidden = true;
         }
       }
+    }
+
+    /* Same label rules as the card badge: percentage / amount / text (B-08) */
+    _saleBadgeLabel(variant, badgeEl) {
+      const style = badgeEl.dataset.badgeStyle || 'percentage';
+      if (style === 'text') {
+        return badgeEl.dataset.textLabel || '';
+      }
+      if (style === 'amount') {
+        return '-' + this._formatMoney(variant.compare_at_price - variant.price);
+      }
+      const savePercent = Math.round((variant.compare_at_price - variant.price) / variant.compare_at_price * 100);
+      return (badgeEl.dataset.saveTemplate || '').replace('PLACEHOLDER', savePercent);
     }
 
     _formatMoney(cents) {
