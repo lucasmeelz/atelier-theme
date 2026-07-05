@@ -128,7 +128,6 @@
           {%- if primary_image -%}
             {{ primary_image | image_url: width: 800 | image_tag:
               loading: loading,
-              fetchpriority: fetchpriority,
               widths: '300,400,500,600,800',
               sizes: card_sizes,
               class: 'card-product__image card-product__image--primary',
