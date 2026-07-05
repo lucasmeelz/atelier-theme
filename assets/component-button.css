@@ -440,3 +440,15 @@
   opacity: 0.4;
   pointer-events: none;
 }
+
+/* Add-to-cart success flash (C-03) */
+.btn--added {
+  background-color: rgb(var(--color-success)) !important;
+  border-color: rgb(var(--color-success)) !important;
+  color: #fff !important;
+  pointer-events: none;
+}
+
+.btn--added .btn__fill {
+  opacity: 0;
+}
