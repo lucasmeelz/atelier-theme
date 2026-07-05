@@ -360,14 +360,25 @@ if (!customElements.get('main-product')) {
       const stickySaveBadge = this.querySelector('[data-sticky-save-badge]');
       if (stickySaveBadge) {
         if (variant.compare_at_price && variant.compare_at_price > variant.price) {
-          const savePercent = Math.round((variant.compare_at_price - variant.price) / variant.compare_at_price * 100);
-          const template = (saveBadge && saveBadge.dataset.saveTemplate) || '';
-          stickySaveBadge.textContent = template.replace('PLACEHOLDER', savePercent);
+          stickySaveBadge.textContent = this._saleBadgeLabel(variant, stickySaveBadge);
           stickySaveBadge.hidden = false;
         } else {
           stickySaveBadge.hidden = true;
         }
       }
+    }
+
+    /* Same label rules as the card badge: percentage / amount / text (B-08) */
+    _saleBadgeLabel(variant, badgeEl) {
+      const style = badgeEl.dataset.badgeStyle || 'percentage';
+      if (style === 'text') {
+        return badgeEl.dataset.textLabel || '';
+      }
+      if (style === 'amount') {
+        return '-' + this._formatMoney(variant.compare_at_price - variant.price);
+      }
+      const savePercent = Math.round((variant.compare_at_price - variant.price) / variant.compare_at_price * 100);
+      return (badgeEl.dataset.saveTemplate || '').replace('PLACEHOLDER', savePercent);
     }
 
     _formatMoney(cents) {
@@ -502,6 +513,9 @@ if (!customElements.get('main-product')) {
         /* EcrinCart broadcasts cart:updated — drawer content + badges sync */
         await window.EcrinCart.add(formData);
 
+        /* Instant success state on the button itself (C-03) */
+        this._flashSuccess(btn);
+
         const cartDrawer = document.querySelector('cart-drawer');
         if (cartDrawer && typeof cartDrawer.open === 'function') {
           cartDrawer.open();
@@ -511,10 +525,23 @@ if (!customElements.get('main-product')) {
         }
 
       } catch (err) {
-        /* Button state resets below; cart page remains reachable via header */
+        document.dispatchEvent(new CustomEvent('ecrin:toast', {
+          detail: { message: (err && err.description) || btn.dataset.errorText || '', variant: 'error' }
+        }));
       } finally {
         btn.classList.remove('btn--loading');
       }
+    }
+
+    _flashSuccess(btn) {
+      const label = btn.querySelector('[data-add-to-cart-text]') || btn.querySelector('.btn__label');
+      const original = label ? label.textContent : '';
+      btn.classList.add('btn--added');
+      if (label && btn.dataset.addedText) label.textContent = btn.dataset.addedText;
+      setTimeout(() => {
+        btn.classList.remove('btn--added');
+        if (label && original) label.textContent = original;
+      }, 1600);
     }
 
     /* ===================================
