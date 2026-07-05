@@ -213,6 +213,8 @@
                             {%- assign promo_alt = promo_heading | default: promo_sub | default: shop.name -%}
                             {{ promo_img | image_url: width: 800 | image_tag:
                               loading: 'lazy',
+                              widths: '300, 450, 600, 800',
+                              sizes: '(min-width: 750px) 400px, 90vw',
                               class: 'header-drawer__editorial-img',
                               alt: promo_alt
                             }}
