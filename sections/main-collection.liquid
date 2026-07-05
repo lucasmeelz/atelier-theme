@@ -172,6 +172,38 @@
               <div class="collection__filter-group-content">
                 {%- case filter.type -%}
                   {%- when 'list' -%}
+                    {%- comment -%} Swatch chips when Search & Discovery marks the filter as swatch (C-09) {%- endcomment -%}
+                    {%- if filter.presentation == 'swatch' -%}
+                      <ul class="collection__filter-swatches" role="list">
+                        {%- for value in filter.values -%}
+                          {%- liquid
+                            assign swatch_bg = ''
+                            if value.swatch.image
+                              assign swatch_img = value.swatch.image | image_url: width: 60
+                              assign swatch_bg = 'background-image:url(' | append: swatch_img | append: ');background-size:cover;'
+                            elsif value.swatch.color
+                              assign swatch_bg = 'background-color:' | append: value.swatch.color | append: ';'
+                            else
+                              assign swatch_bg = 'background-color:' | append: value.label | handle | append: ';'
+                            endif
+                          -%}
+                          <li>
+                            <label class="collection__swatch-filter{% if value.active %} is-active{% endif %}{% if value.count == 0 and value.active == false %} is-disabled{% endif %}" title="{{ value.label }} ({{ value.count }})">
+                              <input
+                                type="checkbox"
+                                class="visually-hidden"
+                                name="{{ value.param_name }}"
+                                value="{{ value.value }}"
+                                {% if value.active %}checked{% endif %}
+                                {% if value.count == 0 and value.active == false %}disabled{% endif %}
+                              >
+                              <span class="collection__swatch-filter-chip" style="{{ swatch_bg }}" aria-hidden="true"></span>
+                              <span class="visually-hidden">{{ value.label }} ({{ value.count }})</span>
+                            </label>
+                          </li>
+                        {%- endfor -%}
+                      </ul>
+                    {%- else -%}
                     <ul class="collection__filter-list">
                       {%- for value in filter.values -%}
                         <li class="collection__filter-item">
@@ -193,40 +225,66 @@
                         </li>
                       {%- endfor -%}
                     </ul>
+                    {%- endif -%}
 
                   {%- when 'price_range' -%}
-                    <div class="collection__price-range">
-                      <div class="collection__price-range-field">
-                        <label for="filter-{{ filter.param_name }}-gte">{{ 'collection.filter_from' | t }}</label>
-                        <span class="collection__price-range-input-wrap">
-                          <span>{{ cart.currency.symbol }}</span>
-                          <input
-                            type="text"
-                            inputmode="decimal"
-                            id="filter-{{ filter.param_name }}-gte"
-                            name="{{ filter.min_value.param_name }}"
-                            {%- if filter.min_value.value != nil and filter.min_value.value != 0 %}
-                              value="{{ filter.min_value.value | money_without_currency | strip }}"
-                            {%- endif %}
-                            placeholder="0"
-                          >
-                        </span>
+                    {%- assign price_ceiling = filter.range_max | divided_by: 100 -%}
+                    {%- assign price_min_val = filter.min_value.value | default: 0 | divided_by: 100 -%}
+                    {%- assign price_max_val = filter.max_value.value | default: filter.range_max | divided_by: 100 -%}
+                    <div class="collection__price" data-price-filter data-price-ceiling="{{ price_ceiling }}">
+                      <div class="collection__price-slider">
+                        <span class="collection__price-slider-rail" aria-hidden="true"></span>
+                        <span class="collection__price-slider-fill" data-price-fill aria-hidden="true"></span>
+                        <input
+                          type="range"
+                          class="collection__price-slider-input"
+                          data-price-slider-min
+                          min="0" max="{{ price_ceiling }}" value="{{ price_min_val }}"
+                          aria-label="{{ 'collection.filter_from' | t }}"
+                        >
+                        <input
+                          type="range"
+                          class="collection__price-slider-input"
+                          data-price-slider-max
+                          min="0" max="{{ price_ceiling }}" value="{{ price_max_val }}"
+                          aria-label="{{ 'collection.filter_to' | t }}"
+                        >
                       </div>
-                      <div class="collection__price-range-field">
-                        <label for="filter-{{ filter.param_name }}-lte">{{ 'collection.filter_to' | t }}</label>
-                        <span class="collection__price-range-input-wrap">
-                          <span>{{ cart.currency.symbol }}</span>
-                          <input
-                            type="text"
-                            inputmode="decimal"
-                            id="filter-{{ filter.param_name }}-lte"
-                            name="{{ filter.max_value.param_name }}"
-                            {%- if filter.max_value.value != nil and filter.max_value.value != 0 %}
-                              value="{{ filter.max_value.value | money_without_currency | strip }}"
-                            {%- endif %}
-                            placeholder="{{ filter.range_max | money_without_currency | strip }}"
-                          >
-                        </span>
+                      <div class="collection__price-range">
+                        <div class="collection__price-range-field">
+                          <label for="filter-{{ filter.param_name }}-gte">{{ 'collection.filter_from' | t }}</label>
+                          <span class="collection__price-range-input-wrap">
+                            <span>{{ cart.currency.symbol }}</span>
+                            <input
+                              type="text"
+                              inputmode="decimal"
+                              id="filter-{{ filter.param_name }}-gte"
+                              name="{{ filter.min_value.param_name }}"
+                              data-price-input-min
+                              {%- if filter.min_value.value != nil and filter.min_value.value != 0 %}
+                                value="{{ filter.min_value.value | money_without_currency | strip }}"
+                              {%- endif %}
+                              placeholder="0"
+                            >
+                          </span>
+                        </div>
+                        <div class="collection__price-range-field">
+                          <label for="filter-{{ filter.param_name }}-lte">{{ 'collection.filter_to' | t }}</label>
+                          <span class="collection__price-range-input-wrap">
+                            <span>{{ cart.currency.symbol }}</span>
+                            <input
+                              type="text"
+                              inputmode="decimal"
+                              id="filter-{{ filter.param_name }}-lte"
+                              name="{{ filter.max_value.param_name }}"
+                              data-price-input-max
+                              {%- if filter.max_value.value != nil and filter.max_value.value != 0 %}
+                                value="{{ filter.max_value.value | money_without_currency | strip }}"
+                              {%- endif %}
+                              placeholder="{{ filter.range_max | money_without_currency | strip }}"
+                            >
+                          </span>
+                        </div>
                       </div>
                     </div>
                 {%- endcase -%}
@@ -455,7 +513,7 @@
               assign card_priority = 'high'
             endif
           -%}
-          <div class="collection__grid-item" data-debug-lcp="{{ forloop.first }}|{{ paginate.current_page }}|{{ card_lazy }}">
+          <div class="collection__grid-item">
             {%- render 'card-product',
               product: product,
               image_ratio: image_ratio,
