@@ -671,9 +671,22 @@ class PredictiveSearch extends HTMLElement {
 
   showLoading() {
     if (this.results) this.results.hidden = false;
-    if (this.loading) this.loading.hidden = false;
-    if (this.content) this.content.hidden = true;
+    if (this.loading) this.loading.hidden = true;
     if (this.noResults) this.noResults.hidden = true;
+    if (this.content) {
+      /* Skeleton placeholders instead of a bare spinner — shimmer is an
+         autonomous animation so it carries .motion-auto (reduced-motion
+         leaves a static placeholder) */
+      var item = '<li class="predictive-search__skeleton-item" aria-hidden="true">'
+        + '<span class="predictive-search__skeleton-thumb motion-auto"></span>'
+        + '<span class="predictive-search__skeleton-lines">'
+        + '<span class="motion-auto"></span><span class="motion-auto"></span>'
+        + '</span></li>';
+      this.content.innerHTML = '<ul class="predictive-search__skeleton">'
+        + item + item + item
+        + '</ul><span class="visually-hidden" role="status">' + this.escapeHtml(this.dataset.tLoading) + '</span>';
+      this.content.hidden = false;
+    }
   }
 
   showNoResults(query) {
