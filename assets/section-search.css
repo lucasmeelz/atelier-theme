@@ -190,26 +190,6 @@
   }
 }
 
-.search-card__vendor {
-  font-family: var(--font-label-family);
-  font-size: var(--label-font-size);
-  text-transform: var(--label-text-transform);
-  letter-spacing: var(--label-letter-spacing);
-  color: rgb(var(--color-text-subdued));
-}
-
-.search-card__price {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 2px;
-}
-
-.search-card__compare-price {
-  color: rgb(var(--color-text-subdued));
-  text-decoration: line-through;
-}
-
 /* --- Pagination --- */
 
 .search__pagination {

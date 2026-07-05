@@ -4,6 +4,12 @@
 {%- endcomment -%}
 
 {{ 'section-search.css' | asset_url | stylesheet_tag }}
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{%- if settings.product_card_enable_carousel -%}
+  <script src="{{ 'component-card-carousel.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+{{ 'component-quick-view.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'component-quick-view.js' | asset_url }}" defer="defer"></script>
 
 {%- liquid
   assign color_scheme = section.settings.color_scheme
@@ -158,52 +164,47 @@
         {%- paginate search.results by 24 -%}
           <div class="search__grid" {% if settings.stagger_products %}data-stagger-cards{% endif %}>
             {%- for result in search.results -%}
-              <div class="search-card">
-                {%- assign featured_image = result.featured_image | default: result.image -%}
-                {%- if featured_image -%}
-                  <a href="{{ result.url }}" class="search-card__image-wrapper search-card__image-wrapper--{{ image_ratio }}" aria-label="{{ result.title }}">
-                    {{
-                      featured_image
-                      | image_url: width: 800
-                      | image_tag:
-                        class: 'search-card__image',
-                        loading: 'lazy',
-                        widths: '200, 400, 600, 800',
-                        sizes: search_image_sizes,
-                        alt: result.title
-                    }}
-                  </a>
-                {%- endif -%}
+              {%- if result.object_type == 'product' -%}
+                {%- comment -%} Same card as collections/featured (B-07) {%- endcomment -%}
+                {%- render 'card-product',
+                  product: result,
+                  columns: columns_desktop,
+                  show_vendor: show_vendor,
+                  lazy: true,
+                  heading_level: 'h2'
+                -%}
+              {%- else -%}
+                <div class="search-card">
+                  {%- assign featured_image = result.featured_image | default: result.image -%}
+                  {%- if featured_image -%}
+                    <a href="{{ result.url }}" class="search-card__image-wrapper search-card__image-wrapper--{{ image_ratio }}" aria-label="{{ result.title }}">
+                      {{
+                        featured_image
+                        | image_url: width: 800
+                        | image_tag:
+                          class: 'search-card__image',
+                          loading: 'lazy',
+                          widths: '200, 400, 600, 800',
+                          sizes: search_image_sizes,
+                          alt: result.title
+                      }}
+                    </a>
+                  {%- endif -%}
 
-                <div class="search-card__content">
-                  {%- if result.object_type -%}
+                  <div class="search-card__content">
                     <span class="search-card__type">
                       {%- case result.object_type -%}
-                        {%- when 'product' -%}{{ 'search.products' | t }}
                         {%- when 'article' -%}{{ 'search.articles' | t }}
                         {%- when 'page' -%}{{ 'search.pages' | t }}
                       {%- endcase -%}
                     </span>
-                  {%- endif -%}
 
-                  <h2 class="search-card__title h5">
-                    <a href="{{ result.url }}">{{ result.title }}</a>
-                  </h2>
-
-                  {%- if show_vendor and result.vendor -%}
-                    <span class="search-card__vendor">{{ result.vendor }}</span>
-                  {%- endif -%}
-
-                  {%- if result.price -%}
-                    <div class="search-card__price">
-                      {%- if result.compare_at_price > result.price -%}
-                        <s class="search-card__compare-price">{{ result.compare_at_price | money }}</s>
-                      {%- endif -%}
-                      <span>{{ result.price | money }}</span>
-                    </div>
-                  {%- endif -%}
+                    <h2 class="search-card__title h5">
+                      <a href="{{ result.url }}">{{ result.title }}</a>
+                    </h2>
+                  </div>
                 </div>
-              </div>
+              {%- endif -%}
             {%- endfor -%}
           </div>
 
