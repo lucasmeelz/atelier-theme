@@ -102,10 +102,6 @@ class CartDrawer extends HTMLElement {
     this.setAttribute('aria-hidden', 'true');
 
     document.body.style.overflow = '';
-    document.body.style.position = '';
-    document.body.style.top = '';
-    document.body.style.width = '';
-    window.scrollTo(0, this.scrollPosition);
 
     /* Remove focus trap */
     if (this._boundTrapFocus) {
