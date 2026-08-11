@@ -1099,6 +1099,21 @@
     width: min(94vw, 1040px);
   }
 
+  /* Keep the drawer header (logo + close) aligned to the nav column when
+     the panel widens, instead of stranding the close at the far right */
+  .header-drawer__panel.is-expanded .header-drawer__header {
+    max-width: 400px;
+  }
+
+  /* Left-align the back row in the two-zone layout (Dior editorial style) */
+  .header-drawer__level--has-media .header-drawer__back {
+    display: flex;
+    grid-template-columns: none;
+    justify-content: flex-start;
+    gap: 8px;
+    text-align: left;
+  }
+
   /* A level-2 that carries editorial media splits into nav + media columns */
   .header-drawer__level--has-media {
     display: flex;
