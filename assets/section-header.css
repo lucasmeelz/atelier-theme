@@ -1086,6 +1086,58 @@
   font-weight: 300;
 }
 
+/* ===== DESKTOP DRAWER — two-zone Dior-style layout ===== */
+@media screen and (min-width: 990px) {
+  /* Level 1 = narrow nav-only panel; widens when a category with media opens */
+  .header-drawer__panel {
+    width: min(92vw, 400px);
+    transition: transform var(--duration-slow) var(--ease-out),
+                width var(--duration-base) var(--ease-out);
+  }
+
+  .header-drawer__panel.is-expanded {
+    width: min(94vw, 1040px);
+  }
+
+  /* A level-2 that carries editorial media splits into nav + media columns */
+  .header-drawer__level--has-media {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    padding-top: 0;
+  }
+
+  .header-drawer__level--has-media .header-drawer__level-nav {
+    flex: 0 0 400px;
+    max-width: 400px;
+    padding-top: 72px;
+    overflow-y: auto;
+    border-right: 1px solid rgb(var(--color-border));
+  }
+
+  .header-drawer__level--has-media .header-drawer__level-media {
+    flex: 1 1 auto;
+    padding-top: 72px;
+    overflow-y: auto;
+  }
+
+  /* Editorial grid inside the media zone — 2 columns, 3rd spans full width */
+  .header-drawer__level-media .header-drawer__editorials {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    padding: 20px 24px 24px;
+  }
+
+  .header-drawer__level-media .header-drawer__editorials--1 {
+    grid-template-columns: 1fr;
+  }
+
+  .header-drawer__level-media .header-drawer__editorials--3 .header-drawer__editorial:nth-child(3) {
+    display: block;
+    grid-column: 1 / -1;
+  }
+}
+
 /* ===== BODY SCROLL LOCK ===== */
 
 body.drawer-open {

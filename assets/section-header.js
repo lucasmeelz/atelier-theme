@@ -462,6 +462,13 @@ class HeaderDrawer extends HTMLElement {
 
     if (level === 2 && this.level1) {
       this.level1.classList.add('is-shifted');
+      /* Desktop two-zone: widen the panel to reveal the editorial media.
+         CSS only applies the wide width >=990px, so this is a no-op on mobile. */
+      if (this.panel && targetPanel.dataset.hasMedia === 'true') {
+        this.panel.classList.add('is-expanded');
+      } else if (this.panel) {
+        this.panel.classList.remove('is-expanded');
+      }
     }
 
     if (level === 3) {
@@ -490,6 +497,8 @@ class HeaderDrawer extends HTMLElement {
 
     if (level === 2 && this.level1) {
       this.level1.classList.remove('is-shifted');
+      /* Collapse the panel back to nav-only width */
+      if (this.panel) this.panel.classList.remove('is-expanded');
     }
 
     if (level === 3) {
@@ -502,6 +511,7 @@ class HeaderDrawer extends HTMLElement {
 
   resetLevels() {
     if (this.level1) this.level1.classList.remove('is-shifted');
+    if (this.panel) this.panel.classList.remove('is-expanded');
     this.querySelectorAll('.header-drawer__level--2, .header-drawer__level--3').forEach(function(p) {
       p.classList.remove('is-open');
       p.setAttribute('aria-hidden', 'true');
