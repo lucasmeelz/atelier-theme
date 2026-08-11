@@ -285,7 +285,8 @@
               >{{ form.body }}</textarea>
             </div>
 
-            {%- render 'button', label: 'blog.comment_form.submit' | t, type: 'submit', style: 'primary', classes: 'article__form-submit' -%}
+            {%- assign btn_label = 'blog.comment_form.submit' | t -%}
+            {%- render 'button', label: btn_label, type: 'submit', style: 'primary', classes: 'article__form-submit' -%}
           {%- endform -%}
         </div>
       </section>

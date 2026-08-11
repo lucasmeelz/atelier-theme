@@ -1,0 +1,180 @@
+/* Product lightbox (C-01) */
+
+.lightbox {
+  width: 100vw;
+  max-width: 100vw;
+  height: 100dvh;
+  max-height: 100dvh;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background-color: rgb(var(--color-background));
+  color: rgb(var(--color-text));
+}
+
+.lightbox::backdrop {
+  background-color: rgba(0, 0, 0, 0.92);
+}
+
+.lightbox__inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox__stage {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  touch-action: none;
+  cursor: zoom-in;
+}
+
+.lightbox--zoomed .lightbox__stage {
+  cursor: grab;
+}
+
+.lightbox__img {
+  max-width: 100%;
+  max-height: 100dvh;
+  object-fit: contain;
+  transform-origin: center center;
+  transition: transform var(--duration-fast) var(--ease-out);
+  will-change: transform;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* No smoothing while actively pinching/panning */
+.lightbox--zoomed .lightbox__img {
+  transition: none;
+}
+
+.lightbox__close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 3;
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: rgba(var(--color-background), 0.85);
+  color: rgb(var(--color-text));
+  backdrop-filter: blur(var(--backdrop-blur));
+}
+
+.lightbox__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 48px;
+  height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: rgba(var(--color-background), 0.85);
+  color: rgb(var(--color-text));
+  backdrop-filter: blur(var(--backdrop-blur));
+  transition: opacity var(--duration-fast) var(--ease-ecrin);
+}
+
+.lightbox__nav--prev { left: 16px; }
+.lightbox__nav--next { right: 16px; }
+
+/* Nav is a distraction while zoomed in */
+.lightbox--zoomed .lightbox__nav {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (hover: hover) {
+  .lightbox__close:hover,
+  .lightbox__nav:hover {
+    background-color: rgb(var(--color-background));
+  }
+}
+
+.lightbox__counter {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  margin: 0;
+  padding: 4px 12px;
+  font-family: var(--font-label-family);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  border-radius: 100px;
+  background-color: rgba(var(--color-background), 0.85);
+  color: rgb(var(--color-text-subdued));
+  backdrop-filter: blur(var(--backdrop-blur));
+}
+
+body.lightbox-open {
+  overflow: hidden;
+}
+
+/* Expand trigger on the gallery image */
+.product__media-expand {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  z-index: 2;
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: rgba(var(--color-background), 0.85);
+  color: rgb(var(--color-text));
+  backdrop-filter: blur(var(--backdrop-blur));
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity var(--duration-base) var(--ease-ecrin),
+              transform var(--duration-base) var(--ease-ecrin);
+}
+
+.product__media-image {
+  position: relative;
+}
+
+/* Touch has no hover — always show the affordance there */
+@media (hover: hover) {
+  .product__media-image:hover .product__media-expand {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (hover: none) {
+  .product__media-expand {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.product__media-expand:focus-visible {
+  opacity: 1;
+  transform: none;
+  outline: 2px solid rgb(var(--color-accent));
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lightbox__img {
+    transition: none;
+  }
+}

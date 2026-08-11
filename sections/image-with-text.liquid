@@ -95,9 +95,10 @@
 
           {%- if button_label != blank -%}
             <div class="image-with-text__button">
+              {%- assign btn_href = section.settings.button_link | default: '#' -%}
               {%- render 'button',
                 label: button_label,
-                href: section.settings.button_link | default: '#',
+                href: btn_href,
                 style: section.settings.button_style
               -%}
             </div>

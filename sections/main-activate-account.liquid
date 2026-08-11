@@ -38,9 +38,11 @@
             >
           </div>
 
-          {%- render 'button', label: 'customer.activate.submit' | t, type: 'submit', style: 'primary' -%}
+          {%- assign btn_label = 'customer.activate.submit' | t -%}
+          {%- render 'button', label: btn_label, type: 'submit', style: 'primary' -%}
 
-          {%- render 'button', label: 'customer.activate.decline' | t, type: 'submit', style: 'secondary', name: 'decline' -%}
+          {%- assign btn_label = 'customer.activate.decline' | t -%}
+          {%- render 'button', label: btn_label, type: 'submit', style: 'secondary', name: 'decline' -%}
         </div>
       {%- endform -%}
     </div>

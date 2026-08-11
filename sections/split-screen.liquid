@@ -65,10 +65,11 @@
 
         {%- if panel_button_label != blank -%}
           <div class="split-screen__btn">
+            {%- assign btn_style = block.settings.button_style | default: 'filled-dark' -%}
             {%- render 'button',
               label: panel_button_label,
               href: block.settings.button_link,
-              style: block.settings.button_style | default: 'filled-dark'
+              style: btn_style
             -%}
           </div>
         {%- endif -%}

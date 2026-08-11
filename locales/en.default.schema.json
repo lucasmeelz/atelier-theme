@@ -1182,7 +1182,9 @@
         "heritage_border_accent": "Accent line"
       },
       "show_sticky_atc": "Show sticky add-to-cart",
-      "show_sticky_atc_desc": "A compact bar appears at the bottom when the main button scrolls out of view."
+      "show_sticky_atc_desc": "A compact bar appears at the bottom when the main button scrolls out of view.",
+      "enable_lightbox": "Enable image lightbox",
+      "enable_lightbox_info": "Let shoppers open product images full-screen with zoom."
     },
     "product_recommendations": {
       "name": "Product recommendations",

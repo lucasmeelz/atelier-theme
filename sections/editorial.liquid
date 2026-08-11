@@ -75,10 +75,11 @@
             {%- endif -%}
             {%- if block.settings.button_label != blank -%}
               <div class="editorial__text-cta">
+                {%- assign btn_style = block.settings.button_style | default: 'outline' -%}
                 {%- render 'button',
                   label: block.settings.button_label,
                   href: block.settings.button_link,
-                  style: block.settings.button_style | default: 'outline'
+                  style: btn_style
                 -%}
               </div>
             {%- endif -%}
