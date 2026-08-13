@@ -476,6 +476,9 @@ class HeaderDrawer extends HTMLElement {
       this.querySelectorAll('.header-drawer__level--2.is-open').forEach(function(p) {
         p.classList.add('is-shifted');
       });
+      /* Level 3 carries no editorial media — collapse the panel back to nav-only
+         width so the sub-list isn't stranded beside an empty media zone. */
+      if (this.panel) this.panel.classList.remove('is-expanded');
     }
 
     this.querySelectorAll('.header-drawer__level--' + level).forEach(function(p) {
@@ -506,6 +509,15 @@ class HeaderDrawer extends HTMLElement {
       this.querySelectorAll('.header-drawer__level--2').forEach(function(p) {
         p.classList.remove('is-shifted');
       });
+      /* Re-widen the panel if the level-2 we return to carries editorial media. */
+      if (this.panel) {
+        var openL2 = this.querySelector('.header-drawer__level--2.is-open');
+        if (openL2 && openL2.dataset.hasMedia === 'true') {
+          this.panel.classList.add('is-expanded');
+        } else {
+          this.panel.classList.remove('is-expanded');
+        }
+      }
     }
   }
 
